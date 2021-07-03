@@ -35,6 +35,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Qalitas",
         theme: ThemeData(
+          scrollbarTheme: ScrollbarThemeData(
+            isAlwaysShown: false,
+          ),
+
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             focusColor: Colors.transparent,

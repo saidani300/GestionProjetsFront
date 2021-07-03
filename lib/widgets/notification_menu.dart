@@ -9,7 +9,7 @@ import 'notification_item.dart';
 //var
 var notificationsColor = text.obs;
 bool newNotifications = true;
-bool isEmpty = true;
+bool isEmpty = false;
 class NotificationMenu extends StatelessWidget {
   const NotificationMenu({Key? key}) : super(key: key);
 
@@ -204,7 +204,7 @@ class NotificationsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {},
+        onTap: () { showDialogBox(context);},
         hoverColor: Colors.transparent,
         onHover: (value) {
           value

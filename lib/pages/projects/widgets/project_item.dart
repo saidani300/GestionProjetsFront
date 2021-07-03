@@ -1,76 +1,142 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
-
+import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/widgets/custom_tag.dart';
+import 'package:get/get.dart';
 import 'custom_icon_button.dart';
 
 class ProjectItem extends StatelessWidget {
-  final String projectName;
-  const ProjectItem({Key? key, required this.projectName}) : super(key: key);
+  final ProjectDataItem item;
+  final Animation<double> animation;
+  final VoidCallback onTap;
+  const ProjectItem(
+      {Key? key,
+      required this.item,
+      required this.animation,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 84,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Visibility(
-              visible: false,
-              child: SizedBox(
-                width: 2,
-                child: Container(
-                  color: Colors.lightGreen,
+    return Column(children: [
+      FadeTransition(
+        opacity: animation,
+        child: SizeTransition(
+          sizeFactor: animation,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              hoverColor: active.withOpacity(0.03),
+              onTap: () {
+                print("tapped");
+              },
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: Container(
+                height: 84,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Visibility(
+                        visible: (item.deadlineDays.isEmpty),
+                        child: SizedBox(
+                          width: 2,
+                          child: Container(
+                            color: Colors.redAccent[100],
+                          ),
+                        )),
+                    SizedBox(
+                      width: 18,
+                    ),
+                    Expanded(
+                      child: ProjectName(
+                        projectName: item.name,
+                        projectType: item.type,
+                      ),
+                      flex: 3,
+                    ),
+                    SizedBox(
+                      width: 18,
+                    ),
+                    Expanded(
+                      child: ProjectDeadline(
+                        date: item.deadline,
+                        days: (item.deadlineDays.isEmpty)
+                            ? "En retard"
+                            : item.deadlineDays,
+                      ),
+                      flex: 2,
+                    ),
+                    SizedBox(
+                      width: 18,
+                    ),
+                    Expanded(
+                      child: ProjectTeamLeader(
+                        teamLeader: item.teamLeader,
+                      ),
+                      flex: 2,
+                    ),
+                    SizedBox(
+                      width: 18,
+                    ),
+                    Expanded(
+                      child: ProjectStatus(
+                        status: item.status,
+                      ),
+                      flex: 1,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    // ActionsMenu(),
+                    CustomIconButton(
+                      icon: Icons.edit_outlined,
+                      message: 'Modifier',
+                      size: 16,
+                      onTap: () { final snackBar = SnackBar(
+                        content: Text("Modifier Développement d'une nouvelle interface utilisateur"),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      ); ScaffoldMessenger.of(context).showSnackBar(snackBar);},
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CustomIconButton(
+                        icon: Icons.delete_outline_rounded,
+                        message: 'Supprimer',
+                        color: Colors.redAccent,
+                        onTap: onTap),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
                 ),
-              )),
-          SizedBox(
-            width: 18,
-          ),
-          Expanded(
-            child: ProjectName(
-              projectName: projectName,
+              ),
             ),
-            flex: 2,
           ),
-          SizedBox(
-            width: 18,
-          ),
-          Expanded(
-            child: ProjectDeadline(),
-            flex: 1,
-          ),
-          SizedBox(
-            width: 18,
-          ),
-          Expanded(
-            child: ProjectTeamLeader(),
-            flex: 1,
-          ),
-          SizedBox(
-            width: 18,
-          ),
-          Expanded(
-            child: ProjectStatus(),
-            flex: 1,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          ActionsMenu(),
-          SizedBox(
-            width: 20,
-          ),
-        ],
+        ),
       ),
-    );
+      Divider(
+        height: 1,
+        color: dark.withOpacity(0.15),
+      )
+    ]);
   }
 }
 
 class ProjectName extends StatelessWidget {
   final String projectName;
-  const ProjectName({Key? key, required this.projectName}) : super(key: key);
+  final String projectType;
+  const ProjectName(
+      {Key? key, required this.projectName, required this.projectType})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +158,7 @@ class ProjectName extends StatelessWidget {
             height: 5,
           ),
           Text(
-            'Développement',
+            projectType,
             style: TextStyle(
                 color: text.withOpacity(0.7),
                 fontSize: 11,
@@ -106,7 +172,10 @@ class ProjectName extends StatelessWidget {
 }
 
 class ProjectDeadline extends StatelessWidget {
-  const ProjectDeadline({Key? key}) : super(key: key);
+  final String date;
+  final String days;
+  const ProjectDeadline({Key? key, required this.date, required this.days})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +185,7 @@ class ProjectDeadline extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '10 juillet 2021',
+              date,
               style: TextStyle(
                   color: text,
                   fontSize: 12,
@@ -127,12 +196,16 @@ class ProjectDeadline extends StatelessWidget {
               height: 5,
             ),
             Text(
-              'Dans 12 jours',
+              days,
               style: TextStyle(
-                  color: text.withOpacity(0.7),
+                  color: (days.startsWith("En retard"))
+                      ? Colors.redAccent
+                      : text.withOpacity(0.7),
                   fontSize: 11,
                   letterSpacing: 0,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: (days.startsWith("En retard"))
+                      ? FontWeight.w600
+                      : FontWeight.w500),
             ),
           ]),
     );
@@ -140,8 +213,16 @@ class ProjectDeadline extends StatelessWidget {
 }
 
 class ProjectTeamLeader extends StatelessWidget {
-  const ProjectTeamLeader({Key? key}) : super(key: key);
+  final TeamLeader teamLeader;
 
+  const ProjectTeamLeader({Key? key, required this.teamLeader})
+      : super(key: key);
+ String profileInitials(String name)
+ {
+   var nameParts = name.split(" ");
+   String initials = nameParts[0][0].toUpperCase()+nameParts[1][0].toUpperCase();
+   return initials;
+ }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,15 +232,17 @@ class ProjectTeamLeader extends StatelessWidget {
             height: 30,
             width: 30,
             child: CircleAvatar(
-              backgroundColor: Colors.white70,
-              backgroundImage: AssetImage('images/uiface.jpg'),
+              child: Text(profileInitials(teamLeader.name) , style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 9, letterSpacing: 1 )),
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.deepPurpleAccent /*Colors.primaries[Random().nextInt(Colors.primaries.length)]*/,
+             // backgroundImage: AssetImage(teamLeader.picture),
             ),
           ),
           SizedBox(
             width: 15,
           ),
           Text(
-            'Saidani Wael',
+            teamLeader.name,
             style: TextStyle(
                 color: text,
                 fontSize: 12,
@@ -173,7 +256,9 @@ class ProjectTeamLeader extends StatelessWidget {
 }
 
 class ProjectStatus extends StatelessWidget {
-  const ProjectStatus({Key? key}) : super(key: key);
+  final statusType status;
+
+  const ProjectStatus({Key? key, required this.status}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +266,7 @@ class ProjectStatus extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(child: StatusLabel(status: statusType.Completed)),
+          Container(child: StatusLabel(status: status)),
         ]);
   }
 }
@@ -196,42 +281,14 @@ class StatusLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (status) {
       case statusType.Completed:
-        return Container(
-          height: 22,
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(2),
-            color: Colors.lightGreen.withOpacity(0.5),
-          ),
-          child: Center(
-            child: Text(
-              'Terminé',
-              style: TextStyle(
-                  color: Colors.lightGreen[900],
-                  fontSize: 9,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
+        return CustomTag(
+          text: 'Terminé',
+          color: Color(0xFF5c862d),
         );
       case statusType.InProgress:
-        return Container(
-          height: 22,
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(2),
-            color: Colors.orangeAccent.withOpacity(0.5),
-          ),
-          child: Center(
-            child: Text(
-              'En cours',
-              style: TextStyle(
-                  color: Colors.orange[900],
-                  fontSize: 9,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
+        return CustomTag(
+          text: 'En cours',
+          color: Color(0xFFe68a00),
         );
     }
   }
@@ -278,7 +335,7 @@ class ActionsMenu extends StatelessWidget {
                         style: TextStyle(
                           color: text,
                           fontSize: 12,
-                          fontWeight : FontWeight.w500,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       SizedBox(
@@ -300,11 +357,14 @@ class ActionsMenu extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text('Supprimer', style: TextStyle(
-                        color: text,
-                        fontSize: 12,
-                        fontWeight : FontWeight.w500,
-                      ),),
+                      Text(
+                        'Supprimer',
+                        style: TextStyle(
+                          color: text,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                       SizedBox(
                         width: 20,
                       )

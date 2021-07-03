@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class TopNavMenuController extends GetxController {
   static TopNavMenuController instance = Get.find();
-  var activeItem = dashboardPageDisplayName.obs;
+  var activeItem = projectsPageDisplayName.obs;
 
   var hoverItem = "".obs;
 

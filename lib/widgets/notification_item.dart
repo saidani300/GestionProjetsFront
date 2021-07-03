@@ -11,7 +11,7 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: Container( padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+    return Container( padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
       child: Column(children :[ Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -40,7 +40,7 @@ class NotificationItem extends StatelessWidget {
         ),
         ],)
       ]),
-    ));
+    );
   }
 }
 

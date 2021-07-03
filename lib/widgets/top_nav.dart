@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/controllers.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/body/projects_body.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/widgets/notification_menu.dart';
 import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import 'custom_text.dart';
-import 'notification_item.dart';
+import '../layout.dart';
 
 var notificationsColor = text.obs;
 var supportColor = text.obs;
@@ -45,6 +45,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                               itemName: e.name,
                               onTap: () {
                                 if (!menuController.isActive(e.name)) {
+                                 /// print(listKey);
                                   menuController.changeActiveItemTo(e.name);
                                   navigationController.navigateTo(e.route);
                                   print(e.route);
@@ -252,16 +253,20 @@ _showPopupMenu(BuildContext context) {
 
 showDialogBox(BuildContext context) {
   showDialog(
+    useRootNavigator: false,
+    useSafeArea:  false,
     context: context,
     builder: (context) {
       var emailController = TextEditingController();
       var messageController = TextEditingController();
       return Center(
-        child: Container(
-          height: 50,
-          width: 50,
-          color: Colors.red,
+
+        child: SpinKitFadingCube(
+          color: Colors.white,
+          size: 25,
+          duration: Duration(milliseconds: 1200),
         ),
+
       );
     },
   );

@@ -6,5 +6,5 @@ import 'package:gestion_projets/routing/routes.dart';
 Navigator localNavigator() =>   Navigator(
   key: navigationController.navigatorKey,
   onGenerateRoute: generateRoute,
-  initialRoute: dashboardPageRoute,
+  initialRoute: projectsPageRoute,
 );
