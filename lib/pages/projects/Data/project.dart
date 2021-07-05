@@ -27,33 +27,33 @@ class ProjectDataItem {
 
 class Data {
   static final List<ProjectDataItem> projectsList = [
-    ProjectDataItem(
+   /* ProjectDataItem(
         "Développement d'une nouvelle interface utilisateur",
         "Développement",
         "10 juillet 2021",
         "Dans 12 jours",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
+        new TeamLeader("Saidani Wael", "3"),
         statusType.Completed),
     ProjectDataItem(
         "Créer un nouveau plan marketing",
         "Commercialisation ",
         "25 juillet 2021",
         "Dans 23 jours",
-        new TeamLeader("Wael Saidani", "images/uiface.jpg"),
+        new TeamLeader("Wael Saidani", "3"),
         statusType.InProgress),
     ProjectDataItem(
         "Développement d'une nouvelle interface utilisateur",
         "Développement",
         "10 juillet 2021",
         "",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
+        new TeamLeader("Saidani Wael", "6"),
         statusType.InProgress),
     ProjectDataItem(
         "Développement d'une nouvelle interface utilisateur",
         "Développement",
         "10 juillet 2021",
         "Dans 12 jours",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
+        new TeamLeader("Saidani Wael", "3"),
         statusType.Completed),
 
     ProjectDataItem(
@@ -61,14 +61,14 @@ class Data {
         "Développement",
         "10 juillet 2021",
         "Dans 12 jours",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
+        new TeamLeader("Saidani Wael", "6"),
         statusType.Completed),
     ProjectDataItem(
         "Développement d'une nouvelle interface utilisateur",
         "Développement",
         "10 juillet 2021",
         "Dans 12 jours",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
+        new TeamLeader("Saidani Wael", "6"),
         statusType.Completed),
 
     ProjectDataItem(
@@ -76,14 +76,14 @@ class Data {
         "Développement",
         "10 juillet 2021",
         "Dans 12 jours",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
+        new TeamLeader("Saidani Wael", "7"),
         statusType.Completed),
     ProjectDataItem(
         "Développement d'une nouvelle interface utilisateur",
         "Développement",
         "10 juillet 2021",
         "Dans 12 jours",
-        new TeamLeader("Saidani Wael", "images/uiface.jpg"),
-        statusType.Completed)
+        new TeamLeader("Saidani Wael", "7"),
+        statusType.Completed)*/
   ];
 }

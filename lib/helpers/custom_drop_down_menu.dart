@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gestion_projets/constants/style.dart';
 
 
 // Examples can assume:
@@ -21,7 +22,7 @@ const double _kMenuHorizontalPadding = 0.0;
 const double _kMenuDividerHeight = 16.0;
 const double _kMenuMaxWidth = 10.0 * _kMenuWidthStep;
 const double _kMenuMinWidth = 2.0 * _kMenuWidthStep;
-const double _kMenuVerticalPadding = 8.0;
+const double _kMenuVerticalPadding = 0.0;
 const double _kMenuWidthStep = 28.0;
 const double _kMenuScreenPadding = 8.0;
 const double _kMenuMaxHeight = 200;
@@ -1149,14 +1150,14 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
     assert(debugCheckHasMaterialLocalizations(context));
 
     if (widget.child != null)
-      return Tooltip(
-        message: widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,
-        child: InkWell(
+      return InkWell(
           onTap: widget.enabled ? showButtonMenu : null,
           canRequestFocus: _canRequestFocus,
+          hoverColor: active,
+          
           child: widget.child,
           enableFeedback: enableFeedback,
-        ),
+
       );
 
     return IconButton(

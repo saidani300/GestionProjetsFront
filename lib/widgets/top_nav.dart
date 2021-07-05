@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/controllers.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/body/projects_body.dart';
+import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/widgets/notification_menu.dart';
 import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
@@ -163,17 +164,19 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                            color: settingsColor.value.withOpacity(0.5),
+                            color: settingsColor.value,
                             borderRadius: BorderRadius.circular(30)),
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30)),
-                          padding: EdgeInsets.all(2),
-                          margin: EdgeInsets.all(2),
+                          padding: EdgeInsets.all(1),
+                          margin: EdgeInsets.all(1.5),
                           child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            backgroundImage: AssetImage('images/uiface.jpg'),
+                            child: Text(profileInitials('Saidani Wael') , style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 8, letterSpacing: 1 )),
+                            foregroundColor: Colors.white,
+                            backgroundColor: /*Colors.deepPurpleAccent*/ colors[int.tryParse("3") ?? 0],
+                            //backgroundImage: AssetImage('images/uiface.jpg'),
 
                             /* child: Icon(Icons.person_outline, color: active, size: 15,),*/
                           ),

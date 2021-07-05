@@ -42,21 +42,18 @@ class _SearchWidgetState extends State<SearchWidget> {
         Container(
           width: 160,
           child: TextField(
+            cursorWidth: 1.5,
             controller: controller,
             decoration: InputDecoration(
+              suffixIconConstraints: BoxConstraints(
+                minWidth: 2,
+                minHeight: 2,
+              ),
               suffixIcon: widget.text.isNotEmpty
-                  ? GestureDetector(
-                      child: Icon(
-                        Icons.close_rounded,
-                        color: active,
-                        size: 19,
-                      ),
-                      onTap: () {
-                        controller.clear();
-                        widget.onChanged('');
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      },
-                    )
+                  ?
+              CustomIconButton(icon: Icons.close_rounded, onTap: () { controller.clear();
+              widget.onChanged('');
+              FocusScope.of(context).requestFocus(FocusNode()); }, message: '', size: 15, enableToolTip: false,)
                   : null,
               hintText: widget.hintText,
               hintStyle: styleHint,

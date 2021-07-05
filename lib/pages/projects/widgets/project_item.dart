@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:get/get.dart';
 import 'custom_icon_button.dart';
+import 'dialogs.dart';
 
 class ProjectItem extends StatelessWidget {
   final ProjectDataItem item;
@@ -27,7 +31,7 @@ class ProjectItem extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              hoverColor: active.withOpacity(0.03),
+              hoverColor: active.withOpacity(0.015),
               onTap: () {
                 print("tapped");
               },
@@ -96,13 +100,15 @@ class ProjectItem extends StatelessWidget {
                       message: 'Modifier',
                       size: 16,
                       onTap: () { final snackBar = SnackBar(
-                        content: Text("Modifier Développement d'une nouvelle interface utilisateur"),
-                        action: SnackBarAction(
-                          label: 'Undo',
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
-                        ),
+                        behavior: SnackBarBehavior.fixed,
+                        duration: Duration(milliseconds: 2000),
+                        backgroundColor: dark.withOpacity(0.9),
+                        content: Container(child :Text("Modifier Développement d'une nouvelle interface utilisateur" , style : TextStyle(
+                            color: light,
+                            fontSize: 13,
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w400),
+                        ))
                       ); ScaffoldMessenger.of(context).showSnackBar(snackBar);},
                     ),
                     SizedBox(
@@ -112,7 +118,8 @@ class ProjectItem extends StatelessWidget {
                         icon: Icons.delete_outline_rounded,
                         message: 'Supprimer',
                         color: Colors.redAccent,
-                        onTap: onTap),
+                        onTap:  (){showDialogBox(context,onTap);
+                        }),
                     SizedBox(
                       width: 20,
                     ),
@@ -211,18 +218,30 @@ class ProjectDeadline extends StatelessWidget {
     );
   }
 }
+String profileInitials(String name)
+{
+  var nameParts = name.split(" ");
+  String initials = nameParts[0][0].toUpperCase()+nameParts[1][0].toUpperCase();
+  return initials;
+}
+final List<Color> colors = [Color(0xFFcbe11e)
+  ,Color(0xFF1ecbe1)
+  ,Color(0xFFB0C33C)
+  ,Color(0xFF961ee1)
+  ,Color(0xFFeab015)
+  ,Color(0xFFf2497b)
+  ,Color(0xFFf26b49)
+  ,Color(0xFF2ED1C5)
+  ,Color(0xFFFF5959)
+  ,Color(0xFF808080)];
 
 class ProjectTeamLeader extends StatelessWidget {
   final TeamLeader teamLeader;
 
+
   const ProjectTeamLeader({Key? key, required this.teamLeader})
       : super(key: key);
- String profileInitials(String name)
- {
-   var nameParts = name.split(" ");
-   String initials = nameParts[0][0].toUpperCase()+nameParts[1][0].toUpperCase();
-   return initials;
- }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -234,7 +253,7 @@ class ProjectTeamLeader extends StatelessWidget {
             child: CircleAvatar(
               child: Text(profileInitials(teamLeader.name) , style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 9, letterSpacing: 1 )),
               foregroundColor: Colors.white,
-              backgroundColor: Colors.deepPurpleAccent /*Colors.primaries[Random().nextInt(Colors.primaries.length)]*/,
+              backgroundColor: /*Colors.deepPurpleAccent*/ colors[int.tryParse(teamLeader.picture) ?? 0],
              // backgroundImage: AssetImage(teamLeader.picture),
             ),
           ),
@@ -293,8 +312,9 @@ class StatusLabel extends StatelessWidget {
     }
   }
 }
+//old Action Menu with button
 
-class ActionsMenu extends StatelessWidget {
+/*class ActionsMenu extends StatelessWidget {
   const ActionsMenu({Key? key}) : super(key: key);
 
   @override
@@ -373,4 +393,4 @@ class ActionsMenu extends StatelessWidget {
               ]),
     );
   }
-}
+}*/

@@ -5,8 +5,8 @@ import 'package:gestion_projets/pages/projects/body/projects_body.dart';
 import 'Data/project.dart';
 
 
-class ProjectsPage extends StatelessWidget {
 
+class ProjectsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

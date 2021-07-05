@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NotificationItem extends StatelessWidget {
@@ -20,8 +21,9 @@ class NotificationItem extends StatelessWidget {
             height: 30,
             width: 30,
             child: CircleAvatar(
-              backgroundColor: Colors.white70,
-              backgroundImage: AssetImage('images/uiface.jpg'),
+              child: Text(profileInitials('Saidani Wael') , style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 9, letterSpacing: 1 )),
+              foregroundColor: Colors.white,
+              backgroundColor: /*Colors.deepPurpleAccent*/ colors[int.tryParse("3") ?? 0],
             ),
           ),
           SizedBox(width: 15,),
@@ -59,7 +61,7 @@ Widget NotificationText() => Container(
                         color: text,
                         fontSize: 12,
                         letterSpacing: 0,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w500),
 
                 ),
                 TextSpan(
@@ -69,17 +71,17 @@ Widget NotificationText() => Container(
                         color: text,
                         fontSize: 12,
                         letterSpacing: 0,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w400),
 
                 ),
                 TextSpan(
-                  text: 'Add new module.',
+                  text: "Développement d'une nouvelle interface utilisateur.",
                   style: TextStyle(
                     height: 1.5,
                         color: text,
                         fontSize: 12,
                         letterSpacing: 0,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w500),
 
                 ),
 

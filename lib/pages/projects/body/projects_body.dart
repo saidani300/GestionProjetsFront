@@ -6,11 +6,20 @@ import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/pages/projects/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
-bool _firstChild = true;
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
+import '../projects.dart';
+
+bool _firstChild = true;
+DateTime startDate = DateTime.now();
+DateTime endDate = DateTime.now();
+var orderBy = "Project".obs ;
+var arrowIcon = Icons.keyboard_arrow_down_rounded.obs ;
 List<ProjectDataItem> projects = Data.projectsList;
 String query = '';
 
@@ -26,9 +35,11 @@ class ProjectsPageBody extends StatefulWidget {
 /*_______________________________________________________________________*/
 
 class ProjectsPageHeader extends StatelessWidget {
-  final GlobalKey<AnimatedListState> listKey;
-
-  const ProjectsPageHeader({Key? key, required this.listKey}) : super(key: key);
+  final VoidCallback onTap;
+  const ProjectsPageHeader({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +111,14 @@ class ProjectsPageHeader extends StatelessWidget {
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
           ),
-          onPressed: () => insertItem(0, Data.projectsList.first),
+          onPressed: onTap,
           icon: Icon(
             Icons.add,
             color: Colors.white,
             size: 16,
           ),
           label: Text(
-            'Créer un projet ',
+            'Créer un projet',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 11.5,
@@ -118,12 +129,6 @@ class ProjectsPageHeader extends StatelessWidget {
       ],
     );
   }
-
-  insertItem(int index, ProjectDataItem item) {
-    projects.insert(index, item);
-    listKey.currentState!.insertItem(index);
-
-  }
 }
 
 /*_______________________________________________________________________*/
@@ -131,46 +136,97 @@ class ProjectsPageHeader extends StatelessWidget {
 /*_______________________________________________________________________*/
 /*_______________________________________________________________________*/
 /*_______________________________________________________________________*/
-
+//GlobalKey<ProjectsList> _myKey = GlobalKey();
 class ProjectsList extends State<ProjectsPageBody> {
   var listKey = GlobalKey<AnimatedListState>();
+  var filterStatus = showbystatusController.activeItem.value;
   List<ProjectDataItem> _foundProjects = [];
-  /*initState() {
-    super.initState();
-    projects = Data.projectsList;
-  }*/
+  List<ProjectDataItem> projectsByStatus = Data.projectsList;
 
-  /////////First method
-  ////////////////////////////////////////////
   @override
   initState() {
-    _foundProjects = Data.projectsList;
+    _foundProjects = projectsByStatus;
+    searchWithFilter(query);
     super.initState();
   }
 
-  void _runFilter(String enteredKeyword) {
+  void searchWithFilter(String enteredKeyword) {
     listKey = new GlobalKey<AnimatedListState>();
-
     List<ProjectDataItem> results = [];
+
+    switch (filterStatus) {
+      case ('Tous'):
+        projectsByStatus = Data.projectsList;
+        break;
+      case ('Terminé'):
+        projectsByStatus = Data.projectsList
+            .where((project) => identical(project.status, statusType.Completed))
+            .toList();
+        break;
+      case ('En cours'):
+        projectsByStatus = Data.projectsList
+            .where(
+                (project) => identical(project.status, statusType.InProgress))
+            .toList();
+        break;
+    }
     if (enteredKeyword.isEmpty) {
-      results = Data.projectsList;
+      results = projectsByStatus;
     } else {
-      results = Data.projectsList
+      results = projectsByStatus
           .where((project) =>
-          project.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
+              project.name
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              project.teamLeader.name
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
 
     setState(() {
+      query = enteredKeyword;
       _foundProjects = results;
     });
   }
+
+  void OrderList()
+  {
+    //order list here
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+  }
+
+  void insertItem(int index, ProjectDataItem item) {
+    Data.projectsList.insert(index, item);
+    searchWithFilter(query);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectsPageHeader(listKey: listKey),
+        ProjectsPageHeader(
+          onTap: () {
+            insertItem(
+                0,
+                new ProjectDataItem(
+                    "Développement d'une nouvelle interface utilisateur",
+                    "Développement",
+                    "10 juillet 2021",
+                    "Dans 12 jours",
+                    new TeamLeader("Saidani Wael", "7"),
+                    statusType.InProgress));
+          },
+        ),
         Expanded(
           child: Container(
             margin: EdgeInsets.only(top: 20),
@@ -207,6 +263,11 @@ class ProjectsList extends State<ProjectsPageBody> {
                                           .isActive(e.name)) {
                                         showbystatusController
                                             .changeActiveItemTo(e.name);
+                                        setState(() {
+                                          filterStatus = e.name;
+                                        });
+                                        searchWithFilter(query);
+                                        print(filterStatus);
                                       }
                                     })),
                           ).toList(),
@@ -216,14 +277,6 @@ class ProjectsList extends State<ProjectsPageBody> {
                         ),
                         Expanded(child: Container()),
                         buildSearch(),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        CustomIconButton(
-                            icon: Icons.calendar_today_outlined,
-                            message: 'Tri par date',
-                            size: 15,
-                            onTap: () {}),
                         SizedBox(
                           width: 15,
                         ),
@@ -265,12 +318,16 @@ class ProjectsList extends State<ProjectsPageBody> {
                           height: 1,
                           color: dark.withOpacity(0.15),
                         ),
-                        Filter(),
+                        Filter(apply: () {
+                          setState(() {
+                            _firstChild = !_firstChild;
+                          });
+                        }),
                       ]),
                       crossFadeState: _firstChild
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
-                      duration: Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 200),
                     ),
                     Divider(
                       height: 1,
@@ -283,34 +340,31 @@ class ProjectsList extends State<ProjectsPageBody> {
                     ),
                     Expanded(
                       child: (_foundProjects.length > 0)
-                          ? /*ListView.builder(
-                              itemCount: projects.length,
-                              itemBuilder: (context, index) {
-                                final project = projects[index];
-
-                                return buildItem(5project, 0);
-                              },
-                            )*/
-                      AnimatedList(
-
-                      key: listKey,
-                      shrinkWrap: true,
-                      initialItemCount: _foundProjects.length,
-                      itemBuilder: (context, index, animation) {
-                        final project = _foundProjects[index];
-                      return  buildItem(project, index, animation);
-                      }
-                    )
-                          : Text(
-                              'No results found',
-                              style: TextStyle(fontSize: 24),
-                            ),
+                          ? AnimatedList(
+                              key: listKey,
+                              shrinkWrap: true,
+                              initialItemCount: _foundProjects.length,
+                              itemBuilder: (context, index, animation) {
+                                final project = _foundProjects[index];
+                                return buildItem(project, index, animation);
+                              })
+                          : (_foundProjects.length == 0 && query.isNotEmpty)
+                              ? NoResultFound()
+                              : (Data.projectsList
+                                          .where((project) => identical(
+                                              project.status,
+                                              statusType.InProgress))
+                                          .toList()
+                                          .length !=
+                                      0)
+                                  ? NoCompletedProjects()
+                                  : NoProjects(),
                     ),
                     Container(),
                   ],
                 )),
           ),
-  )
+        )
       ],
     );
   }
@@ -318,43 +372,27 @@ class ProjectsList extends State<ProjectsPageBody> {
   Widget buildSearch() => SearchWidget(
         text: query,
         hintText: 'Rechercher des projets...',
-        onChanged: (value) => _runFilter(value),
+        onChanged: (value) => searchWithFilter(value),
       );
 
-  void searchProject(String searchQuery) {
-    listKey = new GlobalKey<AnimatedListState>();
-    final newProjects = Data.projectsList.where((project) {
-      final nameLower = project.name.toLowerCase();
-      final leaderLower = project.teamLeader.name.toLowerCase();
-      final searchLower = searchQuery.toLowerCase();
-
-      return nameLower.contains(searchLower) ||
-          leaderLower.contains(searchLower);
-    }).toList();
-    setState(() {
-      query = searchQuery;
-      projects = newProjects;
-    });
-  }
-
-  Widget buildItem(item, int index , Animation<double> animation) {
+  Widget buildItem(item, int index, Animation<double> animation) {
     //print(_foundProjects.length.toString());
     return ProjectItem(
       item: item,
-       animation: animation,
-       onTap: () => removeItem(index),
+      animation: animation,
+      onTap: () => removeItem(index, item),
     );
   }
 
-   void removeItem(int index) {
-    final item = Data.projectsList.removeAt(index);
-
+  void removeItem(int index, ProjectDataItem item) {
+    Data.projectsList.remove(item);
     listKey.currentState!.removeItem(
       index,
       (context, animation) => buildItem(item, index, animation),
     );
+    Future.delayed(Duration(milliseconds: 350), () => searchWithFilter(query));
+    print(filterStatus);
   }
-
 }
 /*_______________________________________________________________________*/
 /*_______________________________________________________________________*/
@@ -376,20 +414,30 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Projet',
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ]),
-            ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    InkWell(onTap:(){
+            orderBy.value = "Project";
+            (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
+    arrowIcon.value = Icons.keyboard_arrow_up_rounded :
+                arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+
+            }
+                , child: Obx(() =>  Wrap( crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          "Projet",
+                          style: TextStyle(
+                              color: text,
+                              fontSize: 12,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      Visibility(visible: (orderBy.value.contains("Project")), child:Icon(arrowIcon.value, size: 12)),
+                      ]))),
+                ])),
             flex: 3,
           ),
           SizedBox(
@@ -401,14 +449,56 @@ class ProjectsListHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Date limite',
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    InkWell(onTap:(){
+                      orderBy.value = "DeadLine";
+                      (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
+                      arrowIcon.value = Icons.keyboard_arrow_up_rounded :
+                      arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+                      }
+                    , child: Obx(() => Wrap( crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            "Date limite",
+                            style: TextStyle(
+                                color: text,
+                                fontSize: 12,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Visibility(visible: (orderBy.value.contains("DeadLine")), child:Icon(arrowIcon.value, size: 12)),
+                        ])),
+                    )]),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 18,
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  InkWell(onTap:(){
+            orderBy.value = "Leader";
+            (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
+            arrowIcon.value = Icons.keyboard_arrow_up_rounded :
+            arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+            }
+              , child: Obx(() =>  Wrap( crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            "Chef d'équipe",
+                            style: TextStyle(
+                                color: text,
+                                fontSize: 12,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Visibility(visible: (orderBy.value.contains("Leader")), child:Icon(arrowIcon.value, size: 12)),
+                        ]))),
+
                   ]),
             ),
             flex: 2,
@@ -422,35 +512,24 @@ class ProjectsListHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Chef d'équipe",
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ]),
-            ),
-            flex: 2,
-          ),
-          SizedBox(
-            width: 18,
-          ),
-          Expanded(
-            child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Statut",
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
-                    ),
+                  InkWell(onTap:(){
+            orderBy.value = "Status";
+            (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
+            arrowIcon.value = Icons.keyboard_arrow_up_rounded :
+            arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+            }
+              , child: Obx(() =>  Wrap( crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            "Statut",
+                            style: TextStyle(
+                                color: text,
+                                fontSize: 12,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Visibility(visible: (orderBy.value.contains("Status")), child:Icon(arrowIcon.value, size: 12)),
+                        ]))),
                   ]),
             ),
             flex: 1,

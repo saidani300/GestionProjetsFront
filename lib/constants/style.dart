@@ -8,3 +8,4 @@ Color text = Color(0xFF48506f);
 Color lightText = Color(0xFF9e9fa3);
 Color buttonHover = Color(0xFF005ce6);
 Color backgroundColor = Color(0xFFfafafa);
+Color lightRed = Color(0xFFF65060);

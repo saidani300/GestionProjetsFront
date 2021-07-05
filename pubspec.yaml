@@ -32,11 +32,13 @@ dependencies:
   get: ^4.1.4
   flutter_spinkit: ^5.0.0
   flutter_svg: ^0.22.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_localizations: # Add this line
+    sdk: flutter         # Add this line
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -6,7 +6,7 @@ import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'constants/style.dart';
 import 'controllers/navigation_controller.dart';
 import 'controllers/top_nav_menu_controller.dart';
@@ -24,6 +24,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('fr')
+      ],
         initialRoute: rootRoute,
         unknownRoute: GetPage(name: '/not-found', page: () => PageNotFound(), transition: Transition.fadeIn),
         getPages: [
@@ -51,7 +59,12 @@ class MyApp extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(2.0)),
               ),
             ),
-            buttonTheme: ButtonThemeData(),
+            buttonTheme: ButtonThemeData(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              focusColor: Colors.transparent,
+
+            ),
             popupMenuTheme: PopupMenuThemeData(
               color: Colors.white,
               textStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 13, color: dark),
@@ -64,7 +77,9 @@ class MyApp extends StatelessWidget {
             pageTransitionsTheme: PageTransitionsTheme(builders: {
               TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
             }),
-            primaryColor: Colors.blue),
+              primaryColor: active,
+            colorScheme: ColorScheme.light(primary: active),
+        ),
 
        // home: SiteLayout()
     );
