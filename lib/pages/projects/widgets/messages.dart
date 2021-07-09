@@ -66,7 +66,7 @@ class NoProjects extends StatelessWidget {
               letterSpacing: 0,
               fontWeight: FontWeight.w500),
         ),),
-        SizedBox(height: 10,),
+        SizedBox(height: 20,),
         TextButton(
           style: ButtonStyle(
             fixedSize: MaterialStateProperty.all<Size>(

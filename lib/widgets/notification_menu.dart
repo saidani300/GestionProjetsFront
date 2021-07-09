@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/widgets/top_nav.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'notification_item.dart';
-
+//TODO: Fix NotificationMenu , Create new custom dropdownMenu
 //var
 var notificationsColor = text.obs;
 bool newNotifications = true;
@@ -25,6 +24,7 @@ class NotificationMenu extends StatelessWidget {
             thickness: 0.5,
             space: 0,
           )),
+      child: Tooltip( message: 'Notifications',
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
         child: Material(
@@ -77,7 +77,7 @@ class NotificationMenu extends StatelessWidget {
               }),
         ),
       ),
-    );
+    ));
   }
 }
 List<PopupMenuEntry<Object>> listItems(BuildContext context)
@@ -125,7 +125,6 @@ List<PopupMenuEntry<Object>> listItems(BuildContext context)
         child: NotificationItem(),
       ),
     );
-
   }
   else
   {
@@ -174,11 +173,7 @@ class NotificationsMenuHeader extends StatelessWidget {
       children: [
         Text(
           'Notifications',
-          style: TextStyle(
-                color: text.withOpacity(1),
-                fontSize: 14,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w500),
+          style: textStyle_Text_14_500,
 
         ),
         Expanded(child: Container()),

@@ -17,7 +17,6 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var supportColor = text.obs;
 
     return (enableToolTip) ? Tooltip(message: message ,child : SizedBox(child: InkWell(
       onTap: onTap,

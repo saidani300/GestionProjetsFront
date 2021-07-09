@@ -24,10 +24,10 @@ class ProjectDataItem {
     this.status,
   );
 }
-
+//TODO: Fix Dates Format use DataTime formats
 class Data {
   static final List<ProjectDataItem> projectsList = [
-   /* ProjectDataItem(
+    ProjectDataItem(
         "Développement d'une nouvelle interface utilisateur",
         "Développement",
         "10 juillet 2021",
@@ -36,7 +36,7 @@ class Data {
         statusType.Completed),
     ProjectDataItem(
         "Créer un nouveau plan marketing",
-        "Commercialisation ",
+        "Securité digitale",
         "25 juillet 2021",
         "Dans 23 jours",
         new TeamLeader("Wael Saidani", "3"),
@@ -84,6 +84,6 @@ class Data {
         "10 juillet 2021",
         "Dans 12 jours",
         new TeamLeader("Saidani Wael", "7"),
-        statusType.Completed)*/
+        statusType.Completed)
   ];
 }

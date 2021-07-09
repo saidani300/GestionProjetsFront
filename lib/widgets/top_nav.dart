@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/controllers.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/body/projects_body.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/routing/routes.dart';
+import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/notification_menu.dart';
 import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
-import 'package:get/get.dart';
 
-import '../layout.dart';
+import '../locator.dart';
 
-var notificationsColor = text.obs;
-var supportColor = text.obs;
-var settingsColor = text.withOpacity(0.4).obs;
 
-AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
+Color notificationsColor = text;
+Color supportColor = text;
+Color settingsColor = text.withOpacity(0.4);
+
+
+AppBar topNavigationBar(context) =>
     AppBar(
+
       toolbarHeight: 55,
       leading: Row(
         children: [
@@ -30,184 +32,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           ),
         ],
       ),
-      title: Container(
-        child: Row(
-          children: [
-            Container(
-                alignment: Alignment.topLeft,
-                child: Row(children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: TopVarMenuItemRoutes.map(
-                      (e) => Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: TopNavMenuItem(
-                              itemName: e.name,
-                              onTap: () {
-                                if (!menuController.isActive(e.name)) {
-                                 /// print(listKey);
-                                  menuController.changeActiveItemTo(e.name);
-                                  navigationController.navigateTo(e.route);
-                                  print(e.route);
-                                }
-                              })),
-                    ).toList(),
-                  ),
-                ])),
-            Expanded(child: Container()),
-            InkWell(
-              onTap: () {},
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onHover: (value) {
-                value ? supportColor.value = active : supportColor.value = text;
-              },
-              child: Obx(
-                () => IconButton(
-                    splashRadius: 20,
-                    splashColor: Colors.transparent,
-                    hoverColor: active.withOpacity(0.1),
-                    highlightColor: Colors.transparent,
-                    iconSize: 20,
-                    tooltip: 'Support',
-                    icon: Icon(
-                      Icons.support_outlined,
-                      color: supportColor.value,
-                    ),
-                    onPressed: () {}),
-              ),
-            ),
-            NotificationMenu(),
-           /* ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Material(
-                color: Colors.transparent,
-                child: Tooltip(
-                  message: 'Notifications',
-                  child: InkWell(
-                    onTap: () {
-                      showDialogBox(context);
-                    },
-                    hoverColor: active.withOpacity(0.1),
-                    onHover: (value) {
-                      value
-                          ? notificationsColor.value = active
-                          : notificationsColor.value = text;
-                    },
-                    child: Obx(
-                      () => Stack(
-                        alignment: AlignmentDirectional.topEnd,
-                        children: [
-                          Container(
-                            child: IconButton(
-                              color: Colors.transparent,
-                              splashRadius: 20,
-                              hoverColor: Colors.transparent,
-                              iconSize: 20,
-                              //tooltip: 'Notifications',
-                              icon: Icon(
-                                Icons.notifications,
-                                color: notificationsColor.value,
-                              ),
-                              onPressed: () {
-                                showDialogBox(context);
-                              },
-                            ),
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 12,
-                            child: Container(
-                              width: 5,
-                              height: 5,
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              width: 1,
-              height: 22,
-              color: lightText,
-            ),
-            SizedBox(
-              width: 24,
-            ),
-            InkWell(
-                onTap: () {
-                  _showPopupMenu(context);
-                },
-                hoverColor: Colors.transparent,
-                onHover: (value) {
-                  value
-                      ? settingsColor.value = active
-                      : settingsColor.value = text.withOpacity(0.4);
-                },
-                child: Obx(
-                  () => Row(
-                    children: [
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                            color: settingsColor.value,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30)),
-                          padding: EdgeInsets.all(1),
-                          margin: EdgeInsets.all(1.5),
-                          child: CircleAvatar(
-                            child: Text(profileInitials('Saidani Wael') , style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 8, letterSpacing: 1 )),
-                            foregroundColor: Colors.white,
-                            backgroundColor: /*Colors.deepPurpleAccent*/ colors[int.tryParse("3") ?? 0],
-                            //backgroundImage: AssetImage('images/uiface.jpg'),
-
-                            /* child: Icon(Icons.person_outline, color: active, size: 15,),*/
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        "Saidani Wael",
-                        style: TextStyle(
-                              color: text,
-                              fontSize: 13,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.w500),
-
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: settingsColor.value,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ),
+      title:NavigationBarBody(),
       iconTheme: IconThemeData(color: dark),
       elevation: 1,
       backgroundColor: Colors.white,
@@ -222,7 +47,7 @@ _showPopupMenu(BuildContext context) {
       PopupMenuItem<int>(
           height: 40,
           child: Row(children: [
-            Text('Profil'),
+            Text('Profil' , style: textStyle_Text_12_500,),
             SizedBox(
               width: 20,
             )
@@ -231,7 +56,7 @@ _showPopupMenu(BuildContext context) {
       PopupMenuItem<int>(
           height: 40,
           child: Row(children: [
-            Text('Paramètres de compte'),
+            Text('Paramètres de compte',style: textStyle_Text_12_500,),
             SizedBox(
               width: 20,
             )
@@ -243,7 +68,7 @@ _showPopupMenu(BuildContext context) {
       PopupMenuItem<int>(
           height: 40,
           child: Row(children: [
-            Text('Déconnexion'),
+            Text('Déconnexion' ,style: textStyle_Text_12_500,),
             SizedBox(
               width: 20,
             )
@@ -254,14 +79,13 @@ _showPopupMenu(BuildContext context) {
   );
 }
 
+
 showDialogBox(BuildContext context) {
   showDialog(
     useRootNavigator: false,
     useSafeArea:  false,
     context: context,
     builder: (context) {
-      var emailController = TextEditingController();
-      var messageController = TextEditingController();
       return Center(
 
         child: SpinKitFadingCube(
@@ -273,4 +97,134 @@ showDialogBox(BuildContext context) {
       );
     },
   );
+}
+
+class NavigationBarBody extends StatelessWidget {
+  const NavigationBarBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+              alignment: Alignment.topLeft,
+              child: Row(children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: TopVarMenuItemRoutes.map(
+                        (e) => Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: TopNavMenuItem(
+                            itemName: e.name,
+                            onTap: () {
+                              if (!menuController.isActive(e.name)) {
+                                /// print(listKey);
+                                menuController.changeActiveItemTo(e.name);
+                                // navigationController.navigateTo(e.route);
+                                locator<NavigationService>().navigateTo(e.route);
+                                //     Navigator.pushNamed(context, e.route);
+                                print(e.route);
+                              }
+                            })),
+                  ).toList(),
+                ),
+              ])),
+          Expanded(child: Container()),
+
+          InkWell(
+            onTap: () {},
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onHover: (value) {
+              value ? supportColor = active : supportColor = text;
+            },
+            child: IconButton(
+                splashRadius: 20,
+                splashColor: Colors.transparent,
+                hoverColor: active.withOpacity(0.1),
+                highlightColor: Colors.transparent,
+                iconSize: 20,
+                  tooltip: 'Support',
+                icon: Icon(
+                  Icons.support_outlined,
+                  color: supportColor,
+                ),
+                onPressed: () {}),
+
+          ),
+          NotificationMenu(),
+
+          SizedBox(
+            width: 10,
+          ),
+          Container(
+            width: 1,
+            height: 22,
+            color: lightText,
+          ),
+          SizedBox(
+            width: 24,
+          ),
+
+          InkWell(
+            onTap: () {
+              _showPopupMenu(context);
+            },
+            hoverColor: Colors.transparent,
+            onHover: (value) {
+              value
+                  ? settingsColor = active
+                  : settingsColor = text.withOpacity(0.4);
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: settingsColor,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: EdgeInsets.all(1),
+                    margin: EdgeInsets.all(1.5),
+                    child: CircleAvatar(
+                      child: Text(profileInitials('Saidani Wael') , style: textStyle_icon_size1),
+                      foregroundColor: Colors.white,
+                      backgroundColor: /*Colors.deepPurpleAccent*/ colors[int.tryParse("3") ?? 0],
+                      //backgroundImage: AssetImage('images/uiface.jpg'),
+
+                      /* child: Icon(Icons.person_outline, color: active, size: 15,),*/
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Text(
+                  "Saidani Wael",
+                  style: textStyle_Text_13_500,
+
+                ),
+                SizedBox(
+                  width: 3,
+                ),
+                Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: settingsColor,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
 }

@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/routing/router.dart';
+import 'package:gestion_projets/routing/routes.dart';
+import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/top_nav.dart';
-
-import 'helpers/local_navigator.dart';
-
+import 'locator.dart';
 
 
 class SiteLayout extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+ // final Widget child;
+
+  const SiteLayout({Key? key,/*required this.child*/}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        appBar: topNavigationBar(context, scaffoldKey),
+        appBar: topNavigationBar(context),
         drawer: Drawer(),
-        body: localNavigator());
+        body: Navigator(
+          key: locator<NavigationService>().navigatorKey,
+
+          initialRoute: projectsPageRoute,
+          onGenerateRoute: generateRoute,
+
+    ) /*child*/);
   }
 }

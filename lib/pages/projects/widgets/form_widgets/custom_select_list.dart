@@ -1,7 +1,3 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -20,12 +16,12 @@ const Duration _kMenuDuration = Duration(milliseconds: 300);
 const double _kMenuCloseIntervalEnd = 2.0 / 3.0;
 const double _kMenuHorizontalPadding = 0.0;
 const double _kMenuDividerHeight = 16.0;
-const double _kMenuMaxWidth = 10.0 * _kMenuWidthStep;
+const double _kMenuMaxWidth = 1000.0 /** _kMenuWidthStep*/;
 const double _kMenuMinWidth = 2.0 * _kMenuWidthStep;
 const double _kMenuVerticalPadding = 0.0;
 const double _kMenuWidthStep = 28.0;
 const double _kMenuScreenPadding = 8.0;
-const double _kMenuMaxHeight = 200;
+const double _kMenuMaxHeight = 150; // 50 for each Item
 
 /// A base class for entries in a material design popup menu.
 ///
@@ -38,20 +34,20 @@ const double _kMenuMaxHeight = 200;
 ///
 /// A [PopupMenuEntry] may represent multiple values, for example a row with
 /// several icons, or a single entry, for example a menu item with an icon (see
-/// [CustomPopupMenuItem]), or no value at all (for example, [CustomPopupMenuDivider]).
+/// [CustomListPopupMenuItem]), or no value at all (for example, [CustomListPopupMenuDivider]).
 ///
 /// See also:
 ///
-///  * [CustomPopupMenuItem], a popup menu entry for a single value.
-///  * [CustomPopupMenuDivider], a popup menu entry that is just a horizontal line.
-///  * [CheckedCustomPopupMenuItem], a popup menu item with a checkmark.
+///  * [CustomListPopupMenuItem], a popup menu entry for a single value.
+///  * [CustomListPopupMenuDivider], a popup menu entry that is just a horizontal line.
+///  * [CheckedCustomListPopupMenuItem], a popup menu item with a checkmark.
 ///  * [showMenu], a method to dynamically show a popup menu at a given location.
 ///  * [PopupMenuButton], an [IconButton] that automatically shows a menu when
 ///    it is tapped.
-abstract class CustomPopupMenuEntry<T> extends StatefulWidget {
+abstract class CustomListPopupMenuEntry<T> extends StatefulWidget {
   /// Abstract const constructor. This constructor enables subclasses to provide
   /// const constructors so that they can be used in const expressions.
-  const CustomPopupMenuEntry({ Key? key }) : super(key: key);
+  const CustomListPopupMenuEntry({ Key? key }) : super(key: key);
 
   /// The amount of vertical space occupied by this entry.
   ///
@@ -82,15 +78,15 @@ abstract class CustomPopupMenuEntry<T> extends StatefulWidget {
 ///
 /// See also:
 ///
-///  * [CustomPopupMenuItem], for the kinds of items that this widget divides.
+///  * [CustomListPopupMenuItem], for the kinds of items that this widget divides.
 ///  * [showMenu], a method to dynamically show a popup menu at a given location.
 ///  * [PopupMenuButton], an [IconButton] that automatically shows a menu when
 ///    it is tapped.
-class CustomPopupMenuDivider extends CustomPopupMenuEntry<Never> {
+class CustomListPopupMenuDivider extends CustomListPopupMenuEntry<Never> {
   /// Creates a horizontal divider for a popup menu.
   ///
   /// By default, the divider has a height of 16 logical pixels.
-  const CustomPopupMenuDivider({ Key? key, this.height = _kMenuDividerHeight }) : super(key: key);
+  const CustomListPopupMenuDivider({ Key? key, this.height = _kMenuDividerHeight }) : super(key: key);
 
   /// The height of the divider entry.
   ///
@@ -102,10 +98,10 @@ class CustomPopupMenuDivider extends CustomPopupMenuEntry<Never> {
   bool represents(void value) => false;
 
   @override
-  _CustomPopupMenuDividerState createState() => _CustomPopupMenuDividerState();
+  _CustomListPopupMenuDividerState createState() => _CustomListPopupMenuDividerState();
 }
 
-class _CustomPopupMenuDividerState extends State<CustomPopupMenuDivider> {
+class _CustomListPopupMenuDividerState extends State<CustomListPopupMenuDivider> {
   @override
   Widget build(BuildContext context) => Divider(height: widget.height);
 }
@@ -167,11 +163,11 @@ class _RenderMenuItem extends RenderShiftedBox {
 /// shows a popup menu, consider using [PopupMenuButton].
 ///
 /// To show a checkmark next to a popup menu item, consider using
-/// [CheckedCustomPopupMenuItem].
+/// [CheckedCustomListPopupMenuItem].
 ///
-/// Typically the [child] of a [CustomPopupMenuItem] is a [Text] widget. More
+/// Typically the [child] of a [CustomListPopupMenuItem] is a [Text] widget. More
 /// elaborate menus with icons can use a [ListTile]. By default, a
-/// [CustomPopupMenuItem] is [kMinInteractiveDimension] pixels high. If you use a widget
+/// [CustomListPopupMenuItem] is [kMinInteractiveDimension] pixels high. If you use a widget
 /// with a different height, it must be specified in the [height] property.
 ///
 /// {@tool snippet}
@@ -180,7 +176,7 @@ class _RenderMenuItem extends RenderShiftedBox {
 /// is an enum, not shown here.
 ///
 /// ```dart
-/// const CustomPopupMenuItem<WhyFarther>(
+/// const CustomListPopupMenuItem<WhyFarther>(
 ///   value: WhyFarther.harder,
 ///   child: Text('Working a lot harder'),
 /// )
@@ -188,25 +184,25 @@ class _RenderMenuItem extends RenderShiftedBox {
 /// {@end-tool}
 ///
 /// See the example at [PopupMenuButton] for how this example could be used in a
-/// complete menu, and see the example at [CheckedCustomPopupMenuItem] for one way to
-/// keep the text of [CustomPopupMenuItem]s that use [Text] widgets in their [child]
-/// slot aligned with the text of [CheckedCustomPopupMenuItem]s or of [CustomPopupMenuItem]
+/// complete menu, and see the example at [CheckedCustomListPopupMenuItem] for one way to
+/// keep the text of [CustomListPopupMenuItem]s that use [Text] widgets in their [child]
+/// slot aligned with the text of [CheckedCustomListPopupMenuItem]s or of [CustomListPopupMenuItem]
 /// that use a [ListTile] in their [child] slot.
 ///
 /// See also:
 ///
-///  * [CustomPopupMenuDivider], which can be used to divide items from each other.
-///  * [CheckedCustomPopupMenuItem], a variant of [CustomPopupMenuItem] with a checkmark.
+///  * [CustomListPopupMenuDivider], which can be used to divide items from each other.
+///  * [CheckedCustomListPopupMenuItem], a variant of [CustomListPopupMenuItem] with a checkmark.
 ///  * [showMenu], a method to dynamically show a popup menu at a given location.
 ///  * [PopupMenuButton], an [IconButton] that automatically shows a menu when
 ///    it is tapped.
-class CustomPopupMenuItem<T> extends CustomPopupMenuEntry<T> {
+class CustomListPopupMenuItem<T> extends CustomListPopupMenuEntry<T> {
   /// Creates an item for a popup menu.
   ///
   /// By default, the item is [enabled].
   ///
   /// The `enabled` and `height` arguments must not be null.
-  const CustomPopupMenuItem({
+  const CustomListPopupMenuItem({
     Key? key,
     this.value,
     this.enabled = true,
@@ -272,31 +268,31 @@ class CustomPopupMenuItem<T> extends CustomPopupMenuEntry<T> {
   bool represents(T? value) => value == this.value;
 
   @override
-  CustomPopupMenuItemState<T, CustomPopupMenuItem<T>> createState() => CustomPopupMenuItemState<T, CustomPopupMenuItem<T>>();
+  CustomListPopupMenuItemState<T, CustomListPopupMenuItem<T>> createState() => CustomListPopupMenuItemState<T, CustomListPopupMenuItem<T>>();
 }
 
-/// The [State] for [CustomPopupMenuItem] subclasses.
+/// The [State] for [CustomListPopupMenuItem] subclasses.
 ///
 /// By default this implements the basic styling and layout of Material Design
 /// popup menu items.
 ///
 /// The [buildChild] method can be overridden to adjust exactly what gets placed
-/// in the menu. By default it returns [CustomPopupMenuItem.child].
+/// in the menu. By default it returns [CustomListPopupMenuItem.child].
 ///
 /// The [handleTap] method can be overridden to adjust exactly what happens when
 /// the item is tapped. By default, it uses [Navigator.pop] to return the
-/// [CustomPopupMenuItem.value] from the menu route.
+/// [CustomListPopupMenuItem.value] from the menu route.
 ///
 /// This class takes two type arguments. The second, `W`, is the exact type of
 /// the [Widget] that is using this [State]. It must be a subclass of
-/// [CustomPopupMenuItem]. The first, `T`, must match the type argument of that widget
+/// [CustomListPopupMenuItem]. The first, `T`, must match the type argument of that widget
 /// class, and is the type of values returned from this menu.
-class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>> extends State<W> {
+class CustomListPopupMenuItemState<T, W extends CustomListPopupMenuItem<T>> extends State<W> {
   /// The menu item contents.
   ///
   /// Used by the [build] method.
   ///
-  /// By default, this returns [CustomPopupMenuItem.child]. Override this to put
+  /// By default, this returns [CustomListPopupMenuItem.child]. Override this to put
   /// something else in the menu entry.
   @protected
   Widget? buildChild() => widget.child;
@@ -305,7 +301,7 @@ class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>> extends Stat
   ///
   /// Used by the [InkWell] inserted by the [build] method.
   ///
-  /// By default, uses [Navigator.pop] to return the [CustomPopupMenuItem.value] from
+  /// By default, uses [Navigator.pop] to return the [CustomListPopupMenuItem.value] from
   /// the menu route.
   @protected
   void handleTap() {
@@ -366,8 +362,8 @@ class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>> extends Stat
 /// To show a popup menu, use the [showMenu] function. To create a button that
 /// shows a popup menu, consider using [PopupMenuButton].
 ///
-/// A [CheckedCustomPopupMenuItem] is kMinInteractiveDimension pixels high, which
-/// matches the default minimum height of a [CustomPopupMenuItem]. The horizontal
+/// A [CheckedCustomListPopupMenuItem] is kMinInteractiveDimension pixels high, which
+/// matches the default minimum height of a [CustomListPopupMenuItem]. The horizontal
 /// layout uses [ListTile]; the checkmark is an [Icons.done] icon, shown in the
 /// [ListTile.leading] position.
 ///
@@ -395,13 +391,13 @@ class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>> extends Stat
 ///     }
 ///   },
 ///   itemBuilder: (BuildContext context) => <PopupMenuEntry<Commands>>[
-///     CheckedCustomPopupMenuItem<Commands>(
+///     CheckedCustomListPopupMenuItem<Commands>(
 ///       checked: _heroAndScholar,
 ///       value: Commands.heroAndScholar,
 ///       child: const Text('Hero and scholar'),
 ///     ),
-///     const CustomPopupMenuDivider(),
-///     const CustomPopupMenuItem<Commands>(
+///     const CustomListPopupMenuDivider(),
+///     const CustomListPopupMenuItem<Commands>(
 ///       value: Commands.hurricaneCame,
 ///       child: ListTile(leading: Icon(null), title: Text('Bring hurricane')),
 ///     ),
@@ -417,20 +413,20 @@ class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>> extends Stat
 ///
 /// See also:
 ///
-///  * [CustomPopupMenuItem], a popup menu entry for picking a command (as opposed to
+///  * [CustomListPopupMenuItem], a popup menu entry for picking a command (as opposed to
 ///    toggling a value).
-///  * [CustomPopupMenuDivider], a popup menu entry that is just a horizontal line.
+///  * [CustomListPopupMenuDivider], a popup menu entry that is just a horizontal line.
 ///  * [showMenu], a method to dynamically show a popup menu at a given location.
 ///  * [PopupMenuButton], an [IconButton] that automatically shows a menu when
 ///    it is tapped.
-class CheckedCustomPopupMenuItem<T> extends CustomPopupMenuItem<T> {
+class CheckedCustomListPopupMenuItem<T> extends CustomListPopupMenuItem<T> {
   /// Creates a popup menu item with a checkmark.
   ///
   /// By default, the menu item is [enabled] but unchecked. To mark the item as
   /// checked, set [checked] to true.
   ///
   /// The `checked` and `enabled` arguments must not be null.
-  const CheckedCustomPopupMenuItem({
+  const CheckedCustomListPopupMenuItem({
     Key? key,
     T? value,
     this.checked = false,
@@ -469,10 +465,10 @@ class CheckedCustomPopupMenuItem<T> extends CustomPopupMenuItem<T> {
   Widget? get child => super.child;
 
   @override
-  _CheckedCustomPopupMenuItemState<T> createState() => _CheckedCustomPopupMenuItemState<T>();
+  _CheckedCustomListPopupMenuItemState<T> createState() => _CheckedCustomListPopupMenuItemState<T>();
 }
 
-class _CheckedCustomPopupMenuItemState<T> extends CustomPopupMenuItemState<T, CheckedCustomPopupMenuItem<T>> with SingleTickerProviderStateMixin {
+class _CheckedCustomListPopupMenuItemState<T> extends CustomListPopupMenuItemState<T, CheckedCustomListPopupMenuItem<T>> with SingleTickerProviderStateMixin {
   static const Duration _fadeDuration = Duration(milliseconds: 150);
   late AnimationController _controller;
   Animation<double> get _opacity => _controller.view;
@@ -559,10 +555,10 @@ class _PopupMenu<T> extends StatelessWidget {
       constraints: const BoxConstraints(
         minWidth: _kMenuMinWidth,
         maxWidth: _kMenuMaxWidth,
-       maxHeight: _kMenuMaxHeight,
+        maxHeight: _kMenuMaxHeight,
       ),
       child: IntrinsicWidth(
-        stepWidth: _kMenuWidthStep,
+       // stepWidth: _kMenuWidthStep,
         child: Semantics(
           scopesRoute: true,
           namesRoute: true,
@@ -723,7 +719,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   }) : itemSizes = List<Size?>.filled(items.length, null);
 
   final RelativeRect position;
-  final List<CustomPopupMenuEntry<T>> items;
+  final List<CustomListPopupMenuEntry<T>> items;
   final List<Size?> itemSizes;
   final T? initialValue;
   final double? elevation;
@@ -838,9 +834,9 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
 ///
 /// See also:
 ///
-///  * [CustomPopupMenuItem], a popup menu entry for a single value.
-///  * [CustomPopupMenuDivider], a popup menu entry that is just a horizontal line.
-///  * [CheckedCustomPopupMenuItem], a popup menu item with a checkmark.
+///  * [CustomListPopupMenuItem], a popup menu entry for a single value.
+///  * [CustomListPopupMenuDivider], a popup menu entry that is just a horizontal line.
+///  * [CheckedCustomListPopupMenuItem], a popup menu item with a checkmark.
 ///  * [PopupMenuButton], which provides an [IconButton] that shows a menu by
 ///    calling this method automatically.
 ///  * [SemanticsConfiguration.namesRoute], for a description of edge triggered
@@ -848,7 +844,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
 Future<T?> showMenu<T>({
   required BuildContext context,
   required RelativeRect position,
-  required List<CustomPopupMenuEntry<T>> items,
+  required List<CustomListPopupMenuEntry<T>> items,
   T? initialValue,
   double? elevation,
   String? semanticLabel,
@@ -888,11 +884,11 @@ Future<T?> showMenu<T>({
 }
 
 /// Signature for the callback invoked when a menu item is selected. The
-/// argument is the value of the [CustomPopupMenuItem] that caused its menu to be
+/// argument is the value of the [CustomListPopupMenuItem] that caused its menu to be
 /// dismissed.
 ///
 /// Used by [PopupMenuButton.onSelected].
-typedef CustomPopupMenuItemSelected<T> = void Function(T value);
+typedef CustomListPopupMenuItemSelected<T> = void Function(T value);
 
 /// Signature for the callback invoked when a [PopupMenuButton] is dismissed
 /// without selecting an item.
@@ -904,7 +900,7 @@ typedef PopupMenuCanceled = void Function();
 /// the button is pressed.
 ///
 /// Used by [PopupMenuButton.itemBuilder].
-typedef CustomPopupMenuItemBuilder<T> = List<CustomPopupMenuEntry<T>> Function(BuildContext context);
+typedef CustomListPopupMenuItemBuilder<T> = List<CustomListPopupMenuEntry<T>> Function(BuildContext context);
 
 /// Displays a menu when pressed and calls [onSelected] when the menu is dismissed
 /// because an item was selected. The value passed to [onSelected] is the value of
@@ -930,19 +926,19 @@ typedef CustomPopupMenuItemBuilder<T> = List<CustomPopupMenuEntry<T>> Function(B
 /// PopupMenuButton<WhyFarther>(
 ///   onSelected: (WhyFarther result) { setState(() { _selection = result; }); },
 ///   itemBuilder: (BuildContext context) => <PopupMenuEntry<WhyFarther>>[
-///     const CustomPopupMenuItem<WhyFarther>(
+///     const CustomListPopupMenuItem<WhyFarther>(
 ///       value: WhyFarther.harder,
 ///       child: Text('Working a lot harder'),
 ///     ),
-///     const CustomPopupMenuItem<WhyFarther>(
+///     const CustomListPopupMenuItem<WhyFarther>(
 ///       value: WhyFarther.smarter,
 ///       child: Text('Being a lot smarter'),
 ///     ),
-///     const CustomPopupMenuItem<WhyFarther>(
+///     const CustomListPopupMenuItem<WhyFarther>(
 ///       value: WhyFarther.selfStarter,
 ///       child: Text('Being a self-starter'),
 ///     ),
-///     const CustomPopupMenuItem<WhyFarther>(
+///     const CustomListPopupMenuItem<WhyFarther>(
 ///       value: WhyFarther.tradingCharter,
 ///       child: Text('Placed in charge of trading charter'),
 ///     ),
@@ -953,21 +949,23 @@ typedef CustomPopupMenuItemBuilder<T> = List<CustomPopupMenuEntry<T>> Function(B
 ///
 /// See also:
 ///
-///  * [CustomPopupMenuItem], a popup menu entry for a single value.
-///  * [CustomPopupMenuDivider], a popup menu entry that is just a horizontal line.
-///  * [CheckedCustomPopupMenuItem], a popup menu item with a checkmark.
+///  * [CustomListPopupMenuItem], a popup menu entry for a single value.
+///  * [CustomListPopupMenuDivider], a popup menu entry that is just a horizontal line.
+///  * [CheckedCustomListPopupMenuItem], a popup menu item with a checkmark.
 ///  * [showMenu], a method to dynamically show a popup menu at a given location.
-class CustomPopupMenuButton<T> extends StatefulWidget {
+class CustomListPopupMenuButton<T> extends StatefulWidget {
   /// Creates a button that shows a popup menu.
   ///
   /// The [itemBuilder] argument must not be null.
-  const CustomPopupMenuButton({
+  const CustomListPopupMenuButton({
     Key? key,
     required this.itemBuilder,
     this.initialValue,
     this.onSelected,
     this.onCanceled,
     this.tooltip,
+    this.containerWidth,
+    this.containerHeight,
     this.elevation,
     this.padding = const EdgeInsets.all(8.0),
     this.child,
@@ -988,7 +986,7 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
         super(key: key);
 
   /// Called when the button is pressed to create the items to show in the menu.
-  final CustomPopupMenuItemBuilder<T> itemBuilder;
+  final CustomListPopupMenuItemBuilder<T> itemBuilder;
 
   /// The value of the menu item, if any, that should be highlighted when the menu opens.
   final T? initialValue;
@@ -997,7 +995,7 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
   ///
   /// If the popup menu is dismissed without selecting a value, [onCanceled] is
   /// called instead.
-  final CustomPopupMenuItemSelected<T>? onSelected;
+  final CustomListPopupMenuItemSelected<T>? onSelected;
 
   /// Called when the user dismisses the popup menu without selecting an item.
   ///
@@ -1079,15 +1077,19 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
   /// If this property is null, the default size is 24.0 pixels.
   final double? iconSize;
 
+
+  final double? containerWidth;
+  final double? containerHeight;
+
   @override
-  CustomPopupMenuButtonState<T> createState() => CustomPopupMenuButtonState<T>();
+  CustomListPopupMenuButtonState<T> createState() => CustomListPopupMenuButtonState<T>();
 }
 
 /// The [State] for a [PopupMenuButton].
 ///
 /// See [showButtonMenu] for a way to programmatically open the popup menu
 /// of your button state.
-class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
+class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<T>> {
   /// A method to show a popup menu with the items supplied to
   /// [PopupMenuButton.itemBuilder] at the position of your [PopupMenuButton].
   ///
@@ -1107,7 +1109,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
       ),
       Offset.zero & overlay.size,
     );
-    final List<CustomPopupMenuEntry<T>> items = widget.itemBuilder(context);
+    final List<CustomListPopupMenuEntry<T>> items = widget.itemBuilder(context);
     // Only show the menu if there is something to show
     if (items.isNotEmpty) {
       showMenu<T?>(
@@ -1140,7 +1142,7 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
         return true;
     }
   }
-
+ bool isHover = false;
   @override
   Widget build(BuildContext context) {
     final bool enableFeedback = widget.enableFeedback
@@ -1151,12 +1153,36 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
 
     if (widget.child != null)
       return InkWell(
-          onTap: widget.enabled ? showButtonMenu : null,
-          canRequestFocus: _canRequestFocus,
-          hoverColor: active,
-          
-          child: widget.child,
-          enableFeedback: enableFeedback,
+        onTap: widget.enabled ? showButtonMenu : null,
+        canRequestFocus: _canRequestFocus,
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onHover: (value)
+        {
+          value
+              ? setState(() {
+            isHover = true;
+          })
+              : setState(() {isHover = false;});
+        },
+
+        child: Container(
+          width: widget.containerWidth,
+          height: widget.containerHeight,
+          padding: EdgeInsets.fromLTRB(10,3,3,3),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all( color: isHover ? active : text.withOpacity(0.35), width: 1.4),
+          ),
+          child:Row(crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [Expanded(child: widget.child  ?? Container()),  Container(width: 34, child: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: isHover ? active : text.withOpacity(0.35),
+                size: 18,
+              )),])),
+        enableFeedback: enableFeedback,
 
       );
 
@@ -1170,3 +1196,6 @@ class CustomPopupMenuButtonState<T> extends State<CustomPopupMenuButton<T>> {
     );
   }
 }
+
+
+

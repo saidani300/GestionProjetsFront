@@ -9,8 +9,6 @@ import 'package:gestion_projets/pages/projects/widgets/custom_checkbox.dart';
 import 'package:gestion_projets/widgets/custom_outlined_button.dart';
 import 'package:intl/intl.dart';
 
-import 'date_picker.dart';
-
 class Filter extends StatefulWidget {
   final Function() apply;
 
@@ -24,6 +22,7 @@ class FilterState extends State<Filter> {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       Expanded(
+        //TODO: Fix GroupCheck bug , Add CheckList filter.
           child: Padding(
               padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
               child: Wrap(

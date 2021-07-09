@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/controllers.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'custom_text.dart';
 
 class TopNavMenuItem extends StatelessWidget {
   final String itemName;
@@ -56,11 +53,7 @@ class TopNavMenuItem extends StatelessWidget {
                         child: Center(
                           child: Text(
                             itemName,
-                            style: TextStyle(
-                                  color: active,
-                                  fontSize: 13,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.w500),
+                            style: textStyle_active_13_500,
 
                             textAlign: TextAlign.center,
                           ),

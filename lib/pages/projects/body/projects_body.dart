@@ -6,20 +6,21 @@ import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/pages/projects/widgets/dialogs.dart';
 import 'package:gestion_projets/pages/projects/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
-import '../projects.dart';
-
+//TODO : Add number of projects
+//TODO: Change add project button, more height and make it global style
+//TODO: Change project status tag , it's ugly
 bool _firstChild = true;
 DateTime startDate = DateTime.now();
 DateTime endDate = DateTime.now();
 var orderBy = "Project".obs ;
-var arrowIcon = Icons.keyboard_arrow_down_rounded.obs ;
+var isAscending = true.obs ;
 List<ProjectDataItem> projects = Data.projectsList;
 String query = '';
 
@@ -64,41 +65,13 @@ class ProjectsPageHeader extends StatelessWidget {
               fontWeight: FontWeight.w500),
         ),
         Expanded(child: Container()),
-        Tooltip(
-          message: 'Exporter CSV',
-          child: OutlinedButton(
-            onPressed: () {},
-            child: Icon(
-              Icons.download_rounded,
-              size: 20,
-              color: active,
-            ),
-            style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all<Size>(Size(35, 35)),
-              side: MaterialStateProperty.resolveWith<BorderSide?>((states) {
-                return BorderSide(
-                    color: (states.contains(MaterialState.hovered))
-                        ? active
-                        : active.withOpacity(0.5),
-                    width: 1.2);
-              }),
-              backgroundColor:
-                  MaterialStateProperty.resolveWith<Color?>((states) {
-                return (states.contains(MaterialState.hovered))
-                    ? active.withOpacity(0.02)
-                    : Colors.transparent;
-              }),
-              //foregroundColor: Colors.white,
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 5,
-        ),
+        //TODO : Active Export to files , Add more files types options, fix ugly button and change position.
+
+        //TODO: Fix Button ,ugly too
         TextButton.icon(
           style: ButtonStyle(
             fixedSize:
-                MaterialStateProperty.all<Size>(Size(double.infinity, 35)),
+                MaterialStateProperty.all<Size>(Size(double.infinity, 40)),
             // backgroundColor: MaterialStateProperty.all<Color>(active),
             backgroundColor:
                 MaterialStateProperty.resolveWith<Color?>((states) {
@@ -111,7 +84,7 @@ class ProjectsPageHeader extends StatelessWidget {
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
           ),
-          onPressed: onTap,
+          onPressed: /*onTap*/(){showCreateProjectDialogBox(context , onTap);},
           icon: Icon(
             Icons.add,
             color: Colors.white,
@@ -190,18 +163,30 @@ class ProjectsList extends State<ProjectsPageBody> {
     });
   }
 
-  void OrderList()
+  void OrderList(String orderBy , bool isAscending , )
   {
-    //order list here
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
+    setState(() {
+    switch(orderBy){
+      case('Project'):
+        (isAscending) ? _foundProjects.sort((a, b) => a.name.compareTo(b.name)) :
+        _foundProjects.sort((a, b) => b.name.compareTo(a.name));
+        break;
+        //TODO: fix Sort by Date
+
+      case('DeadLine'):
+        (isAscending) ? _foundProjects.sort((a, b) => a.deadline.compareTo(b.deadline)) :
+        _foundProjects.sort((a, b) => b.deadline.compareTo(a.deadline));
+        break;
+      case('Leader'):
+        (isAscending) ? _foundProjects.sort((a, b) => a.teamLeader.name.compareTo(b.teamLeader.name)) :
+        _foundProjects.sort((a, b) => b.teamLeader.name.compareTo(a.teamLeader.name));
+        break;
+      case('Status'):
+        (isAscending) ? _foundProjects.sort((a, b) => a.status.toString().compareTo(b.status.toString())) :
+        _foundProjects.sort((a, b) => b.status.toString().compareTo(a.status.toString()));
+        break;
+    }
+    });
   }
 
   void insertItem(int index, ProjectDataItem item) {
@@ -281,7 +266,7 @@ class ProjectsList extends State<ProjectsPageBody> {
                           width: 15,
                         ),
                         CustomIconButton(
-                            icon: Icons.sort, message: 'Trier', onTap: () {}),
+                            icon: Icons.save_alt_rounded, message: 'Exporter', onTap: () {showExportDialogBox(context);}),
                         SizedBox(
                           width: 15,
                         ),
@@ -333,7 +318,7 @@ class ProjectsList extends State<ProjectsPageBody> {
                       height: 1,
                       color: dark.withOpacity(0.15),
                     ),
-                    ProjectsListHeader(),
+                    ProjectsListHeader(tapOrderBy: () { OrderList(orderBy.value ,isAscending.value); }, ),
                     Divider(
                       height: 1,
                       color: dark.withOpacity(0.15),
@@ -401,6 +386,9 @@ class ProjectsList extends State<ProjectsPageBody> {
 /*_______________________________________________________________________*/
 
 class ProjectsListHeader extends StatelessWidget {
+  final Function() tapOrderBy;
+
+  const ProjectsListHeader({Key? key,required this.tapOrderBy}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -420,10 +408,8 @@ class ProjectsListHeader extends StatelessWidget {
                     children: [
                     InkWell(onTap:(){
             orderBy.value = "Project";
-            (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
-    arrowIcon.value = Icons.keyboard_arrow_up_rounded :
-                arrowIcon.value = Icons.keyboard_arrow_down_rounded;
-
+            isAscending.value = !isAscending.value;
+            tapOrderBy();
             }
                 , child: Obx(() =>  Wrap( crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
@@ -435,7 +421,7 @@ class ProjectsListHeader extends StatelessWidget {
                               letterSpacing: 0,
                               fontWeight: FontWeight.w600),
                         ),
-                      Visibility(visible: (orderBy.value.contains("Project")), child:Icon(arrowIcon.value, size: 12)),
+                      Visibility(visible: (orderBy.value.contains("Project")), child:Icon((isAscending.value) ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded, size: 12)),
                       ]))),
                 ])),
             flex: 3,
@@ -451,9 +437,8 @@ class ProjectsListHeader extends StatelessWidget {
                   children: [
                     InkWell(onTap:(){
                       orderBy.value = "DeadLine";
-                      (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
-                      arrowIcon.value = Icons.keyboard_arrow_up_rounded :
-                      arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+                      isAscending.value = !isAscending.value;
+                      tapOrderBy();
                       }
                     , child: Obx(() => Wrap( crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
@@ -465,7 +450,7 @@ class ProjectsListHeader extends StatelessWidget {
                                 letterSpacing: 0,
                                 fontWeight: FontWeight.w600),
                           ),
-                          Visibility(visible: (orderBy.value.contains("DeadLine")), child:Icon(arrowIcon.value, size: 12)),
+                          Visibility(visible: (orderBy.value.contains("DeadLine")), child:Icon((isAscending.value) ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded, size: 12)),
                         ])),
                     )]),
             ),
@@ -482,9 +467,8 @@ class ProjectsListHeader extends StatelessWidget {
                   children: [
                   InkWell(onTap:(){
             orderBy.value = "Leader";
-            (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
-            arrowIcon.value = Icons.keyboard_arrow_up_rounded :
-            arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+            isAscending.value = !isAscending.value;
+            tapOrderBy();
             }
               , child: Obx(() =>  Wrap( crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
@@ -496,7 +480,7 @@ class ProjectsListHeader extends StatelessWidget {
                                 letterSpacing: 0,
                                 fontWeight: FontWeight.w600),
                           ),
-                          Visibility(visible: (orderBy.value.contains("Leader")), child:Icon(arrowIcon.value, size: 12)),
+                          Visibility(visible: (orderBy.value.contains("Leader")), child:Icon((isAscending.value) ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded, size: 12)),
                         ]))),
 
                   ]),
@@ -514,9 +498,8 @@ class ProjectsListHeader extends StatelessWidget {
                   children: [
                   InkWell(onTap:(){
             orderBy.value = "Status";
-            (arrowIcon.value == Icons.keyboard_arrow_down_rounded) ?
-            arrowIcon.value = Icons.keyboard_arrow_up_rounded :
-            arrowIcon.value = Icons.keyboard_arrow_down_rounded;
+            isAscending.value = !isAscending.value;
+            tapOrderBy();
             }
               , child: Obx(() =>  Wrap( crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
@@ -528,7 +511,7 @@ class ProjectsListHeader extends StatelessWidget {
                                 letterSpacing: 0,
                                 fontWeight: FontWeight.w600),
                           ),
-                          Visibility(visible: (orderBy.value.contains("Status")), child:Icon(arrowIcon.value, size: 12)),
+                          Visibility(visible: (orderBy.value.contains("Status")), child:Icon((isAscending.value) ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded, size: 12)),
                         ]))),
                   ]),
             ),

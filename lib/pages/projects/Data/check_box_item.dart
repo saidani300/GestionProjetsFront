@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 class CheckBoxItem{
 
   final String title;
@@ -27,6 +26,10 @@ class CheckBoxItemLeader{
 final checkAllLeader = CheckBoxItemLeader(name: 'Tous');
 
 final LeaderList = [
+  CheckBoxItemLeader(name: 'Saidani Wael' , profileImage: "3"),
+  CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "3"),
+  CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "2"),
+  CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "2"),
   CheckBoxItemLeader(name: 'Saidani Wael' , profileImage: "3"),
   CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "3"),
   CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "2"),

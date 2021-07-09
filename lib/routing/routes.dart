@@ -1,16 +1,18 @@
 const rootRoute = "/";
 
 const dashboardPageDisplayName = "Tableau de bord";
-const dashboardPageRoute = "/dashboard";
+const String dashboardPageRoute = "/dashboard";
 
 const projectsPageDisplayName = "Projets";
-const projectsPageRoute = "/projects";
+const String projectsPageRoute = "/projects";
 
 const tasksPageDisplayName = "Tâches";
-const tasksPageRoute = "/tasks";
+const String tasksPageRoute = "/tasks";
 
 const activitiesPageDisplayName = "Activités";
-const activitiesPageRoute = "/activities";
+const String activitiesPageRoute = "/activities";
+
+const String projectDetailsPageRoute = "/details";
 
 class MenuItem {
   final String name;
