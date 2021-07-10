@@ -201,14 +201,15 @@ class ProjectDeadline extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            Flexible(child:Text(
               date,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: text,
                   fontSize: 12,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w600),
-            ),
+            )),
             SizedBox(
               height: 5,
             ),
@@ -278,14 +279,15 @@ class ProjectTeamLeader extends StatelessWidget {
           SizedBox(
             width: 15,
           ),
-          Text(
+      Flexible(child:  Text(
             teamLeader.name,
+        overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: text,
                 fontSize: 12,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w600),
-          ),
+          )),
         ],
       ),
     );

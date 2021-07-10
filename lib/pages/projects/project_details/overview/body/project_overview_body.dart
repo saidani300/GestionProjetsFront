@@ -79,6 +79,7 @@ class ProjectOverviewBody extends StatefulWidget {
 }
 
 class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
+  final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -147,7 +148,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                         CustomIconButton(
                           icon: Icons.filter_alt_outlined,
                           message: 'Filter',
-                          onTap: () {},
+                          onTap: () { },
                         ),
                         SizedBox(
                           width: 15,
@@ -158,9 +159,16 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                       height: 1,
                       color: dark.withOpacity(0.15),
                     ),
-                    PhaseItem(),
-                    PhaseItem(),
-                    Expanded(child: Container()),
+                  Expanded(child: Container( child: ListView(
+                      controller: controller,
+                      shrinkWrap: true,
+                      children: [
+                        PhaseItem(),
+                        PhaseItem(),
+                      ],
+                    ))),
+
+                    //Expanded(child: Container()),
                   ],
                 )),
           ),

@@ -38,8 +38,9 @@ class _OpenCloseArrowButtonState extends State<OpenCloseArrowButton>
           widget.isExpanded
               ? rotationController.reverse()
               : rotationController.forward();
-          widget.isExpanded = !widget.isExpanded;
+
           widget.onTap();
+          print("Expand Tapped  " + widget.isExpanded.toString());
         },
         onHover: (value) {
           setState(() {
@@ -52,7 +53,7 @@ class _OpenCloseArrowButtonState extends State<OpenCloseArrowButton>
             decoration: BoxDecoration(
                 border: Border.all(
                   color: widget.color,
-                  width: 1,
+                  width: 1.2,
                 ),
                 color: onHover ? widget.color : Colors.transparent,
                 shape: BoxShape.circle),
