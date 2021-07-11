@@ -1,13 +1,16 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/Data/items.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 
 import 'action_item.dart';
 
 class PhaseItem extends StatefulWidget {
-  const PhaseItem({Key? key}) : super(key: key);
+  final Phase phase;
+  const PhaseItem({Key? key , required this.phase}) : super(key: key);
 
   @override
   _PhaseItemState createState() => _PhaseItemState();
@@ -50,6 +53,7 @@ class _PhaseItemState extends State<PhaseItem> {
                         child: InkWell(
                             onTap: () {
                               print("tapped");
+
                             },
                             onHover: (value) {
                               value
@@ -85,14 +89,14 @@ class _PhaseItemState extends State<PhaseItem> {
                                                       Radius.circular(0),
                                                   bottomRight:
                                                       Radius.circular(0)),
-                                              color: Color(0xFF08ADFF),
+                                              color: active/*Color(0xFF08ADFF)*/,
                                             ),
                                             child: Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 6,
                                                     horizontal: 15),
                                                 child: Text(
-                                                  "CONCEPTION",
+                                                  widget.phase.name,
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 11,
@@ -156,7 +160,7 @@ class _PhaseItemState extends State<PhaseItem> {
                                     icon: Icons.add_circle_rounded,
                                     message: "",
                                     enableToolTip: false,
-                                    onTap: () {},
+                                    onTap: () { Phases.first.name = "Test";},
                                     size: 23,
                                   ),
                                   SizedBox( width: 1,)

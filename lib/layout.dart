@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/routing/router.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
@@ -13,6 +14,7 @@ class SiteLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: topNavigationBar(context),
         drawer: Drawer(),

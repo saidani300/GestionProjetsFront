@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -14,6 +18,7 @@ class ProjectOverviewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -51,7 +56,7 @@ class ProjectOverviewHeader extends StatelessWidget {
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
           ),
-          onPressed: () {},
+          onPressed: () { Phases.first.name = "Test"; phaseBloc.fetch();},
           icon: Icon(
             Icons.add,
             color: Colors.white,
@@ -80,40 +85,45 @@ class ProjectOverviewBody extends StatefulWidget {
 
 class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
   final ScrollController controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
+    phaseBloc.fetch();
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         ProjectOverviewHeader(),
         Expanded(
-          child: Container(
-            margin: EdgeInsets.only(top: 20),
             child: Container(
-                decoration: BoxDecoration(
-                  border:
-                      Border.all(color: lightGrey.withOpacity(0.3), width: 1,),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.15),
-                      spreadRadius: 0.5,
-                      blurRadius: 0.5,
-                      // offset: Offset(0, 3), // changes position of shadow
+                margin: EdgeInsets.only(top: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: lightGrey.withOpacity(0.3),
+                      width: 1,
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(3),
-                  color: backgroundColor,
-                ),
-                child: Column(
-                  children: [
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.15),
+                        spreadRadius: 0.5,
+                        blurRadius: 0.5,
+                        // offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(3),
+                    color: Colors.white,
+                  ),
+                  child: Column(children: [
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(3),
-                              topRight: Radius.circular(3),
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0)),
-                        color: Colors.white,),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(3),
+                            topRight: Radius.circular(3),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0)),
+                        color: Colors.white,
+                      ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
                         Row(
@@ -148,7 +158,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                         CustomIconButton(
                           icon: Icons.filter_alt_outlined,
                           message: 'Filter',
-                          onTap: () { },
+                          onTap: () {},
                         ),
                         SizedBox(
                           width: 15,
@@ -159,20 +169,51 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                       height: 1,
                       color: dark.withOpacity(0.15),
                     ),
-                  Expanded(child: Container( child: ListView(
+                    Expanded(
+                        child: Container(
+                            child: StreamBuilder<List<Phase>>(
+                                stream: phaseBloc.phaseStream,
+                                builder: (context,
+                                     snapshot) {
+                                  print(snapshot.data.toString());
+                                  final results = snapshot.data;
+                                  if(snapshot.hasData)
+                                  return ListView.builder(
+                                    controller: controller,
+                                    itemCount: results!.length,
+                                    itemBuilder: (context, index) {
+                                      final phase = results[index];
+                                      print(phaseBloc.phaseStream.toString());
+                                      return //Text(phase.name);
+                                      PhaseItem(phase: phase);
+                                    },
+                                  );
+                                  else
+                                   return Center(
+
+                                      child: SpinKitFadingCube(
+                                        color: active,
+                                        size: 25,
+                                        duration: Duration(milliseconds: 1200),
+                                      ),
+
+                                    );
+                                })
+
+                            /*ListView(
                       controller: controller,
                       shrinkWrap: true,
                       children: [
-                        PhaseItem(),
+                        PhaseItem(phase:,),
                         PhaseItem(),
                       ],
-                    ))),
+                    )*/
 
-                    //Expanded(child: Container()),
-                  ],
-                )),
-          ),
-        )
+                            //Expanded(child: Container()),
+
+                            )),
+                  ]),
+                )))
       ],
     );
   }

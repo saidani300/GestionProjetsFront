@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/404/not_found.dart';
 import 'package:gestion_projets/pages/dashboard/dashboard.dart';
 import 'package:gestion_projets/pages/projects/controllers/show_by_status_controller.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/routing/router.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
