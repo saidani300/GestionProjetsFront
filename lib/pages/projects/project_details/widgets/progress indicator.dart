@@ -18,7 +18,7 @@ class _ProgressState extends State<Progress> {
   Widget build(BuildContext context) {
     return Container(
       height: 4,
-      width: 50,
+      width: 55,
       child: Row(
         children: [
       Visibility(visible: widget.completed !=0 , child:

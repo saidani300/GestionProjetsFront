@@ -9,6 +9,10 @@ Color lightText = Color(0xFF9e9fa3);
 Color buttonHover = Color(0xFF005ce6);
 Color backgroundColor = Color(0xFFfafafa);
 Color lightRed = Color(0xFFF65060);
+const Color lightPurple = Color(0xFF961ee1);
+const Color lightOrange =Color(0xFFFFA800);
+const Color lightBlue = Color(0xFF0AC1EC);
+
 
 
 TextStyle textStyle_Text_11_500 =TextStyle(color: text, fontSize: 11, fontWeight: FontWeight.w500);

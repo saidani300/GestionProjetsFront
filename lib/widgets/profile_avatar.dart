@@ -30,15 +30,16 @@ class Avatar extends StatelessWidget {
       height: size,
       width: size,
       child: CircleAvatar(
-        child: Text(profileInitials(name),
+        radius: 100.0,
+        child: (picture.characters.length<3) ? Text(profileInitials(name),
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: size/3.33,
-                letterSpacing: 1)),
+                letterSpacing: 1)) : null,
         foregroundColor: Colors.white,
         backgroundColor: /*Colors.deepPurpleAccent*/ colors[
         int.tryParse(picture) ?? 0],
-        // backgroundImage: AssetImage(teamLeader.picture),
+         backgroundImage: (picture.characters.length>3) ? Image.network(picture).image : null,
       ),
     );
   }

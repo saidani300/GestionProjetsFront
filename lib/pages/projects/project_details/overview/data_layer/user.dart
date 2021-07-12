@@ -3,6 +3,7 @@ class User {
   final String name;
   final String avatar;
 
+  User(this.id, this.name, this.avatar);
 
   User.fromJson(Map json)
       : id = json['id'],

@@ -9,11 +9,10 @@ import 'bloc.dart';
 class PhaseBloc implements Bloc {
   final _controller = StreamController<List<Phase>>();
   final _client = APIClient();
-  Stream<List<Phase>> get phaseStream => _controller.stream;
+  Stream<List<Phase>> get phaseStream => _controller.stream.asBroadcastStream();
 
   void fetch() async {
    // final results = await _client.fetchPhases();
-
     _controller.sink.add(Phases);
   }
 

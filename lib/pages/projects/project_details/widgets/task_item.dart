@@ -1,107 +1,156 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
+import 'package:gestion_projets/widgets/custom_tag.dart';
+import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
+import 'package:intl/intl.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart'
+    as Model;
 
 import 'change_status_button.dart';
-import 'open_close_animated_arrow.dart';
 
 class TaskItem extends StatefulWidget {
-  const TaskItem({Key? key}) : super(key: key);
+  final Task task;
+  final Model.Action action;
+  const TaskItem({Key? key, required this.task, required this.action})
+      : super(key: key);
 
   @override
   _TaskItemState createState() => _TaskItemState();
 }
 
 class _TaskItemState extends State<TaskItem> {
-  bool isCompleted = false;
+  //late bool isCompleted;
+
+  @override
+  initState() {
+    /* if(widget.task.status == Status.completed)
+    {
+      isCompleted = true;
+    }
+    else{
+      isCompleted = false;
+    }*/
+    super.initState();
+  }
+
   bool isExpanded = false;
   bool isHover = false;
+  String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
+
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.symmetric(horizontal: 0) ,child : Container(
-      height: 60,
-      child: InkWell(
-          onTap: () {
-            print("tapped");
-          },
-          onHover: (value) {
-            value
-                ? setState(() {
-              isHover = true;
-            })
-                : setState(() {
-              isHover = false;
-            });
-          },
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          child: Row(
-            children: [
-              Container(
-                      width:
-                      25,
-                      ),
-              Expanded(
-                  child: Container(
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0),
+        child: Container(
+          height: 60,
+          child: InkWell(
+              onTap: () {
+                print("tapped");
+              },
+              onHover: (value) {
+                value
+                    ? setState(() {
+                        isHover = true;
+                      })
+                    : setState(() {
+                        isHover = false;
+                      });
+              },
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: Row(
+                children: [
+                  Container(
+                    width: 25,
+                  ),
+                  Expanded(
+                      child: Container(
                     height: 60,
                     color: Colors.transparent,
                     child: Row(
                       children: [
                         Expanded(
                           child: Container(
-
                               child: Row(
-                                children: [
-                                  DottedLine(
-                                    direction: Axis.vertical,
-                                    lineLength: double.infinity,
-                                    lineThickness: 1.0,
-                                    dashLength: 2,
-                                    dashColor: text.withOpacity(0.3),
-                                    dashRadius: 0.0,
-                                    dashGapLength: 2,
-                                    dashGapColor: Colors.transparent,
-                                    dashGapRadius: 0.0,
-                                  ),
-                                  Container(width: 29,),
-                                  Padding(padding: EdgeInsets.symmetric(vertical: 2) , child: Container(
-                                    width: 2,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      color: Color(0xFF0AC1EC),
-                                  ))),
-                                  Container(width: 20,),
-                                  ChangeStatusButton(onTap: () { isCompleted ?
+                            children: [
+                              DottedLine(
+                                direction: Axis.vertical,
+                                lineLength: double.infinity,
+                                lineThickness: 1.0,
+                                dashLength: 2,
+                                dashColor: text.withOpacity(0.3),
+                                dashRadius: 0.0,
+                                dashGapLength: 2,
+                                dashGapColor: Colors.transparent,
+                                dashGapRadius: 0.0,
+                              ),
+                              Container(
+                                width: 29,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 2),
+                                  child: Container(
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: StatusColor(widget.task.status),
+                                      ))),
+                              Container(
+                                width: 20,
+                              ),
+                              ChangeStatusButton(
+                                onTap: () {
+                                  /* isCompleted ?
                                   setState(() {
                                     isCompleted = false;
                                   }) : setState(() {
                                     isCompleted = true;
-                                  }) ;},
-                                    completedColor: Colors.lightGreen,
-                                    inProgressColor: text.withOpacity(0.3),
-                                    isCompleted: isCompleted,),
-                                  SizedBox(width: 10),
-                                  Flexible( child : Text(
-                                    "Créer un nouveau plan marketing",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
-                                  )),
-                                  SizedBox(width: 5),
-                                  CustomIconButton(icon: Icons.attach_file_rounded, message: "1 Attachement", onTap: (){}, size: 15,),
-                                  /* SizedBox(width: 5),
-                    Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
-                                ],
+                                  }) ;*/
+                                  widget.task.status != Status.inProgress ?  widget.task.status == Status.approved
+                                      ? widget.task.status = Status.completed
+                                      : widget.task.status = Status.approved : null;
+                                  // phaseBloc.fetch();
+                                  UpdateAction(widget.action);
+                                  phaseBloc.fetch();
+                                }, status: widget.task.status,
+
+                              ),
+                              SizedBox(width: 10),
+                              Flexible(
+                                  child: Text(
+                                widget.task.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: text,
+                                    fontSize: 12,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600),
                               )),
-                          flex: 4,
+                              SizedBox(width: 5),
+                              Visibility(
+                                  visible: (widget.task.documents.isNotEmpty),
+                                  child: CustomIconButton(
+                                    icon: Icons.attach_file_rounded,
+                                    message:
+                                        "${widget.task.documents.length} Attachement",
+                                    onTap: () {},
+                                    size: 15,
+                                  )),
+                              /* SizedBox(width: 5),
+                    Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
+                            ],
+                          )),
+                          flex: 6,
                         ),
                         SizedBox(
                           width: 20,
@@ -109,38 +158,44 @@ class _TaskItemState extends State<TaskItem> {
                         Expanded(
                           child: Container(
                               child: Row(children: [
-                                Flexible( child : Text(
-                                  "10 juillet 2021",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
-                                )),
-                                // Expanded(child: Container()),
-                              ])),
-                          flex: 1,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: Container(
-                              child: Row(children: [
-                                Avatar(name: "Saidani Wael", picture: "3" , size: 25,),
-                                SizedBox(width: 10,),
-                                Flexible( child : Text(
-                                  "Saidani Wael",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
-                                )),
-                                // Expanded(child: Container()),
-                              ])),
+                            Flexible(
+                                child: Text(
+                              getText(widget.task.endDate),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: widget.task.endDate
+                                          .isBefore(DateTime.now())
+                                      ? lightRed
+                                      : text,
+                                  fontSize: 12,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600),
+                            )),
+                            Visibility(
+                                visible: widget.task.endDate
+                                    .isBefore(DateTime.now()),
+                                child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      Tooltip(
+                                        preferBelow: false,
+                                          verticalOffset: 15,
+                                          message: "En retard",
+                                          decoration: BoxDecoration(
+                                            color: lightRed,
+                                            borderRadius: BorderRadius.all(Radius.circular(2))
+                                          ),
+                                          child: Icon(
+                                            Icons.warning_rounded,
+                                            color: lightRed,
+                                            size: 15,
+                                          ))
+                                    ]))
+                            // Expanded(child: Container()),
+                          ])),
                           flex: 2,
                         ),
                         SizedBox(
@@ -149,8 +204,38 @@ class _TaskItemState extends State<TaskItem> {
                         Expanded(
                           child: Container(
                               child: Row(children: [
-                                Tooltip(message: "Normale" ,child: Icon(Icons.flag_rounded , size: 18, color: active,)),
-                                /*SizedBox(width: 6.5,),
+                            Avatar(
+                              name: widget.task.user.name,
+                              picture: widget.task.user.avatar,
+                              size: 25,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Flexible(
+                                child: Text(
+                              widget.task.user.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: text,
+                                  fontSize: 12,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600),
+                            )),
+                            // Expanded(child: Container()),
+                          ])),
+                          flex: 2,
+                        ),
+                        /* SizedBox(
+                          width: 20,
+                        ),*/
+                        Expanded(
+                          child: Container(
+                              child: Row(children: [
+                            PriorityIcon(
+                              priority: widget.task.priority,
+                            )
+                            /*SizedBox(width: 6.5,),
                       Text(
                         "Normale",
                         overflow: TextOverflow.ellipsis,
@@ -160,38 +245,39 @@ class _TaskItemState extends State<TaskItem> {
                             letterSpacing: 0,
                             fontWeight: FontWeight.w600),
                       ),*/
-                                //  Expanded(child: Container()),
-                              ])),
+                            //  Expanded(child: Container()),
+                          ])),
                           flex: 1,
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 5,
                         ),
                         Expanded(
                           child: Container(
                               child: Row(children: [
-                                StatusLabel(status: statusType.Completed,),
-                                // Expanded(child: Container()),
-                              ])),
+                            StatusTag(
+                                status: widget.task.status,
+                                date: getText(widget.task.endDate)),
+                            // Expanded(child: Container()),
+                          ])),
                           flex: 1,
                         ),
                         Expanded(
                           child: Container(
                               child: Row(children: [
-                                Expanded(child: Container()),
-                                ActionsMenu(),
-                              ])),
+                            Expanded(child: Container()),
+                            ActionsMenu(),
+                          ])),
                           flex: 1,
                         ),
                       ],
-                    ),)),
-
-            ],
-          )),
-    ));
+                    ),
+                  )),
+                ],
+              )),
+        ));
   }
 }
-
 
 class ActionButton extends StatefulWidget {
   final Color color;
@@ -202,11 +288,12 @@ class ActionButton extends StatefulWidget {
   final double size;
   const ActionButton(
       {Key? key,
-        required this.color,
-        required this.icon,
-        this.topLeftRadius = 0,
-        this.bottomLeftRadius = 0,
-        required this.message, this.size = 0})
+      required this.color,
+      required this.icon,
+      this.topLeftRadius = 0,
+      this.bottomLeftRadius = 0,
+      required this.message,
+      this.size = 0})
       : super(key: key);
 
   @override
@@ -234,18 +321,18 @@ class _ActionButtonState extends State<ActionButton> {
             onHover: (value) {
               value
                   ? setState(() {
-                onHoverColor = widget.color.withAlpha(230);
-              })
+                      onHoverColor = widget.color.withAlpha(230);
+                    })
                   : setState(() {
-                onHoverColor = widget.color;
-              });
+                      onHoverColor = widget.color;
+                    });
             },
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             child: Container(
-                height: (widget.size !=0) ? widget.size : null,
-                width: (widget.size !=0) ? widget.size : null,
+                height: (widget.size != 0) ? widget.size : null,
+                width: (widget.size != 0) ? widget.size : null,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(widget.topLeftRadius),
@@ -264,7 +351,6 @@ class _ActionButtonState extends State<ActionButton> {
   }
 }
 
-
 class ActionsMenu extends StatelessWidget {
   const ActionsMenu({Key? key}) : super(key: key);
 
@@ -278,7 +364,8 @@ class ActionsMenu extends StatelessWidget {
           hoverColor: active.withOpacity(0.03),
           dividerTheme: DividerThemeData(
             thickness: 0.5,
-            space: 0,),
+            space: 0,
+          ),
           tooltipTheme: TooltipThemeData(
             decoration: BoxDecoration(
               color: Colors.transparent,
@@ -298,82 +385,130 @@ class ActionsMenu extends StatelessWidget {
             // print(selectedValue);
           },
           itemBuilder: (context) => [
-            PopupMenuItem(
-                height: 35,
-                child: Row(children: [
-                  Icon(
-                    Icons.add_circle_rounded,
-                    size: 18,
-                    color: active,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Ajouter une tâche',
-                    style: TextStyle(
-                      color: text,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  )
-                ]),
-                value: 1),
-            PopupMenuItem(
-                height: 35,
-                child: Row(children: [
-                  Icon(
-                    Icons.edit,
-                    size: 18,
-                    color: text,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Modifier',
-                    style: TextStyle(
-                      color: text,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  )
-                ]),
-                value: 1),
-            PopupMenuDivider(
-              height: 1,
-            ),
-            PopupMenuItem(
-                height: 35,
-                child: Row(children: [
-                  Icon(
-                    Icons.delete_rounded,
-                    size: 18,
-                    color: lightRed,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Supprimer',
-                    style: TextStyle(
-                      color: lightRed,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  )
-                ]),
-                value: 2),
-          ]),
+                PopupMenuItem(
+                    height: 35,
+                    child: Row(children: [
+                      Icon(
+                        Icons.add_circle_rounded,
+                        size: 18,
+                        color: active,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Ajouter une tâche',
+                        style: TextStyle(
+                          color: text,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      )
+                    ]),
+                    value: 1),
+                PopupMenuItem(
+                    height: 35,
+                    child: Row(children: [
+                      Icon(
+                        Icons.edit,
+                        size: 18,
+                        color: text,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Modifier',
+                        style: TextStyle(
+                          color: text,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      )
+                    ]),
+                    value: 1),
+                PopupMenuDivider(
+                  height: 1,
+                ),
+                PopupMenuItem(
+                    height: 35,
+                    child: Row(children: [
+                      Icon(
+                        Icons.delete_rounded,
+                        size: 18,
+                        color: lightRed,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Supprimer',
+                        style: TextStyle(
+                          color: lightRed,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      )
+                    ]),
+                    value: 2),
+              ]),
     );
+  }
+}
+
+class StatusTag extends StatelessWidget {
+  final Status status;
+  final String date;
+  const StatusTag({Key? key, required this.status, this.date = ""})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (status) {
+      case Status.completed:
+        return CustomTag(text: 'Terminé', color: lightBlue, date: date
+            /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: Colors.white, size: 12,),),*/
+            );
+      case Status.inProgress:
+        return CustomTag(
+          text: 'En cours',
+          color: lightOrange,
+          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
+        );
+      case Status.approved:
+        return CustomTag(
+          text: 'Approuvé',
+          color: lightPurple,
+          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
+        );
+    }
+  }
+}
+
+void UpdateAction(Model.Action action) {
+  action.tasks.every((element) => element.status == Status.approved)
+      ? action.status = Status.approved
+      : action.status = Status.completed;
+  print(action.status);
+}
+
+Color StatusColor(Status status)
+{
+  switch (status){
+    case Status.inProgress :
+      return lightOrange;
+    case Status.completed :
+      return lightBlue;
+    case Status.approved:
+      return lightPurple;
   }
 }

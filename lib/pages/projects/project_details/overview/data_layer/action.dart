@@ -1,3 +1,6 @@
+import 'package:flutter/scheduler.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart' as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
 
@@ -6,9 +9,13 @@ class Action {
   final String name;
   final DateTime startDate;
   final DateTime endDate;
-  final int status;
+  Model.Status status;
   final User user;
   final List<Task> tasks;
+  final List<Document> documents;
+  final Model.Priority priority;
+
+  Action(this.id, this.name, this.startDate, this.endDate, this.status, this.user, this.tasks, this.documents, this.priority);
 
   Action.fromJson(Map json)
       : id = json['id'],
@@ -17,5 +24,7 @@ class Action {
         endDate = json['endDate'],
         status = json['status'],
         user = json['user'],
-        tasks = json['tasks'];
+        tasks = json['tasks'],
+  documents = json['documents'],
+  priority = json['priority'];
 }

@@ -1,3 +1,5 @@
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart' as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
 
 class Task {
@@ -5,9 +7,12 @@ class Task {
   final String name;
   final DateTime startDate;
   final DateTime endDate;
-  final int status;
+  Model.Status status;
   final User user;
+  final List<Document> documents;
+  final Model.Priority priority;
 
+  Task(this.id, this.name, this.startDate, this.endDate, this.status, this.user, this.documents, this.priority);
 
   Task.fromJson(Map json)
       : id = json['id'],
@@ -15,5 +20,7 @@ class Task {
         startDate = json['startDate'],
         endDate = json['endDate'],
         status = json['status'],
-        user = json['user'];
+        user = json['user'],
+        documents = json['documents'],
+        priority = json['priority'];
 }

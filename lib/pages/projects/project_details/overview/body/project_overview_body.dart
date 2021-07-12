@@ -56,14 +56,14 @@ class ProjectOverviewHeader extends StatelessWidget {
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
           ),
-          onPressed: () { Phases.first.name = "Test"; phaseBloc.fetch();},
+          onPressed: () { /*TODO: Create Add Phase Logic in BLoC*/},
           icon: Icon(
             Icons.add,
             color: Colors.white,
             size: 16,
           ),
           label: Text(
-            'Créer un projet',
+            'Créer une phase',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 11.5,

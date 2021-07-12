@@ -1,25 +1,46 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart'
+as Model;
+import 'package:intl/intl.dart';
 
 import 'change_status_button.dart';
 import 'open_close_animated_arrow.dart';
 
 class ActionItem extends StatefulWidget {
-  const ActionItem({Key? key}) : super(key: key);
+  final Model.Action action;
+  const ActionItem({Key? key , required this.action}) : super(key: key);
 
   @override
   _ActionItemState createState() => _ActionItemState();
 }
 
 class _ActionItemState extends State<ActionItem> {
+
+  //late bool isCompleted;
+
+  @override
+  initState() {
+  /*if(widget.action.status == Status.completed)
+    {
+      isCompleted = true;
+    }
+  else{
+    isCompleted = false;
+  }*/
+    super.initState();
+  }
   bool isExpanded = false;
-  bool isCompleted = false;
   bool isHover = false;
+  String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
   @override
   Widget build(BuildContext context) {
     return Padding(padding: EdgeInsets.symmetric(horizontal: 20) ,child : Column(
@@ -95,18 +116,21 @@ class _ActionItemState extends State<ActionItem> {
                           dashGapColor: Colors.transparent,
                           dashGapRadius: 0.0,
                         ),),
-                        ChangeStatusButton(onTap: () { isCompleted ?
+                        ChangeStatusButton(onTap: () { /*isCompleted ?
                         setState(() {
                           isCompleted = false;
                         }) : setState(() {
                           isCompleted = true;
-                        }) ;},
-                          completedColor: Colors.lightGreen,
-                          inProgressColor: text.withOpacity(0.3),
-                          isCompleted: isCompleted,),
+                        }) ;*/
+                         /* widget.action.status == Status.completed ? widget.action.status = Status.inProgress :
+                                    widget.action.status = Status.completed;
+                                    phaseBloc.fetch();*/
+                        }, status: widget.action.status,
+                          isChangeable: false,
+                          ),
                         SizedBox(width: 10),
                         Flexible( child : Text(
-                          "Créer un nouveau plan marketing",
+                          widget.action.name,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: text,
@@ -115,12 +139,12 @@ class _ActionItemState extends State<ActionItem> {
                               fontWeight: FontWeight.w600),
                         )),
                         SizedBox(width: 5),
-                        CustomIconButton(icon: Icons.attach_file_rounded, message: "1 Attachement", onTap: (){}, size: 15,),
+                        Visibility(visible: (widget.action.documents.isNotEmpty), child: CustomIconButton(icon: Icons.attach_file_rounded, message: "${widget.action.documents.length} Attachement", onTap: (){}, size: 15,)),
                        /* SizedBox(width: 5),
                         Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
                       ],
                     )),
-                    flex: 4,
+                    flex: 6,
                   ),
                   SizedBox(
                     width: 20,
@@ -129,28 +153,7 @@ class _ActionItemState extends State<ActionItem> {
                     child: Container(
                         child: Row(children: [
         Flexible( child : Text(
-                        "10 juillet 2021",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: text,
-                            fontSize: 12,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w600),
-                      )),
-                     // Expanded(child: Container()),
-                    ])),
-                    flex: 1,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Container(
-                        child: Row(children: [
-                      Avatar(name: "Saidani Wael", picture: "3" , size: 25,),
-                      SizedBox(width: 10,),
-                        Flexible( child : Text(
-                        "Saidani Wael",
+             getText(widget.action.endDate),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: text,
@@ -168,31 +171,37 @@ class _ActionItemState extends State<ActionItem> {
                   Expanded(
                     child: Container(
                         child: Row(children: [
-                          Tooltip(decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(2)),
-                            color: active
-                          ), message: "Normale" ,child: Icon(Icons.flag_rounded , size: 18, color: active,)),
-                          /*SizedBox(width: 6.5,),
-                          Text(
-                            "Normale",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: active,
-                                fontSize: 12,
-                                letterSpacing: 0,
-                                fontWeight: FontWeight.w600),
-                          ),*/
-                        //  Expanded(child: Container()),
+                      Avatar(name: widget.action.user.name, picture: widget.action.user.avatar , size: 25,),
+                      SizedBox(width: 10,),
+                        Flexible( child : Text(
+                          widget.action.user.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: text,
+                            fontSize: 12,
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w600),
+                      )),
+                     // Expanded(child: Container()),
+                    ])),
+                    flex: 2,
+                  ),
+
+                  Expanded(
+                    child: Container(
+                        child: Row(children: [
+                          PriorityIcon(priority: widget.action.priority,)
                         ])),
                     flex: 1,
                   ),
                   SizedBox(
-                    width: 20,
+                    width: 5,
                   ),
                   Expanded(
                     child: Container(
                         child: Row(children: [
-                          Progress(completed: 2, inProgress: 6,),
+                          Progress(completed: widget.action.tasks.where((element) => element.status == Status.completed  || element.status == Status.approved).length,
+                                   inProgress: widget.action.tasks.where((element) => element.status == Status.inProgress).length,),
                          // Expanded(child: Container()),
                         ])),
                     flex: 1,
@@ -202,25 +211,6 @@ class _ActionItemState extends State<ActionItem> {
                         child: Row(children: [
                           Expanded(child: Container()),
                           ActionsMenu(),
-                          /*Row( mainAxisSize: MainAxisSize.min, children: [
-                            AnimatedCrossFade(
-                              firstCurve: Curves.easeIn,
-                              secondCurve: Curves.easeOut,
-                              alignment: Alignment.centerLeft,
-                              firstChild: Container(),
-                              secondChild:Row(mainAxisSize: MainAxisSize.min, children :[
-                                ActionButton(color: text, icon: Icons.edit, topLeftRadius: 3, bottomLeftRadius: 3, message: "Modifier",),
-                                ActionButton(color: lightRed, icon: Icons.delete_rounded, message: "Supprimer",),
-                                ActionButton(color: active, icon: Icons.add, message: "Ajouter une tâche",),
-                              ]),
-                              crossFadeState: isHover
-                                  ? CrossFadeState.showSecond
-                                  : CrossFadeState.showFirst,
-                              duration: Duration(milliseconds: 200),
-                            ),
-                          ],)*/
-                          //SizedBox(width: 10,)
-                          // Expanded(child: Container()),
                         ])),
                     flex: 1,
                   ),
@@ -237,11 +227,7 @@ class _ActionItemState extends State<ActionItem> {
           secondChild:Container(
             child : ListView(
               shrinkWrap: true,
-              children: [
-                TaskItem(),
-                TaskItem(),
-                TaskItem(),
-              ],
+              children: widget.action.tasks.map((e) => TaskItem(task: e, action: widget.action,)).toList()
             ),),
           crossFadeState: isExpanded
               ? CrossFadeState.showSecond

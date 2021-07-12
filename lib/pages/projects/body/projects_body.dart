@@ -16,6 +16,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 //TODO : Add number of projects
 //TODO: Change add project button, more height and make it global style
 //TODO: Change project status tag , it's ugly
+//TODO: Select multiple projects
 bool _firstChild = true;
 DateTime startDate = DateTime.now();
 DateTime endDate = DateTime.now();

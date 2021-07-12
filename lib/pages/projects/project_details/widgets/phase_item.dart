@@ -160,7 +160,7 @@ class _PhaseItemState extends State<PhaseItem> {
                                     icon: Icons.add_circle_rounded,
                                     message: "",
                                     enableToolTip: false,
-                                    onTap: () { Phases.first.name = "Test";},
+                                    onTap: () {/*TODO : Create Add Action Logic in BLoC*/},
                                     size: 23,
                                   ),
                                   SizedBox( width: 1,)
@@ -194,11 +194,8 @@ class _PhaseItemState extends State<PhaseItem> {
             secondChild:Container(
               child : ListView(
               shrinkWrap: true,
-              children: [
-                ActionItem(),
-                ActionItem(),
-                ActionItem(),
-              ],
+              children:
+                widget.phase.actions.map((e) => ActionItem(action: e,)).toList()
             ),),
             crossFadeState: isExpanded
                 ? CrossFadeState.showSecond
