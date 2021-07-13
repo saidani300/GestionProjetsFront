@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -16,17 +20,25 @@ class PhaseItem extends StatefulWidget {
   _PhaseItemState createState() => _PhaseItemState();
 }
 
-class _PhaseItemState extends State<PhaseItem> {
+class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMixin<PhaseItem>{
+
+
   bool isExpanded = false;
   bool actionsVisible = false;
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final bloc = BlocProvider.of<PhaseBloc>(context);
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 30,
+            height: 25,
           ),
           Container(
               child: Row(
@@ -125,6 +137,7 @@ class _PhaseItemState extends State<PhaseItem> {
                                                       color: text,
                                                       icon: Icons.edit,
                                                     message: 'Modifier',
+                                                    onTap: (){ print("Deleted");},
                                                   ),
                                                   SizedBox(
                                                     width: 1,
@@ -134,6 +147,7 @@ class _PhaseItemState extends State<PhaseItem> {
                                                     icon: Icons.delete,
                                                     topRightRadius: 3,
                                                     message: 'Supprimer',
+                                                    onTap:(){ bloc.remove(widget.phase);},
                                                   ),
                                                  /* SizedBox(
                                                     width: 20,
@@ -194,6 +208,7 @@ class _PhaseItemState extends State<PhaseItem> {
             secondChild:Container(
               child : ListView(
               shrinkWrap: true,
+                //  key: ValueKey(Random.secure()),
               children:
                 widget.phase.actions.map((e) => ActionItem(action: e,)).toList()
             ),),
@@ -224,7 +239,7 @@ class _PhaseItemState extends State<PhaseItem> {
                           vertical: 6,
                           horizontal: 15),
                       child: Text(
-                        "4 Actions",
+                        widget.phase.actions.length.toString() + " Actions",
                         style: TextStyle(
                             color: text,
                             fontSize: 11,
@@ -250,7 +265,7 @@ class _PhaseItemState extends State<PhaseItem> {
                           vertical: 6,
                           horizontal: 15),
                       child: Text(
-                        "10 Tâches",
+                        tasksCount(widget.phase) + " Tâches",
                         style: TextStyle(
                             color: text,
                             fontSize: 11,
@@ -263,6 +278,7 @@ class _PhaseItemState extends State<PhaseItem> {
             ],),
             ),
           ),
+          SizedBox(height: 15,)
         ],
       ),
     );
@@ -274,11 +290,13 @@ class ActionButton extends StatefulWidget {
   final IconData icon;
   final double topRightRadius;
   final String message;
+  final Function() onTap;
   const ActionButton(
       {Key? key,
       required this.color,
       required this.icon,
       this.topRightRadius = 0,
+       required this.onTap,
       required this.message})
       : super(key: key);
 
@@ -301,9 +319,9 @@ class _ActionButtonState extends State<ActionButton> {
         message: widget.message,
         preferBelow: false,
         child: InkWell(
-            onTap: () {
-              print("ActionButton tapped");
-            },
+            onTap:
+              widget.onTap,
+
             onHover: (value) {
               value
                   ? setState(() {
@@ -333,4 +351,13 @@ class _ActionButtonState extends State<ActionButton> {
                       color: Colors.white,
                     )))));
   }
+}
+
+String tasksCount(Phase phase)
+{
+  int count = 0;
+  phase.actions.forEach((element) {
+    count = count + element.tasks.length;
+  });
+  return count.toString();
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
@@ -144,7 +146,7 @@ class _ActionItemState extends State<ActionItem> {
                         Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
                       ],
                     )),
-                    flex: 6,
+                    flex: 5,
                   ),
                   SizedBox(
                     width: 20,
@@ -226,6 +228,7 @@ class _ActionItemState extends State<ActionItem> {
           firstChild: Container(),
           secondChild:Container(
             child : ListView(
+             //   key: ValueKey(Random.secure()),
               shrinkWrap: true,
               children: widget.action.tasks.map((e) => TaskItem(task: e, action: widget.action,)).toList()
             ),),

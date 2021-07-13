@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/404/not_found.dart';
 import 'package:gestion_projets/pages/dashboard/dashboard.dart';
 import 'package:gestion_projets/pages/projects/controllers/show_by_status_controller.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/routing/router.dart';
 import 'package:gestion_projets/routing/routes.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocProvider<PhaseBloc>(
+        bloc: PhaseBloc(), child :MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -54,9 +56,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Montserrat',
         hoverColor: active.withOpacity(0.05),
         tooltipTheme: TooltipThemeData(
+          padding: EdgeInsets.all(7),
           textStyle: TextStyle(fontSize: 11, color: Colors.white),
           decoration: BoxDecoration(
-            color: dark.withOpacity(0.8),
+            color: text,
             borderRadius: BorderRadius.all(Radius.circular(2.0)),
           ),
         ),
@@ -81,7 +84,7 @@ class MyApp extends StatelessWidget {
       ),
 
       home: SiteLayout(),
-    );
+    ));
     // home: SiteLayout()
   }
 }

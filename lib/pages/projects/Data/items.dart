@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart'
@@ -36,8 +38,10 @@ List<PriorityItem> priorityItems = [
   PriorityItem("Basse", Icons.flag_outlined, text.withOpacity(0.65)),
 ];
 
+Phase newPhase = Phase(Random.secure().nextInt(1000), Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), []);
+
 List<Phase> Phases = [
-  Phase(1, 'Développement'.toUpperCase(), DateTime.now(), DateTime.now(), [
+  Phase(1, 'Specification'.toUpperCase(), DateTime.now(), DateTime.now(), [
     Model.Action(
         1,
         "Développement d'une nouvelle interface utilisateur",
@@ -130,7 +134,7 @@ List<Phase> Phases = [
         ],
         Priority.Important)
   ]),
-  Phase(1, 'Développement'.toUpperCase(), DateTime.now(), DateTime.now(), [
+  Phase(2, 'Développement'.toUpperCase(), DateTime.now(), DateTime.now(), [
     Model.Action(
         1,
         "Développement d'une nouvelle interface utilisateur",
@@ -153,7 +157,7 @@ List<Phase> Phases = [
               "Développement d'une nouvelle interface",
               DateTime.now(),
               DateTime.now().add(Duration(days: 10)),
-              Status.inProgress,
+              Status.completed,
               User(2, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
               [
                 Document(1, "Document1"),
@@ -217,6 +221,55 @@ List<Phase> Phases = [
                 Document(1, "Document1"),
               ],
               Priority.Normal),
+
+        ],
+        [
+          Document(1, "Document1"),
+        ],
+        Priority.Important),
+    Model.Action(
+        3,
+        "Développement du service web",
+        DateTime.now(),
+        DateTime.now().add(Duration(days: 87)),
+        Status.completed,
+        User(1, "Saidani Wael", "3"),
+        [
+          Task(
+              1,
+              "Développement d'une nouvelle interface utilisateur",
+              DateTime.now(),
+              DateTime.now().add(Duration(days: 40)),
+              Status.completed,
+              User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
+              [
+                Document(1, "Document1"),
+              ],
+              Priority.Important),
+          Task(
+              1,
+              "Développement du service web",
+              DateTime.now(),
+              DateTime.now().subtract(Duration(days: 11)),
+              Status.completed,
+              User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
+              [
+                Document(1, "Document1"),
+                Document(1, "Document2"),
+              ],
+              Priority.Normal),
+          Task(
+              1,
+              "Développement d'une nouvelle interface utilisateur",
+              DateTime.now(),
+              DateTime.now().add(Duration(days: 11)),
+              Status.approved,
+              User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
+              [
+                Document(1, "Document1"),
+              ],
+              Priority.Normal),
+
         ],
         [
           Document(1, "Document1"),

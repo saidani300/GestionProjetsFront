@@ -197,7 +197,10 @@ class ProjectsList extends State<ProjectsPageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Container(
+        color: backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+    child:Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         ProjectsPageHeader(
@@ -352,7 +355,7 @@ class ProjectsList extends State<ProjectsPageBody> {
           ),
         )
       ],
-    );
+    ));
   }
 
   Widget buildSearch() => SearchWidget(

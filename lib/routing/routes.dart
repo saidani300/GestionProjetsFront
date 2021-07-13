@@ -13,6 +13,7 @@ const activitiesPageDisplayName = "Activités";
 const String activitiesPageRoute = "/activities";
 
 const String projectDetailsPageRoute = "/details";
+const String projectListPageRoute = "/all";
 
 class MenuItem {
   final String name;

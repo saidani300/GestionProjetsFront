@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/activities/activities.dart';
 import 'package:gestion_projets/pages/dashboard/dashboard.dart';
+import 'package:gestion_projets/pages/projects/body/projects_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/project_details.dart';
 import 'package:gestion_projets/pages/projects/projects.dart';
 import 'package:gestion_projets/pages/tasks/tasks.dart';
@@ -18,6 +19,8 @@ Route<dynamic> generateRoute(RouteSettings settings){
       return _pageRoute(ProjectDetails(), settings);
     case activitiesPageRoute:
       return _pageRoute(ActivitiesPage(), settings);
+    case projectListPageRoute:
+      return _pageRoute(ProjectsPageBody(), settings);
     default:
       return _pageRoute(DashboardPage(),settings);
 

@@ -33,8 +33,7 @@ class ProjectItem extends StatelessWidget {
               hoverColor: active.withOpacity(0.015),
               onTap: () {
                 print("tapped");
-                locator<NavigationService>()
-                    .navigateTo(projectDetailsPageRoute);
+                locator<NavigationService>().projectNavigateTo(projectDetailsPageRoute);
               },
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,

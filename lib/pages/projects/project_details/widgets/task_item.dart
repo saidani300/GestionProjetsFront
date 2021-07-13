@@ -1,6 +1,8 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
@@ -47,6 +49,7 @@ class _TaskItemState extends State<TaskItem> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<PhaseBloc>(context);
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 0),
         child: Container(
@@ -121,7 +124,7 @@ class _TaskItemState extends State<TaskItem> {
                                       : widget.task.status = Status.approved : null;
                                   // phaseBloc.fetch();
                                   UpdateAction(widget.action);
-                                  phaseBloc.fetch();
+                                  bloc.fetch();
                                 }, status: widget.task.status,
 
                               ),
@@ -146,11 +149,19 @@ class _TaskItemState extends State<TaskItem> {
                                     onTap: () {},
                                     size: 15,
                                   )),
+
                               /* SizedBox(width: 5),
-                    Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
+                              SvgPicture.asset(
+                                "icons/dependency.svg",
+                                color: active,
+                                width: 15,
+                                height: 15,
+
+                              ),*/
+                   /* Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
                             ],
                           )),
-                          flex: 6,
+                          flex: 5,
                         ),
                         SizedBox(
                           width: 20,
@@ -487,7 +498,7 @@ class StatusTag extends StatelessWidget {
       case Status.approved:
         return CustomTag(
           text: 'Approuvé',
-          color: lightPurple,
+          color: lightPurple, date: date
           /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
         );
     }
@@ -497,7 +508,7 @@ class StatusTag extends StatelessWidget {
 void UpdateAction(Model.Action action) {
   action.tasks.every((element) => element.status == Status.approved)
       ? action.status = Status.approved
-      : action.status = Status.completed;
+      :    action.tasks.every((element) => element.status == Status.completed) ? action.status = Status.completed : null;
   print(action.status);
 }
 
