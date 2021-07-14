@@ -4,8 +4,8 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -20,12 +20,27 @@ class PhaseItem extends StatefulWidget {
   _PhaseItemState createState() => _PhaseItemState();
 }
 
-class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMixin<PhaseItem>{
-
-
+class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMixin<PhaseItem> ,TickerProviderStateMixin {
   bool isExpanded = false;
   bool actionsVisible = false;
+//Animation
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
+  initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+
+    _controller.forward();
+  }
+  @override
+  dispose() {
+    print("Disposed " + widget.hashCode.toString());
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   bool get wantKeepAlive => true;
 
@@ -33,7 +48,11 @@ class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMix
   Widget build(BuildContext context) {
     super.build(context);
     final bloc = BlocProvider.of<PhaseBloc>(context);
-    return Container(
+    return FadeTransition(
+        opacity: _animation,
+        child: SizeTransition(
+        sizeFactor: _animation,
+        child: Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -147,7 +166,7 @@ class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMix
                                                     icon: Icons.delete,
                                                     topRightRadius: 3,
                                                     message: 'Supprimer',
-                                                    onTap:(){ bloc.remove(widget.phase);},
+                                                    onTap:(){ _controller.reverse().whenComplete(() => bloc.remove(widget.phase));},
                                                   ),
                                                  /* SizedBox(
                                                     width: 20,
@@ -172,8 +191,8 @@ class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMix
                                   ),
                                   CustomIconButton(
                                     icon: Icons.add_circle_rounded,
-                                    message: "",
-                                    enableToolTip: false,
+                                    message: "Ajouter une action",
+                                    enableToolTip: true,
                                     onTap: () {/*TODO : Create Add Action Logic in BLoC*/},
                                     size: 23,
                                   ),
@@ -281,7 +300,7 @@ class _PhaseItemState extends State<PhaseItem>  with AutomaticKeepAliveClientMix
           SizedBox(height: 15,)
         ],
       ),
-    );
+    )));
   }
 }
 

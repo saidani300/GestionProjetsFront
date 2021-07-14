@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/pages/404/not_found.dart';
-import 'package:gestion_projets/pages/dashboard/dashboard.dart';
 import 'package:gestion_projets/pages/projects/controllers/show_by_status_controller.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/routing/router.dart';
-import 'package:gestion_projets/routing/routes.dart';
-import 'package:gestion_projets/services/navigation_service.dart';
-import 'package:gestion_projets/services/navigation_service.dart';
-import 'package:gestion_projets/services/navigation_service.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -29,7 +23,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PhaseBloc>(
-        bloc: PhaseBloc(), child :MaterialApp(
+        bloc: PhaseBloc(), child :BlocProvider<TaskBloc>(
+    bloc: TaskBloc(), child :MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -84,7 +79,7 @@ class MyApp extends StatelessWidget {
       ),
 
       home: SiteLayout(),
-    ));
+    )));
     // home: SiteLayout()
   }
 }

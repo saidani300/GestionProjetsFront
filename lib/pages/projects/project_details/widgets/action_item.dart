@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
@@ -337,10 +336,10 @@ class ActionsMenu extends StatelessWidget {
             ),
           )),
       child: PopupMenuButton<Object>(
-          offset: Offset(-10, 30),
+          offset: Offset(0, 20),
           padding: EdgeInsets.symmetric(vertical: 0),
           tooltip: "",
-          icon: Icon(
+          child: Icon(
             Icons.more_horiz_rounded,
             size: 25,
             color: text.withOpacity(0.5),

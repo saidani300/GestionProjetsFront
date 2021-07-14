@@ -3,15 +3,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart' as Model;
+import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
+import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -35,14 +38,18 @@ class ProjectOverviewHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
+       /* Icon(
           Icons.layers_rounded,
           size: 20,
           color: active,
-        ),
-        SizedBox(
-          width: 10,
-        ),
+        ),*/
+        TextButton(onPressed: (){locator<NavigationService>().projectGoBack();}, child: Text("Projets",style: TextStyle(
+            color: active,
+            fontSize: 12,
+            letterSpacing: 0,
+            fontWeight: FontWeight.w600),),),
+        Padding(padding: EdgeInsets.only(top: 2) ,child :Icon(Icons.keyboard_arrow_right_rounded , size: 16, color: active,)),
+        SizedBox(width: 2,),
         Text(
           "Développement d'une nouvelle interface utilisateur",
           style: TextStyle(
@@ -51,12 +58,66 @@ class ProjectOverviewHeader extends StatelessWidget {
               letterSpacing: 0,
               fontWeight: FontWeight.w600),
         ),
-        //OpenCloseArrowButton(isExpanded : false , onTap: (){},),
+        SizedBox(width: 2,),
+        Padding(padding: EdgeInsets.only(top: 2) ,child :Icon(Icons.keyboard_arrow_right_rounded , size: 16, color: active,)),
+        SizedBox(width: 2,),
+        Text("Aperçu",style: TextStyle(
+            color: text,
+            fontSize: 12,
+            letterSpacing: 0,
+            fontWeight: FontWeight.w600),),
+        SizedBox(width: 2,),
+    Padding(padding: EdgeInsets.only(top: 2) ,child :CustomIconButton(icon: Icons.info, message: "Aperçu", onTap: (){} , size: 17,)),
         Expanded(child: Container()),
-        TextButton.icon(
+        MultiOptionsButton(text: "Créer une phase", onTap: () { bloc.add(new Phase(new Random.secure().nextInt(1000), new Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), [
+
+          Model.Action(
+              16,
+              "Développement d'une nouvelle interface utilisateur.",
+              DateTime.now(),
+              DateTime.now().add(Duration(days: 36)),
+              Status.inProgress,
+              User(1, "Saidani Wael", "7"),
+              [
+                Task(
+                    2,
+                    "Développement d'une nouvelle interface utilisateur.",
+                    DateTime.now(),
+                    DateTime.now().add(Duration(days: 64)),
+                    Status.completed,
+                    User(1, "Saidani Wael", "5"),
+                    [],
+                    Priority.Important),
+                Task(
+                    6,
+                    "Développement d'une nouvelle interface",
+                    DateTime.now(),
+                    DateTime.now().add(Duration(days: 10)),
+                    Status.inProgress,
+                    User(2, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
+                    [
+                      Document(1, "Document1"),
+                      Document(1, "Document2"),
+                    ],
+                    Priority.Low),
+              ],
+              [
+                Document(1, "Document1"),
+                Document(1, "Document2"),
+              ],
+              Priority.Normal),
+        ]));
+        //ScrollUp when Adding new Phase
+        if (scrollController.hasClients)
+        scrollController.animateTo(
+          0.0,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 300),
+        ); }, ),
+        /*TextButton.icon(
           style: ButtonStyle(
             fixedSize:
-                MaterialStateProperty.all<Size>(Size(double.infinity, 40)),
+                MaterialStateProperty.all<Size>(Size(double.infinity, 35)),
             // backgroundColor: MaterialStateProperty.all<Color>(active),
             backgroundColor:
                 MaterialStateProperty.resolveWith<Color?>((states) {
@@ -70,52 +131,9 @@ class ProjectOverviewHeader extends StatelessWidget {
                 EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
           ),
           onPressed: () {
-            /*TODO: Create Add Phase Logic in BLoC*/
-          /*  locator<NavigationService>().projectGoBack();*/
-            bloc.add(new Phase(new Random.secure().nextInt(1000), new Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), [
+            *//*TODO: Create Add Phase Logic in BLoC*//*
+          *//*  locator<NavigationService>().projectGoBack();*//*
 
-              Model.Action(
-                  16,
-                  "Développement d'une nouvelle interface utilisateur.",
-                  DateTime.now(),
-                  DateTime.now().add(Duration(days: 36)),
-                  Status.inProgress,
-                  User(1, "Saidani Wael", "7"),
-                  [
-                    Task(
-                        2,
-                        "Développement d'une nouvelle interface utilisateur.",
-                        DateTime.now(),
-                        DateTime.now().add(Duration(days: 64)),
-                        Status.completed,
-                        User(1, "Saidani Wael", "5"),
-                        [],
-                        Priority.Important),
-                    Task(
-                        6,
-                        "Développement d'une nouvelle interface",
-                        DateTime.now(),
-                        DateTime.now().add(Duration(days: 10)),
-                        Status.inProgress,
-                        User(2, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
-                        [
-                          Document(1, "Document1"),
-                          Document(1, "Document2"),
-                        ],
-                        Priority.Low),
-                  ],
-                  [
-                    Document(1, "Document1"),
-                    Document(1, "Document2"),
-                  ],
-                  Priority.Normal),
-            ]));
-            //ScrollUp when Adding new Phase
-            scrollController.animateTo(
-              0.0,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
           },
           icon: Icon(
             Icons.add,
@@ -130,7 +148,7 @@ class ProjectOverviewHeader extends StatelessWidget {
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400),
           ),
-        )
+        )*/
       ],
     );
   }
@@ -207,7 +225,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                         Expanded(child: Container()),
                         SearchWidget(
                           text: "",
-                          hintText: 'Rechercher des projets...',
+                          hintText: 'Rechercher',
                           onChanged: (value) {},
                         ),
                         SizedBox(
@@ -398,31 +416,28 @@ class _PhasesListState extends State<PhasesList>{
               print(
                   "snapshot " + snapshot.data.toString());
               final results = snapshot.data;
-              if (snapshot.hasData)
-                return /*ListView.builder(
-                  controller: controller,
-                  itemCount: results!.length,
-                  itemBuilder: (context, index) {
-                    final phase = results[index];
-                    print(bloc.phaseStream.toString());
-                    return //Text(phase.name);
-                      PhaseItem(phase: phase);
-                  },
-                );*/
+              return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child:
+
+                  (snapshot.hasData) ?
+                  (results!.isEmpty) ?
+                  NoPhases() :
               ListView(
                 key: ValueKey(Random.secure()),
                 controller: scrollController,
-                children: results!.map((e) => /*PhaseItem(key : new GlobalKey(),phase: e,)*/_buildItem(e)).toList(),
-              );
-              else
-                return Center(
+                children: results.map((e) => _buildItem(e)).toList(),
+              )
+              :
+                 Center(
                   child: SpinKitFadingCube(
                     color: active,
                     size: 25,
                     duration:
                     Duration(milliseconds: 1200),
                   ),
-                );
+
+                ));
 
             })
     );

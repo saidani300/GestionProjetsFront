@@ -25,6 +25,9 @@ class _ChangeStatusButtonState extends State<ChangeStatusButton> {
   Widget build(BuildContext context) {
     return (widget.isChangeable && widget.status != Status.inProgress)
         ? InkWell(
+      hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: () {
 
               widget.onTap();

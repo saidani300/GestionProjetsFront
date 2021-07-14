@@ -2,8 +2,8 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
@@ -383,10 +383,10 @@ class ActionsMenu extends StatelessWidget {
             ),
           )),
       child: PopupMenuButton<Object>(
-          offset: Offset(-10, 30),
+          offset: Offset(0, 20),
           padding: EdgeInsets.symmetric(vertical: 0),
           tooltip: "",
-          icon: Icon(
+          child: Icon(
             Icons.more_horiz_rounded,
             size: 25,
             color: text.withOpacity(0.5),
@@ -508,7 +508,7 @@ class StatusTag extends StatelessWidget {
 void UpdateAction(Model.Action action) {
   action.tasks.every((element) => element.status == Status.approved)
       ? action.status = Status.approved
-      :    action.tasks.every((element) => element.status == Status.completed) ? action.status = Status.completed : null;
+      :    action.tasks.any((element) => element.status == Status.completed) ? action.status = Status.completed : null;
   print(action.status);
 }
 

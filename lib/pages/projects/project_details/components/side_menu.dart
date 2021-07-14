@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/projects/Data/project_details_menu.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/side_menu_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/services/navigation_service.dart';
+
+import '../../../../locator.dart';
 
 
 
@@ -59,7 +62,7 @@ class _SideMenuState extends State<SideMenu> {
                           item: e,
                           onTap: () {
                             _onSelectItem(e);
-
+                            locator<NavigationService>().projectDetailsNavigateTo(e.page);
                           },
                           isActive: e == selectedMenuItem,
                         )))

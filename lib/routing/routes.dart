@@ -7,13 +7,22 @@ const projectsPageDisplayName = "Projets";
 const String projectsPageRoute = "/projects";
 
 const tasksPageDisplayName = "Tâches";
-const String tasksPageRoute = "/tasks";
+const String tasksPageRoute = "/alltasks";
 
 const activitiesPageDisplayName = "Activités";
 const String activitiesPageRoute = "/activities";
 
 const String projectDetailsPageRoute = "/details";
+
+
 const String projectListPageRoute = "/all";
+
+const String overviewPageRoute = "/overview";
+
+const String projectTasksPageRoute = "/tasks";
+
+const String objectivesPageRoute = "/objectives";
+
 
 class MenuItem {
   final String name;

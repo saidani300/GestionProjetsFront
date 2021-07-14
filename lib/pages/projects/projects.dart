@@ -18,7 +18,6 @@ class ProjectsPage extends StatelessWidget {
 
         initialRoute: projectListPageRoute,
         onGenerateRoute: generateRoute,
-      /* ProjectsPageBody(),*/
     );
   }
 }
