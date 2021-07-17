@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/projects/controllers/show_by_status_controller.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
 import 'package:get/get.dart';
@@ -24,7 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PhaseBloc>(
         bloc: PhaseBloc(), child :BlocProvider<TaskBloc>(
-    bloc: TaskBloc(), child :MaterialApp(
+    bloc: TaskBloc(), child :BlocProvider<ObjectiveBloc>(
+    bloc: ObjectiveBloc(), child :BlocProvider<EventBloc>(
+    bloc: EventBloc(), child :MaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -79,7 +83,7 @@ class MyApp extends StatelessWidget {
       ),
 
       home: SiteLayout(),
-    )));
+    )))));
     // home: SiteLayout()
   }
 }

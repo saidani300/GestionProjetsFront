@@ -3,21 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart'
-    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
-import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
@@ -27,14 +26,14 @@ import '../../../../../locator.dart';
 
 final ScrollController scrollController = ScrollController();
 
-class ProjectTasksHeader extends StatelessWidget {
-  const ProjectTasksHeader({
+class ProjectRisksOpportunitiesHeader extends StatelessWidget {
+  const ProjectRisksOpportunitiesHeader({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TaskBloc>(context);
+    final bloc = BlocProvider.of<EventBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +83,7 @@ class ProjectTasksHeader extends StatelessWidget {
           width: 2,
         ),
         Text(
-          "Tâches",
+          "Risques/Opportunités",
           style: TextStyle(
               color: text,
               fontSize: 12,
@@ -98,25 +97,17 @@ class ProjectTasksHeader extends StatelessWidget {
             padding: EdgeInsets.only(top: 2),
             child: CustomIconButton(
               icon: Icons.info,
-              message: "Tâches",
+              message: "Risques/Opportunités",
               onTap: () {},
               size: 17,
             )),
         Expanded(child: Container()),
         MultiOptionsButton(
-          text: "Créer une tâche",
+          text: "Créer un risque/opportunité",
           isMultiple: false,
           onTap: () {
-            bloc.add(new TaskModel(
-                new Random().nextInt(99999),
-                "Développement d'une nouvelle interface utilisateur",
-                DateTime.now(),
-                DateTime.now().add(Duration(days: 17)),
-                Model.Status.inProgress,
-                User(30, "Saidani Wael", "5"),
-                [Document((1), "Doc1")],
-                Model.Priority.Important,
-                []));
+            bloc.add(new   Event(new Random().nextInt(99999), "Retard potentiel pour une tâche", "Chronologie", "Retard dans la prochaine action", "Ressources humaines", "Développement d'une nouvelle interface utilisateur", DateTime.now(), EventType.Opportunity, EventLevel.low, User(12,"Saidani Wael","https://i.imgur.com/kieKRFZ.jpeg"), [] ,[Document(1, "name")]),
+            );
           },
         ),
       ],
@@ -124,14 +115,14 @@ class ProjectTasksHeader extends StatelessWidget {
   }
 }
 
-class ProjectTasksBody extends StatefulWidget {
-  const ProjectTasksBody({Key? key}) : super(key: key);
+class ProjectRisksOpportunitiesBody extends StatefulWidget {
+  const ProjectRisksOpportunitiesBody({Key? key}) : super(key: key);
 
   @override
-  _ProjectTasksBodyState createState() => _ProjectTasksBodyState();
+  _ProjectRisksOpportunitiesBodyState createState() => _ProjectRisksOpportunitiesBodyState();
 }
 
-class _ProjectTasksBodyState extends State<ProjectTasksBody> {
+class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitiesBody> {
   final ScrollController controller = ScrollController();
   @override
   initState() {
@@ -140,10 +131,15 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(
+        color: text,
+        fontSize: 12,
+        letterSpacing: 0,
+        fontWeight: FontWeight.w600);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectTasksHeader(),
+        ProjectRisksOpportunitiesHeader(),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -179,7 +175,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: ShowByStatusItems.map(
-                            (e) => Padding(
+                                (e) => Padding(
                                 padding: const EdgeInsets.only(left: 20),
                                 child: ShowByStatusItem(
                                     itemName: e.name, onTap: () {})),
@@ -191,7 +187,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                         Expanded(child: Container()),
                         SearchWidget(
                           text: "",
-                          hintText: 'Rechercher des tâches',
+                          hintText: 'Rechercher des risques et opportunités',
                           onChanged: (value) {},
                         ),
                         SizedBox(
@@ -221,7 +217,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                       color: dark.withOpacity(0.15),
                     ),
                     Container(
-                      height: 40,
+                      height: 60,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -239,62 +235,104 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                             child: Container(
                               child: Row(
                                 children: [
-
                                   Flexible(
                                       child: Text(
-                                    "Tâche",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
-                                  )),
-                                ],
+                                        "Risque / Opportunité",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: text,
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600),
+                                      )),
+                                 ],
                               ),
                             ),
-                            flex: 8,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                "Date de début",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                            ])),
                             flex: 3,
                           ),
                           SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text(
-                                    "Date de fin",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
-                                  )),
-                                ],
-                              ),
+                            child: Container( child :
+                            Row(
+                              children: [
+                                Flexible(
+                                    child: Text(
+                                      "Impact",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 12,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600),
+                                    )),
+                              ],
+                            ),
                             ),
                             flex: 3,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container( child :
+                            Row(
+                              children: [
+                                Flexible(
+                                    child: Text(
+                                      "Source",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 12,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600),
+                                    )),
+                              ],
+                            ),
+                            ),
+                            flex: 3,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container( child :
+                            Row( children :[  Flexible(
+                                child: Text(
+                                  "Évaluations",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: text,
+                                      fontSize: 12,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600),
+                                )),])
+                            ),
+                            flex: 2,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container( child :
+                            Row(
+                              children: [
+                                Flexible(
+                                    child: Text(
+                                      "Date d'identification",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 12,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600),
+                                    )),
+                              ],
+                            ),
+                            ),
+                            flex: 2,
                           ),
                           SizedBox(
                             width: 20,
@@ -304,32 +342,16 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                               children: [
                                 Flexible(
                                     child: Text(
-                                  "Affecter à",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
-                                )),
+                                      "Identifié par",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 12,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600),
+                                    )),
                               ],
                             ),
-                            flex: 4,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                "Priorité",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                            ])),
                             flex: 2,
                           ),
                           SizedBox(
@@ -337,33 +359,26 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                           ),
                           Expanded(
                             child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    "Statut",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
-                                  )),
+                                        "Niveau",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: text,
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600),
+                                      )),
                                 ]),
-                            flex: 2,
+                            flex: 1,
                           ),
                           // ActionsMenu(),
                           SizedBox(
                             width: 10,
                           ),
-                          Container(
-                            width: 40,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [],
-                            ),
-                          ),
+                          Container(width: 40, child: Row(mainAxisSize: MainAxisSize.min,children: [
+                          ],),),
 
                           SizedBox(
                             width: 20,
@@ -376,9 +391,9 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                       color: dark.withOpacity(0.15),
                     ),
                     Expanded(
-                        child: TasksList(
-                      parentContext: context,
-                    )),
+                        child: RisksOpportunitiesList(
+                          parentContext: context,
+                        )),
                   ]),
                 )))
       ],
@@ -386,19 +401,20 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
   }
 }
 
-class TasksList extends StatefulWidget {
+class RisksOpportunitiesList extends StatefulWidget {
   final BuildContext parentContext;
-  const TasksList({Key? key, required this.parentContext}) : super(key: key);
+  const RisksOpportunitiesList({Key? key, required this.parentContext})
+      : super(key: key);
 
   @override
-  _TasksListState createState() => _TasksListState();
+  _RisksOpportunitiesListState createState() => _RisksOpportunitiesListState();
 }
 
-class _TasksListState extends State<TasksList> {
+class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
   late final bloc;
   @override
   void initState() {
-    bloc = BlocProvider.of<TaskBloc>(widget.parentContext);
+    bloc = BlocProvider.of<EventBloc>(widget.parentContext);
     super.initState();
     bloc.init();
   }
@@ -406,8 +422,8 @@ class _TasksListState extends State<TasksList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: StreamBuilder<List<TaskModel>>(
-            stream: bloc.taskStream,
+        child: StreamBuilder<List<Event>>(
+            stream: bloc.eventStream,
             builder: (context, snapshot) {
               print("snapshot " + snapshot.data.toString());
               final results = snapshot.data;
@@ -415,44 +431,30 @@ class _TasksListState extends State<TasksList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoTasks()
-                          : ListView(
-                              key: ValueKey(Random.secure()),
-                              controller: scrollController,
-                              children:
-                                  results.map((e) => _buildItem(e)).toList(),
-                            )
+                      ? NoObjectives()
+                      : ListView(
+                    key: ValueKey(Random.secure()),
+                    controller: scrollController,
+                    children:
+                    results.map((e) => _buildItem(e)).toList(),
+                  )
                       : Center(
-                          child: SpinKitFadingCube(
-                            color: active,
-                            size: 25,
-                            duration: Duration(milliseconds: 1200),
-                          ),
-                        ));
+                    child: SpinKitFadingCube(
+                      color: active,
+                      size: 25,
+                      duration: Duration(milliseconds: 1200),
+                    ),
+                  ));
             }));
   }
 
-  Widget _buildItem(TaskModel task) {
+  Widget _buildItem(Event event) {
     return TestProxy(
-        key: ValueKey(task),
-        child: new ProjectTaskItem(
-          task: task,
-          onTap: () {},
+        key: ValueKey(event),
+        child: new EventItem(
+          onTap: () {}, event: event,
         ));
   }
 }
 
-class TestProxy extends SingleChildRenderObjectWidget {
-  TestProxy({Key? key, required Widget child}) : super(key: key, child: child);
 
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    print('createRenderObject $key');
-    return RenderProxyBox();
-  }
-
-  @override
-  void updateRenderObject(BuildContext context, RenderObject renderObject) {
-    print('updateRenderObject $key');
-  }
-}

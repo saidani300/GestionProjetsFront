@@ -23,6 +23,9 @@ const String projectTasksPageRoute = "/tasks";
 
 const String objectivesPageRoute = "/objectives";
 
+const String indicatorPageRoute = "/indicator";
+
+const String eventsPageRoute = "events";
 
 class MenuItem {
   final String name;

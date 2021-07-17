@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/activities/activities.dart';
 import 'package:gestion_projets/pages/dashboard/dashboard.dart';
 import 'package:gestion_projets/pages/projects/body/projects_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/body/indicator_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/objectives.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/project_overview.dart';
 import 'package:gestion_projets/pages/projects/project_details/project_details.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/risks_opportunities.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/tasks.dart';
 import 'package:gestion_projets/pages/projects/projects.dart';
 import 'package:gestion_projets/pages/tasks/tasks.dart';
@@ -27,6 +30,12 @@ Route<dynamic> generateRoute(RouteSettings settings){
       return _pageRoute(ProjectOverview(), settings);
     case projectTasksPageRoute :
       return _pageRoute(ProjectTasks(), settings);
+    case objectivesPageRoute:
+      return _pageRoute(ProjectObjectives(), settings);
+    case indicatorPageRoute:
+      return _pageRoute(IndicatorBody(), settings);
+    case eventsPageRoute:
+      return _pageRoute(ProjectRisksOpportunities(), settings);
     default:
       return _pageRoute(DashboardPage(),settings);
 

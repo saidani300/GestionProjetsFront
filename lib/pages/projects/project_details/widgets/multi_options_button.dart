@@ -3,8 +3,9 @@ import 'package:gestion_projets/constants/style.dart';
 class MultiOptionsButton extends StatefulWidget {
   final double height;
   final String text;
+  final bool isMultiple;
   final Function() onTap;
-  const MultiOptionsButton({Key? key , this.height = 35 , required this.text ,required this.onTap}) : super(key: key);
+  const MultiOptionsButton({Key? key , this.height = 35 , required this.text ,required this.onTap , this.isMultiple = true}) : super(key: key);
 
   @override
   _MultiOptionsButtonState createState() => _MultiOptionsButtonState();
@@ -35,9 +36,9 @@ class _MultiOptionsButtonState extends State<MultiOptionsButton> {
           child :Container(height: widget.height, decoration: BoxDecoration(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(3),
-          topRight: Radius.circular(0),
+          topRight: widget.isMultiple ? Radius.circular(0) : Radius.circular(3),
           bottomLeft: Radius.circular(3),
-          bottomRight: Radius.circular(0),),
+          bottomRight: widget.isMultiple ? Radius.circular(0) : Radius.circular(3),),
 
       color: isHover ? active.withAlpha(230) : active,
     ),
@@ -58,7 +59,7 @@ class _MultiOptionsButtonState extends State<MultiOptionsButton> {
         SizedBox(width: 5,),
       ],
     ),)),
-        SizedBox(width: 1,),
+      Visibility(visible: widget.isMultiple, child:  Row(mainAxisSize: MainAxisSize.min ,children: [ SizedBox(width: 1,),
         Container(height: widget.height, decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(0),
@@ -71,6 +72,7 @@ class _MultiOptionsButtonState extends State<MultiOptionsButton> {
             padding: EdgeInsets.all(5),
             child: Icon(Icons.keyboard_arrow_down_rounded, size: 15, color: Colors.white,)
         )
+       ],))
       ],));
   }
 }

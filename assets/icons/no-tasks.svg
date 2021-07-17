@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+  <g id="Layer_2" transform="matrix(12.797993, 0, 0, 13.177198, 97.731064, 41.691677)" style="">
+
+        <line class="cls-1" x1="12.41" x2="9.59" y1="15.59" y2="18.41" style="fill: none; stroke: rgb(0, 0, 0); stroke-width: 1.38594px; stroke-linecap: round; stroke-linejoin: bevel;"/>
+        <line class="cls-1" x1="12.41" x2="9.59" y1="18.41" y2="15.59" style="fill: none; stroke: rgb(0, 0, 0); stroke-width: 1.38594px; stroke-linecap: round; stroke-linejoin: bevel;"/>
+        <circle class="cls-1" cx="11" cy="17" r="5.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: bevel; stroke-width: 1.61693px;"/>
+        <path class="cls-1" d="M15.5,2.5h3.9a2.09,2.09,0,0,1,2.1,2.08V27.42a2.09,2.09,0,0,1-2.1,2.08H2.6A2.09,2.09,0,0,1,.5,27.42V4.58A2.09,2.09,0,0,1,2.6,2.5H6.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: bevel; stroke-width: 1.38594px;"/>
+        <rect class="cls-1" height="4" rx="1" width="9" x="6.5" y="0.5" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: bevel; stroke-width: 1.46293px;"/>
+
+
+  </g>
+</svg>

@@ -13,11 +13,11 @@ class PhaseBloc implements Bloc {
 
   Future init () async
   {
-    Future.delayed(Duration(milliseconds: 300) , ()=> _controller.sink.add(Phases));
+   await Future.delayed(Duration(milliseconds: 300) , ()=> _controller.sink.add(Phases));
   }
   fetch(){
+
     _controller.sink.add(Phases);
-   // final results = await _client.fetchPhases();
 
   }
   remove(Phase phase) async

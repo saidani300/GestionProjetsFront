@@ -10,10 +10,12 @@ class ProjectTasks extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      color: backgroundColor,
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-      child:
-      ProjectTasksBody(),
-    );
+        color: backgroundColor,
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+        child:
+        ProjectTasksBody(),
+      );
+
+
   }
 }

@@ -1,30 +1,32 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart' as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
+import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_subtask_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/routing/routes.dart';
-import 'package:gestion_projets/services/navigation_service.dart';
-import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
 class ProjectTaskItem extends StatefulWidget {
-  //final Animation<double> animation;
   final VoidCallback onTap;
-  final bool  isSubTask;
   final TaskModel task;
   const ProjectTaskItem(
       {Key? key,
-      this.isSubTask = false,
         required this.task,
       required this.onTap})
       : super(key: key);
@@ -43,9 +45,8 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
   initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
+        duration: const Duration(milliseconds: 300), vsync: this, value: 0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-
     _controller.forward();
   }
   @override
@@ -74,6 +75,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
         hoverColor: active.withOpacity(0.015),
         onTap: () {
           print("tapped");
+          showDialog(context);
         },
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
@@ -86,7 +88,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
               SizedBox(
                 width: 2,
                 child: Container(
-                  color: lightBlue,
+                  color: StatusColor(widget.task.status),
                 ),
               ),
               SizedBox(
@@ -96,14 +98,13 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
                 child: Container(
                   child: Row(
                     children: [
-                      Visibility(visible: widget.isSubTask, child:Padding( padding : EdgeInsets.only(right: 10 , bottom: 10,left: 4), child :  SvgPicture.asset(
-                        "icons/subtask.svg",
-                        color: text.withOpacity(0.8),
-                        width: 20,
-                        height: 20,
-
-                      ),),),
-                      ChangeStatusButton(onTap: () {  }, status: Status.completed,),
+                      ChangeStatusButton(onTap: () {
+                        widget.task.status != Status.inProgress ?  widget.task.status == Status.approved
+                            ? widget.task.status = Status.completed
+                            : widget.task.status = Status.approved : null;
+                        // phaseBloc.fetch();
+                        bloc.fetch();
+                      }, status: widget.task.status,),
                   SizedBox(width: 20,),
                   Flexible(
                           child: Text(
@@ -116,7 +117,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
                             fontWeight: FontWeight.w600),
                       )),
                       SizedBox(width: 5),
-                      Visibility(visible: true, child: CustomIconButton(icon: Icons.attach_file_rounded, message: "${widget.task.documents.length.toString()} Attachement", onTap: (){}, size: 15,)),
+                      Visibility(visible: widget.task.documents.isNotEmpty, child: CustomIconButton(icon: Icons.attach_file_rounded, message: "${widget.task.documents.length.toString()} Attachement", onTap: (){}, size: 15,)),
                     ],
                   ),
                 ),
@@ -228,7 +229,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
                       _controller.reverse().whenComplete(() => bloc.remove(widget.task));
                       //showDialogBox(context, onTap);
                     }),
-                Visibility(visible: !widget.isSubTask  ,child: Row( mainAxisSize : MainAxisSize.min,children :[
+                Row( mainAxisSize : MainAxisSize.min,children :[
                   SizedBox(
                     width: 5,
                   ),
@@ -237,8 +238,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
                       message: 'Ajouter une sous-tâche',
                       color: active,
                       onTap: () {
+                        bloc.addSubTask(widget.task , new TaskModel(new Random().nextInt(99999), "Développement d'une nouvelle interface utilisateur", DateTime.now(), DateTime.now().add(Duration(days: 17)), Model.Status.inProgress, User(30,"Saidani Wael","5"), [Document((1), "Doc1")], Model.Priority.Important, []));
                         //showDialogBox(context, onTap);
-                      }),]),),
+                      }),]),
               ],),),
 
               SizedBox(
@@ -252,11 +254,79 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
         height: 1,
         color: dark.withOpacity(0.15),
       ),
-        widget.isSubTask == false ?  ListView(
-            shrinkWrap: true,
-            children:
-              widget.task.subTasks.map((e) => ProjectTaskItem(onTap: (){} , isSubTask: true, task: e,)).toList(),
-          ) : Container()
+          SubTasksList(parentContext: context, task: widget.task,),
     ]))));
   }
+}
+
+
+class SubTasksList extends StatefulWidget {
+  final BuildContext parentContext;
+  final TaskModel task;
+  const SubTasksList({Key? key ,required this.parentContext , required this.task}) : super(key: key);
+
+  @override
+  _SubTasksListState createState() => _SubTasksListState();
+}
+
+class _SubTasksListState extends State<SubTasksList>{
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+        child:
+                ListView(
+                  shrinkWrap: true,
+                    key: ValueKey(Random.secure()),
+                    children: widget.task.subTasks.map((e) => _buildItem(widget.task,e)).toList(),
+                  )
+
+    );
+
+  }
+  Widget _buildItem(TaskModel task , TaskModel subTask) {
+    return TestProxy(
+        key: ValueKey(subTask),
+        child: new ProjectSubTaskItem(task: task, onTap: () {  }, subtask: subTask,)
+    );
+  }
+
+}
+
+void showDialog(BuildContext context) {
+  showGeneralDialog(
+    barrierLabel: "Barrier",
+    barrierDismissible: true,
+    barrierColor: Colors.transparent,
+    transitionDuration: Duration(milliseconds: 300),
+    context: context,
+    pageBuilder: (context, __, ___) {
+      return Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          margin: EdgeInsets.only(top: 55.5),
+          width: 700,
+          child: Container(),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                offset: Offset(-0.5, 2),
+                spreadRadius: 1,
+                blurRadius: 1,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+    transitionBuilder: (_, anim, __, child) {
+      return SlideTransition(
+        position: Tween(begin: Offset(1,0 ), end: Offset(0, 0)).animate(anim),
+        child: child,
+      );
+    },
+  );
 }

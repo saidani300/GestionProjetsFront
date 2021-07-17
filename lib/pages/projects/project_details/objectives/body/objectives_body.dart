@@ -3,21 +3,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart'
     as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
-import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
@@ -27,14 +24,14 @@ import '../../../../../locator.dart';
 
 final ScrollController scrollController = ScrollController();
 
-class ProjectTasksHeader extends StatelessWidget {
-  const ProjectTasksHeader({
+class ProjectObjectivesHeader extends StatelessWidget {
+  const ProjectObjectivesHeader({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TaskBloc>(context);
+    final bloc = BlocProvider.of<ObjectiveBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +81,7 @@ class ProjectTasksHeader extends StatelessWidget {
           width: 2,
         ),
         Text(
-          "Tâches",
+          "Objectifs",
           style: TextStyle(
               color: text,
               fontSize: 12,
@@ -98,25 +95,26 @@ class ProjectTasksHeader extends StatelessWidget {
             padding: EdgeInsets.only(top: 2),
             child: CustomIconButton(
               icon: Icons.info,
-              message: "Tâches",
+              message: "Objectifs",
               onTap: () {},
               size: 17,
             )),
         Expanded(child: Container()),
         MultiOptionsButton(
-          text: "Créer une tâche",
+          text: "Créer un Objectif",
           isMultiple: false,
           onTap: () {
-            bloc.add(new TaskModel(
+            bloc.add(new Objective(
                 new Random().nextInt(99999),
-                "Développement d'une nouvelle interface utilisateur",
+                "Objectif de développement",
                 DateTime.now(),
-                DateTime.now().add(Duration(days: 17)),
-                Model.Status.inProgress,
-                User(30, "Saidani Wael", "5"),
-                [Document((1), "Doc1")],
+                ObjectiveStatus.awaitingApproval,
+                User(1, "Saidani Wael", "3"),
+                [],
                 Model.Priority.Important,
-                []));
+                "Développement",
+                [],
+                DateTime.now()));
           },
         ),
       ],
@@ -124,14 +122,14 @@ class ProjectTasksHeader extends StatelessWidget {
   }
 }
 
-class ProjectTasksBody extends StatefulWidget {
-  const ProjectTasksBody({Key? key}) : super(key: key);
+class ProjectObjectivesBody extends StatefulWidget {
+  const ProjectObjectivesBody({Key? key}) : super(key: key);
 
   @override
-  _ProjectTasksBodyState createState() => _ProjectTasksBodyState();
+  _ProjectObjectivesBodyState createState() => _ProjectObjectivesBodyState();
 }
 
-class _ProjectTasksBodyState extends State<ProjectTasksBody> {
+class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
   final ScrollController controller = ScrollController();
   @override
   initState() {
@@ -140,10 +138,15 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(
+        color: text,
+        fontSize: 12,
+        letterSpacing: 0,
+        fontWeight: FontWeight.w600);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectTasksHeader(),
+        ProjectObjectivesHeader(),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -191,7 +194,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                         Expanded(child: Container()),
                         SearchWidget(
                           text: "",
-                          hintText: 'Rechercher des tâches',
+                          hintText: 'Rechercher des objectifs',
                           onChanged: (value) {},
                         ),
                         SizedBox(
@@ -239,16 +242,11 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                             child: Container(
                               child: Row(
                                 children: [
-
                                   Flexible(
                                       child: Text(
-                                    "Tâche",
+                                    "Objectif",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: style,
                                   )),
                                 ],
                               ),
@@ -263,13 +261,9 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                 child: Row(children: [
                               Flexible(
                                   child: Text(
-                                "Date de début",
+                                "Indicateurs",
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
+                                style: style,
                               )),
                             ])),
                             flex: 3,
@@ -283,13 +277,9 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    "Date de fin",
+                                    "Date de création",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: style,
                                   )),
                                 ],
                               ),
@@ -304,13 +294,9 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                               children: [
                                 Flexible(
                                     child: Text(
-                                  "Affecter à",
+                                  "Créer par",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: style,
                                 )),
                               ],
                             ),
@@ -323,11 +309,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                   child: Text(
                                 "Priorité",
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
+                                style: style,
                               )),
                             ])),
                             flex: 2,
@@ -344,11 +326,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                       child: Text(
                                     "Statut",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: style,
                                   )),
                                 ]),
                             flex: 2,
@@ -376,7 +354,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                       color: dark.withOpacity(0.15),
                     ),
                     Expanded(
-                        child: TasksList(
+                        child: ObjectivesList(
                       parentContext: context,
                     )),
                   ]),
@@ -386,19 +364,20 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
   }
 }
 
-class TasksList extends StatefulWidget {
+class ObjectivesList extends StatefulWidget {
   final BuildContext parentContext;
-  const TasksList({Key? key, required this.parentContext}) : super(key: key);
+  const ObjectivesList({Key? key, required this.parentContext})
+      : super(key: key);
 
   @override
-  _TasksListState createState() => _TasksListState();
+  _ObjectivesListState createState() => _ObjectivesListState();
 }
 
-class _TasksListState extends State<TasksList> {
+class _ObjectivesListState extends State<ObjectivesList> {
   late final bloc;
   @override
   void initState() {
-    bloc = BlocProvider.of<TaskBloc>(widget.parentContext);
+    bloc = BlocProvider.of<ObjectiveBloc>(widget.parentContext);
     super.initState();
     bloc.init();
   }
@@ -406,8 +385,8 @@ class _TasksListState extends State<TasksList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: StreamBuilder<List<TaskModel>>(
-            stream: bloc.taskStream,
+        child: StreamBuilder<List<Objective>>(
+            stream: bloc.objectiveStream,
             builder: (context, snapshot) {
               print("snapshot " + snapshot.data.toString());
               final results = snapshot.data;
@@ -415,7 +394,7 @@ class _TasksListState extends State<TasksList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoTasks()
+                          ? NoObjectives()
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: scrollController,
@@ -432,27 +411,14 @@ class _TasksListState extends State<TasksList> {
             }));
   }
 
-  Widget _buildItem(TaskModel task) {
+  Widget _buildItem(Objective objective) {
     return TestProxy(
-        key: ValueKey(task),
-        child: new ProjectTaskItem(
-          task: task,
+        key: ValueKey(objective),
+        child: new ObjectiveItem(
+          objective: objective,
           onTap: () {},
         ));
   }
 }
 
-class TestProxy extends SingleChildRenderObjectWidget {
-  TestProxy({Key? key, required Widget child}) : super(key: key, child: child);
 
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    print('createRenderObject $key');
-    return RenderProxyBox();
-  }
-
-  @override
-  void updateRenderObject(BuildContext context, RenderObject renderObject) {
-    print('updateRenderObject $key');
-  }
-}
