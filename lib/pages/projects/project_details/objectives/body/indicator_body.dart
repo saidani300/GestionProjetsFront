@@ -184,16 +184,7 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                           ),
                           alignment: Alignment.bottomLeft,
                           child: Row(children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: ShowByStatusItems.map(
-                                (e) => Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: ShowByStatusItem(
-                                        itemName: e.name, onTap: () {})),
-                              ).toList(),
-                            ),
+                           //Menu
                             SizedBox(
                               width: 15,
                             ),

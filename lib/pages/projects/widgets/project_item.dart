@@ -2,34 +2,65 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
+import 'package:gestion_projets/widgets/profile_avatar.dart';
+import 'package:intl/intl.dart';
 import '../../../locator.dart';
 import 'custom_icon_button.dart';
 import 'dialogs.dart';
 
-class ProjectItem extends StatelessWidget {
-  final ProjectDataItem item;
-  final Animation<double> animation;
-  final VoidCallback onTap;
+class ProjectItem extends StatefulWidget {
+  final Project project;
   const ProjectItem(
       {Key? key,
-      required this.item,
-      required this.animation,
-      required this.onTap})
+      required this.project,})
       : super(key: key);
 
   @override
+  _ProjectItemState createState() => _ProjectItemState();
+}
+
+class _ProjectItemState extends State<ProjectItem> with AutomaticKeepAliveClientMixin<ProjectItem> ,TickerProviderStateMixin {
+
+  String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this, value: 0);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+    _controller.forward();
+  }
+  @override
+  dispose() {
+    print("Disposed " + widget.hashCode.toString());
+    _controller.dispose();
+    super.dispose();
+  }
+  @override
+  bool get wantKeepAlive => true;
+
+
+  @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    final bloc = BlocProvider.of<ProjectBloc>(context);
+    super.build(context);
+    return
       FadeTransition(
-        opacity: animation,
+        opacity: _animation,
         child: SizeTransition(
-          sizeFactor: animation,
+          sizeFactor: _animation,
           child: Material(
             color: Colors.transparent,
-            child: InkWell(
+            child: Column(children: [InkWell(
               hoverColor: active.withOpacity(0.015),
               onTap: () {
                 print("tapped");
@@ -47,7 +78,7 @@ class ProjectItem extends StatelessWidget {
                         replacement: SizedBox(
                           width: 2,
                         ),
-                        visible: (item.deadlineDays.isEmpty),
+                        visible: (widget.project.endDate.isBefore(DateTime.now())),
                         child: SizedBox(
                           width: 2,
                           child: Container(
@@ -59,8 +90,8 @@ class ProjectItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: ProjectName(
-                        projectName: item.name,
-                        projectType: item.type,
+                        projectName: widget.project.name,
+                        projectType: widget.project.type,
                       ),
                       flex: 3,
                     ),
@@ -69,10 +100,10 @@ class ProjectItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: ProjectDeadline(
-                        date: item.deadline,
-                        days: (item.deadlineDays.isEmpty)
+                        date: getText(widget.project.endDate),
+                        days: (widget.project.endDate.isBefore(DateTime.now()))
                             ? "En retard"
-                            : item.deadlineDays,
+                            : widget.project.endDate.difference(DateTime.now()).inDays == 0 ? "Aujourd'hui" : "Dans " + widget.project.endDate.difference(DateTime.now()).inDays.toString() + " jours",
                       ),
                       flex: 2,
                     ),
@@ -81,7 +112,7 @@ class ProjectItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: ProjectTeamLeader(
-                        teamLeader: item.teamLeader,
+                        teamLeader: widget.project.teamLeader,
                       ),
                       flex: 2,
                     ),
@@ -89,9 +120,12 @@ class ProjectItem extends StatelessWidget {
                       width: 18,
                     ),
                     Expanded(
-                      child: ProjectStatus(
-                        status: item.status,
-                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(child: StatusTag(
+                          status: widget.project.status),)]),
                       flex: 1,
                     ),
                     SizedBox(
@@ -103,21 +137,7 @@ class ProjectItem extends StatelessWidget {
                       message: 'Modifier',
                       size: 16,
                       onTap: () {
-                        final snackBar = SnackBar(
-                            behavior: SnackBarBehavior.fixed,
-                            duration: Duration(milliseconds: 2000),
-                            backgroundColor: dark.withOpacity(0.9),
-                            content: Container(
-                                child: Text(
-                              "Modifier Développement d'une nouvelle interface utilisateur",
-                              style: TextStyle(
-                                  color: light,
-                                  fontSize: 13,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.w400),
-                            )));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
+                       },
                     ),
                     SizedBox(
                       width: 10,
@@ -127,7 +147,7 @@ class ProjectItem extends StatelessWidget {
                         message: 'Supprimer',
                         color: Colors.redAccent,
                         onTap: () {
-                          showDialogBox(context, onTap);
+                          showDialogBox(context,() {_controller.reverse().whenComplete(() => bloc.remove(widget.project));});
                         }),
                     SizedBox(
                       width: 20,
@@ -135,15 +155,12 @@ class ProjectItem extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ),
         ),
-      ),
       Divider(
         height: 1,
         color: dark.withOpacity(0.15),
       )
-    ]);
+    ]))));
   }
 }
 
@@ -250,7 +267,7 @@ final List<Color> colors = [
 ];
 
 class ProjectTeamLeader extends StatelessWidget {
-  final TeamLeader teamLeader;
+  final User teamLeader;
 
   const ProjectTeamLeader({Key? key, required this.teamLeader})
       : super(key: key);
@@ -261,157 +278,57 @@ class ProjectTeamLeader extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 30,
-            width: 30,
-            child: CircleAvatar(
-              child: Text(profileInitials(teamLeader.name),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 9,
-                      letterSpacing: 1)),
-              foregroundColor: Colors.white,
-              backgroundColor: /*Colors.deepPurpleAccent*/ colors[
-                  int.tryParse(teamLeader.picture) ?? 0],
-              // backgroundImage: AssetImage(teamLeader.picture),
-            ),
-          ),
+              height: 30,
+              width: 30,
+              child: Avatar(
+                picture: teamLeader.avatar,
+                name: teamLeader.name,
+              )),
           SizedBox(
             width: 15,
           ),
-      Flexible(child:  Text(
-            teamLeader.name,
-        overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: text,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
-          )),
+          Flexible(
+              child: Text(
+                teamLeader.name,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: text,
+                    fontSize: 12,
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.w600),
+              )),
         ],
       ),
     );
   }
 }
 
-class ProjectStatus extends StatelessWidget {
-  final statusType status;
 
-  const ProjectStatus({Key? key, required this.status}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(child: StatusLabel(status: status)),
-        ]);
-  }
-}
-
-enum statusType { Completed, InProgress }
-
-class StatusLabel extends StatelessWidget {
-  final statusType status;
-  const StatusLabel({Key? key, required this.status}) : super(key: key);
+class StatusTag extends StatelessWidget {
+  final Status status;
+  final String date;
+  const StatusTag({Key? key, required this.status, this.date = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     switch (status) {
-      case statusType.Completed:
-        return CustomTag(
-          text: 'Terminé',
-          color: Color(0xFF0AC1EC),
+      case Status.completed:
+        return CustomTag(text: 'Terminé', color: lightBlue, date: date
           /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: Colors.white, size: 12,),),*/
         );
-      case statusType.InProgress:
+      case Status.inProgress:
         return CustomTag(
           text: 'En cours',
-          color: Color(0xFFFFA800),
+          color: lightOrange,
+          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
+        );
+      case Status.approved:
+        return CustomTag(
+            text: 'Approuvé',
+            color: lightPurple, date: date
           /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
         );
     }
   }
 }
-//old Action Menu with button
-
-/*class ActionsMenu extends StatelessWidget {
-  const ActionsMenu({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-          tooltipTheme: TooltipThemeData(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-        ),
-      )),
-      child: PopupMenuButton<Object>(
-          padding: EdgeInsets.symmetric(vertical: 0),
-          tooltip: "",
-          icon: Icon(
-            Icons.more_vert_rounded,
-            size: 20,
-            color: text.withOpacity(0.7),
-          ),
-          // child: CustomIconButton(icon: Icons.more_vert_rounded, message: 'Actions'),
-          onSelected: (selectedValue) {
-            // print(selectedValue);
-          },
-          itemBuilder: (context) => [
-                PopupMenuItem(
-                    height: 40,
-                    child: Row(children: [
-                      Icon(
-                        Icons.edit_rounded,
-                        size: 20,
-                        color: text,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Modifier',
-                        style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      )
-                    ]),
-                    value: 1),
-                PopupMenuDivider(
-                  height: 1,
-                ),
-                PopupMenuItem(
-                    height: 40,
-                    child: Row(children: [
-                      Icon(
-                        Icons.delete_outline_rounded,
-                        size: 20,
-                        color: text,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Supprimer',
-                        style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      )
-                    ]),
-                    value: 2),
-              ]),
-    );
-  }
-}*/

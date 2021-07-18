@@ -171,16 +171,7 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: ShowByStatusItems.map(
-                                (e) => Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: ShowByStatusItem(
-                                    itemName: e.name, onTap: () {})),
-                          ).toList(),
-                        ),
+                        //Menu
                         SizedBox(
                           width: 15,
                         ),
@@ -217,7 +208,7 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                       color: dark.withOpacity(0.15),
                     ),
                     Container(
-                      height: 60,
+                      height: 40,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,

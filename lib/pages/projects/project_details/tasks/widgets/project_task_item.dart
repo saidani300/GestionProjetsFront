@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
@@ -23,7 +23,7 @@ import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
 class ProjectTaskItem extends StatefulWidget {
-  final VoidCallback onTap;
+  final Function() onTap;
   final TaskModel task;
   const ProjectTaskItem(
       {Key? key,
@@ -70,8 +70,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>   with AutomaticKeepA
         child: Material(
         color: Colors.transparent,
         child:Column(children: [
-
-      InkWell(
+        InkWell(
         hoverColor: active.withOpacity(0.015),
         onTap: () {
           print("tapped");
@@ -330,3 +329,4 @@ void showDialog(BuildContext context) {
     },
   );
 }
+

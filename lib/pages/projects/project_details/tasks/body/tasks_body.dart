@@ -22,6 +22,7 @@ import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
 import '../../../../../locator.dart';
 
@@ -117,6 +118,7 @@ class ProjectTasksHeader extends StatelessWidget {
                 [Document((1), "Doc1")],
                 Model.Priority.Important,
                 []));
+            showToast(ToastType.success)  ;
           },
         ),
       ],
@@ -175,16 +177,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: ShowByStatusItems.map(
-                            (e) => Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: ShowByStatusItem(
-                                    itemName: e.name, onTap: () {})),
-                          ).toList(),
-                        ),
+
                         SizedBox(
                           width: 15,
                         ),

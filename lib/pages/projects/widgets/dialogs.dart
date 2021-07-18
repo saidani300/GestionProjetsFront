@@ -1,7 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/forms/create_project_form.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
 import 'package:get/get.dart';
 import 'custom_icon_button.dart';
 import 'form_widgets/custom_form_text_field.dart';
@@ -102,33 +109,6 @@ showDialogBox(BuildContext context, Function() onTap) {
               onPressed: () {
                 onTap();
                 Navigator.of(context).pop();
-                final snackBar = SnackBar(
-                    behavior: SnackBarBehavior.fixed,
-                    duration: Duration(milliseconds: 4000),
-                    backgroundColor: dark.withOpacity(0.9),
-                    content: Container(
-                        child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          "icons/remove.svg",
-                          color: lightRed,
-                          width: 25,
-                          height: 25,
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          "Le projet Développement d'une nouvelle interface utilisateur a été supprimé avec succès.",
-                          style: TextStyle(
-                              color: light,
-                              fontSize: 13,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
-                    )));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }),
         ],
       );
@@ -136,7 +116,9 @@ showDialogBox(BuildContext context, Function() onTap) {
   );
 }
 
-showCreateProjectDialogBox(BuildContext context, Function() onTap) {
+showCreateProjectDialogBox(BuildContext context) {
+  final bloc = BlocProvider.of<ProjectBloc>(context);
+  String name ="";
   showDialog(
     context: context,
     builder: (context) {
@@ -197,34 +179,15 @@ showCreateProjectDialogBox(BuildContext context, Function() onTap) {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                onTap();
-                final snackBar = SnackBar(
-                    behavior: SnackBarBehavior.fixed,
-                    duration: Duration(milliseconds: 4000),
-                    backgroundColor: dark.withOpacity(0.9),
-                    content: Container(
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "icons/check-circle.svg",
-                              color: Colors.lightGreen,
-                              width: 25,
-                              height: 25,
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              "Le projet Développement d'une nouvelle interface utilisateur a été créé avec succès.",
-                              style: TextStyle(
-                                  color: light,
-                                  fontSize: 13,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        )));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                bloc.add(new Project(
+                    new Random().nextInt(99999),
+                    projectName,
+                    "Développement",
+                    User(23, "Saidani Wael", "3"),
+                    Status.inProgress,
+                    DateTime.now(),
+                    DateTime.now().add(Duration(days: 38))));
+
               }),
         ],
       );

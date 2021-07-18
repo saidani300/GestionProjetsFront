@@ -4,6 +4,7 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provide
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PhaseBloc>(
+    return BlocProvider<ProjectBloc>(
+        bloc: ProjectBloc(), child :BlocProvider<PhaseBloc>(
         bloc: PhaseBloc(), child :BlocProvider<TaskBloc>(
     bloc: TaskBloc(), child :BlocProvider<ObjectiveBloc>(
     bloc: ObjectiveBloc(), child :BlocProvider<EventBloc>(
@@ -83,7 +85,7 @@ class MyApp extends StatelessWidget {
       ),
 
       home: SiteLayout(),
-    )))));
+    ))))));
     // home: SiteLayout()
   }
 }
