@@ -1,4 +1,3 @@
-
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:get_it/get_it.dart';
 

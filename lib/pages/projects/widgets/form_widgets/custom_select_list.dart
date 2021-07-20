@@ -4,7 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gestion_projets/constants/style.dart';
 
-
 // Examples can assume:
 // enum Commands { heroAndScholar, hurricaneCame }
 // late bool _heroAndScholar;
@@ -16,7 +15,9 @@ const Duration _kMenuDuration = Duration(milliseconds: 300);
 const double _kMenuCloseIntervalEnd = 2.0 / 3.0;
 const double _kMenuHorizontalPadding = 0.0;
 const double _kMenuDividerHeight = 16.0;
-const double _kMenuMaxWidth = 1000.0 /** _kMenuWidthStep*/;
+const double _kMenuMaxWidth = 1000.0 /** _kMenuWidthStep*/
+    ;
+
 const double _kMenuMinWidth = 2.0 * _kMenuWidthStep;
 const double _kMenuVerticalPadding = 0.0;
 const double _kMenuWidthStep = 28.0;
@@ -47,7 +48,7 @@ const double _kMenuMaxHeight = 150; // 50 for each Item
 abstract class CustomListPopupMenuEntry<T> extends StatefulWidget {
   /// Abstract const constructor. This constructor enables subclasses to provide
   /// const constructors so that they can be used in const expressions.
-  const CustomListPopupMenuEntry({ Key? key }) : super(key: key);
+  const CustomListPopupMenuEntry({Key? key}) : super(key: key);
 
   /// The amount of vertical space occupied by this entry.
   ///
@@ -86,7 +87,9 @@ class CustomListPopupMenuDivider extends CustomListPopupMenuEntry<Never> {
   /// Creates a horizontal divider for a popup menu.
   ///
   /// By default, the divider has a height of 16 logical pixels.
-  const CustomListPopupMenuDivider({ Key? key, this.height = _kMenuDividerHeight }) : super(key: key);
+  const CustomListPopupMenuDivider(
+      {Key? key, this.height = _kMenuDividerHeight})
+      : super(key: key);
 
   /// The height of the divider entry.
   ///
@@ -98,10 +101,12 @@ class CustomListPopupMenuDivider extends CustomListPopupMenuEntry<Never> {
   bool represents(void value) => false;
 
   @override
-  _CustomListPopupMenuDividerState createState() => _CustomListPopupMenuDividerState();
+  _CustomListPopupMenuDividerState createState() =>
+      _CustomListPopupMenuDividerState();
 }
 
-class _CustomListPopupMenuDividerState extends State<CustomListPopupMenuDivider> {
+class _CustomListPopupMenuDividerState
+    extends State<CustomListPopupMenuDivider> {
   @override
   Widget build(BuildContext context) => Divider(height: widget.height);
 }
@@ -115,7 +120,8 @@ class _MenuItem extends SingleChildRenderObjectWidget {
     Key? key,
     required this.onLayout,
     required Widget? child,
-  }) : assert(onLayout != null), super(key: key, child: child);
+  })  : assert(onLayout != null),
+        super(key: key, child: child);
 
   final ValueChanged<Size> onLayout;
 
@@ -125,13 +131,16 @@ class _MenuItem extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, covariant _RenderMenuItem renderObject) {
+  void updateRenderObject(
+      BuildContext context, covariant _RenderMenuItem renderObject) {
     renderObject.onLayout = onLayout;
   }
 }
 
 class _RenderMenuItem extends RenderShiftedBox {
-  _RenderMenuItem(this.onLayout, [RenderBox? child]) : assert(onLayout != null), super(child);
+  _RenderMenuItem(this.onLayout, [RenderBox? child])
+      : assert(onLayout != null),
+        super(child);
 
   ValueChanged<Size> onLayout;
 
@@ -211,7 +220,7 @@ class CustomListPopupMenuItem<T> extends CustomListPopupMenuEntry<T> {
     this.textStyle,
     this.mouseCursor,
     required this.child,
-  }) : assert(enabled != null),
+  })  : assert(enabled != null),
         assert(height != null),
         super(key: key);
 
@@ -268,7 +277,8 @@ class CustomListPopupMenuItem<T> extends CustomListPopupMenuEntry<T> {
   bool represents(T? value) => value == this.value;
 
   @override
-  CustomListPopupMenuItemState<T, CustomListPopupMenuItem<T>> createState() => CustomListPopupMenuItemState<T, CustomListPopupMenuItem<T>>();
+  CustomListPopupMenuItemState<T, CustomListPopupMenuItem<T>> createState() =>
+      CustomListPopupMenuItemState<T, CustomListPopupMenuItem<T>>();
 }
 
 /// The [State] for [CustomListPopupMenuItem] subclasses.
@@ -287,7 +297,8 @@ class CustomListPopupMenuItem<T> extends CustomListPopupMenuEntry<T> {
 /// the [Widget] that is using this [State]. It must be a subclass of
 /// [CustomListPopupMenuItem]. The first, `T`, must match the type argument of that widget
 /// class, and is the type of values returned from this menu.
-class CustomListPopupMenuItemState<T, W extends CustomListPopupMenuItem<T>> extends State<W> {
+class CustomListPopupMenuItemState<T, W extends CustomListPopupMenuItem<T>>
+    extends State<W> {
   /// The menu item contents.
   ///
   /// Used by the [build] method.
@@ -312,9 +323,11 @@ class CustomListPopupMenuItemState<T, W extends CustomListPopupMenuItem<T>> exte
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
-    TextStyle style = widget.textStyle ?? popupMenuTheme.textStyle ?? theme.textTheme.subtitle1!;
+    TextStyle style = widget.textStyle ??
+        popupMenuTheme.textStyle ??
+        theme.textTheme.subtitle1!;
 
-    if (!widget.enabled){}
+    if (!widget.enabled) {}
     // style = style.copyWith(color: theme.disabledColor);
 
     Widget item = AnimatedDefaultTextStyle(
@@ -323,7 +336,8 @@ class CustomListPopupMenuItemState<T, W extends CustomListPopupMenuItem<T>> exte
       child: Container(
         alignment: AlignmentDirectional.centerStart,
         constraints: BoxConstraints(minHeight: widget.height),
-        padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: _kMenuHorizontalPadding),
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(horizontal: _kMenuHorizontalPadding),
         child: buildChild(),
       ),
     );
@@ -335,7 +349,8 @@ class CustomListPopupMenuItemState<T, W extends CustomListPopupMenuItem<T>> exte
         child: item,
       );*/
     }
-    final MouseCursor effectiveMouseCursor = MaterialStateProperty.resolveAs<MouseCursor>(
+    final MouseCursor effectiveMouseCursor =
+        MaterialStateProperty.resolveAs<MouseCursor>(
       widget.mouseCursor ?? MaterialStateMouseCursor.clickable,
       <MaterialState>{
         if (!widget.enabled) MaterialState.disabled,
@@ -434,15 +449,15 @@ class CheckedCustomListPopupMenuItem<T> extends CustomListPopupMenuItem<T> {
     EdgeInsets? padding,
     double height = kMinInteractiveDimension,
     Widget? child,
-  }) : assert(checked != null),
+  })  : assert(checked != null),
         super(
-        key: key,
-        value: value,
-        enabled: enabled,
-        padding: padding,
-        height: height,
-        child: child,
-      );
+          key: key,
+          value: value,
+          enabled: enabled,
+          padding: padding,
+          height: height,
+          child: child,
+        );
 
   /// Whether to display a checkmark next to the menu item.
   ///
@@ -465,12 +480,16 @@ class CheckedCustomListPopupMenuItem<T> extends CustomListPopupMenuItem<T> {
   Widget? get child => super.child;
 
   @override
-  _CheckedCustomListPopupMenuItemState<T> createState() => _CheckedCustomListPopupMenuItemState<T>();
+  _CheckedCustomListPopupMenuItemState<T> createState() =>
+      _CheckedCustomListPopupMenuItemState<T>();
 }
 
-class _CheckedCustomListPopupMenuItemState<T> extends CustomListPopupMenuItemState<T, CheckedCustomListPopupMenuItem<T>> with SingleTickerProviderStateMixin {
+class _CheckedCustomListPopupMenuItemState<T>
+    extends CustomListPopupMenuItemState<T, CheckedCustomListPopupMenuItem<T>>
+    with SingleTickerProviderStateMixin {
   static const Duration _fadeDuration = Duration(milliseconds: 150);
   late AnimationController _controller;
+
   Animation<double> get _opacity => _controller.view;
 
   @override
@@ -478,7 +497,9 @@ class _CheckedCustomListPopupMenuItemState<T> extends CustomListPopupMenuItemSta
     super.initState();
     _controller = AnimationController(duration: _fadeDuration, vsync: this)
       ..value = widget.checked ? 1.0 : 0.0
-      ..addListener(() => setState(() { /* animation changed */ }));
+      ..addListener(() => setState(() {
+            /* animation changed */
+          }));
   }
 
   @override
@@ -516,7 +537,9 @@ class _PopupMenu<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double unit = 1.0 / (route.items.length + 1.5); // 1.0 for the width and 0.5 for the last item's fade.
+    final double unit = 1.0 /
+        (route.items.length +
+            1.5); // 1.0 for the width and 0.5 for the last item's fade.
     final List<Widget> children = <Widget>[];
     final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
 
@@ -528,7 +551,8 @@ class _PopupMenu<T> extends StatelessWidget {
         curve: Interval(start, end),
       );
       Widget item = route.items[i];
-      if (route.initialValue != null && route.items[i].represents(route.initialValue)) {
+      if (route.initialValue != null &&
+          route.items[i].represents(route.initialValue)) {
         item = Container(
           color: Theme.of(context).highlightColor,
           child: item,
@@ -547,9 +571,11 @@ class _PopupMenu<T> extends StatelessWidget {
       );
     }
 
-    final CurveTween opacity = CurveTween(curve: const Interval(0.0, 1.0 / 3.0));
+    final CurveTween opacity =
+        CurveTween(curve: const Interval(0.0, 1.0 / 3.0));
     final CurveTween width = CurveTween(curve: Interval(0.0, unit));
-    final CurveTween height = CurveTween(curve: Interval(0.0, unit * route.items.length));
+    final CurveTween height =
+        CurveTween(curve: Interval(0.0, unit * route.items.length));
 
     final Widget child = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -558,7 +584,7 @@ class _PopupMenu<T> extends StatelessWidget {
         maxHeight: _kMenuMaxHeight,
       ),
       child: IntrinsicWidth(
-       // stepWidth: _kMenuWidthStep,
+        // stepWidth: _kMenuWidthStep,
         child: Semantics(
           scopesRoute: true,
           namesRoute: true,
@@ -601,12 +627,12 @@ class _PopupMenu<T> extends StatelessWidget {
 // Positioning of the menu on the screen.
 class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   _PopupMenuRouteLayout(
-      this.position,
-      this.itemSizes,
-      this.selectedItemIndex,
-      this.textDirection,
-      this.padding,
-      );
+    this.position,
+    this.itemSizes,
+    this.selectedItemIndex,
+    this.textDirection,
+    this.padding,
+  );
 
   // Rectangle of underlying button, relative to the overlay's dimensions.
   final RelativeRect position;
@@ -680,12 +706,14 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     // edge of the screen in every direction.
     if (x < _kMenuScreenPadding + padding.left)
       x = _kMenuScreenPadding + padding.left;
-    else if (x + childSize.width > size.width - _kMenuScreenPadding - padding.right)
-      x = size.width - childSize.width - _kMenuScreenPadding - padding.right  ;
+    else if (x + childSize.width >
+        size.width - _kMenuScreenPadding - padding.right)
+      x = size.width - childSize.width - _kMenuScreenPadding - padding.right;
     if (y < _kMenuScreenPadding + padding.top)
       y = _kMenuScreenPadding + padding.top;
-    else if (y + childSize.height > size.height - _kMenuScreenPadding - padding.bottom)
-      y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height ;
+    else if (y + childSize.height >
+        size.height - _kMenuScreenPadding - padding.bottom)
+      y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height;
 
     return Offset(x, y);
   }
@@ -697,11 +725,11 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     // way to change length of the items list once the menu has been shown.
     assert(itemSizes.length == oldDelegate.itemSizes.length);
 
-    return position != oldDelegate.position
-        || selectedItemIndex != oldDelegate.selectedItemIndex
-        || textDirection != oldDelegate.textDirection
-        || !listEquals(itemSizes, oldDelegate.itemSizes)
-        || padding != oldDelegate.padding;
+    return position != oldDelegate.position ||
+        selectedItemIndex != oldDelegate.selectedItemIndex ||
+        textDirection != oldDelegate.textDirection ||
+        !listEquals(itemSizes, oldDelegate.itemSizes) ||
+        padding != oldDelegate.padding;
   }
 }
 
@@ -750,17 +778,19 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   final String barrierLabel;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
     int? selectedItemIndex;
     if (initialValue != null) {
-      for (int index = 0; selectedItemIndex == null && index < items.length; index += 1) {
-        if (items[index].represents(initialValue))
-          selectedItemIndex = index;
+      for (int index = 0;
+          selectedItemIndex == null && index < items.length;
+          index += 1) {
+        if (items[index].represents(initialValue)) selectedItemIndex = index;
       }
     }
 
-    final Widget menu = _PopupMenu<T>(route: this, semanticLabel: semanticLabel);
+    final Widget menu =
+        _PopupMenu<T>(route: this, semanticLabel: semanticLabel);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     return MediaQuery.removePadding(
       context: context,
@@ -869,7 +899,8 @@ Future<T?> showMenu<T>({
       semanticLabel ??= MaterialLocalizations.of(context).popupMenuLabel;
   }
 
-  final NavigatorState navigator = Navigator.of(context, rootNavigator: useRootNavigator);
+  final NavigatorState navigator =
+      Navigator.of(context, rootNavigator: useRootNavigator);
   return navigator.push(_PopupMenuRoute<T>(
     position: position,
     items: items,
@@ -879,7 +910,8 @@ Future<T?> showMenu<T>({
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     shape: shape,
     color: color,
-    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context),
+    capturedThemes:
+        InheritedTheme.capture(from: context, to: navigator.context),
   ));
 }
 
@@ -900,7 +932,8 @@ typedef PopupMenuCanceled = void Function();
 /// the button is pressed.
 ///
 /// Used by [PopupMenuButton.itemBuilder].
-typedef CustomListPopupMenuItemBuilder<T> = List<CustomListPopupMenuEntry<T>> Function(BuildContext context);
+typedef CustomListPopupMenuItemBuilder<T> = List<CustomListPopupMenuEntry<T>>
+    Function(BuildContext context);
 
 /// Displays a menu when pressed and calls [onSelected] when the menu is dismissed
 /// because an item was selected. The value passed to [onSelected] is the value of
@@ -976,12 +1009,12 @@ class CustomListPopupMenuButton<T> extends StatefulWidget {
     this.shape,
     this.color,
     this.enableFeedback,
-  }) : assert(itemBuilder != null),
+  })  : assert(itemBuilder != null),
         assert(offset != null),
         assert(enabled != null),
         assert(
-        !(child != null && icon != null),
-        'You can only pass [child] or [icon], not both.',
+          !(child != null && icon != null),
+          'You can only pass [child] or [icon], not both.',
         ),
         super(key: key);
 
@@ -1077,19 +1110,20 @@ class CustomListPopupMenuButton<T> extends StatefulWidget {
   /// If this property is null, the default size is 24.0 pixels.
   final double? iconSize;
 
-
   final double? containerWidth;
   final double? containerHeight;
 
   @override
-  CustomListPopupMenuButtonState<T> createState() => CustomListPopupMenuButtonState<T>();
+  CustomListPopupMenuButtonState<T> createState() =>
+      CustomListPopupMenuButtonState<T>();
 }
 
 /// The [State] for a [PopupMenuButton].
 ///
 /// See [showButtonMenu] for a way to programmatically open the popup menu
 /// of your button state.
-class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<T>> {
+class CustomListPopupMenuButtonState<T>
+    extends State<CustomListPopupMenuButton<T>> {
   /// A method to show a popup menu with the items supplied to
   /// [PopupMenuButton.itemBuilder] at the position of your [PopupMenuButton].
   ///
@@ -1101,11 +1135,14 @@ class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<
   void showButtonMenu() {
     final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
     final RenderBox button = context.findRenderObject()! as RenderBox;
-    final RenderBox overlay = Navigator.of(context).overlay!.context.findRenderObject()! as RenderBox;
+    final RenderBox overlay =
+        Navigator.of(context).overlay!.context.findRenderObject()! as RenderBox;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(widget.offset, ancestor: overlay),
-        button.localToGlobal(button.size.bottomRight(Offset.zero) + widget.offset, ancestor: overlay),
+        button.localToGlobal(
+            button.size.bottomRight(Offset.zero) + widget.offset,
+            ancestor: overlay),
       ),
       Offset.zero & overlay.size,
     );
@@ -1120,10 +1157,8 @@ class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<
         position: position,
         shape: widget.shape ?? popupMenuTheme.shape,
         color: widget.color ?? popupMenuTheme.color,
-      )
-          .then<void>((T? newValue) {
-        if (!mounted)
-          return null;
+      ).then<void>((T? newValue) {
+        if (!mounted) return null;
         if (newValue == null) {
           widget.onCanceled?.call();
           return null;
@@ -1134,7 +1169,8 @@ class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<
   }
 
   bool get _canRequestFocus {
-    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ?? NavigationMode.traditional;
+    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ??
+        NavigationMode.traditional;
     switch (mode) {
       case NavigationMode.traditional:
         return widget.enabled;
@@ -1142,12 +1178,14 @@ class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<
         return true;
     }
   }
- bool isHover = false;
+
+  bool isHover = false;
+
   @override
   Widget build(BuildContext context) {
-    final bool enableFeedback = widget.enableFeedback
-        ?? PopupMenuTheme.of(context).enableFeedback
-        ?? true;
+    final bool enableFeedback = widget.enableFeedback ??
+        PopupMenuTheme.of(context).enableFeedback ??
+        true;
 
     assert(debugCheckHasMaterialLocalizations(context));
 
@@ -1158,44 +1196,48 @@ class CustomListPopupMenuButtonState<T> extends State<CustomListPopupMenuButton<
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        onHover: (value)
-        {
+        onHover: (value) {
           value
               ? setState(() {
-            isHover = true;
-          })
-              : setState(() {isHover = false;});
+                  isHover = true;
+                })
+              : setState(() {
+                  isHover = false;
+                });
         },
-
         child: Container(
-          width: widget.containerWidth,
-          height: widget.containerHeight,
-          padding: EdgeInsets.fromLTRB(10,3,3,3),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all( color: isHover ? active : text.withOpacity(0.35), width: 1.4),
-          ),
-          child:Row(crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [Expanded(child: widget.child  ?? Container()),  Container(width: 34, child: Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: isHover ? active : text.withOpacity(0.35),
-                size: 18,
-              )),])),
+            width: widget.containerWidth,
+            height: widget.containerHeight,
+            padding: EdgeInsets.fromLTRB(10, 3, 3, 3),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                  color: isHover ? active : text.withOpacity(0.35), width: 1.4),
+            ),
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(child: widget.child ?? Container()),
+                  Container(
+                      width: 34,
+                      child: Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: isHover ? active : text.withOpacity(0.35),
+                        size: 18,
+                      )),
+                ])),
         enableFeedback: enableFeedback,
-
       );
 
     return IconButton(
       icon: widget.icon ?? Icon(Icons.adaptive.more),
       padding: widget.padding,
       iconSize: widget.iconSize ?? 24.0,
-      tooltip: widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,
+      tooltip:
+          widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,
       onPressed: widget.enabled ? showButtonMenu : null,
       enableFeedback: enableFeedback,
     );
   }
 }
-
-
-

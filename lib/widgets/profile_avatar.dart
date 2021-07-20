@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/constants/style.dart';
+
 class Avatar extends StatelessWidget {
   final String name;
   final String picture;
   final double size;
-  const Avatar({Key? key,required this.name,required this.picture , this.size = 30}) : super(key: key);
+
+  const Avatar(
+      {Key? key, required this.name, required this.picture, this.size = 30})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +36,20 @@ class Avatar extends StatelessWidget {
       width: size,
       child: CircleAvatar(
         radius: 100.0,
-        child: (picture.characters.length<3) ? Text(profileInitials(name),
-            style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: size/3.33,
-                letterSpacing: 1)) : null,
-        foregroundColor: Colors.white,
+        child: (picture.characters.length < 3)
+            ? Text(profileInitials(name),
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: size / 3.33,
+                    letterSpacing: 1))
+            : null,
+        foregroundColor: white,
         backgroundColor: /*Colors.deepPurpleAccent*/ colors[
-        int.tryParse(picture) ?? 0],
-         backgroundImage: (picture.characters.length>3) ? Image.network(picture).image : null,
+            int.tryParse(picture) ?? 0],
+        backgroundImage: (picture.characters.length > 3)
+            ? Image.network(picture).image
+            : null,
       ),
     );
   }
-
-
-
 }

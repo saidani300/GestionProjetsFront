@@ -7,13 +7,14 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/forms/create_project_form.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:get/get.dart';
 import 'custom_icon_button.dart';
 import 'form_widgets/custom_form_text_field.dart';
 
 var createOther = false.obs;
+
 showDialogBox(BuildContext context, Function() onTap) {
   showDialog(
     context: context,
@@ -101,7 +102,7 @@ showDialogBox(BuildContext context, Function() onTap) {
                 "Continuer",
                 textAlign: TextAlign.end,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: white,
                     fontSize: 11.5,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w500),
@@ -118,7 +119,7 @@ showDialogBox(BuildContext context, Function() onTap) {
 
 showCreateProjectDialogBox(BuildContext context) {
   final bloc = BlocProvider.of<ProjectBloc>(context);
-  String name ="";
+  String name = "";
   showDialog(
     context: context,
     builder: (context) {
@@ -172,7 +173,7 @@ showCreateProjectDialogBox(BuildContext context) {
                 "Créer",
                 textAlign: TextAlign.end,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: white,
                     fontSize: 11.5,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w500),
@@ -187,7 +188,6 @@ showCreateProjectDialogBox(BuildContext context) {
                     Status.inProgress,
                     DateTime.now(),
                     DateTime.now().add(Duration(days: 38))));
-
               }),
         ],
       );
@@ -225,7 +225,7 @@ showExportDialogBox(BuildContext context) {
                 "Exporter",
                 textAlign: TextAlign.end,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: white,
                     fontSize: 11.5,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w500),
@@ -276,7 +276,7 @@ class SaveAsFileBody extends StatelessWidget {
               ])),
           Divider(
             height: 1,
-            color: dark.withOpacity(0.15),
+            color: dividerColor,
           ),
           Column(
               mainAxisSize: MainAxisSize.min,
@@ -288,7 +288,6 @@ class SaveAsFileBody extends StatelessWidget {
                 Row(mainAxisSize: MainAxisSize.min, children: [
                   SizedBox(width: 30),
                   FileChoice(
-
                     fileIcon: "icons/csv-file.svg",
                     fileName: "Fichier CSV",
                     isSelected: true,
@@ -300,25 +299,29 @@ class SaveAsFileBody extends StatelessWidget {
                   ),
                   SizedBox(width: 30),
                 ]),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: EdgeInsets.only(left: 23),
-                  child: Row(children: [Checkbox(activeColor : active , value: true, onChanged: (value){}), Text(
-                    "Exporter le fichier avec filtre",
-                    style: TextStyle(
-                        color: text,
-                        fontSize: 12,
-                        letterSpacing: 0,
-                        fontWeight: FontWeight.w500),
-                  ),],)
-
+                SizedBox(
+                  height: 20,
                 ),
+                Padding(
+                    padding: EdgeInsets.only(left: 23),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                            activeColor: active,
+                            value: true,
+                            onChanged: (value) {}),
+                        Text(
+                          "Exporter le fichier avec filtre",
+                          style: textStyle_Text_12_500,
+                        ),
+                      ],
+                    )),
                 SizedBox(
                   height: 30,
                 ),
                 Divider(
                   height: 1,
-                  color: dark.withOpacity(0.15),
+                  color: dividerColor,
                 )
               ])
         ]));
@@ -329,7 +332,12 @@ class FileChoice extends StatelessWidget {
   final String fileIcon;
   final String fileName;
   final bool isSelected;
-  const FileChoice({Key? key, required this.fileIcon, required this.fileName , this.isSelected = false})
+
+  const FileChoice(
+      {Key? key,
+      required this.fileIcon,
+      required this.fileName,
+      this.isSelected = false})
       : super(key: key);
 
   @override
@@ -348,33 +356,38 @@ class FileChoice extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.circular(3),
-          color: Colors.white,
+          color: white,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 15,),
-            Row(children: [Expanded(child: Container()),
-    Container(
-    height: 15,
-    width: 15,
-    decoration: BoxDecoration(
-    color: active,
-    borderRadius: BorderRadius.circular(30)),
-    child: Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30)),
-      padding: EdgeInsets.all(1),
-      margin: EdgeInsets.all(1.5),
-      child: Container(
-          decoration: BoxDecoration(
-              color: isSelected ? active : Colors.transparent,
-              borderRadius: BorderRadius.circular(30))
-      ))),
-              SizedBox(width: 15,)
-      ],),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                Expanded(child: Container()),
+                Container(
+                    height: 15,
+                    width: 15,
+                    decoration: BoxDecoration(
+                        color: active, borderRadius: BorderRadius.circular(30)),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(30)),
+                        padding: EdgeInsets.all(1),
+                        margin: EdgeInsets.all(1.5),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: isSelected ? active : Colors.transparent,
+                                borderRadius: BorderRadius.circular(30))))),
+                SizedBox(
+                  width: 15,
+                )
+              ],
+            ),
             Expanded(child: Container()),
             SvgPicture.asset(
               fileIcon,

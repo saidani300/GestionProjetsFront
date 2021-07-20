@@ -7,17 +7,13 @@ import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../locator.dart';
 
-
-
 class ProjectsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Navigator(
-        key: locator<NavigationService>().navigatorKey2,
-
-        initialRoute: projectListPageRoute,
-        onGenerateRoute: generateRoute,
+      key: locator<NavigationService>().navigatorKey2,
+      initialRoute: projectListPageRoute,
+      onGenerateRoute: generateRoute,
     );
   }
 }

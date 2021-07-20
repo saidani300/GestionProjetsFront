@@ -42,7 +42,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 
-
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -51,16 +50,9 @@ import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../locator.dart';
 
-enum ToastType
-{
-  success,
-  warning,
-  error,
-  info
+enum ToastType { success, warning, error, info }
 
-}
-class TypeData
-{
+class TypeData {
   final Color color;
   final IconData icon;
 
@@ -97,7 +89,7 @@ enum ToastGravity {
 class Fluttertoast {
   /// [MethodChannel] used to communicate with the platform side.
   static const MethodChannel _channel =
-  const MethodChannel('PonnamKarthik/fluttertoast');
+      const MethodChannel('PonnamKarthik/fluttertoast');
 
   /// Let say you have an active show
   /// Use this method to hide the toast immediately
@@ -144,7 +136,7 @@ class Fluttertoast {
       backgroundColor = Colors.black;
     }
     if (textColor == null && defaultTargetPlatform == TargetPlatform.iOS) {
-      textColor = Colors.white;
+      textColor = white;
     }
     final Map<String, dynamic> params = <String, dynamic>{
       'msg': msg,
@@ -368,8 +360,6 @@ class ToastStateFulState extends State<_ToastStateFul>
     ));
     super.initState();
 
-
-
     showIt();
     _timer = Timer(widget.duration, () {
       hideIt();
@@ -392,39 +382,36 @@ class ToastStateFulState extends State<_ToastStateFul>
 
   @override
   Widget build(BuildContext context) {
-    return
-      SlideTransition( position: _offsetAnimation  as Animation<Offset>,
-      child : FadeTransition(
-      opacity: _fadeAnimation as Animation<double>,
-      child: Center(
-        child: Material(
-          color: Colors.transparent,
-          child: widget.child,
-        ),
-      ),
-    ));
+    return SlideTransition(
+        position: _offsetAnimation as Animation<Offset>,
+        child: FadeTransition(
+          opacity: _fadeAnimation as Animation<double>,
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: widget.child,
+            ),
+          ),
+        ));
   }
 }
 
-TypeData toastIconColor(ToastType type)
-{
-  switch(type)
-  {
+TypeData toastIconColor(ToastType type) {
+  switch (type) {
     case ToastType.success:
-      return TypeData(lightBlue , Icons.check_circle);
-case ToastType.warning:
-return TypeData( lightOrange , Icons.warning_rounded);
-case ToastType.error:
-  return TypeData(lightRed , Icons.error_rounded);
-  case ToastType.info:
-  return TypeData(lightPurple , Icons.info_rounded);
+      return TypeData(lightBlue, Icons.check_circle);
+    case ToastType.warning:
+      return TypeData(lightOrange, Icons.warning_rounded);
+    case ToastType.error:
+      return TypeData(lightRed, Icons.error_rounded);
+    case ToastType.info:
+      return TypeData(lightPurple, Icons.info_rounded);
   }
 }
 
-
-showToast(ToastType type ) {
+showToast(ToastType type) {
   FToast fToast = FToast();
-  fToast.init(locator<NavigationService>().navigatorKey.currentContext! );
+  fToast.init(locator<NavigationService>().navigatorKey.currentContext!);
   fToast.removeCustomToast();
   Widget toast = Container(
     decoration: BoxDecoration(
@@ -436,80 +423,88 @@ showToast(ToastType type ) {
         ),
       ],
       borderRadius: BorderRadius.circular(3),
-      color: Colors.white,
+      color: white,
     ),
     child: IntrinsicHeight(
-      child:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              width: 3,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(2),
-                      bottomLeft: Radius.circular(2)),
-                  color: toastIconColor(type).color,
-                ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: 3,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(2),
+                    bottomLeft: Radius.circular(2)),
+                color: toastIconColor(type).color,
               ),
             ),
-            SizedBox(
-              width: 20,
-            ),
-           Column( mainAxisAlignment: MainAxisAlignment.start,
-               crossAxisAlignment: CrossAxisAlignment.center,
-               children : [Padding(padding: EdgeInsets.only(top: 20) ,child :Icon(
-                 toastIconColor(type).icon,
-              color: toastIconColor(type).color,
-              size: 22,
-            ),)]),
-            Container(
-                constraints: BoxConstraints(maxWidth: 300),
-                padding: EdgeInsets.all(20),
-                child: Text.rich(TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Tache ',
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w500),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Icon(
+                    toastIconColor(type).icon,
+                    color: toastIconColor(type).color,
+                    size: 22,
+                  ),
+                )
+              ]),
+          Container(
+              constraints: BoxConstraints(maxWidth: 300),
+              padding: EdgeInsets.all(20),
+              child: Text.rich(TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Tache ',
+                    style: textStyle_Text_12_500,
+                  ),
+                  TextSpan(
+                    text:
+                        "\"Développement d'une nouvelle interface utilisateur\"",
+                    style: textStyle_Text_12_600
+                  ),
+                  TextSpan(
+                    text: " a été créé avec succès.",
+                    style: TextStyle(
+                        height: 2,
+                        color: text,
+                        fontSize: 12,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ))),
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: CustomIconButton(
+                      icon: Icons.close_rounded,
+                      color: lightRed,
+                      size: 15,
+                      enableToolTip: false,
+                      message: '',
+                      onTap: () {
+                        fToast.removeCustomToast();
+                      },
                     ),
-                    TextSpan(
-                      text:
-                          "\"Développement d'une nouvelle interface utilisateur\"",
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    TextSpan(
-                      text: " a été créé avec succès.",
-                      style: TextStyle(
-                          height: 2,
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ))),
-            Column( mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children : [Padding(padding: EdgeInsets.only(top: 20) ,child :Padding(padding: EdgeInsets.only(right: 20) ,child:
-              CustomIconButton(
-                icon: Icons.close_rounded,
-                color: lightRed,
-                size: 15,
-                enableToolTip: false, message: '', onTap: () {fToast.removeCustomToast(); },
-              )
-              ,),)]),
-          ],
-        ),
+                  ),
+                )
+              ]),
+        ],
+      ),
     ),
   );
 

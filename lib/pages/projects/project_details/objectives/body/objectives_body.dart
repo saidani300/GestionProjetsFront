@@ -10,9 +10,9 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bl
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart'
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -42,11 +42,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
           },
           child: Text(
             "Projets",
-            style: TextStyle(
-                color: active,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
+            style: textStyle_active_12_600
           ),
         ),
         Padding(
@@ -61,11 +57,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
         ),
         Text(
           "Développement d'une nouvelle interface utilisateur",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -82,11 +74,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
         ),
         Text(
           "Objectifs",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -131,6 +119,7 @@ class ProjectObjectivesBody extends StatefulWidget {
 
 class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
   final ScrollController controller = ScrollController();
+
   @override
   initState() {
     super.initState();
@@ -164,7 +153,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                       ),
                     ],
                     borderRadius: BorderRadius.circular(3),
-                    color: Colors.white,
+                    color: white,
                   ),
                   child: Column(children: [
                     Container(
@@ -174,11 +163,11 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                             topRight: Radius.circular(3),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        color: Colors.white,
+                        color: white,
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
-                       //Menu
+                        //Menu
                         SizedBox(
                           width: 15,
                         ),
@@ -212,7 +201,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Container(
                       height: 40,
@@ -342,7 +331,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Expanded(
                         child: ObjectivesList(
@@ -357,6 +346,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
 
 class ObjectivesList extends StatefulWidget {
   final BuildContext parentContext;
+
   const ObjectivesList({Key? key, required this.parentContext})
       : super(key: key);
 
@@ -365,16 +355,15 @@ class ObjectivesList extends StatefulWidget {
 }
 
 class _ObjectivesListState extends State<ObjectivesList> {
-  late final bloc;
   @override
   void initState() {
-    bloc = BlocProvider.of<ObjectiveBloc>(widget.parentContext);
     super.initState();
-    bloc.init();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    final bloc = BlocProvider.of<ObjectiveBloc>(context);
+    bloc.init();
     return Container(
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
@@ -411,5 +400,3 @@ class _ObjectivesListState extends State<ObjectivesList> {
         ));
   }
 }
-
-

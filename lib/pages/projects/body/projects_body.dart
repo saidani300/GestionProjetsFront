@@ -12,8 +12,8 @@ import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/dialogs.dart';
@@ -50,6 +50,7 @@ class ProjectsPageBody extends StatefulWidget {
 
 class ProjectsPageHeader extends StatelessWidget {
   final VoidCallback onTap;
+
   const ProjectsPageHeader({
     Key? key,
     required this.onTap,
@@ -85,8 +86,8 @@ class ProjectsPageHeader extends StatelessWidget {
             text: "Créer un projet",
             isMultiple: false,
             onTap: () {
-              showCreateProjectDialogBox(context);}
-            ),
+              showCreateProjectDialogBox(context);
+            }),
       ],
     );
   }
@@ -102,7 +103,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
   @override
   initState() {
     super.initState();
-    projectsFilterData = ProjectFilter(null,null,null,null,null);
+    projectsFilterData = ProjectFilter(null, null, null, null, null);
   }
 
   @override
@@ -133,7 +134,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                         ),
                       ],
                       borderRadius: BorderRadius.circular(3),
-                      color: Colors.white,
+                      color: white,
                     ),
                     child: Column(
                       children: [
@@ -185,7 +186,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                           secondChild: Column(children: [
                             Container(
                               height: 1,
-                              color: dark.withOpacity(0.15),
+                              color: dividerColor,
                             ),
                             Filter(apply: () {
                               setState(() {
@@ -200,14 +201,14 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                         ),
                         Divider(
                           height: 1,
-                          color: dark.withOpacity(0.15),
+                          color: dividerColor,
                         ),
                         ProjectsListHeader(
                           tapOrderBy: () {},
                         ),
                         Divider(
                           height: 1,
-                          color: dark.withOpacity(0.15),
+                          color: dividerColor,
                         ),
                         Expanded(
                             child: ProjectsList(
@@ -232,6 +233,7 @@ class ProjectsListHeader extends StatelessWidget {
 
   const ProjectsListHeader({Key? key, required this.tapOrderBy})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -260,11 +262,7 @@ class ProjectsListHeader extends StatelessWidget {
                               children: [
                                 Text(
                                   "Projet",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ),
                                 Visibility(
                                     visible:
@@ -298,11 +296,7 @@ class ProjectsListHeader extends StatelessWidget {
                               children: [
                                 Text(
                                   "Date limite",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ),
                                 Visibility(
                                     visible:
@@ -338,11 +332,7 @@ class ProjectsListHeader extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Chef d'équipe",
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: textStyle_Text_12_600
                                   ),
                                   Visibility(
                                       visible:
@@ -378,11 +368,7 @@ class ProjectsListHeader extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Statut",
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: textStyle_Text_12_600
                                   ),
                                   Visibility(
                                       visible:
@@ -403,11 +389,7 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Text(
             "Actions",
-            style: TextStyle(
-                color: text,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
+            style: textStyle_Text_12_600
           ),
           SizedBox(
             width: 20,
@@ -420,6 +402,7 @@ class ProjectsListHeader extends StatelessWidget {
 
 class ProjectsList extends StatefulWidget {
   final BuildContext parentContext;
+
   const ProjectsList({Key? key, required this.parentContext}) : super(key: key);
 
   @override
@@ -428,6 +411,7 @@ class ProjectsList extends StatefulWidget {
 
 class _ProjectsListState extends State<ProjectsList> {
   late final bloc;
+
   @override
   void initState() {
     bloc = BlocProvider.of<ProjectBloc>(widget.parentContext);

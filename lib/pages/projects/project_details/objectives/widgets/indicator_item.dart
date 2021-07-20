@@ -19,20 +19,22 @@ class IndicatorItem extends StatefulWidget {
   final VoidCallback onTap;
   final Indicator indicator;
   final Objective objective;
+
   const IndicatorItem(
       {Key? key,
-        required this.indicator,
-        required this.objective,
-        required this.onTap})
+      required this.indicator,
+      required this.objective,
+      required this.onTap})
       : super(key: key);
 
   @override
   _IndicatorItemState createState() => _IndicatorItemState();
 }
 
-class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAliveClientMixin<IndicatorItem> ,TickerProviderStateMixin {
-
-
+class _IndicatorItemState extends State<IndicatorItem>
+    with
+        AutomaticKeepAliveClientMixin<IndicatorItem>,
+        TickerProviderStateMixin {
   String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -44,12 +46,14 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     _controller.forward();
   }
+
   @override
   dispose() {
     print("Disposed " + widget.hashCode.toString());
     _controller.dispose();
     super.dispose();
   }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -64,13 +68,13 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
             sizeFactor: _animation,
             child: Material(
                 color: Colors.transparent,
-                child:Column(children: [
-
+                child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
                       print("tapped");
-                      locator<NavigationService>().projectDetailsNavigateTo(indicatorPageRoute);
+                      locator<NavigationService>()
+                          .projectDetailsNavigateTo(indicatorPageRoute);
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -95,14 +99,10 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                                 children: [
                                   Flexible(
                                       child: Text(
-                                        widget.indicator.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
+                                    widget.indicator.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
                                 ],
                               ),
                             ),
@@ -112,11 +112,32 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                             width: 20,
                           ),
                           Expanded(
-                            child: Container( child :
-                            Row( children :[ CustomTag(
-                              text: widget.indicator.minValue.toString() + " " + widget.indicator.unit,
-                              color: lightOrange,
-                            )])
+                            child: Container(
+                                child: Row(children: [
+                              CustomTag(
+                                text: widget.indicator.minValue.toString() +
+                                    " " +
+                                    widget.indicator.unit,
+                                color: lightOrange,
+                              )
+                            ])),
+                            flex: 3,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  CustomTag(
+                                    text: widget.indicator.maxValue.toString() +
+                                        " " +
+                                        widget.indicator.unit,
+                                    color: lightBlue,
+                                  )
+                                ],
+                              ),
                             ),
                             flex: 3,
                           ),
@@ -124,31 +145,18 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                             width: 20,
                           ),
                           Expanded(
-                            child: Container( child :
-                            Row(
-                              children: [
-                                CustomTag(
-                                  text: widget.indicator.maxValue.toString() + " " + widget.indicator.unit,
-                                  color: lightBlue,
-                                )
-                              ],
-                            ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container( child :
-                            Row(
-                              children: [
-                                CustomTag(
-                                  text: widget.indicator.criticalThreshold.toString() + " " + widget.indicator.unit,
-                                  color: lightRed,
-                                )
-                              ],
-                            ),
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  CustomTag(
+                                    text: widget.indicator.criticalThreshold
+                                            .toString() +
+                                        " " +
+                                        widget.indicator.unit,
+                                    color: lightRed,
+                                  )
+                                ],
+                              ),
                             ),
                             flex: 3,
                           ),
@@ -170,14 +178,10 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                                 ),
                                 Flexible(
                                     child: Text(
-                                      widget.indicator.user.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
+                                  widget.indicator.user.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textStyle_Text_12_600
+                                )),
                               ],
                             ),
                             flex: 4,
@@ -187,26 +191,19 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                               children: [
                                 Flexible(
                                     child: Text(
-                                      widget.indicator.autoMeasure ? "Automatique :"
-                                : "Manuelle : ",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
+                                  widget.indicator.autoMeasure
+                                      ? "Automatique :"
+                                      : "Manuelle : ",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textStyle_Text_12_600
+                                )),
                                 Flexible(
-                    child: Text(
-
-                      indicatorFrequencyAsText(widget.indicator.frequency),
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                        color: text,
-                        fontSize: 12,
-                        letterSpacing: 0,
-                        fontWeight: FontWeight.w500),
-            )),
+                                    child: Text(
+                                  indicatorFrequencyAsText(
+                                      widget.indicator.frequency),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textStyle_Text_12_500,
+                                )),
                               ],
                             ),
                             flex: 4,
@@ -215,17 +212,25 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                           SizedBox(
                             width: 10,
                           ),
-                          Container(width: 40, child: Row(mainAxisSize: MainAxisSize.min,children: [
-                            Expanded(child: Container()),
-                            CustomIconButton(
-                                icon: Icons.delete_forever_rounded,
-                                message: 'Supprimer',
-                                color: Colors.redAccent,
-                                onTap: () {
-                                  _controller.reverse().whenComplete(() => bloc.removeIndicator(widget.objective , widget.indicator));
-                                  //showDialogBox(context, onTap);
-                                }),
-                          ],),),
+                          Container(
+                            width: 40,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(child: Container()),
+                                CustomIconButton(
+                                    icon: Icons.delete_forever_rounded,
+                                    message: 'Supprimer',
+                                    color: Colors.redAccent,
+                                    onTap: () {
+                                      _controller.reverse().whenComplete(() =>
+                                          bloc.removeIndicator(widget.objective,
+                                              widget.indicator));
+                                      //showDialogBox(context, onTap);
+                                    }),
+                              ],
+                            ),
+                          ),
 
                           SizedBox(
                             width: 20,
@@ -236,22 +241,21 @@ class _IndicatorItemState extends State<IndicatorItem>   with AutomaticKeepAlive
                   ),
                   Divider(
                     height: 1,
-                    color: dark.withOpacity(0.15),
+                    color: dividerColor,
                   ),
                 ]))));
   }
 }
 
-String indicatorFrequencyAsText(Frequency frequency)
-{
-  switch(frequency) {
-    case Frequency.monthly :
+String indicatorFrequencyAsText(Frequency frequency) {
+  switch (frequency) {
+    case Frequency.monthly:
       return 'Mensuel';
-    case Frequency.quarterly :
+    case Frequency.quarterly:
       return 'Trimestriel';
-    case Frequency.semiAnnually :
+    case Frequency.semiAnnually:
       return 'Semestriel';
-    case Frequency.annually :
+    case Frequency.annually:
       return 'Annuel';
   }
 }

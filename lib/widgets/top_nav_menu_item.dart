@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class TopNavMenuItem extends StatelessWidget {
   final String itemName;
   final Function() onTap;
+
   const TopNavMenuItem({
     Key? key,
     required this.itemName,
@@ -18,7 +19,7 @@ class TopNavMenuItem extends StatelessWidget {
       height: 55,
       child: InkWell(
           onTap: onTap,
-          hoverColor: Colors.white,
+          hoverColor: white,
           onHover: (value) {
             value
                 ? menuController.onHover(itemName)
@@ -38,13 +39,12 @@ class TopNavMenuItem extends StatelessWidget {
                             child: Text(
                           itemName,
                           style: TextStyle(
-                                color: menuController.isHovering(itemName)
-                                    ? text
-                                    : lightText,
-                                fontSize: 13,
-                                letterSpacing: 0,
-                                fontWeight: FontWeight.w500),
-
+                              color: menuController.isHovering(itemName)
+                                  ? text
+                                  : lightText,
+                              fontSize: 13,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w500),
                           textAlign: TextAlign.center,
                         )),
                       )
@@ -54,7 +54,6 @@ class TopNavMenuItem extends StatelessWidget {
                           child: Text(
                             itemName,
                             style: textStyle_active_13_500,
-
                             textAlign: TextAlign.center,
                           ),
                         ),

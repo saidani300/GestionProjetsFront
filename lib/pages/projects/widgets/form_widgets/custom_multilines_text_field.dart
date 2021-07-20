@@ -15,7 +15,8 @@ class MultiLinesTextFieldWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MultiLinesTextFieldWidgetState createState() => _MultiLinesTextFieldWidgetState();
+  _MultiLinesTextFieldWidgetState createState() =>
+      _MultiLinesTextFieldWidgetState();
 }
 
 class _MultiLinesTextFieldWidgetState extends State<MultiLinesTextFieldWidget> {
@@ -24,32 +25,31 @@ class _MultiLinesTextFieldWidgetState extends State<MultiLinesTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     final styleActive =
-    TextStyle(color: text, fontSize: 13, fontWeight: FontWeight.w500);
+        TextStyle(color: text, fontSize: 13, fontWeight: FontWeight.w500);
     final styleHint =
-    TextStyle(color: text, fontSize: 12.5, fontWeight: FontWeight.w500);
+        TextStyle(color: text, fontSize: 12.5, fontWeight: FontWeight.w500);
     return Container(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: TextFormField(
-                expands: false,
-                textAlignVertical: TextAlignVertical.top,
-                textCapitalization: TextCapitalization.sentences,
-                maxLines: 5,
-                cursorWidth: 1.5,
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(21),
-
-                  border: OutlineInputBorder(),
-                ),
-                style: styleActive,
-                //  onChanged: widget.onChanged,
-              ),
-            )
-          ],
-        ));
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          child: TextFormField(
+            expands: false,
+            textAlignVertical: TextAlignVertical.top,
+            textCapitalization: TextCapitalization.sentences,
+            maxLines: 5,
+            cursorWidth: 1.5,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.all(21),
+              border: OutlineInputBorder(),
+            ),
+            style: styleActive,
+            //  onChanged: widget.onChanged,
+          ),
+        )
+      ],
+    ));
   }
 }

@@ -26,14 +26,15 @@ String selectedType = "Développement";
 CheckBoxItemLeader selectedLeader = LeaderList[0];
 PriorityItem priorityLevel = priorityItems[1];
 String projectName = "";
+
 class CreateProjectForm extends StatefulWidget {
   @override
   _CreateProjectFormState createState() => _CreateProjectFormState();
 }
 
 class _CreateProjectFormState extends State<CreateProjectForm> {
-
   final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,11 +62,14 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
                 SizedBox(
                   width: 6,
                 ),
-                CustomIconButton(icon: Icons.info_outline, message: 'Créer un projet', onTap: (){})
+                CustomIconButton(
+                    icon: Icons.info_outline,
+                    message: 'Créer un projet',
+                    onTap: () {})
               ])),
           Divider(
             height: 1,
-            color: dark.withOpacity(0.15),
+            color: dividerColor,
           ),
           Column(
               mainAxisSize: MainAxisSize.min,
@@ -93,27 +97,34 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
                           height: 12,
                         ),
                         Container(
-                                  width: 300,
-                                  height: 40,
-                                  child: TextFormField(
-                                    initialValue: projectName,
-                                    cursorWidth: 1.5,
-                                   // controller: controller,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: text.withOpacity(0.4), width: 1.4),),
-                                      focusedBorder: const OutlineInputBorder(borderSide: const BorderSide(color: active, width: 1.4),)
-
-                                    ),
-                                    style: TextStyle(color: text, fontSize: 13, fontWeight: FontWeight.w500),
-                                    maxLines: 1,
-                                      onChanged: (value){
-                                      setState(() {
-                                        projectName = value;
-                                      });
-                                      },
-
-                                )),
+                            width: 300,
+                            height: 40,
+                            child: TextFormField(
+                              initialValue: projectName,
+                              cursorWidth: 1.5,
+                              // controller: controller,
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: text.withOpacity(0.4),
+                                        width: 1.4),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: active, width: 1.4),
+                                  )),
+                              style: TextStyle(
+                                  color: text,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500),
+                              maxLines: 1,
+                              onChanged: (value) {
+                                setState(() {
+                                  projectName = value;
+                                });
+                              },
+                            )),
                       ]),
                   SizedBox(
                     width: 20,
@@ -278,7 +289,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 7,
                                               letterSpacing: 1)),
-                                      foregroundColor: Colors.white,
+                                      foregroundColor: white,
                                       backgroundColor: colors[int.tryParse(
                                               selectedLeader.profileImage) ??
                                           0],
@@ -325,7 +336,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
                                                               FontWeight.w600,
                                                           fontSize: 9,
                                                           letterSpacing: 1)),
-                                                  foregroundColor: Colors.white,
+                                                  foregroundColor: white,
                                                   backgroundColor: colors[
                                                       int.tryParse(choice
                                                               .profileImage) ??
@@ -502,7 +513,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
           ),
           Divider(
             height: 1,
-            color: dark.withOpacity(0.15),
+            color: dividerColor,
           )
         ]));
   }

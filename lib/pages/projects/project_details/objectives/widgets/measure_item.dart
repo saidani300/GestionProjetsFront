@@ -19,6 +19,7 @@ class MeasureItem extends StatefulWidget {
   final VoidCallback onTap;
   final Measure measure;
   final Indicator indicator;
+
   const MeasureItem(
       {Key? key,
       required this.measure,
@@ -205,7 +206,8 @@ class _MeasureItemState extends State<MeasureItem>
                                             widget.indicator.criticalThreshold
                                         ? lightRed
                                         : lightBlue,
-                                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(2)),
                                   ),
                                   child: Icon(
                                     widget.measure.value <
@@ -254,7 +256,7 @@ class _MeasureItemState extends State<MeasureItem>
                   ),
                   Divider(
                     height: 1,
-                    color: dark.withOpacity(0.15),
+                    color: dividerColor,
                   ),
                   // Container(height: 60,)
                 ]))));

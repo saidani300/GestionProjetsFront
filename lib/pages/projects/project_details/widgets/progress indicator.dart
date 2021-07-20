@@ -5,6 +5,7 @@ import 'package:gestion_projets/constants/style.dart';
 class Progress extends StatefulWidget {
   final int completed;
   final int inProgress;
+
   const Progress({Key? key, required this.completed, required this.inProgress})
       : super(key: key);
 
@@ -20,15 +21,14 @@ class _ProgressState extends State<Progress> {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(2)),
-            color: text,
-
-      ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(2)),
+          color: text,
+        ),
         padding: EdgeInsets.all(10),
         textStyle: TextStyle(
             height: 2,
-            color: Colors.white,
+            color: white,
             fontSize: 11,
             letterSpacing: 0,
             fontWeight: FontWeight.w600),

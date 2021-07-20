@@ -5,11 +5,12 @@ class OpenCloseArrowButton extends StatefulWidget {
   final Function() onTap;
   final Color color;
   bool isExpanded;
+
   OpenCloseArrowButton(
       {Key? key,
-        required this.onTap,
-        this.isExpanded = false,
-        this.color = active})
+      required this.onTap,
+      this.isExpanded = false,
+      this.color = active})
       : super(key: key);
 
   @override
@@ -62,7 +63,7 @@ class _OpenCloseArrowButtonState extends State<OpenCloseArrowButton>
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 8,
-                color: onHover ? Colors.white : widget.color,
+                color: onHover ? white : widget.color,
               ),
             )));
   }

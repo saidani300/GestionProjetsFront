@@ -11,8 +11,8 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bl
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
@@ -44,11 +44,7 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
           },
           child: Text(
             "Projets",
-            style: TextStyle(
-                color: active,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
+            style: textStyle_active_12_600
           ),
         ),
         Padding(
@@ -63,11 +59,7 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
         ),
         Text(
           "Développement d'une nouvelle interface utilisateur",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -84,11 +76,7 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
         ),
         Text(
           "Risques/Opportunités",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -106,7 +94,20 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
           text: "Créer un risque/opportunité",
           isMultiple: false,
           onTap: () {
-            bloc.add(new   Event(new Random().nextInt(99999), "Retard potentiel pour une tâche", "Chronologie", "Retard dans la prochaine action", "Ressources humaines", "Développement d'une nouvelle interface utilisateur", DateTime.now(), EventType.Opportunity, EventLevel.low, User(12,"Saidani Wael","https://i.imgur.com/kieKRFZ.jpeg"), [] ,[Document(1, "name")]),
+            bloc.add(
+              new Event(
+                  new Random().nextInt(99999),
+                  "Retard potentiel pour une tâche",
+                  "Chronologie",
+                  "Retard dans la prochaine action",
+                  "Ressources humaines",
+                  "Développement d'une nouvelle interface utilisateur",
+                  DateTime.now(),
+                  EventType.Opportunity,
+                  EventLevel.low,
+                  User(12, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
+                  [],
+                  [Document(1, "name")]),
             );
           },
         ),
@@ -119,11 +120,14 @@ class ProjectRisksOpportunitiesBody extends StatefulWidget {
   const ProjectRisksOpportunitiesBody({Key? key}) : super(key: key);
 
   @override
-  _ProjectRisksOpportunitiesBodyState createState() => _ProjectRisksOpportunitiesBodyState();
+  _ProjectRisksOpportunitiesBodyState createState() =>
+      _ProjectRisksOpportunitiesBodyState();
 }
 
-class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitiesBody> {
+class _ProjectRisksOpportunitiesBodyState
+    extends State<ProjectRisksOpportunitiesBody> {
   final ScrollController controller = ScrollController();
+
   @override
   initState() {
     super.initState();
@@ -157,7 +161,7 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                       ),
                     ],
                     borderRadius: BorderRadius.circular(3),
-                    color: Colors.white,
+                    color: white,
                   ),
                   child: Column(children: [
                     Container(
@@ -167,7 +171,7 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                             topRight: Radius.circular(3),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        color: Colors.white,
+                        color: white,
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
@@ -205,7 +209,7 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Container(
                       height: 40,
@@ -228,15 +232,11 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                                 children: [
                                   Flexible(
                                       child: Text(
-                                        "Risque / Opportunité",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
-                                 ],
+                                    "Risque / Opportunité",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
+                                ],
                               ),
                             ),
                             flex: 3,
@@ -245,131 +245,112 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                             width: 20,
                           ),
                           Expanded(
-                            child: Container( child :
-                            Row(
-                              children: [
-                                Flexible(
-                                    child: Text(
-                                      "Impact",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                              ],
-                            ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container( child :
-                            Row(
-                              children: [
-                                Flexible(
-                                    child: Text(
-                                      "Source",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                              ],
-                            ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container( child :
-                            Row( children :[  Flexible(
-                                child: Text(
-                                  "Évaluations",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
-                                )),])
-                            ),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container( child :
-                            Row(
-                              children: [
-                                Flexible(
-                                    child: Text(
-                                      "Date d'identification",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                              ],
-                            ),
-                            ),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Flexible(
-                                    child: Text(
-                                      "Identifié par",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                              ],
-                            ),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Row(
+                            child: Container(
+                              child: Row(
                                 children: [
                                   Flexible(
                                       child: Text(
-                                        "Niveau",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
-                                ]),
+                                    "Impact",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
+                                ],
+                              ),
+                            ),
+                            flex: 3,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                      child: Text(
+                                    "Source",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
+                                ],
+                              ),
+                            ),
+                            flex: 3,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                                child: Row(children: [
+                              Flexible(
+                                  child: Text(
+                                "Évaluations",
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyle_Text_12_600
+                              )),
+                            ])),
+                            flex: 2,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                      child: Text(
+                                    "Date d'identification",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
+                                ],
+                              ),
+                            ),
+                            flex: 2,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Flexible(
+                                    child: Text(
+                                  "Identifié par",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textStyle_Text_12_600
+                                )),
+                              ],
+                            ),
+                            flex: 2,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Row(children: [
+                              Flexible(
+                                  child: Text(
+                                "Niveau",
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyle_Text_12_600
+                              )),
+                            ]),
                             flex: 1,
                           ),
                           // ActionsMenu(),
                           SizedBox(
                             width: 10,
                           ),
-                          Container(width: 40, child: Row(mainAxisSize: MainAxisSize.min,children: [
-                          ],),),
+                          Container(
+                            width: 40,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [],
+                            ),
+                          ),
 
                           SizedBox(
                             width: 20,
@@ -379,12 +360,12 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Expanded(
                         child: RisksOpportunitiesList(
-                          parentContext: context,
-                        )),
+                      parentContext: context,
+                    )),
                   ]),
                 )))
       ],
@@ -394,6 +375,7 @@ class _ProjectRisksOpportunitiesBodyState extends State<ProjectRisksOpportunitie
 
 class RisksOpportunitiesList extends StatefulWidget {
   final BuildContext parentContext;
+
   const RisksOpportunitiesList({Key? key, required this.parentContext})
       : super(key: key);
 
@@ -403,6 +385,7 @@ class RisksOpportunitiesList extends StatefulWidget {
 
 class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
   late final bloc;
+
   @override
   void initState() {
     bloc = BlocProvider.of<EventBloc>(widget.parentContext);
@@ -422,20 +405,20 @@ class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                      ? NoObjectives()
-                      : ListView(
-                    key: ValueKey(Random.secure()),
-                    controller: scrollController,
-                    children:
-                    results.map((e) => _buildItem(e)).toList(),
-                  )
+                          ? NoObjectives()
+                          : ListView(
+                              key: ValueKey(Random.secure()),
+                              controller: scrollController,
+                              children:
+                                  results.map((e) => _buildItem(e)).toList(),
+                            )
                       : Center(
-                    child: SpinKitFadingCube(
-                      color: active,
-                      size: 25,
-                      duration: Duration(milliseconds: 1200),
-                    ),
-                  ));
+                          child: SpinKitFadingCube(
+                            color: active,
+                            size: 25,
+                            duration: Duration(milliseconds: 1200),
+                          ),
+                        ));
             }));
   }
 
@@ -443,9 +426,8 @@ class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
     return TestProxy(
         key: ValueKey(event),
         child: new EventItem(
-          onTap: () {}, event: event,
+          onTap: () {},
+          event: event,
         ));
   }
 }
-
-

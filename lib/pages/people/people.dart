@@ -7,14 +7,15 @@ class PeoplePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container( color: Colors.black.withOpacity(0.04), child: Center(
-
-      child: SpinKitFadingCube(
-        color: active,
-        size: 25,
-        duration: Duration(milliseconds: 1200),
+    return Container(
+      color: Colors.black.withOpacity(0.04),
+      child: Center(
+        child: SpinKitFadingCube(
+          color: active,
+          size: 25,
+          duration: Duration(milliseconds: 1200),
+        ),
       ),
-
-    ),);
+    );
   }
 }

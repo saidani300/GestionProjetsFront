@@ -28,11 +28,9 @@ class ProjectDetails extends StatelessWidget {
           color: backgroundColor,
           child: Navigator(
             key: locator<NavigationService>().projectDetailsNavigatorKey,
-
             initialRoute: overviewPageRoute,
             onGenerateRoute: generateRoute,
-          )
-                ,
+          ),
         ))
       ],
     ));

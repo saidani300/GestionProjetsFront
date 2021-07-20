@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart'
+import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 
 class TaskModel {
   final int id;
@@ -24,11 +24,13 @@ class TaskModel {
         name = json['name'],
         startDate = json['startDate'],
         endDate = json['endDate'],
-        status = /*Model.Status.values[*/json['status'],
+        status = /*Model.Status.values[*/ json['status'],
         user = User.fromJson(json["user"]),
-        documents = List<Document>.from(json["documents"].map((x) => Document.fromJson(x))),
-        priority = /*Model.Priority.values[*/json['priority'],
-        subTasks = List<TaskModel>.from(json["subTasks"].map((x) => TaskModel.fromJson(x)));
+        documents = List<Document>.from(
+            json["documents"].map((x) => Document.fromJson(x))),
+        priority = /*Model.Priority.values[*/ json['priority'],
+        subTasks = List<TaskModel>.from(
+            json["subTasks"].map((x) => TaskModel.fromJson(x)));
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -43,7 +45,16 @@ class TaskModel {
       };
 }
 
-TaskModel myTask = new TaskModel(new Random().nextInt(99999), "Développement d'une nouvelle interface utilisateur", DateTime.now(), DateTime.now().add(Duration(days: 17)), Model.Status.inProgress, User(30,"Saidani Wael","5"), [Document((1), "Doc1")], Model.Priority.Important, []);
+TaskModel myTask = new TaskModel(
+    new Random().nextInt(99999),
+    "Développement d'une nouvelle interface utilisateur",
+    DateTime.now(),
+    DateTime.now().add(Duration(days: 17)),
+    Model.Status.inProgress,
+    User(30, "Saidani Wael", "5"),
+    [Document((1), "Doc1")],
+    Model.Priority.Important,
+    []);
 
 List<TaskModel> Tasks = [
   TaskModel(

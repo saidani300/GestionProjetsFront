@@ -3,19 +3,13 @@ import 'package:gestion_projets/constants/style.dart';
 
 import 'body/tasks_body.dart';
 
-
-
 class ProjectTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Container(
-        color: backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child:
-        ProjectTasksBody(),
-      );
-
-
+      color: backgroundColor,
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+      child: ProjectTasksBody(),
+    );
   }
 }

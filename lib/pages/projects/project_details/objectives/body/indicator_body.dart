@@ -47,11 +47,7 @@ class IndicatorHeader extends StatelessWidget {
           },
           child: Text(
             "Objectifs",
-            style: TextStyle(
-                color: active,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
+            style: textStyle_active_12_600
           ),
         ),
         Padding(
@@ -66,11 +62,7 @@ class IndicatorHeader extends StatelessWidget {
         ),
         Text(
           "Objectif de développement",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -87,11 +79,7 @@ class IndicatorHeader extends StatelessWidget {
         ),
         Text(
           "Indicateurs",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -133,6 +121,7 @@ class IndicatorBody extends StatefulWidget {
 
 class _IndicatorBodyState extends State<IndicatorBody> {
   final ScrollController controller = ScrollController();
+
   @override
   initState() {
     super.initState();
@@ -170,7 +159,7 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(3),
-                        color: Colors.white,
+                        color: white,
                       ),
                       child: Column(children: [
                         Container(
@@ -180,11 +169,11 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                                 topRight: Radius.circular(3),
                                 bottomLeft: Radius.circular(0),
                                 bottomRight: Radius.circular(0)),
-                            color: Colors.white,
+                            color: white,
                           ),
                           alignment: Alignment.bottomLeft,
                           child: Row(children: [
-                           //Menu
+                            //Menu
                             SizedBox(
                               width: 15,
                             ),
@@ -218,7 +207,7 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                         ),
                         Divider(
                           height: 1,
-                          color: dark.withOpacity(0.15),
+                          color: dividerColor,
                         ),
                         Container(
                           height: 40,
@@ -357,7 +346,7 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                         ),
                         Divider(
                           height: 1,
-                          color: dark.withOpacity(0.15),
+                          color: dividerColor,
                         ),
                         Expanded(
                             child: MeasuresList(
@@ -372,6 +361,7 @@ class _IndicatorBodyState extends State<IndicatorBody> {
 
 class MeasuresList extends StatefulWidget {
   final BuildContext parentContext;
+
   const MeasuresList({Key? key, required this.parentContext}) : super(key: key);
 
   @override
@@ -380,6 +370,7 @@ class MeasuresList extends StatefulWidget {
 
 class _MeasuresListState extends State<MeasuresList> {
   late final bloc;
+
   @override
   void initState() {
     bloc = BlocProvider.of<ObjectiveBloc>(widget.parentContext);
@@ -441,6 +432,7 @@ class IndicatorDetails extends StatefulWidget {
 class _IndicatorDetailsState extends State<IndicatorDetails> {
   bool _firstChild = true;
   String message = "Afficher le graphique";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -460,13 +452,13 @@ class _IndicatorDetailsState extends State<IndicatorDetails> {
                 ),
               ],
               borderRadius: BorderRadius.circular(3),
-              color: Colors.white,
+              color: white,
             ),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               IndicatorDetailsHeader(),
               Divider(
                 height: 1,
-                color: dark.withOpacity(0.15),
+                color: dividerColor,
               ),
               IndicatorDetailsItem(
                 indicator: indicator,
@@ -475,16 +467,16 @@ class _IndicatorDetailsState extends State<IndicatorDetails> {
                 onChartTap: () {
                   setState(() {
                     _firstChild = !_firstChild;
-
                   });
-                  if(message.contains("Afficher"))
-                  {
-                    setState(() {message = "Masquer le graphique"; });
+                  if (message.contains("Afficher")) {
+                    setState(() {
+                      message = "Masquer le graphique";
+                    });
+                  } else {
+                    setState(() {
+                      message = "Afficher le graphique";
+                    });
                   }
-                  else
-                    {
-                      setState(() {message = "Afficher le graphique"; });
-                    }
                 },
               ),
               AnimatedCrossFade(
@@ -496,7 +488,7 @@ class _IndicatorDetailsState extends State<IndicatorDetails> {
                   children: [
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     MeasuresChart(
                       parentContext: context,
@@ -658,6 +650,7 @@ class IndicatorDetailsItem extends StatefulWidget {
   final Function() onChartTap;
   final String chartMessage;
   final Indicator indicator;
+
   const IndicatorDetailsItem(
       {Key? key,
       required this.indicator,
@@ -717,11 +710,7 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                           child: Text(
                         widget.indicator.name,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: text,
-                            fontSize: 12,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w600),
+                        style: textStyle_Text_12_600
                       )),
                     ],
                   ),
@@ -799,11 +788,7 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                         child: Text(
                       widget.indicator.user.name,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
+                      style: textStyle_Text_12_600
                     )),
                   ],
                 ),
@@ -818,21 +803,13 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                           ? "Automatique :"
                           : "Manuelle : ",
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600),
+                      style: textStyle_Text_12_600
                     )),
                     Flexible(
                         child: Text(
                       indicatorFrequencyAsText(widget.indicator.frequency),
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: text,
-                          fontSize: 12,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w500),
+                      style: textStyle_Text_12_500,
                     )),
                   ],
                 ),
@@ -849,9 +826,9 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                   children: [
                     Expanded(child: Container()),
                     CustomIconButton(
-                        icon: Icons.bar_chart,
-                        message: widget.chartMessage,
-                        onTap: widget.onChartTap,
+                      icon: Icons.bar_chart,
+                      message: widget.chartMessage,
+                      onTap: widget.onChartTap,
                       size: 20,
                     ),
                   ],

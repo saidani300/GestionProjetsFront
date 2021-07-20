@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart'
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 
 const AllName = "Tous";
 const CompletedName = "Terminé";
@@ -29,6 +29,7 @@ class PriorityItem {
   final String name;
   final IconData icon;
   final Color color;
+
   PriorityItem(this.name, this.icon, this.color);
 }
 
@@ -38,7 +39,8 @@ List<PriorityItem> priorityItems = [
   PriorityItem("Basse", Icons.flag_outlined, text.withOpacity(0.65)),
 ];
 
-Phase newPhase = Phase(Random.secure().nextInt(1000), Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), []);
+Phase newPhase = Phase(Random.secure().nextInt(1000),
+    Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), []);
 
 List<Phase> Phases = [
   Phase(1, 'Specification'.toUpperCase(), DateTime.now(), DateTime.now(), [
@@ -221,7 +223,6 @@ List<Phase> Phases = [
                 Document(1, "Document1"),
               ],
               Priority.Normal),
-
         ],
         [
           Document(1, "Document1"),
@@ -269,7 +270,6 @@ List<Phase> Phases = [
                 Document(1, "Document1"),
               ],
               Priority.Normal),
-
         ],
         [
           Document(1, "Document1"),

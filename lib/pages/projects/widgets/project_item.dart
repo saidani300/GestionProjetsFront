@@ -4,8 +4,8 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
@@ -17,17 +17,18 @@ import 'dialogs.dart';
 
 class ProjectItem extends StatefulWidget {
   final Project project;
-  const ProjectItem(
-      {Key? key,
-      required this.project,})
-      : super(key: key);
+
+  const ProjectItem({
+    Key? key,
+    required this.project,
+  }) : super(key: key);
 
   @override
   _ProjectItemState createState() => _ProjectItemState();
 }
 
-class _ProjectItemState extends State<ProjectItem> with AutomaticKeepAliveClientMixin<ProjectItem> ,TickerProviderStateMixin {
-
+class _ProjectItemState extends State<ProjectItem>
+    with AutomaticKeepAliveClientMixin<ProjectItem>, TickerProviderStateMixin {
   String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -39,134 +40,154 @@ class _ProjectItemState extends State<ProjectItem> with AutomaticKeepAliveClient
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     _controller.forward();
   }
+
   @override
   dispose() {
     print("Disposed " + widget.hashCode.toString());
     _controller.dispose();
     super.dispose();
   }
+
   @override
   bool get wantKeepAlive => true;
-
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<ProjectBloc>(context);
     super.build(context);
-    return
-      FadeTransition(
+    return FadeTransition(
         opacity: _animation,
         child: SizeTransition(
-          sizeFactor: _animation,
-          child: Material(
-            color: Colors.transparent,
-            child: Column(children: [InkWell(
-              hoverColor: active.withOpacity(0.015),
-              onTap: () {
-                print("tapped");
-                locator<NavigationService>().projectNavigateTo(projectDetailsPageRoute);
-              },
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              child: Container(
-                height: 84,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Visibility(
-                        replacement: SizedBox(
-                          width: 2,
-                        ),
-                        visible: (widget.project.endDate.isBefore(DateTime.now())),
-                        child: SizedBox(
-                          width: 2,
-                          child: Container(
-                            color: lightRed,
-                          ),
-                        )),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
-                      child: ProjectName(
-                        projectName: widget.project.name,
-                        projectType: widget.project.type,
-                      ),
-                      flex: 3,
-                    ),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
-                      child: ProjectDeadline(
-                        date: getText(widget.project.endDate),
-                        days: (widget.project.endDate.isBefore(DateTime.now()))
-                            ? "En retard"
-                            : widget.project.endDate.difference(DateTime.now()).inDays == 0 ? "Aujourd'hui" : "Dans " + widget.project.endDate.difference(DateTime.now()).inDays.toString() + " jours",
-                      ),
-                      flex: 2,
-                    ),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
-                      child: ProjectTeamLeader(
-                        teamLeader: widget.project.teamLeader,
-                      ),
-                      flex: 2,
-                    ),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
+            sizeFactor: _animation,
+            child: Material(
+                color: Colors.transparent,
+                child: Column(children: [
+                  InkWell(
+                    hoverColor: active.withOpacity(0.015),
+                    onTap: () {
+                      print("tapped");
+                      locator<NavigationService>()
+                          .projectNavigateTo(projectDetailsPageRoute);
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    child: Container(
+                      height: 84,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(child: StatusTag(
-                          status: widget.project.status),)]),
-                      flex: 1,
+                          Visibility(
+                              replacement: SizedBox(
+                                width: 2,
+                              ),
+                              visible: (widget.project.endDate
+                                  .isBefore(DateTime.now())),
+                              child: SizedBox(
+                                width: 2,
+                                child: Container(
+                                  color: lightRed,
+                                ),
+                              )),
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                            child: ProjectName(
+                              projectName: widget.project.name,
+                              projectType: widget.project.type,
+                            ),
+                            flex: 3,
+                          ),
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                            child: ProjectDeadline(
+                              date: getText(widget.project.endDate),
+                              days: (widget.project.endDate
+                                      .isBefore(DateTime.now()))
+                                  ? "En retard"
+                                  : widget.project.endDate
+                                              .difference(DateTime.now())
+                                              .inDays ==
+                                          0
+                                      ? "Aujourd'hui"
+                                      : "Dans " +
+                                          widget.project.endDate
+                                              .difference(DateTime.now())
+                                              .inDays
+                                              .toString() +
+                                          " jours",
+                            ),
+                            flex: 2,
+                          ),
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                            child: ProjectTeamLeader(
+                              teamLeader: widget.project.teamLeader,
+                            ),
+                            flex: 2,
+                          ),
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: StatusTag(
+                                        status: widget.project.status),
+                                  )
+                                ]),
+                            flex: 1,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          // ActionsMenu(),
+                          CustomIconButton(
+                            icon: Icons.edit_outlined,
+                            message: 'Modifier',
+                            size: 16,
+                            onTap: () {},
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CustomIconButton(
+                              icon: Icons.delete_outline_rounded,
+                              message: 'Supprimer',
+                              color: Colors.redAccent,
+                              onTap: () {
+                                showDialogBox(context, () {
+                                  _controller.reverse().whenComplete(
+                                      () => bloc.remove(widget.project));
+                                });
+                              }),
+                          SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    // ActionsMenu(),
-                    CustomIconButton(
-                      icon: Icons.edit_outlined,
-                      message: 'Modifier',
-                      size: 16,
-                      onTap: () {
-                       },
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CustomIconButton(
-                        icon: Icons.delete_outline_rounded,
-                        message: 'Supprimer',
-                        color: Colors.redAccent,
-                        onTap: () {
-                          showDialogBox(context,() {_controller.reverse().whenComplete(() => bloc.remove(widget.project));});
-                        }),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-              ),
-        ),
-      Divider(
-        height: 1,
-        color: dark.withOpacity(0.15),
-      )
-    ]))));
+                  ),
+                  Divider(
+                    height: 1,
+                    color: dividerColor,
+                  )
+                ]))));
   }
 }
 
 class ProjectName extends StatelessWidget {
   final String projectName;
   final String projectType;
+
   const ProjectName(
       {Key? key, required this.projectName, required this.projectType})
       : super(key: key);
@@ -181,11 +202,7 @@ class ProjectName extends StatelessWidget {
           Text(
             projectName,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: text,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
+            style: textStyle_Text_12_600
           ),
           SizedBox(
             height: 5,
@@ -207,6 +224,7 @@ class ProjectName extends StatelessWidget {
 class ProjectDeadline extends StatelessWidget {
   final String date;
   final String days;
+
   const ProjectDeadline({Key? key, required this.date, required this.days})
       : super(key: key);
 
@@ -217,14 +235,11 @@ class ProjectDeadline extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(child:Text(
+            Flexible(
+                child: Text(
               date,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: text,
-                  fontSize: 12,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w600),
+              style: textStyle_Text_12_600
             )),
             SizedBox(
               height: 5,
@@ -289,24 +304,20 @@ class ProjectTeamLeader extends StatelessWidget {
           ),
           Flexible(
               child: Text(
-                teamLeader.name,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: text,
-                    fontSize: 12,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600),
-              )),
+            teamLeader.name,
+            overflow: TextOverflow.ellipsis,
+            style: textStyle_Text_12_600
+          )),
         ],
       ),
     );
   }
 }
 
-
 class StatusTag extends StatelessWidget {
   final Status status;
   final String date;
+
   const StatusTag({Key? key, required this.status, this.date = ""})
       : super(key: key);
 
@@ -315,20 +326,18 @@ class StatusTag extends StatelessWidget {
     switch (status) {
       case Status.completed:
         return CustomTag(text: 'Terminé', color: lightBlue, date: date
-          /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: Colors.white, size: 12,),),*/
-        );
+            /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: white, size: 12,),),*/
+            );
       case Status.inProgress:
         return CustomTag(
           text: 'En cours',
           color: lightOrange,
-          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
+          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
         );
       case Status.approved:
-        return CustomTag(
-            text: 'Approuvé',
-            color: lightPurple, date: date
-          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
-        );
+        return CustomTag(text: 'Approuvé', color: lightPurple, date: date
+            /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
+            );
     }
   }
 }

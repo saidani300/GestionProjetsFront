@@ -10,49 +10,49 @@ import 'bloc.dart';
 class ObjectiveBloc implements Bloc {
   final _controller = StreamController<List<Objective>>.broadcast();
   final _client = APIClient();
+
   Stream<List<Objective>> get objectiveStream => _controller.stream;
 
-  Future init () async
-  {
-   await Future.delayed(Duration(milliseconds: 300) , ()=> _controller.sink.add(Objectives));
+  Future init() async {
+    await Future.delayed(
+        Duration(milliseconds: 300), () => _controller.sink.add(Objectives));
   }
-  fetch(){
+
+  fetch() {
     _controller.sink.add(Objectives);
   }
 
-  remove(Objective objective) async
-  {
+  remove(Objective objective) async {
     Objectives.remove(objective);
 
     _controller.sink.add(Objectives);
   }
-  removeIndicator(Objective objective , Indicator indicator) async
-  {
+
+  removeIndicator(Objective objective, Indicator indicator) async {
     objective.indicators.remove(indicator);
     _controller.sink.add(Objectives);
   }
-  removeMeasure(Indicator indicator , Measure measure) async
-  {
+
+  removeMeasure(Indicator indicator, Measure measure) async {
     indicator.measures.remove(measure);
     _controller.sink.add(Objectives);
   }
-  addMeasure(Indicator indicator , Measure measure) async
-  {
+
+  addMeasure(Indicator indicator, Measure measure) async {
     indicator.measures.add(measure);
     _controller.sink.add(Objectives);
   }
 
-
-  add(Objective objective) async
-  {
-    Objectives.insert(0,objective);
+  add(Objective objective) async {
+    Objectives.insert(0, objective);
     _controller.sink.add(Objectives);
   }
-  addIndicator(Objective objective , Indicator indicator) async
-  {
+
+  addIndicator(Objective objective, Indicator indicator) async {
     objective.indicators.add(indicator);
     _controller.sink.add(Objectives);
   }
+
   @override
   void dispose() {
     _controller.close();

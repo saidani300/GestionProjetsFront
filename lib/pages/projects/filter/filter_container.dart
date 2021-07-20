@@ -12,7 +12,8 @@ import 'package:intl/intl.dart';
 class Filter extends StatefulWidget {
   final Function() apply;
 
-  const Filter({Key? key,required this.apply}) : super(key: key);
+  const Filter({Key? key, required this.apply}) : super(key: key);
+
   @override
   State<Filter> createState() => new FilterState();
 }
@@ -22,7 +23,7 @@ class FilterState extends State<Filter> {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       Expanded(
-        //TODO: Fix GroupCheck bug , Add CheckList filter.
+          //TODO: Fix GroupCheck bug , Add CheckList filter.
           child: Padding(
               padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
               child: Wrap(
@@ -136,7 +137,7 @@ class FilterState extends State<Filter> {
                                   Expanded(
                                       child: Padding(
                                           padding:
-                                          EdgeInsets.fromLTRB(10, 3, 0, 3),
+                                              EdgeInsets.fromLTRB(10, 3, 0, 3),
                                           child: Text(
                                             "Chef d'équipe",
                                             style: TextStyle(
@@ -156,28 +157,27 @@ class FilterState extends State<Filter> {
                               )),
 //Items
                           itemBuilder: (context) => [
-                            CustomPopupMenuItem(
-                                enabled: false,
-                                value: 0,
-                                child: Container(
-                                    height: 192,
-                                    width: 252,
-                                    child: ListView(
-                                      children: [
-                                        CustomCheckAllBoxLeader(
-                                          allItems: checkAllLeader,
-                                        ),
-                                        Divider(
-                                          height: 1,
-                                        ),
-                                        ...LeaderList
-                                            .map((item) => CustomCheckBoxLeader(
-                                          item: item,
-                                        ))
-                                            .toList()
-                                      ],
-                                    ))),
-                          ]),
+                                CustomPopupMenuItem(
+                                    enabled: false,
+                                    value: 0,
+                                    child: Container(
+                                        height: 192,
+                                        width: 252,
+                                        child: ListView(
+                                          children: [
+                                            CustomCheckAllBoxLeader(
+                                              allItems: checkAllLeader,
+                                            ),
+                                            Divider(
+                                              height: 1,
+                                            ),
+                                            ...LeaderList.map(
+                                                (item) => CustomCheckBoxLeader(
+                                                      item: item,
+                                                    )).toList()
+                                          ],
+                                        ))),
+                              ]),
                     ),
                     Container(
                         width: 320,
@@ -186,11 +186,7 @@ class FilterState extends State<Filter> {
                               width: 100,
                               child: Text(
                                 "Date de début: ",
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w500),
+                                style: textStyle_Text_12_500,
                               )),
                           SizedBox(
                             width: 20,
@@ -210,11 +206,7 @@ class FilterState extends State<Filter> {
                               width: 100,
                               child: Text(
                                 "Date de fin: ",
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w500),
+                                style: textStyle_Text_12_500,
                               )),
                           SizedBox(
                             width: 20,
@@ -246,15 +238,14 @@ class FilterState extends State<Filter> {
                       ),
                       onPressed: widget.apply,
                       child: Text(
-                      'Appliquer',
+                        'Appliquer',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: white,
                             fontSize: 11.5,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
-
                   ])))
     ]);
   }

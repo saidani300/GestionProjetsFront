@@ -9,10 +9,10 @@ import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart'
+import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
@@ -46,11 +46,7 @@ class ProjectTasksHeader extends StatelessWidget {
           },
           child: Text(
             "Projets",
-            style: TextStyle(
-                color: active,
-                fontSize: 12,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600),
+            style: textStyle_active_12_600
           ),
         ),
         Padding(
@@ -65,11 +61,7 @@ class ProjectTasksHeader extends StatelessWidget {
         ),
         Text(
           "Développement d'une nouvelle interface utilisateur",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -86,11 +78,7 @@ class ProjectTasksHeader extends StatelessWidget {
         ),
         Text(
           "Tâches",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
         SizedBox(
           width: 2,
@@ -118,7 +106,7 @@ class ProjectTasksHeader extends StatelessWidget {
                 [Document((1), "Doc1")],
                 Model.Priority.Important,
                 []));
-            showToast(ToastType.success)  ;
+            showToast(ToastType.success);
           },
         ),
       ],
@@ -135,6 +123,7 @@ class ProjectTasksBody extends StatefulWidget {
 
 class _ProjectTasksBodyState extends State<ProjectTasksBody> {
   final ScrollController controller = ScrollController();
+
   @override
   initState() {
     super.initState();
@@ -163,7 +152,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                       ),
                     ],
                     borderRadius: BorderRadius.circular(3),
-                    color: Colors.white,
+                    color: white,
                   ),
                   child: Column(children: [
                     Container(
@@ -173,20 +162,20 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                             topRight: Radius.circular(3),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        color: Colors.white,
+                        color: white,
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
-
                         SizedBox(
-                          width: 15,
+                          width: 20,
                         ),
-                        Expanded(child: Container()),
                         SearchWidget(
                           text: "",
                           hintText: 'Rechercher des tâches',
                           onChanged: (value) {},
                         ),
+                        Expanded(child: Container()),
+
                         SizedBox(
                           width: 15,
                         ),
@@ -211,7 +200,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Container(
                       height: 40,
@@ -232,16 +221,11 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                             child: Container(
                               child: Row(
                                 children: [
-
                                   Flexible(
                                       child: Text(
                                     "Tâche",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: textStyle_Text_12_600
                                   )),
                                 ],
                               ),
@@ -258,11 +242,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                   child: Text(
                                 "Date de début",
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
+                                style: textStyle_Text_12_600
                               )),
                             ])),
                             flex: 3,
@@ -278,11 +258,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                       child: Text(
                                     "Date de fin",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: textStyle_Text_12_600
                                   )),
                                 ],
                               ),
@@ -299,11 +275,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                     child: Text(
                                   "Affecter à",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 )),
                               ],
                             ),
@@ -316,11 +288,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                   child: Text(
                                 "Priorité",
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
+                                style: textStyle_Text_12_600
                               )),
                             ])),
                             flex: 2,
@@ -337,11 +305,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                                       child: Text(
                                     "Statut",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
+                                    style: textStyle_Text_12_600
                                   )),
                                 ]),
                             flex: 2,
@@ -366,7 +330,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Expanded(
                         child: TasksList(
@@ -381,6 +345,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
 
 class TasksList extends StatefulWidget {
   final BuildContext parentContext;
+
   const TasksList({Key? key, required this.parentContext}) : super(key: key);
 
   @override
@@ -389,6 +354,7 @@ class TasksList extends StatefulWidget {
 
 class _TasksListState extends State<TasksList> {
   late final bloc;
+
   @override
   void initState() {
     bloc = BlocProvider.of<TaskBloc>(widget.parentContext);

@@ -11,15 +11,11 @@ import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
 
 import '../locator.dart';
 
-
 Color notificationsColor = text;
 Color supportColor = text;
 Color settingsColor = text.withOpacity(0.4);
 
-
-AppBar topNavigationBar(context) =>
-    AppBar(
-
+AppBar topNavigationBar(context) => AppBar(
       toolbarHeight: 55,
       leading: Row(
         children: [
@@ -32,10 +28,10 @@ AppBar topNavigationBar(context) =>
           ),
         ],
       ),
-      title:NavigationBarBody(),
+      title: NavigationBarBody(),
       iconTheme: IconThemeData(color: dark),
       elevation: 1,
-      backgroundColor: Colors.white,
+      backgroundColor: white,
     );
 
 //PopupMenu
@@ -47,7 +43,10 @@ _showPopupMenu(BuildContext context) {
       PopupMenuItem<int>(
           height: 40,
           child: Row(children: [
-            Text('Profil' , style: textStyle_Text_12_500,),
+            Text(
+              'Profil',
+              style: textStyle_Text_12_500,
+            ),
             SizedBox(
               width: 20,
             )
@@ -56,7 +55,10 @@ _showPopupMenu(BuildContext context) {
       PopupMenuItem<int>(
           height: 40,
           child: Row(children: [
-            Text('Paramètres de compte',style: textStyle_Text_12_500,),
+            Text(
+              'Paramètres de compte',
+              style: textStyle_Text_12_500,
+            ),
             SizedBox(
               width: 20,
             )
@@ -68,7 +70,10 @@ _showPopupMenu(BuildContext context) {
       PopupMenuItem<int>(
           height: 40,
           child: Row(children: [
-            Text('Déconnexion' ,style: textStyle_Text_12_500,),
+            Text(
+              'Déconnexion',
+              style: textStyle_Text_12_500,
+            ),
             SizedBox(
               width: 20,
             )
@@ -79,21 +84,18 @@ _showPopupMenu(BuildContext context) {
   );
 }
 
-
 showDialogBox(BuildContext context) {
   showDialog(
     useRootNavigator: false,
-    useSafeArea:  false,
+    useSafeArea: false,
     context: context,
     builder: (context) {
       return Center(
-
         child: SpinKitFadingCube(
-          color: Colors.white,
+          color: white,
           size: 25,
           duration: Duration(milliseconds: 1200),
         ),
-
       );
     },
   );
@@ -114,7 +116,7 @@ class NavigationBarBody extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: TopVarMenuItemRoutes.map(
-                        (e) => Padding(
+                    (e) => Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: TopNavMenuItem(
                             itemName: e.name,
@@ -123,7 +125,8 @@ class NavigationBarBody extends StatelessWidget {
                                 /// print(listKey);
                                 menuController.changeActiveItemTo(e.name);
                                 // navigationController.navigateTo(e.route);
-                                locator<NavigationService>().navigateTo(e.route);
+                                locator<NavigationService>()
+                                    .navigateTo(e.route);
                                 //     Navigator.pushNamed(context, e.route);
                                 print(e.route);
                               }
@@ -132,7 +135,6 @@ class NavigationBarBody extends StatelessWidget {
                 ),
               ])),
           Expanded(child: Container()),
-
           InkWell(
             onTap: () {},
             hoverColor: Colors.transparent,
@@ -147,16 +149,14 @@ class NavigationBarBody extends StatelessWidget {
                 hoverColor: active.withOpacity(0.1),
                 highlightColor: Colors.transparent,
                 iconSize: 20,
-                  tooltip: 'Support',
+                tooltip: 'Support',
                 icon: Icon(
                   Icons.support_outlined,
                   color: supportColor,
                 ),
                 onPressed: () {}),
-
           ),
           NotificationMenu(),
-
           SizedBox(
             width: 10,
           ),
@@ -168,7 +168,6 @@ class NavigationBarBody extends StatelessWidget {
           SizedBox(
             width: 24,
           ),
-
           InkWell(
             onTap: () {
               _showPopupMenu(context);
@@ -189,14 +188,16 @@ class NavigationBarBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30)),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: white,
                         borderRadius: BorderRadius.circular(30)),
                     padding: EdgeInsets.all(1),
                     margin: EdgeInsets.all(1.5),
                     child: CircleAvatar(
-                      child: Text(profileInitials('Saidani Wael') , style: textStyle_icon_size1),
-                      foregroundColor: Colors.white,
-                      backgroundColor: /*Colors.deepPurpleAccent*/ colors[int.tryParse("3") ?? 0],
+                      child: Text(profileInitials('Saidani Wael'),
+                          style: textStyle_icon_size1),
+                      foregroundColor: white,
+                      backgroundColor: /*Colors.deepPurpleAccent*/ colors[
+                          int.tryParse("3") ?? 0],
                       //backgroundImage: AssetImage('images/uiface.jpg'),
 
                       /* child: Icon(Icons.person_outline, color: active, size: 15,),*/
@@ -209,7 +210,6 @@ class NavigationBarBody extends StatelessWidget {
                 Text(
                   "Saidani Wael",
                   style: textStyle_Text_13_500,
-
                 ),
                 SizedBox(
                   width: 3,
@@ -222,7 +222,6 @@ class NavigationBarBody extends StatelessWidget {
               ],
             ),
           ),
-
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
@@ -19,20 +19,22 @@ class ProjectSubTaskItem extends StatefulWidget {
   final VoidCallback onTap;
   final TaskModel subtask;
   final TaskModel task;
+
   const ProjectSubTaskItem(
       {Key? key,
-        required this.task,
-        required this.subtask,
-        required this.onTap})
+      required this.task,
+      required this.subtask,
+      required this.onTap})
       : super(key: key);
 
   @override
   _ProjectSubTaskItemState createState() => _ProjectSubTaskItemState();
 }
 
-class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with AutomaticKeepAliveClientMixin<ProjectSubTaskItem> ,TickerProviderStateMixin {
-
-
+class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
+    with
+        AutomaticKeepAliveClientMixin<ProjectSubTaskItem>,
+        TickerProviderStateMixin {
   String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -44,16 +46,17 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     // print(myTask.toJson());
     // print(jsonEncode(myTask));
- print("Id: " +widget.subtask.id.toString());
+    print("Id: " + widget.subtask.id.toString());
     _controller.forward();
-
   }
+
   @override
   dispose() {
     print("Disposed " + widget.hashCode.toString());
     _controller.dispose();
     super.dispose();
   }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -69,8 +72,7 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
             sizeFactor: _animation,
             child: Material(
                 color: Colors.transparent,
-                child:Column(children: [
-
+                child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
@@ -97,33 +99,50 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                             child: Container(
                               child: Row(
                                 children: [
-                                  Padding( padding : EdgeInsets.only(right: 10 , bottom: 10,left: 4), child :  SvgPicture.asset(
-                                    "icons/subtask.svg",
-                                    color: text.withOpacity(0.8),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        right: 10, bottom: 10, left: 4),
+                                    child: SvgPicture.asset(
+                                      "icons/subtask.svg",
+                                      color: text.withOpacity(0.8),
+                                      width: 20,
+                                      height: 20,
+                                    ),
+                                  ),
+                                  ChangeStatusButton(
+                                    onTap: () {
+                                      widget.subtask.status != Status.inProgress
+                                          ? widget.subtask.status ==
+                                                  Status.approved
+                                              ? widget.subtask.status =
+                                                  Status.completed
+                                              : widget.subtask.status =
+                                                  Status.approved
+                                          : null;
+                                      bloc.fetch();
+                                    },
+                                    status: widget.subtask.status,
+                                  ),
+                                  SizedBox(
                                     width: 20,
-                                    height: 20,
-
-                                  ),),
-                                  ChangeStatusButton(onTap: () {
-                                    widget.subtask.status != Status.inProgress ?  widget.subtask.status == Status.approved
-                                        ? widget.subtask.status = Status.completed
-                                        : widget.subtask.status = Status.approved : null;
-                                    bloc.fetch();
-
-                                  }, status: widget.subtask.status,),
-                                  SizedBox(width: 20,),
+                                  ),
                                   Flexible(
                                       child: Text(
-                                        widget.subtask.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
+                                    widget.subtask.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
                                   SizedBox(width: 5),
-                                  Visibility(visible: widget.subtask.documents.isNotEmpty, child: CustomIconButton(icon: Icons.attach_file_rounded, message: "${widget.subtask.documents.length.toString()} Attachement", onTap: (){}, size: 15,)),
+                                  Visibility(
+                                      visible:
+                                          widget.subtask.documents.isNotEmpty,
+                                      child: CustomIconButton(
+                                        icon: Icons.attach_file_rounded,
+                                        message:
+                                            "${widget.subtask.documents.length.toString()} Attachement",
+                                        onTap: () {},
+                                        size: 15,
+                                      )),
                                 ],
                               ),
                             ),
@@ -133,39 +152,32 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                             width: 20,
                           ),
                           Expanded(
-                            child: Container( child :
-                            Row( children :[ Flexible(
-                                child: Text(
-                                  getText(widget.subtask.startDate),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
-                                )),])
-                            ),
+                            child: Container(
+                                child: Row(children: [
+                              Flexible(
+                                  child: Text(
+                                getText(widget.subtask.startDate),
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyle_Text_12_600
+                              )),
+                            ])),
                             flex: 3,
                           ),
                           SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: Container( child :
-                            Row(
-                              children: [
-                                Flexible(
-                                    child: Text(
-                                      getText(widget.subtask.endDate),
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                              ],
-                            ),
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                      child: Text(
+                                    getText(widget.subtask.endDate),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600
+                                  )),
+                                ],
+                              ),
                             ),
                             flex: 3,
                           ),
@@ -187,14 +199,10 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                                 ),
                                 Flexible(
                                     child: Text(
-                                      widget.subtask.user.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 12,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600),
-                                    )),
+                                  widget.subtask.user.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textStyle_Text_12_600
+                                )),
                               ],
                             ),
                             flex: 4,
@@ -202,8 +210,10 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                           Expanded(
                             child: Container(
                                 child: Row(children: [
-                                  PriorityIcon(priority: widget.subtask.priority,)
-                                ])),
+                              PriorityIcon(
+                                priority: widget.subtask.priority,
+                              )
+                            ])),
                             flex: 2,
                           ),
                           SizedBox(
@@ -217,7 +227,8 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                                   Container(
                                       child: StatusTag(
                                           status: widget.subtask.status,
-                                          date: getText(widget.subtask.endDate)))
+                                          date:
+                                              getText(widget.subtask.endDate)))
                                 ]),
                             flex: 2,
                           ),
@@ -225,17 +236,25 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                           SizedBox(
                             width: 10,
                           ),
-                          Container(width: 40, child: Row(mainAxisSize: MainAxisSize.min,children: [
-                            Expanded(child: Container()),
-                            CustomIconButton(
-                                icon: Icons.delete_forever_rounded,
-                                message: 'Supprimer',
-                                color: Colors.redAccent,
-                                onTap: () {
-                                  _controller.reverse().whenComplete(() => bloc.removesSubTask(widget.task,widget.subtask));
-                                  //showDialogBox(context, onTap);
-                                }),
-                          ],),),
+                          Container(
+                            width: 40,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(child: Container()),
+                                CustomIconButton(
+                                    icon: Icons.delete_forever_rounded,
+                                    message: 'Supprimer',
+                                    color: Colors.redAccent,
+                                    onTap: () {
+                                      _controller.reverse().whenComplete(() =>
+                                          bloc.removesSubTask(
+                                              widget.task, widget.subtask));
+                                      //showDialogBox(context, onTap);
+                                    }),
+                              ],
+                            ),
+                          ),
 
                           SizedBox(
                             width: 20,
@@ -246,7 +265,7 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>   with Automati
                   ),
                   Divider(
                     height: 1,
-                    color: dark.withOpacity(0.15),
+                    color: dividerColor,
                   ),
                 ]))));
   }

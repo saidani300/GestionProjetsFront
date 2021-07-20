@@ -7,17 +7,14 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-
-      child:  Text(
+      child: Text(
         'Tableau de bord',
         style: TextStyle(
-              color: dark,
-              fontSize: 15,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w500),
-
+            color: dark,
+            fontSize: 15,
+            letterSpacing: 0,
+            fontWeight: FontWeight.w500),
       ),
-
     );
   }
 }

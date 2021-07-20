@@ -18,5 +18,4 @@ class TopNavMenuController extends GetxController {
   isHovering(String itemName) => hoverItem.value == itemName;
 
   isActive(String itemName) => activeItem.value == itemName;
-
 }

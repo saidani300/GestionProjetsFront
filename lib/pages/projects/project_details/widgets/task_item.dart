@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
@@ -13,7 +13,7 @@ import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart'
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
     as Model;
 
 import 'change_status_button.dart';
@@ -21,6 +21,7 @@ import 'change_status_button.dart';
 class TaskItem extends StatefulWidget {
   final Task task;
   final Model.Action action;
+
   const TaskItem({Key? key, required this.task, required this.action})
       : super(key: key);
 
@@ -45,6 +46,7 @@ class _TaskItemState extends State<TaskItem> {
 
   bool isExpanded = false;
   bool isHover = false;
+
   String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
 
   @override
@@ -119,25 +121,24 @@ class _TaskItemState extends State<TaskItem> {
                                   }) : setState(() {
                                     isCompleted = true;
                                   }) ;*/
-                                  widget.task.status != Status.inProgress ?  widget.task.status == Status.approved
-                                      ? widget.task.status = Status.completed
-                                      : widget.task.status = Status.approved : null;
+                                  widget.task.status != Status.inProgress
+                                      ? widget.task.status == Status.approved
+                                          ? widget.task.status =
+                                              Status.completed
+                                          : widget.task.status = Status.approved
+                                      : null;
                                   // phaseBloc.fetch();
                                   UpdateAction(widget.action);
                                   bloc.fetch();
-                                }, status: widget.task.status,
-
+                                },
+                                status: widget.task.status,
                               ),
                               SizedBox(width: 10),
                               Flexible(
                                   child: Text(
                                 widget.task.name,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: text,
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600),
+                                style: textStyle_Text_12_600
                               )),
                               SizedBox(width: 5),
                               Visibility(
@@ -158,7 +159,7 @@ class _TaskItemState extends State<TaskItem> {
                                 height: 15,
 
                               ),*/
-                   /* Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
+                              /* Icon(Icons.swap_vertical_circle_outlined , color: Colors.orangeAccent, size: 16,)*/
                             ],
                           )),
                           flex: 5,
@@ -192,13 +193,13 @@ class _TaskItemState extends State<TaskItem> {
                                         width: 3,
                                       ),
                                       Tooltip(
-                                        preferBelow: false,
+                                          preferBelow: false,
                                           verticalOffset: 15,
                                           message: "En retard",
                                           decoration: BoxDecoration(
-                                            color: lightRed,
-                                            borderRadius: BorderRadius.all(Radius.circular(2))
-                                          ),
+                                              color: lightRed,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(2))),
                                           child: Icon(
                                             Icons.warning_rounded,
                                             color: lightRed,
@@ -227,11 +228,7 @@ class _TaskItemState extends State<TaskItem> {
                                 child: Text(
                               widget.task.user.name,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: text,
-                                  fontSize: 12,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.w600),
+                              style: textStyle_Text_12_600
                             )),
                             // Expanded(child: Container()),
                           ])),
@@ -250,11 +247,7 @@ class _TaskItemState extends State<TaskItem> {
                       Text(
                         "Normale",
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: active,
-                            fontSize: 12,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w600),
+                        style: textStyle_active_12_600
                       ),*/
                             //  Expanded(child: Container()),
                           ])),
@@ -297,6 +290,7 @@ class ActionButton extends StatefulWidget {
   final double bottomLeftRadius;
   final String message;
   final double size;
+
   const ActionButton(
       {Key? key,
       required this.color,
@@ -357,7 +351,7 @@ class _ActionButtonState extends State<ActionButton> {
                     child: Icon(
                       widget.icon,
                       size: 13,
-                      color: Colors.white,
+                      color: white,
                     )))));
   }
 }
@@ -479,6 +473,7 @@ class ActionsMenu extends StatelessWidget {
 class StatusTag extends StatelessWidget {
   final Status status;
   final String date;
+
   const StatusTag({Key? key, required this.status, this.date = ""})
       : super(key: key);
 
@@ -487,20 +482,18 @@ class StatusTag extends StatelessWidget {
     switch (status) {
       case Status.completed:
         return CustomTag(text: 'Terminé', color: lightBlue, date: date
-            /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: Colors.white, size: 12,),),*/
+            /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: white, size: 12,),),*/
             );
       case Status.inProgress:
         return CustomTag(
           text: 'En cours',
           color: lightOrange,
-          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
+          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
         );
       case Status.approved:
-        return CustomTag(
-          text: 'Approuvé',
-          color: lightPurple, date: date
-          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: Colors.white, size: 12,),),*/
-        );
+        return CustomTag(text: 'Approuvé', color: lightPurple, date: date
+            /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
+            );
     }
   }
 }
@@ -508,16 +501,17 @@ class StatusTag extends StatelessWidget {
 void UpdateAction(Model.Action action) {
   action.tasks.every((element) => element.status == Status.approved)
       ? action.status = Status.approved
-      :    action.tasks.any((element) => element.status == Status.completed) ? action.status = Status.completed : null;
+      : action.tasks.any((element) => element.status == Status.completed)
+          ? action.status = Status.completed
+          : null;
   print(action.status);
 }
 
-Color StatusColor(Status status)
-{
-  switch (status){
-    case Status.inProgress :
+Color StatusColor(Status status) {
+  switch (status) {
+    case Status.inProgress:
       return lightOrange;
-    case Status.completed :
+    case Status.completed:
       return lightBlue;
     case Status.approved:
       return lightPurple;

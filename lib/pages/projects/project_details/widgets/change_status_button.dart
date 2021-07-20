@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
 
 class ChangeStatusButton extends StatefulWidget {
   final Function() onTap;
- final Status status;
+  final Status status;
   final bool isChangeable;
+
   ChangeStatusButton({
     Key? key,
     required this.onTap,
@@ -21,15 +22,15 @@ class ChangeStatusButton extends StatefulWidget {
 class _ChangeStatusButtonState extends State<ChangeStatusButton> {
   bool onHover = false;
   bool isCompleted = false;
+
   @override
   Widget build(BuildContext context) {
     return (widget.isChangeable && widget.status != Status.inProgress)
         ? InkWell(
-      hoverColor: Colors.transparent,
+            hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             onTap: () {
-
               widget.onTap();
               setState(() {
                 onHover = false;
@@ -75,27 +76,30 @@ class _ChangeStatusButtonState extends State<ChangeStatusButton> {
                               ? StatusColor(Status.approved)
                               : StatusColor(Status.completed),
                       shape: BoxShape.circle),
-                  child: Icon(
-                    Icons.check_rounded,
-                    size: 10,
-                    color: Colors.white
-                  ),
+                  child:
+                      Icon(Icons.check_rounded, size: 10, color: white),
                 )))
         : Container(
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: widget.status != Status.inProgress ?   StatusColor(widget.status) : text.withOpacity(0.5) ,
-                        width: 1.5,
-                      ),
-                      color: widget.status != Status.inProgress ?  StatusColor(widget.status) : Colors.transparent,
-                      shape: BoxShape.circle),
-                  child: Icon(
-                    Icons.check_rounded,
-                    size: 10,
-                    color: widget.status != Status.inProgress ?  Colors.white : Colors.transparent,
-                  ),
-                );
+            height: 20,
+            width: 20,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: widget.status != Status.inProgress
+                      ? StatusColor(widget.status)
+                      : text.withOpacity(0.5),
+                  width: 1.5,
+                ),
+                color: widget.status != Status.inProgress
+                    ? StatusColor(widget.status)
+                    : Colors.transparent,
+                shape: BoxShape.circle),
+            child: Icon(
+              Icons.check_rounded,
+              size: 10,
+              color: widget.status != Status.inProgress
+                  ? white
+                  : Colors.transparent,
+            ),
+          );
   }
 }

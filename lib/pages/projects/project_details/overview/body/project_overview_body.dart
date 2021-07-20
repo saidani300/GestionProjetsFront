@@ -8,11 +8,12 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/task.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data_layer/action.dart' as Model;
+import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+    as Model;
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
@@ -33,87 +34,122 @@ class ProjectOverviewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final bloc = BlocProvider.of<PhaseBloc>(context);
+    final bloc = BlocProvider.of<PhaseBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-       /* Icon(
+        /* Icon(
           Icons.layers_rounded,
           size: 20,
           color: active,
         ),*/
-        TextButton(onPressed: (){locator<NavigationService>().projectGoBack();}, child: Text("Projets",style: TextStyle(
-            color: active,
-            fontSize: 12,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w600),),),
-        Padding(padding: EdgeInsets.only(top: 2) ,child :Icon(Icons.keyboard_arrow_right_rounded , size: 16, color: active,)),
-        SizedBox(width: 2,),
+        TextButton(
+          onPressed: () {
+            locator<NavigationService>().projectGoBack();
+          },
+          child: Text(
+            "Projets",
+            style: textStyle_active_12_600
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(top: 2),
+            child: Icon(
+              Icons.keyboard_arrow_right_rounded,
+              size: 16,
+              color: active,
+            )),
+        SizedBox(
+          width: 2,
+        ),
         Text(
           "Développement d'une nouvelle interface utilisateur",
-          style: TextStyle(
-              color: text,
-              fontSize: 12,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w600),
+          style: textStyle_Text_12_600
         ),
-        SizedBox(width: 2,),
-        Padding(padding: EdgeInsets.only(top: 2) ,child :Icon(Icons.keyboard_arrow_right_rounded , size: 16, color: active,)),
-        SizedBox(width: 2,),
-        Text("Aperçu",style: TextStyle(
-            color: text,
-            fontSize: 12,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w600),),
-        SizedBox(width: 2,),
-    Padding(padding: EdgeInsets.only(top: 2) ,child :CustomIconButton(icon: Icons.info, message: "Aperçu", onTap: (){} , size: 17,)),
+        SizedBox(
+          width: 2,
+        ),
+        Padding(
+            padding: EdgeInsets.only(top: 2),
+            child: Icon(
+              Icons.keyboard_arrow_right_rounded,
+              size: 16,
+              color: active,
+            )),
+        SizedBox(
+          width: 2,
+        ),
+        Text(
+          "Aperçu",
+          style: textStyle_Text_12_600
+        ),
+        SizedBox(
+          width: 2,
+        ),
+        Padding(
+            padding: EdgeInsets.only(top: 2),
+            child: CustomIconButton(
+              icon: Icons.info,
+              message: "Aperçu",
+              onTap: () {},
+              size: 17,
+            )),
         Expanded(child: Container()),
-        MultiOptionsButton(text: "Créer une phase", onTap: () { bloc.add(new Phase(new Random.secure().nextInt(1000), new Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), [
-
-          Model.Action(
-              16,
-              "Développement d'une nouvelle interface utilisateur.",
-              DateTime.now(),
-              DateTime.now().add(Duration(days: 36)),
-              Status.inProgress,
-              User(1, "Saidani Wael", "7"),
-              [
-                Task(
-                    2,
-                    "Développement d'une nouvelle interface utilisateur.",
-                    DateTime.now(),
-                    DateTime.now().add(Duration(days: 64)),
-                    Status.completed,
-                    User(1, "Saidani Wael", "5"),
-                    [],
-                    Priority.Important),
-                Task(
-                    6,
-                    "Développement d'une nouvelle interface",
-                    DateTime.now(),
-                    DateTime.now().add(Duration(days: 10)),
-                    Status.inProgress,
-                    User(2, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
-                    [
-                      Document(1, "Document1"),
-                      Document(1, "Document2"),
-                    ],
-                    Priority.Low),
-              ],
-              [
-                Document(1, "Document1"),
-                Document(1, "Document2"),
-              ],
-              Priority.Normal),
-        ]));
-        //ScrollUp when Adding new Phase
-        if (scrollController.hasClients)
-        scrollController.animateTo(
-          0.0,
-          curve: Curves.easeOut,
-          duration: const Duration(milliseconds: 300),
-        ); }, ),
+        MultiOptionsButton(
+          text: "Créer une phase",
+          onTap: () {
+            bloc.add(new Phase(
+                new Random.secure().nextInt(1000),
+                new Random.secure().hashCode.toString(),
+                DateTime.now(),
+                DateTime.now(), [
+              Model.Action(
+                  16,
+                  "Développement d'une nouvelle interface utilisateur.",
+                  DateTime.now(),
+                  DateTime.now().add(Duration(days: 36)),
+                  Status.inProgress,
+                  User(1, "Saidani Wael", "7"),
+                  [
+                    Task(
+                        2,
+                        "Développement d'une nouvelle interface utilisateur.",
+                        DateTime.now(),
+                        DateTime.now().add(Duration(days: 64)),
+                        Status.completed,
+                        User(1, "Saidani Wael", "5"),
+                        [],
+                        Priority.Important),
+                    Task(
+                        6,
+                        "Développement d'une nouvelle interface",
+                        DateTime.now(),
+                        DateTime.now().add(Duration(days: 10)),
+                        Status.inProgress,
+                        User(2, "Saidani Wael",
+                            "https://i.imgur.com/kieKRFZ.jpeg"),
+                        [
+                          Document(1, "Document1"),
+                          Document(1, "Document2"),
+                        ],
+                        Priority.Low),
+                  ],
+                  [
+                    Document(1, "Document1"),
+                    Document(1, "Document2"),
+                  ],
+                  Priority.Normal),
+            ]));
+            //ScrollUp when Adding new Phase
+            if (scrollController.hasClients)
+              scrollController.animateTo(
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+          },
+        ),
         /*TextButton.icon(
           style: ButtonStyle(
             fixedSize:
@@ -131,19 +167,19 @@ class ProjectOverviewHeader extends StatelessWidget {
                 EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
           ),
           onPressed: () {
-            *//*TODO: Create Add Phase Logic in BLoC*//*
-          *//*  locator<NavigationService>().projectGoBack();*//*
+            */ /*TODO: Create Add Phase Logic in BLoC*/ /*
+          */ /*  locator<NavigationService>().projectGoBack();*/ /*
 
           },
           icon: Icon(
             Icons.add,
-            color: Colors.white,
+            color: white,
             size: 16,
           ),
           label: Text(
             'Créer une phase',
             style: TextStyle(
-                color: Colors.white,
+                color: white,
                 fontSize: 11.5,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400),
@@ -163,6 +199,7 @@ class ProjectOverviewBody extends StatefulWidget {
 
 class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
   final ScrollController controller = ScrollController();
+
   @override
   initState() {
     super.initState();
@@ -170,8 +207,8 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
 
   @override
   Widget build(BuildContext context) {
-   // final bloc = BlocProvider.of<PhaseBloc>(context);
-   // bloc.fetch();
+    // final bloc = BlocProvider.of<PhaseBloc>(context);
+    // bloc.fetch();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -195,7 +232,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                       ),
                     ],
                     borderRadius: BorderRadius.circular(3),
-                    color: Colors.white,
+                    color: white,
                   ),
                   child: Column(children: [
                     Container(
@@ -205,7 +242,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                             topRight: Radius.circular(3),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        color: Colors.white,
+                        color: white,
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
@@ -226,7 +263,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                             icon: Icons.save_alt_rounded,
                             message: 'Exporter',
                             onTap: () {
-                            /*  bloc.fetch();*/
+                              /*  bloc.fetch();*/
                             }),
                         SizedBox(
                           width: 15,
@@ -243,7 +280,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -261,11 +298,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                                     child: Text(
                                   "Nom",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ))
                               ])),
                               flex: 5,
@@ -280,11 +313,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                                     child: Text(
                                   "Date limite",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ))
                               ])),
                               flex: 2,
@@ -299,11 +328,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                                     child: Text(
                                   "Responsable",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ))
                               ])),
                               flex: 2,
@@ -315,11 +340,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                                     child: Text(
                                   "Priorité",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ))
                               ])),
                               flex: 1,
@@ -334,11 +355,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                                     child: Text(
                                   "Avancement",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 ))
                               ])),
                               flex: 1,
@@ -350,11 +367,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                                 Text(
                                   "Actions",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 12,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600),
+                                  style: textStyle_Text_12_600
                                 )
                               ])),
                               flex: 1,
@@ -365,10 +378,12 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                     ),
                     Divider(
                       height: 1,
-                      color: dark.withOpacity(0.15),
+                      color: dividerColor,
                     ),
                     Expanded(
-                        child: PhasesList(parentContext: context,)),
+                        child: PhasesList(
+                      parentContext: context,
+                    )),
                   ]),
                 )))
       ],
@@ -378,70 +393,60 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
 
 class PhasesList extends StatefulWidget {
   final BuildContext parentContext;
-  const PhasesList({Key? key ,required this.parentContext}) : super(key: key);
+
+  const PhasesList({Key? key, required this.parentContext}) : super(key: key);
 
   @override
   _PhasesListState createState() => _PhasesListState();
 }
 
-class _PhasesListState extends State<PhasesList>{
-
+class _PhasesListState extends State<PhasesList> {
   late final bloc;
-@override
+
+  @override
   void initState() {
-  bloc = BlocProvider.of<PhaseBloc>(widget.parentContext);
-  super.initState();
-  bloc.init();
-  //Future.delayed(Duration(milliseconds: 50) , () async => await bloc.fetch());
-
+    bloc = BlocProvider.of<PhaseBloc>(widget.parentContext);
+    super.initState();
+    bloc.init();
+    //Future.delayed(Duration(milliseconds: 50) , () async => await bloc.fetch());
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         child: StreamBuilder<List<Phase>>(
             stream: bloc.phaseStream,
             builder: (context, snapshot) {
-              print(
-                  "snapshot " + snapshot.data.toString());
+              print("snapshot " + snapshot.data.toString());
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child:
-
-                  (snapshot.hasData) ?
-                  (results!.isEmpty) ?
-                  NoPhases() :
-              ListView(
-                key: ValueKey(Random.secure()),
-                controller: scrollController,
-                children: results.map((e) => _buildItem(e)).toList(),
-              )
-              :
-                 Center(
-                  child: SpinKitFadingCube(
-                    color: active,
-                    size: 25,
-                    duration:
-                    Duration(milliseconds: 1200),
-                  ),
-
-                ));
-
-            })
-    );
-
-}
-  Widget _buildItem(Phase phase) {
-    return TestProxy(
-      key: ValueKey(phase),
-      child: new PhaseItem(phase: phase,)
-    );
+                  child: (snapshot.hasData)
+                      ? (results!.isEmpty)
+                          ? NoPhases()
+                          : ListView(
+                              key: ValueKey(Random.secure()),
+                              controller: scrollController,
+                              children:
+                                  results.map((e) => _buildItem(e)).toList(),
+                            )
+                      : Center(
+                          child: SpinKitFadingCube(
+                            color: active,
+                            size: 25,
+                            duration: Duration(milliseconds: 1200),
+                          ),
+                        ));
+            }));
   }
 
-
+  Widget _buildItem(Phase phase) {
+    return TestProxy(
+        key: ValueKey(phase),
+        child: new PhaseItem(
+          phase: phase,
+        ));
+  }
 }
 
 class TestProxy extends SingleChildRenderObjectWidget {
