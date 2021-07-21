@@ -38,13 +38,13 @@ showOverlay(BuildContext context) async {
   overlayEntry.remove();
 }*/
 
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gestion_projets/constants/style.dart';
-
-import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
@@ -467,10 +467,9 @@ showToast(ToastType type) {
                     style: textStyle_Text_12_500,
                   ),
                   TextSpan(
-                    text:
-                        "\"Développement d'une nouvelle interface utilisateur\"",
-                    style: textStyle_Text_12_600
-                  ),
+                      text:
+                          "\"Développement d'une nouvelle interface utilisateur\"",
+                      style: textStyle_Text_12_600),
                   TextSpan(
                     text: " a été créé avec succès.",
                     style: TextStyle(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/body/projects_body.dart';
 
 import 'body/project_overview_body.dart';
 

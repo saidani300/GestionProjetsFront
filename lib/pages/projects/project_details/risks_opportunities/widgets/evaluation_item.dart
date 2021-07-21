@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
@@ -50,7 +49,7 @@ class _EvaluationItemState extends State<EvaluationItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -99,11 +98,9 @@ class _EvaluationItemState extends State<EvaluationItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    widget.evaluation.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.evaluation.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -174,10 +171,10 @@ class _EvaluationItemState extends State<EvaluationItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.evaluation.creationDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(
+                                              widget.evaluation.creationDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -200,11 +197,9 @@ class _EvaluationItemState extends State<EvaluationItem>
                                   width: 15,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.evaluation.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.evaluation.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 2,

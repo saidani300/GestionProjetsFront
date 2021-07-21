@@ -10,8 +10,8 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:get/get.dart';
+
 import 'custom_icon_button.dart';
-import 'form_widgets/custom_form_text_field.dart';
 
 var createOther = false.obs;
 

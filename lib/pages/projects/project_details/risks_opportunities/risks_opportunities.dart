@@ -5,7 +5,6 @@ import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../locator.dart';
-import 'body/risks_opportunities.dart';
 
 class ProjectRisksOpportunities extends StatelessWidget {
   @override

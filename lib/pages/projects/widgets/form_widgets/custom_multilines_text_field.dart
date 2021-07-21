@@ -1,7 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+
 import '../project_item.dart';
 
 Color iconColor = colors[0];

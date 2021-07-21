@@ -188,8 +188,7 @@ class NavigationBarBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30)),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(30)),
+                        color: white, borderRadius: BorderRadius.circular(30)),
                     padding: EdgeInsets.all(1),
                     margin: EdgeInsets.all(1.5),
                     child: CircleAvatar(

@@ -1,15 +1,19 @@
 import 'dart:async';
+
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/service/API_client.dart';
+import 'package:gestion_projets/pages/projects/service/API.dart';
+
 import 'bloc.dart';
+
 class MeetingBloc implements Bloc {
   final _controller = StreamController<List<Meeting>>.broadcast();
+  final _client = APIClient();
 
   Stream<List<Meeting>> get meetingStream => _controller.stream;
 
   Future init() async {
-    await Future.delayed(
-        Duration(milliseconds: 300), () => _controller.sink.add(meetings));
+   // List<Meeting> meetings = await _client.fetchMeetings();
+    Future.delayed(Duration(milliseconds: 300) , () =>  _controller.sink.add(meetings));
   }
 
   fetch() {
@@ -18,7 +22,6 @@ class MeetingBloc implements Bloc {
 
   remove(Meeting meeting) async {
     meetings.remove(meeting);
-
     _controller.sink.add(meetings);
   }
 

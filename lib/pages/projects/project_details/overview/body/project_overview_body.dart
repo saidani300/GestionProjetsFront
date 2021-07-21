@@ -3,24 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
-    as Model;
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
-import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
@@ -48,10 +44,7 @@ class ProjectOverviewHeader extends StatelessWidget {
           onPressed: () {
             locator<NavigationService>().projectGoBack();
           },
-          child: Text(
-            "Projets",
-            style: textStyle_active_12_600
-          ),
+          child: Text("Projets", style: textStyle_active_12_600),
         ),
         Padding(
             padding: EdgeInsets.only(top: 2),
@@ -63,10 +56,8 @@ class ProjectOverviewHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Développement d'une nouvelle interface utilisateur",
-          style: textStyle_Text_12_600
-        ),
+        Text("Développement d'une nouvelle interface utilisateur",
+            style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -80,10 +71,7 @@ class ProjectOverviewHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Aperçu",
-          style: textStyle_Text_12_600
-        ),
+        Text("Aperçu", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -295,11 +283,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                               child: Container(
                                   child: Row(children: [
                                 Flexible(
-                                    child: Text(
-                                  "Nom",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                ))
+                                    child: Text("Nom",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600))
                               ])),
                               flex: 5,
                             ),
@@ -310,11 +296,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                               child: Container(
                                   child: Row(children: [
                                 Flexible(
-                                    child: Text(
-                                  "Date limite",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                ))
+                                    child: Text("Date limite",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600))
                               ])),
                               flex: 2,
                             ),
@@ -325,11 +309,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                               child: Container(
                                   child: Row(children: [
                                 Flexible(
-                                    child: Text(
-                                  "Responsable",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                ))
+                                    child: Text("Responsable",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600))
                               ])),
                               flex: 2,
                             ),
@@ -337,11 +319,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                               child: Container(
                                   child: Row(children: [
                                 Flexible(
-                                    child: Text(
-                                  "Priorité",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                ))
+                                    child: Text("Priorité",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600))
                               ])),
                               flex: 1,
                             ),
@@ -352,11 +332,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                               child: Container(
                                   child: Row(children: [
                                 Flexible(
-                                    child: Text(
-                                  "Avancement",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                ))
+                                    child: Text("Avancement",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600))
                               ])),
                               flex: 1,
                             ),
@@ -364,11 +342,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                               child: Container(
                                   child: Row(children: [
                                 Expanded(child: Container()),
-                                Text(
-                                  "Actions",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )
+                                Text("Actions",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600)
                               ])),
                               flex: 1,
                             ),
@@ -417,7 +393,7 @@ class _PhasesListState extends State<PhasesList> {
         child: StreamBuilder<List<Phase>>(
             stream: bloc.phaseStream,
             builder: (context, snapshot) {
-              print("snapshot " + snapshot.data.toString());
+
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
@@ -454,12 +430,10 @@ class TestProxy extends SingleChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    print('createRenderObject $key');
     return RenderProxyBox();
   }
 
   @override
   void updateRenderObject(BuildContext context, RenderObject renderObject) {
-    print('updateRenderObject $key');
   }
 }

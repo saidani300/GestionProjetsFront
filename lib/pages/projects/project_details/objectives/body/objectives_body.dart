@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
@@ -17,7 +16,6 @@ import 'package:gestion_projets/pages/projects/project_details/widgets/messages.
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
-import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
@@ -40,10 +38,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
           onPressed: () {
             locator<NavigationService>().projectGoBack();
           },
-          child: Text(
-            "Projets",
-            style: textStyle_active_12_600
-          ),
+          child: Text("Projets", style: textStyle_active_12_600),
         ),
         Padding(
             padding: EdgeInsets.only(top: 2),
@@ -55,10 +50,8 @@ class ProjectObjectivesHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Développement d'une nouvelle interface utilisateur",
-          style: textStyle_Text_12_600
-        ),
+        Text("Développement d'une nouvelle interface utilisateur",
+            style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -72,10 +65,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Objectifs",
-          style: textStyle_Text_12_600
-        ),
+        Text("Objectifs", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -361,14 +351,14 @@ class _ObjectivesListState extends State<ObjectivesList> {
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final bloc = BlocProvider.of<ObjectiveBloc>(context);
     bloc.init();
     return Container(
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-              print("snapshot " + snapshot.data.toString());
+
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),

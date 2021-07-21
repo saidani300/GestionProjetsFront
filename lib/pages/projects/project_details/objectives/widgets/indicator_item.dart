@@ -49,7 +49,7 @@ class _IndicatorItemState extends State<IndicatorItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -98,11 +98,9 @@ class _IndicatorItemState extends State<IndicatorItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    widget.indicator.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.indicator.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -177,11 +175,9 @@ class _IndicatorItemState extends State<IndicatorItem>
                                   width: 15,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.indicator.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.indicator.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 4,
@@ -191,12 +187,11 @@ class _IndicatorItemState extends State<IndicatorItem>
                               children: [
                                 Flexible(
                                     child: Text(
-                                  widget.indicator.autoMeasure
-                                      ? "Automatique :"
-                                      : "Manuelle : ",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                        widget.indicator.autoMeasure
+                                            ? "Automatique :"
+                                            : "Manuelle : ",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                                 Flexible(
                                     child: Text(
                                   indicatorFrequencyAsText(

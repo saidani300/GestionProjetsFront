@@ -93,7 +93,7 @@ class _SideMenuState extends State<SideMenu> {
                           isExpanded: _isExpanded,
                           item: e,
                           onTap: () {
-                            if(selectedMenuItem != e) {
+                            if (selectedMenuItem != e) {
                               _onSelectItem(e);
 
                               locator<NavigationService>()

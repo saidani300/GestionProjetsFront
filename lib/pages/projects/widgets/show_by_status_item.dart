@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/constants/controllers.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:get/get.dart';
 
 class ShowByStatusItem extends StatefulWidget {
   final String itemName;

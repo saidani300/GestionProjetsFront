@@ -11,6 +11,7 @@ import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
+
 import '../../../locator.dart';
 import 'custom_icon_button.dart';
 import 'dialogs.dart';
@@ -43,7 +44,7 @@ class _ProjectItemState extends State<ProjectItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -199,11 +200,8 @@ class ProjectName extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            projectName,
-            overflow: TextOverflow.ellipsis,
-            style: textStyle_Text_12_600
-          ),
+          Text(projectName,
+              overflow: TextOverflow.ellipsis, style: textStyle_Text_12_600),
           SizedBox(
             height: 5,
           ),
@@ -236,11 +234,9 @@ class ProjectDeadline extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Flexible(
-                child: Text(
-              date,
-              overflow: TextOverflow.ellipsis,
-              style: textStyle_Text_12_600
-            )),
+                child: Text(date,
+                    overflow: TextOverflow.ellipsis,
+                    style: textStyle_Text_12_600)),
             SizedBox(
               height: 5,
             ),
@@ -303,11 +299,9 @@ class ProjectTeamLeader extends StatelessWidget {
             width: 15,
           ),
           Flexible(
-              child: Text(
-            teamLeader.name,
-            overflow: TextOverflow.ellipsis,
-            style: textStyle_Text_12_600
-          )),
+              child: Text(teamLeader.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: textStyle_Text_12_600)),
         ],
       ),
     );

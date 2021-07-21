@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -7,19 +6,12 @@ import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
-    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
-import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_subtask_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
@@ -57,7 +49,7 @@ class _ObjectiveItemState extends State<ObjectiveItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -117,11 +109,9 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                     width: 20,
                                   ),
                                   Flexible(
-                                      child: Text(
-                                    widget.objective.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.objective.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -162,10 +152,10 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.objective.creationDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(
+                                              widget.objective.creationDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -188,11 +178,9 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                   width: 15,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.objective.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.objective.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 4,

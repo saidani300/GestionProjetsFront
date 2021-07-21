@@ -33,6 +33,7 @@ const String eventEvaluationsPageRoute = "/evaluations";
 const String evaluationCalculationsPageRoute = "/calculations";
 
 const String meetingsPageRoute = "/meetings";
+
 class MenuItem {
   final String name;
   final String route;

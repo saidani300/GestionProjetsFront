@@ -1,9 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import '../custom_icon_button.dart';
-import '../project_item.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final String text;

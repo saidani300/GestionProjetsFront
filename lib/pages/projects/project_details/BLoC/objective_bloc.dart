@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/service/API_client.dart';
 
 import 'bloc.dart';
 
 class ObjectiveBloc implements Bloc {
   final _controller = StreamController<List<Objective>>.broadcast();
-  final _client = APIClient();
 
   Stream<List<Objective>> get objectiveStream => _controller.stream;
 

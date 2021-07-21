@@ -1,7 +1,8 @@
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
-import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class Project {
   final int id;
   final String name;
@@ -20,6 +21,25 @@ class Project {
     this.startDate,
     this.endDate,
   );
+
+  Project.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        type = json['type'],
+        startDate = DateTime.parse(json['startDate']),
+        endDate = DateTime.parse(json['endDate']),
+        teamLeader = User.fromJson(json['teamLeader']),
+        status = Status.values.elementAt(json['status']);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'type': type,
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+        'teamLeader': teamLeader.toJson(),
+        'status': status.index,
+      };
 }
 
 //TODO: Fix Dates Format use DataTime formats

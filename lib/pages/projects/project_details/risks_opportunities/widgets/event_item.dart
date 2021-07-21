@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
-import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +43,7 @@ class _EventItemState extends State<EventItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -116,11 +107,9 @@ class _EventItemState extends State<EventItem>
                                     width: 10,
                                   ),
                                   Flexible(
-                                      child: Text(
-                                    widget.event.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.event.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -145,11 +134,9 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    widget.event.impact,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.event.impact,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -164,11 +151,9 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    widget.event.source,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.event.source,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -198,10 +183,10 @@ class _EventItemState extends State<EventItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.event.identificationDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(
+                                              widget.event.identificationDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -224,11 +209,9 @@ class _EventItemState extends State<EventItem>
                                   width: 15,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.event.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.event.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 2,

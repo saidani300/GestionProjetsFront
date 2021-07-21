@@ -1,4 +1,3 @@
-import 'package:flutter/scheduler.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;

@@ -76,8 +76,7 @@ class _ChangeStatusButtonState extends State<ChangeStatusButton> {
                               ? StatusColor(Status.approved)
                               : StatusColor(Status.completed),
                       shape: BoxShape.circle),
-                  child:
-                      Icon(Icons.check_rounded, size: 10, color: white),
+                  child: Icon(Icons.check_rounded, size: 10, color: white),
                 )))
         : Container(
             height: 20,

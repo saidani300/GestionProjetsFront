@@ -36,7 +36,7 @@ class _MeasuresChartState extends State<MeasuresChart> {
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-              print("snapshot " + snapshot.data.toString());
+
               final results = snapshot.data;
               return (snapshot.hasData)
                   ? SfCartesianChart(

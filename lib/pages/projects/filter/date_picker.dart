@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:intl/intl.dart';
 
 class DatePickerWidget extends StatefulWidget {
   final double width;

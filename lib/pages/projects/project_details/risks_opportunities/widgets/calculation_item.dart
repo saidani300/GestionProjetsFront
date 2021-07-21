@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
-import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
-import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
 class CalculationItem extends StatefulWidget {
@@ -47,7 +44,7 @@ class _CalculationItemState extends State<CalculationItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -95,10 +92,10 @@ class _CalculationItemState extends State<CalculationItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.calculation.creationDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(
+                                              widget.calculation.creationDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -163,10 +160,9 @@ class _CalculationItemState extends State<CalculationItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.calculation.startDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(widget.calculation.startDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -181,10 +177,9 @@ class _CalculationItemState extends State<CalculationItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.calculation.endDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(widget.calculation.endDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),

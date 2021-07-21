@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/chartData.dart';
@@ -19,12 +18,11 @@ import 'package:gestion_projets/pages/projects/project_details/widgets/messages.
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
-import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+
 import '../../../../../locator.dart';
 
 final ScrollController scrollController = ScrollController();
@@ -45,10 +43,7 @@ class IndicatorHeader extends StatelessWidget {
           onPressed: () {
             locator<NavigationService>().projectGoBack();
           },
-          child: Text(
-            "Objectifs",
-            style: textStyle_active_12_600
-          ),
+          child: Text("Objectifs", style: textStyle_active_12_600),
         ),
         Padding(
             padding: EdgeInsets.only(top: 2),
@@ -60,10 +55,7 @@ class IndicatorHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Objectif de développement",
-          style: textStyle_Text_12_600
-        ),
+        Text("Objectif de développement", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -77,10 +69,7 @@ class IndicatorHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Indicateurs",
-          style: textStyle_Text_12_600
-        ),
+        Text("Indicateurs", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -384,7 +373,7 @@ class _MeasuresListState extends State<MeasuresList> {
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-              print("snapshot " + snapshot.data.toString());
+
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
@@ -672,7 +661,7 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     super.dispose();
   }
 
@@ -707,11 +696,9 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                   child: Row(
                     children: [
                       Flexible(
-                          child: Text(
-                        widget.indicator.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: textStyle_Text_12_600
-                      )),
+                          child: Text(widget.indicator.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: textStyle_Text_12_600)),
                     ],
                   ),
                 ),
@@ -785,11 +772,9 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                       width: 15,
                     ),
                     Flexible(
-                        child: Text(
-                      widget.indicator.user.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: textStyle_Text_12_600
-                    )),
+                        child: Text(widget.indicator.user.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: textStyle_Text_12_600)),
                   ],
                 ),
                 flex: 4,
@@ -799,12 +784,11 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                   children: [
                     Flexible(
                         child: Text(
-                      widget.indicator.autoMeasure
-                          ? "Automatique :"
-                          : "Manuelle : ",
-                      overflow: TextOverflow.ellipsis,
-                      style: textStyle_Text_12_600
-                    )),
+                            widget.indicator.autoMeasure
+                                ? "Automatique :"
+                                : "Manuelle : ",
+                            overflow: TextOverflow.ellipsis,
+                            style: textStyle_Text_12_600)),
                     Flexible(
                         child: Text(
                       indicatorFrequencyAsText(widget.indicator.frequency),

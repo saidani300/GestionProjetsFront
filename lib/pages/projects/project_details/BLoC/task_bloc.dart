@@ -1,16 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:gestion_projets/pages/projects/Data/items.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/service/API_client.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 
 import 'bloc.dart';
 
 class TaskBloc implements Bloc {
   final _controller = StreamController<List<TaskModel>>.broadcast();
-  final _client = APIClient();
 
   Stream<List<TaskModel>> get taskStream => _controller.stream;
 

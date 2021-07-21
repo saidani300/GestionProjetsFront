@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
@@ -19,7 +15,6 @@ import 'package:gestion_projets/pages/projects/project_details/widgets/messages.
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
-import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
@@ -42,10 +37,7 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
           onPressed: () {
             locator<NavigationService>().projectGoBack();
           },
-          child: Text(
-            "Projets",
-            style: textStyle_active_12_600
-          ),
+          child: Text("Projets", style: textStyle_active_12_600),
         ),
         Padding(
             padding: EdgeInsets.only(top: 2),
@@ -57,10 +49,8 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Développement d'une nouvelle interface utilisateur",
-          style: textStyle_Text_12_600
-        ),
+        Text("Développement d'une nouvelle interface utilisateur",
+            style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -74,10 +64,7 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Risques/Opportunités",
-          style: textStyle_Text_12_600
-        ),
+        Text("Risques/Opportunités", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -231,11 +218,9 @@ class _ProjectRisksOpportunitiesBodyState
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    "Risque / Opportunité",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text("Risque / Opportunité",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -249,11 +234,9 @@ class _ProjectRisksOpportunitiesBodyState
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    "Impact",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text("Impact",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -267,11 +250,9 @@ class _ProjectRisksOpportunitiesBodyState
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    "Source",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text("Source",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -284,11 +265,9 @@ class _ProjectRisksOpportunitiesBodyState
                             child: Container(
                                 child: Row(children: [
                               Flexible(
-                                  child: Text(
-                                "Évaluations",
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
+                                  child: Text("Évaluations",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle_Text_12_600)),
                             ])),
                             flex: 2,
                           ),
@@ -300,11 +279,9 @@ class _ProjectRisksOpportunitiesBodyState
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    "Date d'identification",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text("Date d'identification",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -317,11 +294,9 @@ class _ProjectRisksOpportunitiesBodyState
                             child: Row(
                               children: [
                                 Flexible(
-                                    child: Text(
-                                  "Identifié par",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text("Identifié par",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 2,
@@ -332,11 +307,9 @@ class _ProjectRisksOpportunitiesBodyState
                           Expanded(
                             child: Row(children: [
                               Flexible(
-                                  child: Text(
-                                "Niveau",
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
+                                  child: Text("Niveau",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle_Text_12_600)),
                             ]),
                             flex: 1,
                           ),
@@ -399,7 +372,7 @@ class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
         child: StreamBuilder<List<Event>>(
             stream: bloc.eventStream,
             builder: (context, snapshot) {
-              print("snapshot " + snapshot.data.toString());
+
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),

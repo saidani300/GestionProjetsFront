@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/service/API_client.dart';
 
 import 'bloc.dart';
 
 class PhaseBloc implements Bloc {
   final _controller = StreamController<List<Phase>>.broadcast();
-  final _client = APIClient();
 
   Stream<List<Phase>> get phaseStream => _controller.stream;
 

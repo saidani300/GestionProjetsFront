@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:gestion_projets/pages/projects/project_details/overview/service/API_client.dart';
+
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+
 import 'bloc.dart';
 
 class EventBloc implements Bloc {

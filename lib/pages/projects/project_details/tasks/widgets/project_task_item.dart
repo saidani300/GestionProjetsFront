@@ -52,7 +52,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -118,11 +118,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                     width: 20,
                                   ),
                                   Flexible(
-                                      child: Text(
-                                    widget.task.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.task.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible: widget.task.documents.isNotEmpty,
@@ -145,11 +143,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                             child: Container(
                                 child: Row(children: [
                               Flexible(
-                                  child: Text(
-                                getText(widget.task.startDate),
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
+                                  child: Text(getText(widget.task.startDate),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle_Text_12_600)),
                             ])),
                             flex: 3,
                           ),
@@ -161,11 +157,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                    getText(widget.task.endDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(getText(widget.task.endDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -188,11 +182,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                   width: 15,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.task.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.task.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 4,

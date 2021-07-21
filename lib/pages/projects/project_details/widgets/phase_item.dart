@@ -1,9 +1,7 @@
-import 'dart:math';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
@@ -41,7 +39,7 @@ class _PhaseItemState extends State<PhaseItem>
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -147,8 +145,7 @@ class _PhaseItemState extends State<PhaseItem>
                                                         child: Text(
                                                           widget.phase.name,
                                                           style: TextStyle(
-                                                              color:
-                                                                  white,
+                                                              color: white,
                                                               fontSize: 11,
                                                               letterSpacing: 0,
                                                               fontWeight:

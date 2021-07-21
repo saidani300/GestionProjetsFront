@@ -1,16 +1,15 @@
-import 'dart:math';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
-    as Model;
 import 'package:intl/intl.dart';
 
 import 'change_status_button.dart';
@@ -145,11 +144,9 @@ class _ActionItemState extends State<ActionItem> {
                                   ),
                                   SizedBox(width: 10),
                                   Flexible(
-                                      child: Text(
-                                    widget.action.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.action.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -174,11 +171,9 @@ class _ActionItemState extends State<ActionItem> {
                               child: Container(
                                   child: Row(children: [
                                 Flexible(
-                                    child: Text(
-                                  getText(widget.action.endDate),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(getText(widget.action.endDate),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                                 // Expanded(child: Container()),
                               ])),
                               flex: 2,
@@ -198,11 +193,9 @@ class _ActionItemState extends State<ActionItem> {
                                   width: 10,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.action.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.action.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                                 // Expanded(child: Container()),
                               ])),
                               flex: 2,

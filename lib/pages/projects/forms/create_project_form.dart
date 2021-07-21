@@ -6,12 +6,9 @@ import 'package:gestion_projets/pages/projects/Data/check_box_item.dart';
 import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/filter/date_picker.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_form_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_multilines_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_select_list.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
-import 'package:gestion_projets/widgets/custom_outlined_button.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 //TODO : Make all fields and select lists reusable and globale.

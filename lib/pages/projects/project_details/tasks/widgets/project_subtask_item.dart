@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,15 +43,12 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
     _controller = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this, value: 0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-    // print(myTask.toJson());
-    // print(jsonEncode(myTask));
-    print("Id: " + widget.subtask.id.toString());
     _controller.forward();
   }
 
   @override
   dispose() {
-    print("Disposed " + widget.hashCode.toString());
+
     _controller.dispose();
     super.dispose();
   }
@@ -62,7 +58,6 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
 
   @override
   Widget build(BuildContext context) {
-    print(widget.subtask.id.toString());
     final bloc = BlocProvider.of<TaskBloc>(context);
     super.build(context);
 
@@ -127,11 +122,9 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                     width: 20,
                                   ),
                                   Flexible(
-                                      child: Text(
-                                    widget.subtask.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                      child: Text(widget.subtask.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -155,11 +148,9 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                             child: Container(
                                 child: Row(children: [
                               Flexible(
-                                  child: Text(
-                                getText(widget.subtask.startDate),
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
+                                  child: Text(getText(widget.subtask.startDate),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle_Text_12_600)),
                             ])),
                             flex: 3,
                           ),
@@ -172,10 +163,9 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    getText(widget.subtask.endDate),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
+                                          getText(widget.subtask.endDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
                                 ],
                               ),
                             ),
@@ -198,11 +188,9 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                   width: 15,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  widget.subtask.user.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(widget.subtask.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                             flex: 4,

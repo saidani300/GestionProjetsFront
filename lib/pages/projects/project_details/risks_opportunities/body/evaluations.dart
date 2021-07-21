@@ -5,14 +5,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/items.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
@@ -22,7 +17,6 @@ import 'package:gestion_projets/pages/projects/project_details/widgets/messages.
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
-import 'package:gestion_projets/pages/projects/widgets/show_by_status_item.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
@@ -48,10 +42,7 @@ class EvaluationsHeader extends StatelessWidget {
           onPressed: () {
             locator<NavigationService>().eventGoBack();
           },
-          child: Text(
-            "Risques/Opportunités",
-            style: textStyle_active_12_600
-          ),
+          child: Text("Risques/Opportunités", style: textStyle_active_12_600),
         ),
         Padding(
             padding: EdgeInsets.only(top: 2),
@@ -63,10 +54,8 @@ class EvaluationsHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Développement d'une nouvelle interface utilisateur",
-          style: textStyle_Text_12_600
-        ),
+        Text("Développement d'une nouvelle interface utilisateur",
+            style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -80,10 +69,7 @@ class EvaluationsHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text(
-          "Évaluations",
-          style: textStyle_Text_12_600
-        ),
+        Text("Évaluations", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -100,7 +86,21 @@ class EvaluationsHeader extends StatelessWidget {
           text: "Créer une évaluation",
           isMultiple: false,
           onTap: () {
-            // bloc.add(new   Event(new Random().nextInt(99999), "Retard potentiel pour une tâche", "Chronologie", "Retard dans la prochaine action", "Ressources humaines", "Développement d'une nouvelle interface utilisateur", DateTime.now(), EventType.Opportunity, EventLevel.low, User(12,"Saidani Wael","https://i.imgur.com/kieKRFZ.jpeg"), [] ,[Document(1, "name")]),);
+            bloc.addEvaluation(
+                events.first,
+                new Evaluation(
+                    new Random().nextInt(99999),
+                    DateTime.now(),
+                    "Indice de risque",
+                    0,
+                    20,
+                    User(2, "Saidani Wael", "3"),
+                    [],
+                    Formula(545, "Indice de risque", 'F * I * G', [
+                      Criterion(1, "Gravité", 0, "G"),
+                      Criterion(2, "Fréquence", 0, "F"),
+                      Criterion(3, "Importance", 0, "I"),
+                    ])));
           },
         ),
       ],
@@ -125,233 +125,220 @@ class _EvaluationsBodyState extends State<EvaluationsBody> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(color: backgroundColor, child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        EvaluationsHeader(),
-        EventDetails(),
-        Expanded(
-            child: Container(
-                margin: EdgeInsets.only(top: 20),
+    return Container(
+        color: backgroundColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            EvaluationsHeader(),
+            EventDetails(),
+            Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: lightGrey.withOpacity(0.3),
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.15),
-                        spreadRadius: 0.5,
-                        blurRadius: 0.5,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(3),
-                    color: white,
-                  ),
-                  child: Column(children: [
-                    Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(3),
-                            topRight: Radius.circular(3),
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(0)),
-                        color: white,
-                      ),
-                      alignment: Alignment.bottomLeft,
-                      child: Row(children: [
-                        //Menu
-                        SizedBox(
-                          width: 15,
+                        border: Border.all(
+                          color: lightGrey.withOpacity(0.3),
+                          width: 1,
                         ),
-                        Expanded(child: Container()),
-                        SearchWidget(
-                          text: "",
-                          hintText: 'Rechercher des évaluations',
-                          onChanged: (value) {},
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        CustomIconButton(
-                            icon: Icons.save_alt_rounded,
-                            message: 'Exporter',
-                            onTap: () {
-                              /*  bloc.fetch();*/
-                            }),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        CustomIconButton(
-                          icon: Icons.filter_alt_outlined,
-                          message: 'Filter',
-                          onTap: () {},
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                      ]),
-                    ),
-                    Divider(
-                      height: 1,
-                      color: dividerColor,
-                    ),
-                    Container(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 2,
-                            child: Container(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text(
-                                    "Évaluation",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
-                                ],
-                              ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                "Formule",
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
-                            ])),
-                            flex: 2,
-                          ),
-
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                "Valeur min",
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
-                            ])),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                "Valeur max",
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
-                            ])),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                "Calculs",
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
-                            ])),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text(
-                                    "Date de création",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyle_Text_12_600
-                                  )),
-                                ],
-                              ),
-                            ),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Flexible(
-                                    child: Text(
-                                  "Responsable",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
-                              ],
-                            ),
-                            flex: 2,
-                          ), // ActionsMenu(),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 40,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [],
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 20,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.15),
+                            spreadRadius: 0.5,
+                            blurRadius: 0.5,
                           ),
                         ],
+                        borderRadius: BorderRadius.circular(3),
+                        color: white,
                       ),
-                    ),
-                    Divider(
-                      height: 1,
-                      color: dividerColor,
-                    ),
-                    Expanded(
-                        child: EvaluationsList(
-                      parentContext: context,
-                    )),
-                  ]),
-                )))
-      ],
-    ));
+                      child: Column(children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(3),
+                                topRight: Radius.circular(3),
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(0)),
+                            color: white,
+                          ),
+                          alignment: Alignment.bottomLeft,
+                          child: Row(children: [
+                            //Menu
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(child: Container()),
+                            SearchWidget(
+                              text: "",
+                              hintText: 'Rechercher des évaluations',
+                              onChanged: (value) {},
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            CustomIconButton(
+                                icon: Icons.save_alt_rounded,
+                                message: 'Exporter',
+                                onTap: () {
+                                  /*  bloc.fetch();*/
+                                }),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            CustomIconButton(
+                              icon: Icons.filter_alt_outlined,
+                              message: 'Filter',
+                              onTap: () {},
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                          ]),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: dividerColor,
+                        ),
+                        Container(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 2,
+                                child: Container(
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                          child: Text("Évaluation",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: textStyle_Text_12_600)),
+                                    ],
+                                  ),
+                                ),
+                                flex: 3,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                    child: Row(children: [
+                                  Flexible(
+                                      child: Text("Formule",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
+                                ])),
+                                flex: 2,
+                              ),
+
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                    child: Row(children: [
+                                  Flexible(
+                                      child: Text("Valeur min",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
+                                ])),
+                                flex: 2,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                    child: Row(children: [
+                                  Flexible(
+                                      child: Text("Valeur max",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
+                                ])),
+                                flex: 2,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                    child: Row(children: [
+                                  Flexible(
+                                      child: Text("Calculs",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
+                                ])),
+                                flex: 2,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                          child: Text("Date de création",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: textStyle_Text_12_600)),
+                                    ],
+                                  ),
+                                ),
+                                flex: 2,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                        child: Text("Responsable",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: textStyle_Text_12_600)),
+                                  ],
+                                ),
+                                flex: 2,
+                              ), // ActionsMenu(),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                width: 40,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [],
+                                ),
+                              ),
+
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: dividerColor,
+                        ),
+                        Expanded(
+                            child: EvaluationsList(
+                          parentContext: context,
+                        )),
+                      ]),
+                    )))
+          ],
+        ));
   }
 }
 
@@ -381,7 +368,7 @@ class _EvaluationsListState extends State<EvaluationsList> {
         child: StreamBuilder<List<Event>>(
             stream: bloc.eventStream,
             builder: (context, snapshot) {
-              print("snapshot " + snapshot.data.toString());
+
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
@@ -496,11 +483,9 @@ class _EventDetailsState extends State<EventDetails> {
                                   width: 10,
                                 ),
                                 Flexible(
-                                    child: Text(
-                                  events.first.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(events.first.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                                 SizedBox(width: 5),
                                 Visibility(
                                     visible: events.first.documents.isNotEmpty,
@@ -524,11 +509,9 @@ class _EventDetailsState extends State<EventDetails> {
                             child: Row(
                               children: [
                                 Flexible(
-                                    child: Text(
-                                  events.first.impact,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(events.first.impact,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                           ),
@@ -543,11 +526,9 @@ class _EventDetailsState extends State<EventDetails> {
                             child: Row(
                               children: [
                                 Flexible(
-                                    child: Text(
-                                  events.first.source,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                    child: Text(events.first.source,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                           ),
@@ -576,10 +557,10 @@ class _EventDetailsState extends State<EventDetails> {
                               children: [
                                 Flexible(
                                     child: Text(
-                                  getText(events.first.identificationDate),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle_Text_12_600
-                                )),
+                                        getText(
+                                            events.first.identificationDate),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
                               ],
                             ),
                           ),
@@ -602,11 +583,9 @@ class _EventDetailsState extends State<EventDetails> {
                                 width: 15,
                               ),
                               Flexible(
-                                  child: Text(
-                                events.first.user.name,
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
+                                  child: Text(events.first.user.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle_Text_12_600)),
                             ],
                           ),
                           flex: 2,
@@ -676,11 +655,9 @@ class EventDetailsHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Flexible(
-                      child: Text(
-                    "Risque / Opportunité",
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle_Text_12_600
-                  )),
+                      child: Text("Risque / Opportunité",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
                 ],
               ),
             ),
@@ -694,11 +671,9 @@ class EventDetailsHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Flexible(
-                      child: Text(
-                    "Impact",
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle_Text_12_600
-                  )),
+                      child: Text("Impact",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
                 ],
               ),
             ),
@@ -712,11 +687,9 @@ class EventDetailsHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Flexible(
-                      child: Text(
-                    "Source",
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle_Text_12_600
-                  )),
+                      child: Text("Source",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
                 ],
               ),
             ),
@@ -729,11 +702,9 @@ class EventDetailsHeader extends StatelessWidget {
             child: Container(
                 child: Row(children: [
               Flexible(
-                  child: Text(
-                "Évaluations",
-                overflow: TextOverflow.ellipsis,
-                style: textStyle_Text_12_600
-              )),
+                  child: Text("Évaluations",
+                      overflow: TextOverflow.ellipsis,
+                      style: textStyle_Text_12_600)),
             ])),
             flex: 2,
           ),
@@ -745,11 +716,9 @@ class EventDetailsHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Flexible(
-                      child: Text(
-                    "Date d'identification",
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle_Text_12_600
-                  )),
+                      child: Text("Date d'identification",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
                 ],
               ),
             ),
@@ -762,11 +731,9 @@ class EventDetailsHeader extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                    child: Text(
-                  "Identifié par",
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle_Text_12_600
-                )),
+                    child: Text("Identifié par",
+                        overflow: TextOverflow.ellipsis,
+                        style: textStyle_Text_12_600)),
               ],
             ),
             flex: 2,
@@ -777,11 +744,9 @@ class EventDetailsHeader extends StatelessWidget {
           Expanded(
             child: Row(children: [
               Flexible(
-                  child: Text(
-                "Niveau",
-                overflow: TextOverflow.ellipsis,
-                style: textStyle_Text_12_600
-              )),
+                  child: Text("Niveau",
+                      overflow: TextOverflow.ellipsis,
+                      style: textStyle_Text_12_600)),
             ]),
             flex: 1,
           ),

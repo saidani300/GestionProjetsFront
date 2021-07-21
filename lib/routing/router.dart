@@ -55,9 +55,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 }
 
 PageRoute _pageRoute(Widget page, RouteSettings settings) {
-  return _GeneratePageRoute(settings: settings, widget: page,);
+  return _GeneratePageRoute(
+    settings: settings,
+    widget: page,
+  );
 
-    //MaterialPageRoute(builder: (context) => page, settings: settings);
+  //MaterialPageRoute(builder: (context) => page, settings: settings);
 }
 
 class _GeneratePageRoute extends PageRouteBuilder {
@@ -67,22 +70,19 @@ class _GeneratePageRoute extends PageRouteBuilder {
   _GeneratePageRoute({required this.widget, required this.settings})
       : super(
             settings: settings,
-            pageBuilder: (BuildContext context, _,
-                __) {
+            pageBuilder: (BuildContext context, _, __) {
               return widget;
             },
-           // transitionDuration: Duration(milliseconds: 200),
-            transitionsBuilder: (BuildContext context,
-                _,
-                __,
-                Widget child) {
+            // transitionDuration: Duration(milliseconds: 200),
+            transitionsBuilder: (BuildContext context, _, __, Widget child) {
               return /*SlideTransition(
                 textDirection: TextDirection.rtl,
                 position: Tween<Offset>(
                   begin: Offset(-0.2, 0.0),
                   end: Offset.zero,
                 ).animate(animation),
-                child:FadeTransition(opacity: animation, child: */child ;
-            //  ));
+                child:FadeTransition(opacity: animation, child: */
+                  child;
+              //  ));
             });
 }

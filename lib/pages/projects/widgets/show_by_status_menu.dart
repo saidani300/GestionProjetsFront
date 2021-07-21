@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/project_details_menu.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/side_menu_item.dart';
-import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/services/navigation_service.dart';
-
-import '../../../../locator.dart';
 
 class ShowByStatusItemData {
   final String name;

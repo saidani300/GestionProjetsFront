@@ -1,8 +1,9 @@
 import 'dart:async';
+
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/service/API_client.dart';
+import 'package:gestion_projets/pages/projects/service/API.dart';
 
 import 'bloc.dart';
 
@@ -13,12 +14,13 @@ String projectsSearchQuery = '';
 class ProjectBloc implements Bloc {
   List<Project> filteredList = Projects;
   final _controller = StreamController<List<Project>>.broadcast();
+  final _client = APIClient();
 
   Stream<List<Project>> get projectStream => _controller.stream;
 
   Future init() async {
-    await Future.delayed(Duration(milliseconds: 300),
-        () => _controller.sink.add(filter(Projects)));
+  //  List<Project> projects = await _client.fetchProjects();
+    Future.delayed(Duration(milliseconds: 300) , () => _controller.sink.add(filter(Projects)));
   }
 
   fetch() {
@@ -28,7 +30,7 @@ class ProjectBloc implements Bloc {
   remove(Project project) async {
     Projects.remove(project);
 
-    _controller.sink.add(filter(Projects));
+   _controller.sink.add(filter(Projects));
   }
 
   add(Project project) async {

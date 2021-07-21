@@ -1,20 +1,17 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
-    as Model;
 
 import 'change_status_button.dart';
 
@@ -135,11 +132,9 @@ class _TaskItemState extends State<TaskItem> {
                               ),
                               SizedBox(width: 10),
                               Flexible(
-                                  child: Text(
-                                widget.task.name,
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyle_Text_12_600
-                              )),
+                                  child: Text(widget.task.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle_Text_12_600)),
                               SizedBox(width: 5),
                               Visibility(
                                   visible: (widget.task.documents.isNotEmpty),
@@ -225,11 +220,9 @@ class _TaskItemState extends State<TaskItem> {
                               width: 10,
                             ),
                             Flexible(
-                                child: Text(
-                              widget.task.user.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: textStyle_Text_12_600
-                            )),
+                                child: Text(widget.task.user.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle_Text_12_600)),
                             // Expanded(child: Container()),
                           ])),
                           flex: 2,
