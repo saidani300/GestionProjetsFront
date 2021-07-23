@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gestion_projets/pages/projects/controllers/show_by_status_controller.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/meeting_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
@@ -27,7 +28,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MeetingBloc>(
+    return BlocProvider<DocumentBloc>(
+        bloc: DocumentBloc(),
+    child: BlocProvider<MeetingBloc>(
         bloc: MeetingBloc(),
         child: BlocProvider<ProjectBloc>(
             bloc: ProjectBloc(),
@@ -103,7 +106,7 @@ class MyApp extends StatelessWidget {
                                 colorScheme: ColorScheme.light(primary: active),
                               ),
                               home: SiteLayout(),
-                            )))))));
+                            ))))))));
     // home: SiteLayout()
   }
 }

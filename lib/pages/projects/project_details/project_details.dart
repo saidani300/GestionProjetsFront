@@ -18,7 +18,7 @@ class ProjectDetails extends StatelessWidget {
         SideMenu(),
         Container(
           width: 1,
-          color: text.withOpacity(0.15),
+          color: dividerColor,
         ),
         Expanded(
             child: Container(

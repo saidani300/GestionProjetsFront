@@ -34,6 +34,8 @@ const String evaluationCalculationsPageRoute = "/calculations";
 
 const String meetingsPageRoute = "/meetings";
 
+const String documentsPageRoute = "/documents";
+
 class MenuItem {
   final String name;
   final String route;

@@ -33,6 +33,6 @@ List<ProjectDetailsMenuItem> projectDetailsMenu = [
   ProjectDetailsMenuItem(
       "Documents",
       /*Icons.file_copy_outlined*/ "icons/file.svg",
-      projectTasksPageRoute,
+      documentsPageRoute,
       false),
 ];

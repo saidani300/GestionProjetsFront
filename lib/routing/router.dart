@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/activities/activities.dart';
 import 'package:gestion_projets/pages/dashboard/dashboard.dart';
 import 'package:gestion_projets/pages/projects/body/projects_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/documents.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/meetings.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/body/indicator_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/objectives.dart';
@@ -49,6 +50,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _pageRoute(CalculationsBody(), settings);
     case meetingsPageRoute:
       return _pageRoute(ProjectMeetings(), settings);
+    case documentsPageRoute:
+      return _pageRoute(ProjectDocuments(), settings);
     default:
       return _pageRoute(DashboardPage(), settings);
   }

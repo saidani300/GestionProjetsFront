@@ -73,7 +73,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
             padding: EdgeInsets.only(top: 2),
             child: CustomIconButton(
               icon: Icons.info,
-              message: "Objectifs",
+              message: "Ajoutez des objectifs généraux d’entreprise pour aider les équipes à hiérarchiser\nles tâches et à faire le lien entre leur travail et les objectifs de votre organisation.",
               onTap: () {},
               size: 17,
             )),
