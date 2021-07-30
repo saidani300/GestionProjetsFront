@@ -8,7 +8,7 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/evaluation_item.dart';
@@ -24,11 +24,15 @@ import 'package:intl/intl.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
+
 
 class EvaluationsHeader extends StatelessWidget {
+  final ScrollController scrollController;
+  final Event event;
   const EvaluationsHeader({
     Key? key,
+    required this.scrollController,
+    required this.event
   }) : super(key: key);
 
   @override
@@ -87,7 +91,7 @@ class EvaluationsHeader extends StatelessWidget {
           isMultiple: false,
           onTap: () {
             bloc.addEvaluation(
-                events.first,
+                event,
                 new Evaluation(
                     new Random().nextInt(99999),
                     DateTime.now(),
@@ -101,6 +105,12 @@ class EvaluationsHeader extends StatelessWidget {
                       Criterion(2, "Fréquence", 0, "F"),
                       Criterion(3, "Importance", 0, "I"),
                     ])));
+            if (scrollController.hasClients)
+              scrollController.animateTo(
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
           },
         ),
       ],
@@ -109,7 +119,8 @@ class EvaluationsHeader extends StatelessWidget {
 }
 
 class EvaluationsBody extends StatefulWidget {
-  const EvaluationsBody({Key? key}) : super(key: key);
+  final Event event;
+  const EvaluationsBody({Key? key , required this.event}) : super(key: key);
 
   @override
   _EvaluationsBodyState createState() => _EvaluationsBodyState();
@@ -130,8 +141,8 @@ class _EvaluationsBodyState extends State<EvaluationsBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            EvaluationsHeader(),
-            EventDetails(),
+            EvaluationsHeader(scrollController: controller, event: widget.event,),
+            EventDetails(event: widget.event,),
             Expanded(
                 child: Container(
                     margin: EdgeInsets.only(top: 20),
@@ -333,7 +344,7 @@ class _EvaluationsBodyState extends State<EvaluationsBody> {
                         ),
                         Expanded(
                             child: EvaluationsList(
-                          parentContext: context,
+                          parentContext: context, scrollController: controller, event: widget.event,
                         )),
                       ]),
                     )))
@@ -344,8 +355,11 @@ class _EvaluationsBodyState extends State<EvaluationsBody> {
 
 class EvaluationsList extends StatefulWidget {
   final BuildContext parentContext;
-
-  const EvaluationsList({Key? key, required this.parentContext})
+  final ScrollController scrollController;
+  final Event event;
+  const EvaluationsList({Key? key, required this.parentContext ,required this.scrollController,
+    required this.event
+  })
       : super(key: key);
 
   @override
@@ -373,13 +387,13 @@ class _EvaluationsListState extends State<EvaluationsList> {
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
-                      ? (results!.isEmpty)
-                          ? NoObjectives()
+                      ? (widget.event.evaluations.isEmpty)
+                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune évaluation à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.", title: "Aucune évaluation trouvée", buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
-                              children: results.first.evaluations
-                                  .map((e) => _buildItem(e))
+                              controller: widget.scrollController,
+                              children: widget.event.evaluations
+                                  .map((e) => _buildItem(e , widget.event))
                                   .toList(),
                             )
                       : Center(
@@ -392,19 +406,20 @@ class _EvaluationsListState extends State<EvaluationsList> {
             }));
   }
 
-  Widget _buildItem(Evaluation evaluation) {
+  Widget _buildItem(Evaluation evaluation , Event event) {
     return TestProxy(
         key: ValueKey(evaluation),
         child: new EvaluationItem(
           onTap: () {},
           evaluation: evaluation,
-          event: events.first,
+          event: event,
         ));
   }
 }
 
 class EventDetails extends StatefulWidget {
-  const EventDetails({Key? key}) : super(key: key);
+  final Event event;
+  const EventDetails({Key? key , required this.event}) : super(key: key);
 
   @override
   _EventDetailsState createState() => _EventDetailsState();
@@ -415,6 +430,8 @@ String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
 class _EventDetailsState extends State<EventDetails> {
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<EventBloc>(context);
+
     return Container(
         //height: 93,
         margin: EdgeInsets.only(top: 20),
@@ -434,13 +451,17 @@ class _EventDetailsState extends State<EventDetails> {
               borderRadius: BorderRadius.circular(3),
               color: white,
             ),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
+            child:Column(mainAxisSize: MainAxisSize.min, children: [
               EventDetailsHeader(),
               Divider(
                 height: 1,
                 color: dividerColor,
               ),
-              Column(children: [
+            StreamBuilder<List<Event>>(
+                stream: bloc.eventStream,
+                builder: (context, snapshot) {
+
+                  return   (snapshot.hasData) ?  Column(children: [
                 InkWell(
                   hoverColor: active.withOpacity(0.015),
                   onTap: () {
@@ -457,7 +478,7 @@ class _EventDetailsState extends State<EventDetails> {
                         SizedBox(
                           width: 2,
                           child: Container(
-                            color: TypeColor(events.first.eventType),
+                            color: TypeColor(widget.event.eventType),
                           ),
                         ),
                         SizedBox(
@@ -468,11 +489,11 @@ class _EventDetailsState extends State<EventDetails> {
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                  events.first.eventType ==
+                                  widget.event.eventType ==
                                           EventType.Opportunity
                                       ? "icons/up-arrow.svg"
                                       : "icons/down-arrow.svg",
-                                  color: events.first.eventType ==
+                                  color: widget.event.eventType ==
                                           EventType.Opportunity
                                       ? lightBlue
                                       : lightRed,
@@ -483,16 +504,16 @@ class _EventDetailsState extends State<EventDetails> {
                                   width: 10,
                                 ),
                                 Flexible(
-                                    child: Text(events.first.name,
+                                    child: Text(widget.event.name,
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                                 SizedBox(width: 5),
                                 Visibility(
-                                    visible: events.first.documents.isNotEmpty,
+                                    visible: widget.event.documents.isNotEmpty,
                                     child: CustomIconButton(
                                       icon: Icons.attach_file_rounded,
                                       message:
-                                          "${events.first.documents.length.toString()} Attachement",
+                                          "${widget.event.documents.length.toString()} Attachement",
                                       onTap: () {},
                                       size: 15,
                                     )),
@@ -509,7 +530,7 @@ class _EventDetailsState extends State<EventDetails> {
                             child: Row(
                               children: [
                                 Flexible(
-                                    child: Text(events.first.impact,
+                                    child: Text(widget.event.impact.isEmpty ? "_" :widget.event.impact,
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                               ],
@@ -526,7 +547,7 @@ class _EventDetailsState extends State<EventDetails> {
                             child: Row(
                               children: [
                                 Flexible(
-                                    child: Text(events.first.source,
+                                    child: Text(widget.event.source.isEmpty ? "_" :widget.event.source,
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                               ],
@@ -541,7 +562,7 @@ class _EventDetailsState extends State<EventDetails> {
                           child: Container(
                               child: Row(children: [
                             CustomTag(
-                              text: events.first.evaluations.length.toString() +
+                              text: widget.event.evaluations.length.toString() +
                                   " Évaluations",
                               color: text,
                             ),
@@ -558,7 +579,7 @@ class _EventDetailsState extends State<EventDetails> {
                                 Flexible(
                                     child: Text(
                                         getText(
-                                            events.first.identificationDate),
+                                            widget.event.identificationDate),
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                               ],
@@ -576,14 +597,14 @@ class _EventDetailsState extends State<EventDetails> {
                                   height: 30,
                                   width: 30,
                                   child: Avatar(
-                                    picture: events.first.user.avatar,
-                                    name: events.first.user.name,
+                                    picture: widget.event.user.avatar,
+                                    name: widget.event.user.name,
                                   )),
                               SizedBox(
                                 width: 15,
                               ),
                               Flexible(
-                                  child: Text(events.first.user.name,
+                                  child: Text(widget.event.user.name,
                                       overflow: TextOverflow.ellipsis,
                                       style: textStyle_Text_12_600)),
                             ],
@@ -600,7 +621,7 @@ class _EventDetailsState extends State<EventDetails> {
                               children: [
                                 Container(
                                     child: LevelTag(
-                                  level: events.first.level,
+                                  level: widget.event.level, type: widget.event.eventType, 
                                 ))
                               ]),
                           flex: 1,
@@ -625,7 +646,18 @@ class _EventDetailsState extends State<EventDetails> {
                   ),
                 ),
                 // Container(height: 60,)
-              ])
+              ]):
+                    Container(
+                      height: 60,
+                      child: Center(
+                        child: SpinKitFadingCube(
+                          color: active,
+                          size: 25,
+                          duration: Duration(milliseconds: 1200),
+                        ),
+                      ),
+                    )
+                  ;})
             ])));
   }
 }

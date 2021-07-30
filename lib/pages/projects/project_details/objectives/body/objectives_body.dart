@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
-    as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart' as Model;
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -20,11 +20,13 @@ import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
+
 
 class ProjectObjectivesHeader extends StatelessWidget {
+  final ScrollController scrollController;
   const ProjectObjectivesHeader({
     Key? key,
+    required this.scrollController
   }) : super(key: key);
 
   @override
@@ -89,10 +91,16 @@ class ProjectObjectivesHeader extends StatelessWidget {
                 ObjectiveStatus.awaitingApproval,
                 User(1, "Saidani Wael", "3"),
                 [],
-                Model.Priority.Important,
+                Priority.Important,
                 "Développement",
                 [],
                 DateTime.now()));
+            if (scrollController.hasClients)
+              scrollController.animateTo(
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
           },
         ),
       ],
@@ -125,7 +133,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectObjectivesHeader(),
+        ProjectObjectivesHeader(scrollController: controller),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -325,7 +333,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                     ),
                     Expanded(
                         child: ObjectivesList(
-                      parentContext: context,
+                      parentContext: context, scrollController: controller,
                     )),
                   ]),
                 )))
@@ -336,8 +344,8 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
 
 class ObjectivesList extends StatefulWidget {
   final BuildContext parentContext;
-
-  const ObjectivesList({Key? key, required this.parentContext})
+  final ScrollController scrollController;
+  const ObjectivesList({Key? key, required this.parentContext , required this.scrollController})
       : super(key: key);
 
   @override
@@ -364,10 +372,10 @@ class _ObjectivesListState extends State<ObjectivesList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoObjectives()
+                          ? NoItems(icon: "icons/no-objective.svg", message: "Il n'y a aucun objectif à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer un nouveau.", title: "Aucun objectif trouvé", buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
+                              controller: widget.scrollController,
                               children:
                                   results.map((e) => _buildItem(e)).toList(),
                             )

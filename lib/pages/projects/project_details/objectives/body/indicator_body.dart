@@ -25,11 +25,14 @@ import 'package:intl/intl.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
 
 class IndicatorHeader extends StatelessWidget {
+  final ScrollController controller;
+  final Indicator indicator;
   const IndicatorHeader({
     Key? key,
+    required this.controller,
+    required this.indicator,
   }) : super(key: key);
 
   @override
@@ -41,7 +44,7 @@ class IndicatorHeader extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () {
-            locator<NavigationService>().projectGoBack();
+            locator<NavigationService>().objectiveGoBack();
           },
           child: Text("Objectifs", style: textStyle_active_12_600),
         ),
@@ -87,13 +90,20 @@ class IndicatorHeader extends StatelessWidget {
           isMultiple: false,
           onTap: () {
             bloc.addMeasure(
-                Objectives.last.indicators.first,
+                indicator,
                 new Measure(
                     new Random().nextInt(99999),
                     new Random().nextInt(100).toDouble(),
                     DateTime.now(),
                     DateTime.now(),
                     DateTime.now().add(Duration(days: 90)), []));
+
+            if (controller.hasClients)
+              controller.animateTo(
+                controller.position.maxScrollExtent,
+                curve: Curves.fastOutSlowIn,
+                duration: const Duration(milliseconds: 300),
+              );
           },
         ),
       ],
@@ -102,8 +112,8 @@ class IndicatorHeader extends StatelessWidget {
 }
 
 class IndicatorBody extends StatefulWidget {
-  const IndicatorBody({Key? key}) : super(key: key);
-
+  final Indicator indicator;
+  const IndicatorBody({Key? key , required this.indicator}) : super(key: key);
   @override
   _IndicatorBodyState createState() => _IndicatorBodyState();
 }
@@ -125,12 +135,11 @@ class _IndicatorBodyState extends State<IndicatorBody> {
         fontWeight: FontWeight.w600);
     return Container(
         color: backgroundColor,
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            IndicatorHeader(),
-            IndicatorDetails(),
+            IndicatorHeader(controller: controller, indicator : widget.indicator ),
+            IndicatorDetails(indicator: widget.indicator,),
             Expanded(
                 child: Container(
                     margin: EdgeInsets.only(top: 20),
@@ -339,7 +348,7 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                         ),
                         Expanded(
                             child: MeasuresList(
-                          parentContext: context,
+                          parentContext: context, scrollController: controller, indicator: widget.indicator,
                         )),
                       ]),
                     )))
@@ -350,8 +359,9 @@ class _IndicatorBodyState extends State<IndicatorBody> {
 
 class MeasuresList extends StatefulWidget {
   final BuildContext parentContext;
-
-  const MeasuresList({Key? key, required this.parentContext}) : super(key: key);
+  final ScrollController scrollController;
+  final Indicator indicator;
+  const MeasuresList({Key? key, required this.parentContext , required this.scrollController ,required this.indicator}) : super(key: key);
 
   @override
   _MeasuresListState createState() => _MeasuresListState();
@@ -378,13 +388,13 @@ class _MeasuresListState extends State<MeasuresList> {
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
-                      ? (results!.isEmpty)
-                          ? NoObjectives()
+                      ? (widget.indicator.measures.isEmpty)
+                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune mesure créée, vous pouvez en créer une nouvelle pour suivre les performances selon cet indicateur.", title: "Aucune mesure trouvée", buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
-                              children: results.last.indicators.first.measures
-                                  .map((e) => _buildItem(e))
+                              controller: widget.scrollController,
+                              children: widget.indicator.measures
+                                  .map((e) => _buildItem(e , widget.indicator))
                                   .toList(),
                             )
                       : Center(
@@ -397,12 +407,12 @@ class _MeasuresListState extends State<MeasuresList> {
             }));
   }
 
-  Widget _buildItem(Measure measure) {
+  Widget _buildItem(Measure measure , Indicator indicator) {
     return TestProxy(
         key: ValueKey(measure),
         child: new MeasureItem(
           onTap: () {},
-          indicator: Objectives.last.indicators.first,
+          indicator: indicator,
           measure: measure,
         ));
   }
@@ -412,7 +422,8 @@ class _MeasuresListState extends State<MeasuresList> {
 List<ChartData> chartData = [];
 
 class IndicatorDetails extends StatefulWidget {
-  const IndicatorDetails({Key? key}) : super(key: key);
+  final Indicator indicator;
+  const IndicatorDetails({Key? key  , required this.indicator}) : super(key: key);
 
   @override
   _IndicatorDetailsState createState() => _IndicatorDetailsState();
@@ -450,7 +461,7 @@ class _IndicatorDetailsState extends State<IndicatorDetails> {
                 color: dividerColor,
               ),
               IndicatorDetailsItem(
-                indicator: indicator,
+                indicator: widget.indicator,
                 chartMessage: message,
                 onTap: () {},
                 onChartTap: () {
@@ -480,7 +491,7 @@ class _IndicatorDetailsState extends State<IndicatorDetails> {
                       color: dividerColor,
                     ),
                     MeasuresChart(
-                      parentContext: context,
+                      parentContext: context,indicator: widget.indicator,
                     )
                   ],
                 ),

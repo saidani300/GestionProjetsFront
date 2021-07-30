@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/meeting_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
@@ -127,15 +128,14 @@ class _MeetingItemState extends State<MeetingItem>
                           Expanded(
                             child: Container(
                               child: Row(
-                                  children: widget.meeting.relatedItems
-                                      .map((e) => Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 2),
-                                            child: relatedItemToWidget(e),
-                                          ))
-                                      .toList()),
-                            ),
-                            flex: 3,
+                                children: [
+                                  Flexible(
+                                      child: Text(widget.meeting.time,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textStyle_Text_12_600)),
+                                ],
+                            )),
+                            flex: 2,
                           ),
                           SizedBox(
                             width: 20,
@@ -149,8 +149,11 @@ class _MeetingItemState extends State<MeetingItem>
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                               width: 2, color: white)),
-                                      child: Avatar(
-                                          name: e.name, picture: e.avatar)))
+                                      child: Tooltip(
+                                        message: e.name,
+                                        child: Avatar(
+                                            name: e.name, picture: e.avatar),
+                                      )))
                                   .toList(),
                               innerDistance: -10.0,
                             )),
@@ -207,8 +210,7 @@ class _MeetingItemState extends State<MeetingItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      _controller.reverse().whenComplete(
-                                          () => bloc.remove(widget.meeting));
+                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.remove(widget.meeting)), DeleteType.file,widget.meeting.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
@@ -199,10 +200,7 @@ class _CalculationItemState extends State<CalculationItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      _controller.reverse().whenComplete(() =>
-                                          bloc.removeCalculation(
-                                              widget.evaluation,
-                                              widget.calculation));
+                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.removeCalculation(widget.evaluation, widget.calculation)),DeleteType.calculation,widget.calculation.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

@@ -6,14 +6,11 @@ import 'package:gestion_projets/widgets/top_nav.dart';
 
 import 'locator.dart';
 
-GlobalKey mainPageKey = GlobalKey();
 
 class SiteLayout extends StatelessWidget {
-  // final Widget child;
 
   const SiteLayout({
     Key? key,
-    /*required this.child*/
   }) : super(key: key);
 
   @override
@@ -24,6 +21,6 @@ class SiteLayout extends StatelessWidget {
           key: locator<NavigationService>().navigatorKey,
           initialRoute: projectsPageRoute,
           onGenerateRoute: generateRoute,
-        ) /*child*/);
+        ));
   }
 }

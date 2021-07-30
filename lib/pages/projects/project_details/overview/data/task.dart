@@ -1,7 +1,8 @@
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 
 class Task {
   final int id;
@@ -11,7 +12,7 @@ class Task {
   Model.Status status;
   final User user;
   final List<Document> documents;
-  final Model.Priority priority;
+  final Priority priority;
 
   Task(this.id, this.name, this.startDate, this.endDate, this.status, this.user,
       this.documents, this.priority);

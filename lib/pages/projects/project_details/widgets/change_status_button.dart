@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
 
 class ChangeStatusButton extends StatefulWidget {
   final Function() onTap;

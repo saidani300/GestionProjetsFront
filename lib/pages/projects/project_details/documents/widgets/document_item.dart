@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
@@ -48,7 +50,9 @@ class _DocumentItemState extends State<DocumentItem>
   dispose() {
     _controller.dispose();
     super.dispose();
+
   }
+
 
   @override
   bool get wantKeepAlive => true;
@@ -57,7 +61,6 @@ class _DocumentItemState extends State<DocumentItem>
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DocumentBloc>(context);
     super.build(context);
-    if (!widget.document.isUploaded) bloc.documentUpload(widget.document);
     return FadeTransition(
         opacity: _animation,
         child: SizeTransition(
@@ -67,7 +70,7 @@ class _DocumentItemState extends State<DocumentItem>
                 child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
-                    onTap: () {
+                    onTap: () async {
                       print("tapped");
                     },
                     highlightColor: Colors.transparent,
@@ -182,19 +185,26 @@ class _DocumentItemState extends State<DocumentItem>
                                         message: 'Supprimer',
                                         color: Colors.redAccent,
                                         onTap: () {
-                                          _controller.reverse().whenComplete(
-                                              () => bloc.removeDocument(
-                                                  widget.folder,
-                                                  widget.document));
+                                          deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeDocument(widget.folder, widget.document)), DeleteType.file ,widget.document.name);
                                           //showDialogBox(context, onTap);
                                         })
-                                    : Lottie.asset(
+                                    : Container(
+                                  height: 40,
+                                  width: 40,
+                                      child: Stack(
+                                        children :[ Lottie.asset(
                                   'icons/59912-loading-circle.json',
                                   animate: true,
                                   repeat: true,
                                   height: 40,
                                   width: 40,
                                 ),
+                                        Center(child: Container( height: 40,
+                                            width: 40,
+                                            child: CustomIconButton(icon: Icons.close_rounded, color: lightRed, message: "Annuler", onTap: (){_controller.reverse().whenComplete(() => bloc.removeDocument(widget.folder, widget.document));})))
+                                        ]
+                                      ),
+                                    ),
                               ],
                             ),
                           ),

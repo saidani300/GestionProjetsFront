@@ -1,5 +1,5 @@
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 
 class ProjectFilter {
   Status? status;

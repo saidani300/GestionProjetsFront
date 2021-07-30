@@ -8,6 +8,7 @@ import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/project_icon.dart';
 
 import '../../../../locator.dart';
+import 'expand_button.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -108,25 +109,26 @@ class _SideMenuState extends State<SideMenu> {
               Row(
                 children: [
                   Expanded(child: Container()),
-                  CustomIconButton(
+                  ExpandButton(onTap: () { if (_isExpanded)
+                    _isExpanded = false;
+                  else
+                    Future.delayed(Duration(milliseconds: 200), () {
+                      setState(() {
+                        _isExpanded = true;
+                      });
+                    });
+                  setState(() {
+                    (_width == 230) ? _width = 60.1 : _width = 230;
+                  }); }, isExpanded: _isExpanded,),
+                  /*CustomIconButton(
                     size: 24,
                     icon: Icons.keyboard_arrow_left_rounded,
                     message: '',
                     enableToolTip: false,
                     onTap: () {
-                      if (_isExpanded)
-                        _isExpanded = false;
-                      else
-                        Future.delayed(Duration(milliseconds: 200), () {
-                          setState(() {
-                            _isExpanded = true;
-                          });
-                        });
-                      setState(() {
-                        (_width == 230) ? _width = 60.1 : _width = 230;
-                      });
+
                     },
-                  ),
+                  ),*/
                   SizedBox(
                     width: 20,
                   ),

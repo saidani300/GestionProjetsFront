@@ -5,7 +5,6 @@ enum Status {
   completed, //1
   approved
 }
-enum Priority { Important, Normal, Low }
 
 class Phase {
   int id;

@@ -15,7 +15,7 @@ const Color lightBlue = Color(0xFF0AC1EC);
 const Color white = Color(0xFFFFFFFF);
 const Color dividerColor = Color(0xFFECECEE);
 const Color lightYellow = Color(0xFFe0e316);
-
+const Color darkColor = Color(0xFF32374e);
 const TextStyle textStyle_Text_11_500 =
     TextStyle(color: text, fontSize: 11, fontWeight: FontWeight.w500);
 const TextStyle textStyle_Text_11_600 =

@@ -20,7 +20,9 @@ const String overviewPageRoute = "/overview";
 
 const String projectTasksPageRoute = "/tasks";
 
-const String objectivesPageRoute = "/objectives";
+const String objectivesPageRoute = "objectives";
+
+const String objectivesListPageRoute = "/objectives/list";
 
 const String indicatorPageRoute = "/indicator";
 

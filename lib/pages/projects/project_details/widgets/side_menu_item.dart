@@ -78,9 +78,13 @@ class _SideMenuItemExpandedState extends State<SideMenuItemExpanded> {
                       ))),
                   Expanded(child: Container()),
                   Container(
-                    width: 2,
+                    width: 3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(3) , bottomLeft: Radius.circular(3)),
+                      color: widget.isActive ? active : Colors.transparent,
+                    ),
                     height: 50,
-                    color: widget.isActive ? active : Colors.transparent,
+
                   ),
                 ],
               ),

@@ -1,4 +1,4 @@
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 
 class Evaluation {

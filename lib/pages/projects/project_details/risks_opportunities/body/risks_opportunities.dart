@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_event_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
@@ -19,11 +20,13 @@ import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
+
 
 class ProjectRisksOpportunitiesHeader extends StatelessWidget {
+  final ScrollController scrollController;
   const ProjectRisksOpportunitiesHeader({
     Key? key,
+    required this.scrollController
   }) : super(key: key);
 
   @override
@@ -81,21 +84,13 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
           text: "Créer un risque/opportunité",
           isMultiple: false,
           onTap: () {
-            bloc.add(
-              new Event(
-                  new Random().nextInt(99999),
-                  "Retard potentiel pour une tâche",
-                  "Chronologie",
-                  "Retard dans la prochaine action",
-                  "Ressources humaines",
-                  "Développement d'une nouvelle interface utilisateur",
-                  DateTime.now(),
-                  EventType.Opportunity,
-                  EventLevel.low,
-                  User(12, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
-                  [],
-                  [Document(1, "name")]),
-            );
+            createEventDialogBox(context);
+           /* if (scrollController.hasClients)
+              scrollController.animateTo(
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );*/
           },
         ),
       ],
@@ -122,15 +117,11 @@ class _ProjectRisksOpportunitiesBodyState
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(
-        color: text,
-        fontSize: 12,
-        letterSpacing: 0,
-        fontWeight: FontWeight.w600);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectRisksOpportunitiesHeader(),
+        ProjectRisksOpportunitiesHeader(scrollController: controller,),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -337,7 +328,7 @@ class _ProjectRisksOpportunitiesBodyState
                     ),
                     Expanded(
                         child: RisksOpportunitiesList(
-                      parentContext: context,
+                      parentContext: context, scrollController: controller,
                     )),
                   ]),
                 )))
@@ -348,8 +339,8 @@ class _ProjectRisksOpportunitiesBodyState
 
 class RisksOpportunitiesList extends StatefulWidget {
   final BuildContext parentContext;
-
-  const RisksOpportunitiesList({Key? key, required this.parentContext})
+  final ScrollController scrollController;
+  const RisksOpportunitiesList({Key? key, required this.parentContext , required this.scrollController})
       : super(key: key);
 
   @override
@@ -378,10 +369,10 @@ class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoObjectives()
+                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucun risque ou opportunité à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer un nouveau.", title: "Aucun risque ou opportunité trouvé", buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
+                              controller: widget.scrollController,
                               children:
                                   results.map((e) => _buildItem(e)).toList(),
                             )

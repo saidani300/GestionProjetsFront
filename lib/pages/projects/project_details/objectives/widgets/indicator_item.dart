@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
@@ -74,7 +75,7 @@ class _IndicatorItemState extends State<IndicatorItem>
                     onTap: () {
                       print("tapped");
                       locator<NavigationService>()
-                          .projectDetailsNavigateTo(indicatorPageRoute);
+                          .objectiveNavigateTo(indicatorPageRoute , widget.indicator);
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -218,9 +219,7 @@ class _IndicatorItemState extends State<IndicatorItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      _controller.reverse().whenComplete(() =>
-                                          bloc.removeIndicator(widget.objective,
-                                              widget.indicator));
+                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeIndicator(widget.objective, widget.indicator)),DeleteType.indicator , widget.indicator.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

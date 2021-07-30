@@ -15,7 +15,7 @@ import 'package:gestion_projets/pages/projects/project_details/documents/widgets
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/drop_zone.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/folder_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
@@ -195,139 +195,7 @@ class _DocumentsBodyState
                       height: 1,
                       color: dividerColor,
                     ),
-                    Container(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 2,
-                            child: Container(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text("Risque / Opportunité",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                ],
-                              ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text("Impact",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                ],
-                              ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text("Source",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                ],
-                              ),
-                            ),
-                            flex: 3,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                                  Flexible(
-                                      child: Text("Évaluations",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                ])),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text("Date d'identification",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                ],
-                              ),
-                            ),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Flexible(
-                                    child: Text("Identifié par",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: textStyle_Text_12_600)),
-                              ],
-                            ),
-                            flex: 2,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Row(children: [
-                              Flexible(
-                                  child: Text("Niveau",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: textStyle_Text_12_600)),
-                            ]),
-                            flex: 1,
-                          ),
-                          // ActionsMenu(),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 40,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [],
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                    ),
+                    DocumentsListHeader(),
                   ]),
                 )),
         Padding(padding: EdgeInsets.symmetric(vertical: 20) ,child :FileDropZone()),
@@ -381,9 +249,10 @@ class _DocumentsListState extends State<DocumentsList> {
                   child: (snapshot.hasData)
                       ? (results!.length==1 && results.first.documents.isEmpty)
                   //TODO:Change empty list widget
-                      ? NoObjectives()
+                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucun document à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en ajouter un nouveau.", title: "Aucun document trouvé", buttonText: "Ajouter")
                       :
                   DragAndDropLists(contentsWhenEmpty: Container(),
+                    key: ValueKey(Random.secure()),
                     scrollController: widget.scrollController,
                     lastListTargetSize: 0,
                     listPadding: EdgeInsets.only(bottom: 30),
@@ -472,5 +341,105 @@ bloc.replaceAt(oldItemIndex, oldListIndex, newItemIndex,newListIndex);
           onTap: () {}, document: document,
           folder : folder,
         ));
+  }
+}
+
+class DocumentsListHeader extends StatelessWidget {
+  const DocumentsListHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 2,
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Nom",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 3,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Taille",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Date d'ajout",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Ajouté par",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Container(
+            width: 40,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [],
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
+    );
   }
 }

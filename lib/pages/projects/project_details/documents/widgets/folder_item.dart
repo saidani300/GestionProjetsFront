@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
@@ -126,7 +127,7 @@ class _FolderItemState extends State<FolderItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      _controller.reverse().whenComplete(() => bloc.removeFolder(widget.folder));
+                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeFolder(widget.folder)) ,DeleteType.folder , widget.folder.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

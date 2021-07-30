@@ -1,43 +1,3 @@
-/*
-import 'package:flutter/material.dart';
-import 'package:gestion_projets/services/navigation_service.dart';
-
-import '../layout.dart';
-import '../locator.dart';
-
-showOverlay(BuildContext context) async {
-  OverlayState? overlayState = Overlay.of(locator<NavigationService>().navigatorKey.currentContext!);
-  RenderBox? renderObject = locator<NavigationService>().navigatorKey.currentContext!.findRenderObject() as RenderBox?;
-  Offset offset = renderObject!.localToGlobal(Offset.zero);
-
- OverlayEntry overlayEntry = new OverlayEntry(
-        builder: (context) => Positioned(
-               top: renderObject.size.height/2,
-               left: renderObject.size.width/2,
-               child: CircleAvatar(
-                 radius: 50.0,
-                 backgroundColor: Colors.red,
-                 child: Text("15564654654654654654646"),
-               ),
-            ));
-  OverlayEntry overlayEntry2 = new OverlayEntry(
-      builder: (context) => Positioned(
-      //  top: renderObject.size.height/2,
-       // left: renderObject.size.width/2,
-        child: CircleAvatar(
-          radius: 20,
-          backgroundColor: Colors.blue,
-          child: Text("15564654654654654654646"),
-        ),
-      ));
-  overlayState!.insert(overlayEntry);
-  overlayState.insert(overlayEntry2 , below: overlayEntry);
-  //overlayState.insert(overlayEntry , above: overlayEntry);
-  await Future.delayed(Duration(seconds: 2));
-
-  overlayEntry.remove();
-}*/
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -59,6 +19,21 @@ class TypeData {
   TypeData(this.color, this.icon);
 }
 
+
+enum ToastEvent {create,delete,modify}
+
+String toastEventAsText(ToastEvent event)
+{
+  switch(event)
+  {
+    case ToastEvent.create:
+      return 'créé avec succès.';
+    case ToastEvent.delete:
+      return 'supprimé avec succès.';
+    case ToastEvent.modify:
+      return 'modifié avec succès.';
+  }
+}
 /// Toast Length
 /// Only for Android Platform
 enum Toast {
@@ -409,7 +384,7 @@ TypeData toastIconColor(ToastType type) {
   }
 }
 
-showToast(ToastType type) {
+showToast(ToastType type , String name , {String? toastText,ToastEvent? event}) {
   FToast fToast = FToast();
   fToast.init(locator<NavigationService>().navigatorKey.currentContext!);
   fToast.removeCustomToast();
@@ -418,11 +393,11 @@ showToast(ToastType type) {
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.2),
-          spreadRadius: 1,
-          blurRadius: 1,
+          spreadRadius: 1.5,
+          blurRadius: 1.5,
         ),
       ],
-      borderRadius: BorderRadius.circular(3),
+      borderRadius: BorderRadius.circular(2),
       color: white,
     ),
     child: IntrinsicHeight(
@@ -463,17 +438,12 @@ showToast(ToastType type) {
               child: Text.rich(TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Tache ',
-                    style: textStyle_Text_12_500,
-                  ),
-                  TextSpan(
                       text:
-                          "\"Développement d'une nouvelle interface utilisateur\"",
+                          "« $name »",
                       style: textStyle_Text_12_600),
                   TextSpan(
-                    text: " a été créé avec succès.",
+                    text: (event==null) ?  " " + toastText! : " " + toastEventAsText(event),
                     style: TextStyle(
-                        height: 2,
                         color: text,
                         fontSize: 12,
                         letterSpacing: 0,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final GlobalKey<NavigatorState> navigatorKey2 = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> projectDetailsNavigatorKey =
-      GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> eventNavigatorKey =
-      GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> projectDetailsNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> eventNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> objectiveNavigatorKey = GlobalKey<NavigatorState>();
+
 
   Future<dynamic> navigateTo(String routeName) {
     return navigatorKey.currentState!.pushReplacementNamed(routeName);
@@ -21,8 +22,15 @@ class NavigationService {
         .pushReplacementNamed(routeName);
   }
 
-  Future<dynamic> eventNavigateTo(String routeName) {
-    return eventNavigatorKey.currentState!.pushNamed(routeName);
+  Future<dynamic> eventNavigateTo(String routeName , Object event) {
+    return eventNavigatorKey.currentState!.pushNamed(routeName , arguments: event );
+  }
+
+  Future<dynamic> objectiveNavigateTo(String routeName , Object indicator) {
+    return objectiveNavigatorKey.currentState!.pushNamed(routeName , arguments: indicator );
+  }
+  void objectiveGoBack() {
+    return objectiveNavigatorKey.currentState!.pop();
   }
 
   void eventGoBack() {

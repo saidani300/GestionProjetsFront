@@ -8,6 +8,7 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provide
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/calculation_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
@@ -21,12 +22,13 @@ import 'package:intl/intl.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
-
 class CalculationsHeader extends StatelessWidget {
-  const CalculationsHeader({
-    Key? key,
-  }) : super(key: key);
+  final ScrollController scrollController;
+  final Evaluation evaluation;
+
+  const CalculationsHeader(
+      {Key? key, required this.scrollController, required this.evaluation})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,25 @@ class CalculationsHeader extends StatelessWidget {
           text: "Ajouter un calcul",
           isMultiple: false,
           onTap: () {
-            // bloc.add(new   Event(new Random().nextInt(99999), "Retard potentiel pour une tâche", "Chronologie", "Retard dans la prochaine action", "Ressources humaines", "Développement d'une nouvelle interface utilisateur", DateTime.now(), EventType.Opportunity, EventLevel.low, User(12,"Saidani Wael","https://i.imgur.com/kieKRFZ.jpeg"), [] ,[Document(1, "name")]),);
+            bloc.addCalculation(
+                evaluation,
+                Calculation(
+                    new Random().nextInt(999999),
+                    4,
+                    DateTime.now(),
+                    DateTime.now(),
+                    DateTime.now().add(Duration(days: 48)),
+                    "name", [
+                  Criterion(1, "Gravité", 2, "G"),
+                  Criterion(2, "Fréquence", 1, "F"),
+                  Criterion(3, "Importance", 2, "I"),
+                ]));
+            if (scrollController.hasClients)
+              scrollController.animateTo(
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
           },
         ),
       ],
@@ -91,7 +111,9 @@ class CalculationsHeader extends StatelessWidget {
 }
 
 class CalculationsBody extends StatefulWidget {
-  const CalculationsBody({Key? key}) : super(key: key);
+  final Evaluation evaluation;
+  const CalculationsBody({Key? key, required this.evaluation})
+      : super(key: key);
 
   @override
   _CalculationsBodyState createState() => _CalculationsBodyState();
@@ -112,8 +134,13 @@ class _CalculationsBodyState extends State<CalculationsBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CalculationsHeader(),
-            EvaluationDetails(),
+            CalculationsHeader(
+              scrollController: controller,
+              evaluation: widget.evaluation,
+            ),
+            EvaluationDetails(
+              evaluation: widget.evaluation,
+            ),
             Expanded(
                 child: Container(
                     margin: EdgeInsets.only(top: 20),
@@ -212,8 +239,7 @@ class _CalculationsBodyState extends State<CalculationsBody> {
                               Expanded(
                                 child: Container(
                                     child: Row(
-                                  children: events
-                                      .first.evaluations.first.formula.criteria
+                                  children: widget.evaluation.formula.criteria
                                       .map(
                                         (e) => Expanded(
                                           child: Row(
@@ -247,8 +273,7 @@ class _CalculationsBodyState extends State<CalculationsBody> {
                                       .toList(),
                                 )),
                                 flex: 2 *
-                                    events.first.evaluations.first.formula
-                                        .criteria.length,
+                                    widget.evaluation.formula.criteria.length,
                               ),
                               SizedBox(
                                 width: 20,
@@ -319,6 +344,8 @@ class _CalculationsBodyState extends State<CalculationsBody> {
                         Expanded(
                             child: CalculationsList(
                           parentContext: context,
+                          scrollController: controller,
+                          evaluation: widget.evaluation,
                         )),
                       ]),
                     )))
@@ -329,9 +356,14 @@ class _CalculationsBodyState extends State<CalculationsBody> {
 
 class CalculationsList extends StatefulWidget {
   final BuildContext parentContext;
-
-  const CalculationsList({Key? key, required this.parentContext})
-      : super(key: key);
+  final ScrollController scrollController;
+  final Evaluation evaluation;
+  const CalculationsList({
+    Key? key,
+    required this.parentContext,
+    required this.scrollController,
+    required this.evaluation,
+  }) : super(key: key);
 
   @override
   _CalculationsListState createState() => _CalculationsListState();
@@ -353,19 +385,21 @@ class _CalculationsListState extends State<CalculationsList> {
         child: StreamBuilder<List<Event>>(
             stream: bloc.eventStream,
             builder: (context, snapshot) {
-
-              final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
-                      ? (results!.first.evaluations.first.calculations.isEmpty)
-                          ? NoObjectives()
+                      ? (widget.evaluation.calculations.isEmpty)
+                          ? NoItems(
+                              icon: "icons/no-phase.svg",
+                              message:
+                                  "Il n'y a aucun calcul à afficher pour vous, vous pouvez en créer un nouveau pour évaluer un risque ou une opportunité en fonction de paramètres en une période précise.",
+                              title: "Aucun calcul trouvé",
+                              buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
-                              children: results
-                                  .first.evaluations.first.calculations
-                                  .map((e) => _buildItem(e))
+                              controller: widget.scrollController,
+                              children: widget.evaluation.calculations
+                                  .map((e) => _buildItem(e, widget.evaluation))
                                   .toList(),
                             )
                       : Center(
@@ -378,19 +412,21 @@ class _CalculationsListState extends State<CalculationsList> {
             }));
   }
 
-  Widget _buildItem(Calculation calculation) {
+  Widget _buildItem(Calculation calculation, Evaluation evaluation) {
     return TestProxy(
         key: ValueKey(calculation),
         child: new CalculationItem(
           onTap: () {},
-          evaluation: events.first.evaluations.first,
+          evaluation: evaluation,
           calculation: calculation,
         ));
   }
 }
 
 class EvaluationDetails extends StatefulWidget {
-  const EvaluationDetails({Key? key}) : super(key: key);
+  final Evaluation evaluation;
+  const EvaluationDetails({Key? key, required this.evaluation})
+      : super(key: key);
 
   @override
   _EvaluationDetailsState createState() => _EvaluationDetailsState();
@@ -404,213 +440,232 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
     final bloc = BlocProvider.of<EventBloc>(context);
 
     return Container(
-        child: StreamBuilder<List<Event>>(
-            stream: bloc.eventStream,
-            builder: (context, snapshot) {
-              return Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: lightGrey.withOpacity(0.3),
-                          width: 1,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.15),
-                            spreadRadius: 0.5,
-                            blurRadius: 0.5,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(3),
-                        color: white,
-                      ),
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        EvaluationDetailsHeader(),
-                        Divider(
-                          height: 1,
-                          color: dividerColor,
-                        ),
-                        Column(children: [
-                          InkWell(
-                            hoverColor: active.withOpacity(0.015),
-                            onTap: () {
-                              print("tapped");
-                            },
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              height: 60,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 2,
-                                    child: Container(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Flexible(
-                                              child: Text(
-                                                  events.first.evaluations.first
-                                                      .name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style:
-                                                      textStyle_Text_12_600)),
-                                        ],
-                                      ),
-                                    ),
-                                    flex: 3,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        child: Row(children: [
-                                      CustomTag(
-                                        text: events.first.evaluations.first
-                                            .formula.formula,
-                                        color: text,
-                                        date: events.first.evaluations.first
-                                            .formula.name,
-                                      ),
-                                    ])),
-                                    flex: 2,
-                                  ),
-
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        child: Row(children: [
-                                      CustomTag(
-                                        text: events
-                                            .first.evaluations.first.minValue
-                                            .toString(),
-                                        color: lightBlue,
-                                      ),
-                                    ])),
-                                    flex: 2,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        child: Row(children: [
-                                      CustomTag(
-                                        text: events
-                                            .first.evaluations.first.maxValue
-                                            .toString(),
-                                        color: lightRed,
-                                      ),
-                                    ])),
-                                    flex: 2,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        child: Row(children: [
-                                      CustomTag(
-                                        text: events.first.evaluations.first
-                                                .calculations.length
-                                                .toString() +
-                                            " Calculs",
-                                        color: text,
-                                      ),
-                                    ])),
-                                    flex: 2,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Flexible(
-                                              child: Text(
-                                                  getText(events
-                                                      .first
-                                                      .evaluations
-                                                      .first
-                                                      .creationDate),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style:
-                                                      textStyle_Text_12_600)),
-                                        ],
-                                      ),
-                                    ),
-                                    flex: 2,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
+        child: Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: lightGrey.withOpacity(0.3),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.15),
+                      spreadRadius: 0.5,
+                      blurRadius: 0.5,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(3),
+                  color: white,
+                ),
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  EvaluationDetailsHeader(),
+                  Divider(
+                    height: 1,
+                    color: dividerColor,
+                  ),
+                  StreamBuilder<List<Event>>(
+                      stream: bloc.eventStream,
+                      builder: (context, snapshot) {
+                        return (snapshot.hasData)
+                            ? Column(children: [
+                                InkWell(
+                                  hoverColor: active.withOpacity(0.015),
+                                  onTap: () {
+                                    print("tapped");
+                                  },
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  child: Container(
+                                    height: 60,
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Container(
-                                            height: 30,
-                                            width: 30,
-                                            child: Avatar(
-                                              picture: events.first.evaluations
-                                                  .first.user.avatar,
-                                              name: events.first.evaluations
-                                                  .first.user.name,
-                                            )),
                                         SizedBox(
-                                          width: 15,
+                                          width: 2,
+                                          child: Container(
+                                            color: Colors.transparent,
+                                          ),
                                         ),
-                                        Flexible(
-                                            child: Text(
-                                                events.first.evaluations.first
-                                                    .user.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: textStyle_Text_12_600)),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Flexible(
+                                                    child: Text(
+                                                        widget.evaluation.name,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style:
+                                                            textStyle_Text_12_600)),
+                                              ],
+                                            ),
+                                          ),
+                                          flex: 3,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              child: Row(children: [
+                                            CustomTag(
+                                              text: widget
+                                                  .evaluation.formula.formula,
+                                              color: text,
+                                              date: widget
+                                                  .evaluation.formula.name,
+                                            ),
+                                          ])),
+                                          flex: 2,
+                                        ),
+
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              child: Row(children: [
+                                            CustomTag(
+                                              text: widget.evaluation.minValue
+                                                  .toString(),
+                                              color: lightBlue,
+                                            ),
+                                          ])),
+                                          flex: 2,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              child: Row(children: [
+                                            CustomTag(
+                                              text: widget.evaluation.maxValue
+                                                  .toString(),
+                                              color: lightRed,
+                                            ),
+                                          ])),
+                                          flex: 2,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                              child: Row(children: [
+                                            CustomTag(
+                                              text: widget.evaluation
+                                                      .calculations.length
+                                                      .toString() +
+                                                  " Calculs",
+                                              color: text,
+                                            ),
+                                          ])),
+                                          flex: 2,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Flexible(
+                                                    child: Text(
+                                                        getText(events
+                                                            .first
+                                                            .evaluations
+                                                            .first
+                                                            .creationDate),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style:
+                                                            textStyle_Text_12_600)),
+                                              ],
+                                            ),
+                                          ),
+                                          flex: 2,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: Avatar(
+                                                    picture: events
+                                                        .first
+                                                        .evaluations
+                                                        .first
+                                                        .user
+                                                        .avatar,
+                                                    name: events
+                                                        .first
+                                                        .evaluations
+                                                        .first
+                                                        .user
+                                                        .name,
+                                                  )),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Flexible(
+                                                  child: Text(
+                                                      widget
+                                                          .evaluation.user.name,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style:
+                                                          textStyle_Text_12_600)),
+                                            ],
+                                          ),
+                                          flex: 2,
+                                        ), // ActionsMenu(),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                          width: 40,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [],
+                                          ),
+                                        ),
+
+                                        SizedBox(
+                                          width: 20,
+                                        ),
                                       ],
                                     ),
-                                    flex: 2,
-                                  ), // ActionsMenu(),
-                                  SizedBox(
-                                    width: 10,
                                   ),
-                                  Container(
-                                    width: 40,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [],
-                                    ),
-                                  ),
-
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                            color: dividerColor,
-                          ),
-                          // Container(height: 60,)
-                        ])
-                      ])));
-            }));
+                                ),
+                                Divider(
+                                  height: 1,
+                                  color: dividerColor,
+                                ),
+                                // Container(height: 60,)
+                              ])
+                            : Container(
+                                height: 60,
+                                child: Center(
+                                    child: SpinKitFadingCube(
+                                  color: active,
+                                  size: 25,
+                                  duration: Duration(milliseconds: 1200),
+                                )),
+                              );
+                      })
+                ]))));
   }
 }
 

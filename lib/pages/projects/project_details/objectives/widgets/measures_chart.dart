@@ -3,14 +3,16 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/chartData.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MeasuresChart extends StatefulWidget {
+  final Indicator indicator;
   final BuildContext parentContext;
 
-  const MeasuresChart({Key? key, required this.parentContext})
+  const MeasuresChart({Key? key, required this.parentContext , required this.indicator})
       : super(key: key);
 
   @override
@@ -19,11 +21,9 @@ class MeasuresChart extends StatefulWidget {
 
 class _MeasuresChartState extends State<MeasuresChart> {
   String getText(DateTime date) => DateFormat.yMMMM('fr_FR').format(date);
-
   @override
   void initState() {
     super.initState();
-    //  bloc.init();
   }
 
   @override
@@ -54,27 +54,27 @@ class _MeasuresChartState extends State<MeasuresChart> {
                       ),
                       primaryYAxis: NumericAxis(
                           labelFormat:
-                              '{value} ' + results!.last.indicators.first.unit,
+                              '{value} ' + widget.indicator.unit,
                           labelStyle: TextStyle(
                               color: text,
                               fontSize: 11,
                               fontFamily: 'Montserrat',
                               letterSpacing: 0,
                               fontWeight: FontWeight.w500),
-                          maximum: results.last.indicators.first.maxValue,
-                          minimum: results.last.indicators.first.minValue,
-                          interval: results.last.indicators.first.maxValue / 10,
+                          maximum: widget.indicator.maxValue,
+                          minimum: widget.indicator.minValue,
+                          interval: widget.indicator.maxValue / 10,
                           axisLine: const AxisLine(width: 0),
                           majorTickLines: const MajorTickLines(size: 0)),
                       series: _getDefaultColumn(
-                          results.last.indicators.first.measures
+                          widget.indicator.measures
                               .map((e) => new ChartData(
                                     x: /*getText(e.startDate)+" - " + getText(e.endDate)*/ e
                                         .endDate
                                         .toString(),
                                     y: e.value,
                                     pointColor: e.value <
-                                            results.last.indicators.first
+                                        widget.indicator
                                                 .criticalThreshold
                                         ? lightRed
                                         : text,

@@ -10,7 +10,7 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/meeting_bloc
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/meeting_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -19,12 +19,14 @@ import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
 
 class ProjectMeetingsHeader extends StatelessWidget {
+  final ScrollController scrollController;
   const ProjectMeetingsHeader({
     Key? key,
+    required this.scrollController,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,23 +82,22 @@ class ProjectMeetingsHeader extends StatelessWidget {
         MultiOptionsButton(
           text: "Créer une réunion",
           isMultiple: false,
-          onTap: () {
+          onTap: ()  {
             bloc.add(new Meeting(
                 new Random().nextInt(99999),
                 "Retard potentiel pour une tâche",
                 DateTime.now().add(Duration(days: 13)),
+                '15:00',
                 "",
-                [User(1, "Saidani Wael", "3"), User(3, "Saidani Wael", "5")],
-                [
-                  RelatedItem(
-                      121, "Retard potentiel pour une tâche", ItemType.Risk),
-                  RelatedItem(
-                      487,
-                      "Développement d'une nouvelle interface utilisateur",
-                      ItemType.Task),
-                ],
+                [users.first, users.elementAt(1)],
                 MeetingStatus.programmed,
                 []));
+            if (scrollController.hasClients)
+              scrollController.animateTo(
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
           },
         ),
       ],
@@ -124,7 +125,7 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectMeetingsHeader(),
+        ProjectMeetingsHeader(scrollController: controller,),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -197,7 +198,7 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
                       height: 1,
                       color: dividerColor,
                     ),
-                    Expanded(child: MeetingsList()),
+                    Expanded(child: MeetingsList(scrollController: controller,)),
                   ]),
                 )))
       ],
@@ -206,8 +207,10 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
 }
 
 class MeetingsList extends StatefulWidget {
+  final ScrollController scrollController;
   const MeetingsList({
     Key? key,
+    required this.scrollController,
   }) : super(key: key);
 
   @override
@@ -233,10 +236,10 @@ class _MeetingsListState extends State<MeetingsList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoObjectives() //
+                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune réunion planifiée à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle et inviter des membres de l'équipe.", title: "Aucune réunion planifiée", buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
+                              controller: widget.scrollController,
                               children:
                                   results.map((e) => _buildItem(e)).toList(),
                             )
@@ -260,26 +263,12 @@ class _MeetingsListState extends State<MeetingsList> {
   }
 }
 
-class MeetingPropertiesHeader {
-  final String name;
-  final int flex;
-
-  MeetingPropertiesHeader(this.name, this.flex);
-}
 
 class MeetingsListHeader extends StatelessWidget {
   const MeetingsListHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<MeetingPropertiesHeader> properties = [
-      MeetingPropertiesHeader("Réunion", 4),
-      MeetingPropertiesHeader("Date", 3),
-      MeetingPropertiesHeader("Relié à", 3),
-      MeetingPropertiesHeader("Participants", 2),
-      MeetingPropertiesHeader("Commentaire", 3),
-      MeetingPropertiesHeader("Statut", 2),
-    ];
     return Container(
       height: 40,
       child: Row(
@@ -296,25 +285,101 @@ class MeetingsListHeader extends StatelessWidget {
             width: 20,
           ),
           Expanded(
-              child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: properties
-                      .map(
-                        (e) => Expanded(
                           child: Container(
                             child: Row(
                               children: [
                                 Flexible(
-                                    child: Text(e.name,
+                                    child: Text("Réunion",
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                               ],
                             ),
                           ),
-                          flex: e.flex,
-                        ),
-                      )
-                      .toList())),
+            flex: 4,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Date",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 3,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Heure",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Participants",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Commentaire",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 3,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Statut",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 10,
+          ),
           Container(
             width: 40,
             child: Row(

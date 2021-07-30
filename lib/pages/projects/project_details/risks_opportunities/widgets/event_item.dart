@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
@@ -68,7 +69,7 @@ class _EventItemState extends State<EventItem>
                     onTap: () {
                       print("tapped");
                       locator<NavigationService>()
-                          .eventNavigateTo(eventEvaluationsPageRoute);
+                          .eventNavigateTo(eventEvaluationsPageRoute , widget.event);
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -134,7 +135,7 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.event.impact,
+                                      child: Text(widget.event.impact.isEmpty ? "_" : widget.event.impact,
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
                                 ],
@@ -151,7 +152,7 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.event.source,
+                                      child: Text(widget.event.source.isEmpty ? "_" : widget.event.source,
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
                                 ],
@@ -226,7 +227,7 @@ class _EventItemState extends State<EventItem>
                                 children: [
                                   Container(
                                       child: LevelTag(
-                                    level: widget.event.level,
+                                    level: widget.event.level, type: widget.event.eventType,
                                   ))
                                 ]),
                             flex: 1,
@@ -246,9 +247,7 @@ class _EventItemState extends State<EventItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      _controller.reverse().whenComplete(
-                                          () => bloc.remove(widget.event));
-                                      //showDialogBox(context, onTap);
+                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.remove(widget.event)), (widget.event.eventType ==EventType.Risk) ? DeleteType.risk : DeleteType.opportunity , widget.event.name);
                                     }),
                               ],
                             ),
@@ -281,18 +280,18 @@ Color TypeColor(EventType type) {
 
 class LevelTag extends StatelessWidget {
   final EventLevel level;
-
-  const LevelTag({Key? key, required this.level}) : super(key: key);
+  final EventType type;
+  const LevelTag({Key? key, required this.level , required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     switch (level) {
       case EventLevel.low:
-        return CustomTag(text: '1', color: lightBlue);
+        return CustomTag(text: eventLevelAsObject(type, level).name, color: eventLevelAsObject(type, level).color);
       case EventLevel.medium:
-        return CustomTag(text: '2', color: lightOrange);
+        return CustomTag(text: eventLevelAsObject(type, level).name, color: eventLevelAsObject(type, level).color);
       case EventLevel.high:
-        return CustomTag(text: '3', color: lightRed);
+        return CustomTag(text: eventLevelAsObject(type, level).name, color: eventLevelAsObject(type, level).color);
     }
   }
 }

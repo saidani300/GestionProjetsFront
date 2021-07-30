@@ -1,9 +1,10 @@
 import 'dart:math';
 
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 
 class TaskModel {
   final int id;
@@ -13,7 +14,7 @@ class TaskModel {
   Model.Status status;
   final User user;
   final List<Document> documents;
-  final Model.Priority priority;
+  final Priority priority;
   final List<TaskModel> subTasks;
 
   TaskModel(this.id, this.name, this.startDate, this.endDate, this.status,
@@ -52,8 +53,8 @@ TaskModel myTask = new TaskModel(
     DateTime.now().add(Duration(days: 17)),
     Model.Status.inProgress,
     User(30, "Saidani Wael", "5"),
-    [Document((1), "Doc1")],
-    Model.Priority.Important,
+    [],
+    Priority.Important,
     []);
 
 List<TaskModel> Tasks = [
@@ -65,7 +66,7 @@ List<TaskModel> Tasks = [
       Model.Status.completed,
       User(1, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
       [],
-      Model.Priority.Normal,
+      Priority.Normal,
       [
         TaskModel(
             987,
@@ -75,7 +76,7 @@ List<TaskModel> Tasks = [
             Model.Status.completed,
             User(1, "Saidani Wael", "3"),
             [],
-            Model.Priority.Normal,
+            Priority.Normal,
             []),
         TaskModel(
             265,
@@ -85,7 +86,7 @@ List<TaskModel> Tasks = [
             Model.Status.inProgress,
             User(1, "Saidani Wael", "6"),
             [],
-            Model.Priority.Normal,
+            Priority.Normal,
             []),
       ]),
   TaskModel(
@@ -96,7 +97,7 @@ List<TaskModel> Tasks = [
       Model.Status.completed,
       User(1, "Saidani Wael", "6"),
       [],
-      Model.Priority.Normal,
+      Priority.Normal,
       [
         TaskModel(
             785,
@@ -106,7 +107,7 @@ List<TaskModel> Tasks = [
             Model.Status.completed,
             User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
             [],
-            Model.Priority.Normal,
+            Priority.Normal,
             []),
       ]),
   TaskModel(
@@ -117,7 +118,7 @@ List<TaskModel> Tasks = [
       Model.Status.completed,
       User(1, "Saidani Wael", "3"),
       [],
-      Model.Priority.Normal,
+      Priority.Normal,
       [
         TaskModel(
             444,
@@ -127,7 +128,7 @@ List<TaskModel> Tasks = [
             Model.Status.completed,
             User(1, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
             [],
-            Model.Priority.Normal,
+            Priority.Normal,
             []),
       ])
 ];

@@ -1,9 +1,10 @@
+import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 
 enum ObjectiveStatus {
   inProgress,
@@ -21,7 +22,7 @@ class Objective {
   final ObjectiveStatus status;
   final User user;
   final List<Indicator> indicators;
-  final Model.Priority priority;
+  final Priority priority;
   final List<Document> documents;
 
   Objective(
@@ -45,7 +46,7 @@ Objective objective = new Objective(
     ObjectiveStatus.achieved,
     User(1, "Saidani Wael", "3"),
     [],
-    Model.Priority.Normal,
+    Priority.Normal,
     "Développement",
     [],
     DateTime.now());
@@ -85,7 +86,7 @@ List<Objective> Objectives = [
             "%",
             Frequency.monthly)
       ],
-      Model.Priority.Important,
+      Priority.Important,
       "Développement",
       [],
       DateTime.now()),
@@ -109,7 +110,8 @@ List<Objective> Objectives = [
                   DateTime.now().subtract(Duration(days: 30)),
                   DateTime.now().subtract(Duration(days: 30)),
                   DateTime.now(),
-                  [Document(1, "document1")])
+                  [        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                  ])
             ],
             "Avancement",
             "ATerminé/ATotal*100",
@@ -120,7 +122,7 @@ List<Objective> Objectives = [
             "%",
             Frequency.monthly)
       ],
-      Model.Priority.Normal,
+      Priority.Normal,
       "Développement",
       [],
       DateTime.now())

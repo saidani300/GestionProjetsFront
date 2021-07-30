@@ -13,8 +13,8 @@ import 'package:gestion_projets/pages/projects/project_details/overview/body/pro
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/pages/projects/widgets/dialogs.dart';
-import 'package:gestion_projets/pages/projects/widgets/messages.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/dialogs/messages.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_menu.dart';
@@ -82,7 +82,7 @@ class ProjectsPageHeader extends StatelessWidget {
             text: "Créer un projet",
             isMultiple: false,
             onTap: () {
-              showCreateProjectDialogBox(context);
+              createDialogBox(context);
             }),
       ],
     );

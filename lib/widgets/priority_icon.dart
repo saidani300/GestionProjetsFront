@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 
 class PriorityIcon extends StatelessWidget {
@@ -41,7 +42,7 @@ class PriorityIcon extends StatelessWidget {
         return Tooltip(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(2)),
-                color: active.withOpacity(0.08)),
+                color: dividerColor),
             textStyle: TextStyle(
                 color: text,
                 fontSize: 11,

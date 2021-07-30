@@ -4,28 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/phase_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
 
-final ScrollController scrollController = ScrollController();
 
 class ProjectOverviewHeader extends StatelessWidget {
+  final ScrollController controller;
   const ProjectOverviewHeader({
     Key? key,
+    required this.controller
   }) : super(key: key);
 
   @override
@@ -91,88 +93,16 @@ class ProjectOverviewHeader extends StatelessWidget {
                 new Random.secure().nextInt(1000),
                 new Random.secure().hashCode.toString(),
                 DateTime.now(),
-                DateTime.now(), [
-              Model.Action(
-                  16,
-                  "Développement d'une nouvelle interface utilisateur.",
-                  DateTime.now(),
-                  DateTime.now().add(Duration(days: 36)),
-                  Status.inProgress,
-                  User(1, "Saidani Wael", "7"),
-                  [
-                    Task(
-                        2,
-                        "Développement d'une nouvelle interface utilisateur.",
-                        DateTime.now(),
-                        DateTime.now().add(Duration(days: 64)),
-                        Status.completed,
-                        User(1, "Saidani Wael", "5"),
-                        [],
-                        Priority.Important),
-                    Task(
-                        6,
-                        "Développement d'une nouvelle interface",
-                        DateTime.now(),
-                        DateTime.now().add(Duration(days: 10)),
-                        Status.inProgress,
-                        User(2, "Saidani Wael",
-                            "https://i.imgur.com/kieKRFZ.jpeg"),
-                        [
-                          Document(1, "Document1"),
-                          Document(1, "Document2"),
-                        ],
-                        Priority.Low),
-                  ],
-                  [
-                    Document(1, "Document1"),
-                    Document(1, "Document2"),
-                  ],
-                  Priority.Normal),
-            ]));
+                DateTime.now(), []));
             //ScrollUp when Adding new Phase
-            if (scrollController.hasClients)
-              scrollController.animateTo(
+            if (controller.hasClients)
+              controller.animateTo(
                 0.0,
                 curve: Curves.easeOut,
                 duration: const Duration(milliseconds: 300),
               );
           },
         ),
-        /*TextButton.icon(
-          style: ButtonStyle(
-            fixedSize:
-                MaterialStateProperty.all<Size>(Size(double.infinity, 35)),
-            // backgroundColor: MaterialStateProperty.all<Color>(active),
-            backgroundColor:
-                MaterialStateProperty.resolveWith<Color?>((states) {
-              if (states.contains(MaterialState.hovered)) {
-                return buttonHover;
-              } else {
-                return active;
-              }
-            }),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
-          ),
-          onPressed: () {
-            */ /*TODO: Create Add Phase Logic in BLoC*/ /*
-          */ /*  locator<NavigationService>().projectGoBack();*/ /*
-
-          },
-          icon: Icon(
-            Icons.add,
-            color: white,
-            size: 16,
-          ),
-          label: Text(
-            'Créer une phase',
-            style: TextStyle(
-                color: white,
-                fontSize: 11.5,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w400),
-          ),
-        )*/
       ],
     );
   }
@@ -201,7 +131,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectOverviewHeader(),
+        ProjectOverviewHeader(controller: controller,),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -358,7 +288,7 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                     ),
                     Expanded(
                         child: PhasesList(
-                      parentContext: context,
+                      parentContext: context, scrollController: controller,
                     )),
                   ]),
                 )))
@@ -369,8 +299,8 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
 
 class PhasesList extends StatefulWidget {
   final BuildContext parentContext;
-
-  const PhasesList({Key? key, required this.parentContext}) : super(key: key);
+  final ScrollController scrollController;
+  const PhasesList({Key? key, required this.parentContext , required this.scrollController}) : super(key: key);
 
   @override
   _PhasesListState createState() => _PhasesListState();
@@ -399,10 +329,10 @@ class _PhasesListState extends State<PhasesList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoPhases()
+                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune phase ou action à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.", title: "Aucune phase ou action trouvée", buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
+                              controller: widget.scrollController,
                               children:
                                   results.map((e) => _buildItem(e)).toList(),
                             )

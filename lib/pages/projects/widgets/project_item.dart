@@ -5,16 +5,17 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
+import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
 import '../../../locator.dart';
 import 'custom_icon_button.dart';
-import 'dialogs.dart';
+import '../../../dialogs/dialogs.dart';
 
 class ProjectItem extends StatefulWidget {
   final Project project;
@@ -94,9 +95,7 @@ class _ProjectItemState extends State<ProjectItem>
                             width: 18,
                           ),
                           Expanded(
-                            child: ProjectName(
-                              projectName: widget.project.name,
-                              projectType: widget.project.type,
+                            child: ProjectName(project: widget.project,
                             ),
                             flex: 3,
                           ),
@@ -136,6 +135,18 @@ class _ProjectItemState extends State<ProjectItem>
                             width: 18,
                           ),
                           Expanded(
+                            child: Container(
+                                child: Row(children: [
+                                  PriorityIcon(
+                                    priority: widget.project.priority,
+                                  )
+                                ])),
+                            flex: 1,
+                          ),
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,10 +176,7 @@ class _ProjectItemState extends State<ProjectItem>
                               message: 'Supprimer',
                               color: Colors.redAccent,
                               onTap: () {
-                                showDialogBox(context, () {
-                                  _controller.reverse().whenComplete(
-                                      () => bloc.remove(widget.project));
-                                });
+                                deleteDialogBox(context, () {_controller.reverse().whenComplete(() => bloc.remove(widget.project) );}, DeleteType.project ,widget.project.name);
                               }),
                           SizedBox(
                             width: 20,
@@ -186,11 +194,9 @@ class _ProjectItemState extends State<ProjectItem>
 }
 
 class ProjectName extends StatelessWidget {
-  final String projectName;
-  final String projectType;
-
+  final Project project;
   const ProjectName(
-      {Key? key, required this.projectName, required this.projectType})
+      {Key? key , required this.project})
       : super(key: key);
 
   @override
@@ -200,13 +206,27 @@ class ProjectName extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(projectName,
-              overflow: TextOverflow.ellipsis, style: textStyle_Text_12_600),
+          Row(mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(project.name,
+                  overflow: TextOverflow.ellipsis, style: textStyle_Text_12_600),
+              SizedBox(width: 5,),
+              Visibility(
+                  visible: project.documents.isNotEmpty,
+                  child: CustomIconButton(
+                    icon: Icons.attach_file_rounded,
+                    message:
+                    "${project.documents.length.toString()} Attachement",
+                    onTap: () {},
+                    size: 15,
+                  )),
+            ],
+          ),
           SizedBox(
             height: 5,
           ),
           Text(
-            projectType,
+            project.type.name,
             style: TextStyle(
                 color: text.withOpacity(0.7),
                 fontSize: 11,

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 
 class Document
 {
@@ -14,7 +14,26 @@ class Document
   bool isUploaded;
   Document(this.id, this.name, this.url, this.type, this.user, this.creationDate, this.size, [this.isUploaded = true]);
 
+  Document.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        url = json['url'],
+        type = json['type'],
+       user = User.fromJson(json['user']),
+       creationDate = json['creationDate'],
+       size = json['size'],
+  isUploaded = json['isUploaded'];
 
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'url' : url,
+    'type' : type,
+    'user' : user.toJson(),
+    'creationDate': creationDate.toIso8601String(),
+    'size' : size,
+    'isUploaded' : isUploaded,
+  };
 
 
 }

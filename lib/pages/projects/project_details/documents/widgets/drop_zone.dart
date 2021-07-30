@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
@@ -10,10 +11,11 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provide
 import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/pages/projects/service/upload.dart';
 import 'package:lottie/lottie.dart';
 
-List<int> bytes =[];
+
 
 class FileDropZone extends StatefulWidget {
   const FileDropZone({Key? key}) : super(key: key);
@@ -41,7 +43,6 @@ class _FileDropZoneState extends State<FileDropZone> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DocumentBloc>(context);
-
     return
          DottedBorder(
             borderType: BorderType.RRect,
@@ -57,10 +58,14 @@ class _FileDropZoneState extends State<FileDropZone> with TickerProviderStateMix
                 child : Padding( padding: EdgeInsets.all(10) , child : Stack(
                   children: [
                 new Positioned.fill(
-                child:  DropzoneView(onDrop: (value) async {  File file = value as File;
-                  final mime = await controller.getFileMIME(value);
-                  bytes = await controller.getFileData(value);
-                  bloc.addDocument(documents.where((element) => element.id == 1).first, new Document(new Random().nextInt(9999), value.name, "0", value.name, User(45,"Saidani Wael" , "3"), DateTime.now(), value.size, false));
+                child:  DropzoneView(onDrop: (value) async {
+                  File file = value as File;
+                  var  bytes;
+                bytes = await compute(controller.getFileData,value);
+               // print(bytes);
+                 Document document =  new Document(new Random().nextInt(9999), file.name, "0", file.name, users.last, DateTime.now(), file.size, false);
+                await  bloc.documentUpload(document, bytes);
+
                 _controller.reset();
                 setState(()=> highlight = false);},
 
@@ -120,9 +125,9 @@ class _FileDropZoneState extends State<FileDropZone> with TickerProviderStateMix
                                 letterSpacing: 0,
                                 fontWeight: FontWeight.w600),
                             recognizer: TapGestureRecognizer()..onTap = () async {
-                              final events = await controller.pickFiles();
+                              final events = await controller.pickFiles( multiple: true);
                               if(events.isEmpty) return;
-                             print(events.first.name);
+                              events.forEach((element) {acceptFile(element , context);});
                             },
                           ),
                           TextSpan(
@@ -149,9 +154,14 @@ class _FileDropZoneState extends State<FileDropZone> with TickerProviderStateMix
     )));
   }
 
-  Future acceptFile(dynamic event) async{
-final name = event.name;
-print(name);
-
+  Future acceptFile(dynamic value , BuildContext context) async {
+    final bloc = BlocProvider.of<DocumentBloc>(context);
+    File file = value as File;
+    var bytes;
+    bytes = await compute(controller.getFileData, value);
+    Document document =  new Document(new Random().nextInt(9999), file.name, "0", file.name, users.last, DateTime.now(), file.size, false);
+    await  bloc.documentUpload(document, bytes);
+    _controller.reset();
+    setState(() => highlight = false);
   }
 }

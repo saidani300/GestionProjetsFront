@@ -2,42 +2,31 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/user.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 
 const AllName = "Tous";
 const CompletedName = "Terminé";
 const InProgressName = "En cours";
 
-class showByStatusItem {
+class ShowByStatusItem {
   final String name;
 
-  showByStatusItem(this.name);
+  ShowByStatusItem(this.name);
 }
 
-List<showByStatusItem> ShowByStatusItems = [
-  showByStatusItem(AllName),
-  showByStatusItem(CompletedName),
-  showByStatusItem(InProgressName),
+List<ShowByStatusItem> showByStatusItems = [
+  ShowByStatusItem(AllName),
+  ShowByStatusItem(CompletedName),
+  ShowByStatusItem(InProgressName),
 ];
 
-class PriorityItem {
-  final String name;
-  final IconData icon;
-  final Color color;
 
-  PriorityItem(this.name, this.icon, this.color);
-}
-
-List<PriorityItem> priorityItems = [
-  PriorityItem("Élevée", Icons.flag_rounded, lightRed),
-  PriorityItem("Normale", Icons.flag_rounded, active),
-  PriorityItem("Basse", Icons.flag_outlined, text.withOpacity(0.65)),
-];
 
 Phase newPhase = Phase(Random.secure().nextInt(1000),
     Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), []);
@@ -69,12 +58,12 @@ List<Phase> Phases = [
               Status.inProgress,
               User(2, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
               [
-                Document(1, "Document1"),
-                Document(1, "Document2"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Low),
           Task(
-              2,
+              656,
               "Développement du service web",
               DateTime.now(),
               DateTime.now().add(Duration(days: 22)),
@@ -84,8 +73,8 @@ List<Phase> Phases = [
               Priority.Important),
         ],
         [
-          Document(1, "Document1"),
-          Document(1, "Document2"),
+                  Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                  Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
         ],
         Priority.Normal),
     Model.Action(
@@ -104,41 +93,41 @@ List<Phase> Phases = [
               Status.completed,
               User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
               [
-                Document(1, "Document1"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Important),
           Task(
-              1,
+              879,
               "Développement du service web",
               DateTime.now(),
               DateTime.now().subtract(Duration(days: 11)),
               Status.completed,
               User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
               [
-                Document(1, "Document1"),
-                Document(1, "Document2"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Normal),
           Task(
-              1,
+              3131365,
               "Développement d'une nouvelle interface utilisateur",
               DateTime.now(),
               DateTime.now().add(Duration(days: 11)),
               Status.approved,
               User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
               [
-                Document(1, "Document1"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Normal),
         ],
         [
-          Document(1, "Document1"),
+                  Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
         ],
         Priority.Important)
   ]),
   Phase(2, 'Développement'.toUpperCase(), DateTime.now(), DateTime.now(), [
     Model.Action(
-        1,
+        56456,
         "Développement d'une nouvelle interface utilisateur",
         DateTime.now(),
         DateTime.now().add(Duration(days: 30)),
@@ -146,7 +135,7 @@ List<Phase> Phases = [
         User(1, "Saidani Wael", "3"),
         [
           Task(
-              1,
+              257,
               "Développement d'une nouvelle interface utilisateur",
               DateTime.now(),
               DateTime.now().add(Duration(days: 64)),
@@ -155,19 +144,19 @@ List<Phase> Phases = [
               [],
               Priority.Important),
           Task(
-              2,
+              99748,
               "Développement d'une nouvelle interface",
               DateTime.now(),
               DateTime.now().add(Duration(days: 10)),
               Status.completed,
               User(2, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
               [
-                Document(1, "Document1"),
-                Document(1, "Document2"),
+                Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Low),
           Task(
-              2,
+              3261,
               "Développement du service web",
               DateTime.now(),
               DateTime.now().add(Duration(days: 22)),
@@ -177,12 +166,12 @@ List<Phase> Phases = [
               Priority.Important),
         ],
         [
-          Document(1, "Document1"),
-          Document(1, "Document2"),
+          Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+          Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
         ],
         Priority.Normal),
     Model.Action(
-        2,
+        89787,
         "Développement du service web",
         DateTime.now(),
         DateTime.now().add(Duration(days: 87)),
@@ -190,46 +179,46 @@ List<Phase> Phases = [
         User(1, "Saidani Wael", "3"),
         [
           Task(
-              1,
+              15456,
               "Développement d'une nouvelle interface utilisateur",
               DateTime.now(),
               DateTime.now().add(Duration(days: 40)),
               Status.completed,
               User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
               [
-                Document(1, "Document1"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Important),
           Task(
-              1,
+              1115,
               "Développement du service web",
               DateTime.now(),
               DateTime.now().subtract(Duration(days: 11)),
               Status.completed,
               User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
               [
-                Document(1, "Document1"),
-                Document(1, "Document2"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Normal),
           Task(
-              1,
+              0654,
               "Développement d'une nouvelle interface utilisateur",
               DateTime.now(),
               DateTime.now().add(Duration(days: 11)),
               Status.approved,
               User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
               [
-                Document(1, "Document1"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Normal),
         ],
         [
-          Document(1, "Document1"),
+          Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
         ],
         Priority.Important),
     Model.Action(
-        3,
+        984,
         "Développement du service web",
         DateTime.now(),
         DateTime.now().add(Duration(days: 87)),
@@ -237,42 +226,42 @@ List<Phase> Phases = [
         User(1, "Saidani Wael", "3"),
         [
           Task(
-              1,
+              5576,
               "Développement d'une nouvelle interface utilisateur",
               DateTime.now(),
               DateTime.now().add(Duration(days: 40)),
               Status.completed,
               User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
               [
-                Document(1, "Document1"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Important),
           Task(
-              1,
+              698458,
               "Développement du service web",
               DateTime.now(),
               DateTime.now().subtract(Duration(days: 11)),
               Status.completed,
               User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
               [
-                Document(1, "Document1"),
-                Document(1, "Document2"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Normal),
           Task(
-              1,
+              66454,
               "Développement d'une nouvelle interface utilisateur",
               DateTime.now(),
               DateTime.now().add(Duration(days: 11)),
               Status.approved,
               User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
               [
-                Document(1, "Document1"),
+                        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
               ],
               Priority.Normal),
         ],
         [
-          Document(1, "Document1"),
+                  Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
         ],
         Priority.Important)
   ]),

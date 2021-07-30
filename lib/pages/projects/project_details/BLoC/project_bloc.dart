@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/service/API.dart';
 
@@ -12,31 +13,32 @@ ProjectFilter projectsFilterData = ProjectFilter(null, null, null, null, null);
 String projectsSearchQuery = '';
 
 class ProjectBloc implements Bloc {
-  List<Project> filteredList = Projects;
+  List<Project> filteredList = projects;
   final _controller = StreamController<List<Project>>.broadcast();
+
   final _client = APIClient();
 
   Stream<List<Project>> get projectStream => _controller.stream;
 
   Future init() async {
   //  List<Project> projects = await _client.fetchProjects();
-    Future.delayed(Duration(milliseconds: 300) , () => _controller.sink.add(filter(Projects)));
+    Future.delayed(Duration(milliseconds: 300) , () => _controller.sink.add(filter(projects)));
   }
 
   fetch() {
-    _controller.sink.add(filter(Projects));
+    _controller.sink.add(filter(projects));
   }
 
   remove(Project project) async {
-    Projects.remove(project);
+    projects.remove(project);
 
-   _controller.sink.add(filter(Projects));
+   _controller.sink.add(filter(projects));
   }
 
   add(Project project) async {
     print('project added');
-    Projects.insert(0, project);
-    _controller.sink.add(filter(Projects));
+    projects.insert(0, project);
+    _controller.sink.add(filter(projects));
   }
 
   List<Project> filter(List<Project> initList) {

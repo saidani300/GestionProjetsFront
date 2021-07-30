@@ -1,4 +1,4 @@
-import 'package:gestion_projets/pages/projects/project_details/overview/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 
 class Measure {
   final int id;
