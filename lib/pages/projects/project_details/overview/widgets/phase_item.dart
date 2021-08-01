@@ -1,20 +1,20 @@
-
 import 'dart:math';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart' as Model;
 
 import 'action_item.dart';
 
@@ -47,7 +47,6 @@ class _PhaseItemState extends State<PhaseItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -197,7 +196,17 @@ class _PhaseItemState extends State<PhaseItem>
                                                             message:
                                                                 'Supprimer',
                                                             onTap: () {
-                                                              deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.remove(widget.phase)), DeleteType.phase,widget.phase.name);
+                                                              deleteDialogBox(
+                                                                  context,
+                                                                  () => _controller
+                                                                      .reverse()
+                                                                      .whenComplete(() =>
+                                                                          bloc.remove(widget
+                                                                              .phase)),
+                                                                  DeleteType
+                                                                      .phase,
+                                                                  widget.phase
+                                                                      .name);
                                                             },
                                                           ),
                                                         ])),
@@ -214,18 +223,33 @@ class _PhaseItemState extends State<PhaseItem>
                                             message: "Ajouter une action",
                                             enableToolTip: true,
                                             onTap: () {
-                                              bloc.addAction(widget.phase, new Model.Action(
-                                                  new Random().nextInt(99999),
-                                                  "Développement d'une nouvelle interface utilisateur",
-                                                  DateTime.now(),
-                                                  DateTime.now().add(Duration(days: 30)),
-                                                  Status.inProgress,
-                                                  User(1, "Saidani Wael", "3"),
-                                                  [],
-                                                  [
-                                                    Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
-                                                  ],
-                                                  Priority.Normal));
+                                              bloc.addAction(
+                                                  widget.phase,
+                                                  new Model.Action(
+                                                      new Random()
+                                                          .nextInt(99999),
+                                                      "Développement d'une nouvelle interface utilisateur",
+                                                      DateTime.now(),
+                                                      DateTime.now().add(
+                                                          Duration(days: 30)),
+                                                      Status.inProgress,
+                                                      User(1, "Saidani Wael",
+                                                          "3"),
+                                                      [],
+                                                      [
+                                                        Document(
+                                                            55,
+                                                            "Développement d'une nouvelle interface utilisateur",
+                                                            "url",
+                                                            "PDF",
+                                                            User(
+                                                                12,
+                                                                "Saidani Wael",
+                                                                "3"),
+                                                            DateTime.now(),
+                                                            656848),
+                                                      ],
+                                                      Priority.Normal));
                                             },
                                             size: 23,
                                           ),
@@ -261,7 +285,10 @@ class _PhaseItemState extends State<PhaseItem>
                     secondCurve: Curves.easeOut,
                     firstChild: Container(),
                     secondChild: Container(
-                      child: ActionsList(parentContext: context, phase: widget.phase,),
+                      child: ActionsList(
+                        parentContext: context,
+                        phase: widget.phase,
+                      ),
                     ),
                     crossFadeState: isExpanded
                         ? CrossFadeState.showSecond
@@ -337,35 +364,37 @@ class _PhaseItemState extends State<PhaseItem>
   }
 }
 
-
 class ActionsList extends StatefulWidget {
   final BuildContext parentContext;
   final Phase phase;
-  const ActionsList({Key? key, required this.parentContext , required this.phase}) : super(key: key);
+
+  const ActionsList(
+      {Key? key, required this.parentContext, required this.phase})
+      : super(key: key);
 
   @override
   _ActionsListState createState() => _ActionsListState();
 }
 
 class _ActionsListState extends State<ActionsList> {
-
   @override
   Widget build(BuildContext context) {
     return ListView(
-                    key: ValueKey(Random.secure()),
-                    shrinkWrap: true,
-                    controller: null,
-                    primary: false,
-                    children:
-                    widget.phase.actions.map((e) => _buildItem(widget.phase,e)).toList(),
-                  );
+      key: ValueKey(Random.secure()),
+      shrinkWrap: true,
+      controller: null,
+      primary: false,
+      children:
+          widget.phase.actions.map((e) => _buildItem(widget.phase, e)).toList(),
+    );
   }
 
-  Widget _buildItem(Phase phase , Model.Action action) {
+  Widget _buildItem(Phase phase, Model.Action action) {
     return TestProxy(
         key: ValueKey(action),
         child: new ActionItem(
-          phase: phase, action: action,
+          phase: phase,
+          action: action,
         ));
   }
 }

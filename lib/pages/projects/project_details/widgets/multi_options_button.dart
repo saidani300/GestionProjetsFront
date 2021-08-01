@@ -7,15 +7,15 @@ class MultiOptionsButton extends StatefulWidget {
   final bool isMultiple;
   final Function() onTap;
   final bool withIcon;
-  const MultiOptionsButton(
-      {Key? key,
-      this.height = 35,
-      required this.text,
-      required this.onTap,
-      this.isMultiple = true,
-        this.withIcon = true,
-      })
-      : super(key: key);
+
+  const MultiOptionsButton({
+    Key? key,
+    this.height = 35,
+    required this.text,
+    required this.onTap,
+    this.isMultiple = true,
+    this.withIcon = true,
+  }) : super(key: key);
 
   @override
   _MultiOptionsButtonState createState() => _MultiOptionsButtonState();
@@ -63,19 +63,19 @@ class _MultiOptionsButtonState extends State<MultiOptionsButton> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                Visibility(
-                  visible: widget.withIcon,
-                  child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [Icon(
-                      Icons.add,
-                      size: 15,
-                      color: white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),]),
-                ),
+                  Visibility(
+                    visible: widget.withIcon,
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(
+                        Icons.add,
+                        size: 15,
+                        color: white,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ]),
+                  ),
                   Text(
                     widget.text,
                     style: TextStyle(
@@ -84,9 +84,11 @@ class _MultiOptionsButtonState extends State<MultiOptionsButton> {
                         letterSpacing: 0,
                         fontWeight: FontWeight.w500),
                   ),
-                 Visibility( visible: widget.withIcon, child:  SizedBox(
-                    width: 5,
-                  )),
+                  Visibility(
+                      visible: widget.withIcon,
+                      child: SizedBox(
+                        width: 5,
+                      )),
                 ],
               ),
             )),

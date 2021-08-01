@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
@@ -13,9 +13,9 @@ import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
+import '../../../dialogs/dialogs.dart';
 import '../../../locator.dart';
 import 'custom_icon_button.dart';
-import '../../../dialogs/dialogs.dart';
 
 class ProjectItem extends StatefulWidget {
   final Project project;
@@ -45,7 +45,6 @@ class _ProjectItemState extends State<ProjectItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -95,7 +94,8 @@ class _ProjectItemState extends State<ProjectItem>
                             width: 18,
                           ),
                           Expanded(
-                            child: ProjectName(project: widget.project,
+                            child: ProjectName(
+                              project: widget.project,
                             ),
                             flex: 3,
                           ),
@@ -137,10 +137,10 @@ class _ProjectItemState extends State<ProjectItem>
                           Expanded(
                             child: Container(
                                 child: Row(children: [
-                                  PriorityIcon(
-                                    priority: widget.project.priority,
-                                  )
-                                ])),
+                              PriorityIcon(
+                                priority: widget.project.priority,
+                              )
+                            ])),
                             flex: 1,
                           ),
                           SizedBox(
@@ -176,7 +176,10 @@ class _ProjectItemState extends State<ProjectItem>
                               message: 'Supprimer',
                               color: Colors.redAccent,
                               onTap: () {
-                                deleteDialogBox(context, () {_controller.reverse().whenComplete(() => bloc.remove(widget.project) );}, DeleteType.project ,widget.project.name);
+                                deleteDialogBox(context, () {
+                                  _controller.reverse().whenComplete(
+                                      () => bloc.remove(widget.project));
+                                }, DeleteType.project, widget.project.name);
                               }),
                           SizedBox(
                             width: 20,
@@ -195,9 +198,8 @@ class _ProjectItemState extends State<ProjectItem>
 
 class ProjectName extends StatelessWidget {
   final Project project;
-  const ProjectName(
-      {Key? key , required this.project})
-      : super(key: key);
+
+  const ProjectName({Key? key, required this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -206,17 +208,21 @@ class ProjectName extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(mainAxisSize: MainAxisSize.min,
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(project.name,
-                  overflow: TextOverflow.ellipsis, style: textStyle_Text_12_600),
-              SizedBox(width: 5,),
+                  overflow: TextOverflow.ellipsis,
+                  style: textStyle_Text_12_600),
+              SizedBox(
+                width: 5,
+              ),
               Visibility(
                   visible: project.documents.isNotEmpty,
                   child: CustomIconButton(
                     icon: Icons.attach_file_rounded,
                     message:
-                    "${project.documents.length.toString()} Attachement",
+                        "${project.documents.length.toString()} Attachement",
                     onTap: () {},
                     size: 15,
                   )),

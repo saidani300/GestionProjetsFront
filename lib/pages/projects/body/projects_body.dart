@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/dialogs/messages.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
 import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
@@ -13,8 +15,6 @@ import 'package:gestion_projets/pages/projects/project_details/overview/body/pro
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/dialogs/messages.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_menu.dart';
@@ -143,7 +143,6 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                               ),
                               Expanded(child: Container()),
                               SearchWidget(
-                                text: projectsSearchQuery,
                                 hintText: 'Rechercher des projets...',
                                 onChanged: (value) {
                                   projectsSearchQuery = value;

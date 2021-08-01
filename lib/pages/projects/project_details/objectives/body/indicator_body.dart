@@ -25,10 +25,10 @@ import 'package:intl/intl.dart';
 
 import '../../../../../locator.dart';
 
-
 class IndicatorHeader extends StatelessWidget {
   final ScrollController controller;
   final Indicator indicator;
+
   const IndicatorHeader({
     Key? key,
     required this.controller,
@@ -72,7 +72,7 @@ class IndicatorHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text("Indicateurs", style: textStyle_Text_12_600),
+        Text("Mesures", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -80,7 +80,7 @@ class IndicatorHeader extends StatelessWidget {
             padding: EdgeInsets.only(top: 2),
             child: CustomIconButton(
               icon: Icons.info,
-              message: "Indicateurs",
+              message: "Mesures",
               onTap: () {},
               size: 17,
             )),
@@ -113,7 +113,9 @@ class IndicatorHeader extends StatelessWidget {
 
 class IndicatorBody extends StatefulWidget {
   final Indicator indicator;
-  const IndicatorBody({Key? key , required this.indicator}) : super(key: key);
+
+  const IndicatorBody({Key? key, required this.indicator}) : super(key: key);
+
   @override
   _IndicatorBodyState createState() => _IndicatorBodyState();
 }
@@ -138,8 +140,11 @@ class _IndicatorBodyState extends State<IndicatorBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            IndicatorHeader(controller: controller, indicator : widget.indicator ),
-            IndicatorDetails(indicator: widget.indicator,),
+            IndicatorHeader(
+                controller: controller, indicator: widget.indicator),
+            IndicatorDetails(
+              indicator: widget.indicator,
+            ),
             Expanded(
                 child: Container(
                     margin: EdgeInsets.only(top: 20),
@@ -171,16 +176,18 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                           ),
                           alignment: Alignment.bottomLeft,
                           child: Row(children: [
-                            //Menu
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SearchWidget(
+                              hintText: 'Rechercher des mesures...',
+                              onChanged: (value) {},
+                            ),
                             SizedBox(
                               width: 15,
                             ),
                             Expanded(child: Container()),
-                            SearchWidget(
-                              text: "",
-                              hintText: 'Rechercher des objectifs',
-                              onChanged: (value) {},
-                            ),
+
                             SizedBox(
                               width: 15,
                             ),
@@ -348,7 +355,9 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                         ),
                         Expanded(
                             child: MeasuresList(
-                          parentContext: context, scrollController: controller, indicator: widget.indicator,
+                          parentContext: context,
+                          scrollController: controller,
+                          indicator: widget.indicator,
                         )),
                       ]),
                     )))
@@ -361,7 +370,13 @@ class MeasuresList extends StatefulWidget {
   final BuildContext parentContext;
   final ScrollController scrollController;
   final Indicator indicator;
-  const MeasuresList({Key? key, required this.parentContext , required this.scrollController ,required this.indicator}) : super(key: key);
+
+  const MeasuresList(
+      {Key? key,
+      required this.parentContext,
+      required this.scrollController,
+      required this.indicator})
+      : super(key: key);
 
   @override
   _MeasuresListState createState() => _MeasuresListState();
@@ -383,18 +398,22 @@ class _MeasuresListState extends State<MeasuresList> {
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (widget.indicator.measures.isEmpty)
-                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune mesure créée, vous pouvez en créer une nouvelle pour suivre les performances selon cet indicateur.", title: "Aucune mesure trouvée", buttonText: "Créer")
+                          ? NoItems(
+                              icon: "icons/no-phase.svg",
+                              message:
+                                  "Il n'y a aucune mesure créée, vous pouvez en créer une nouvelle pour suivre les performances selon cet indicateur.",
+                              title: "Aucune mesure trouvée",
+                              buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
                               children: widget.indicator.measures
-                                  .map((e) => _buildItem(e , widget.indicator))
+                                  .map((e) => _buildItem(e, widget.indicator))
                                   .toList(),
                             )
                       : Center(
@@ -407,7 +426,7 @@ class _MeasuresListState extends State<MeasuresList> {
             }));
   }
 
-  Widget _buildItem(Measure measure , Indicator indicator) {
+  Widget _buildItem(Measure measure, Indicator indicator) {
     return TestProxy(
         key: ValueKey(measure),
         child: new MeasureItem(
@@ -423,7 +442,8 @@ List<ChartData> chartData = [];
 
 class IndicatorDetails extends StatefulWidget {
   final Indicator indicator;
-  const IndicatorDetails({Key? key  , required this.indicator}) : super(key: key);
+
+  const IndicatorDetails({Key? key, required this.indicator}) : super(key: key);
 
   @override
   _IndicatorDetailsState createState() => _IndicatorDetailsState();
@@ -491,7 +511,8 @@ class _IndicatorDetailsState extends State<IndicatorDetails> {
                       color: dividerColor,
                     ),
                     MeasuresChart(
-                      parentContext: context,indicator: widget.indicator,
+                      parentContext: context,
+                      indicator: widget.indicator,
                     )
                   ],
                 ),
@@ -672,7 +693,6 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
 
   @override
   dispose() {
-
     super.dispose();
   }
 

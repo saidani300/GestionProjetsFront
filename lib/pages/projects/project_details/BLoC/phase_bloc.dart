@@ -32,29 +32,25 @@ class PhaseBloc implements Bloc {
     _controller.sink.add(Phases);
   }
 
-
-  addAction(Phase phase , Action action) async {
+  addAction(Phase phase, Action action) async {
     phase.actions.add(action);
     _controller.sink.add(Phases);
   }
 
-
-  removeAction(Phase phase , Action action) async {
+  removeAction(Phase phase, Action action) async {
     phase.actions.remove(action);
     _controller.sink.add(Phases);
   }
 
-  addTask(Action action , Task task) async {
+  addTask(Action action, Task task) async {
     action.tasks.add(task);
     _controller.sink.add(Phases);
   }
 
-
-  removeTask(Action action , Task task) async {
+  removeTask(Action action, Task task) async {
     action.tasks.remove(task);
     _controller.sink.add(Phases);
   }
-
 
   @override
   void dispose() {

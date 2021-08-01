@@ -8,16 +8,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/document_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/drop_zone.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/folder_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
-import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -28,6 +24,7 @@ import '../../../../../locator.dart';
 
 class DocumentsHeader extends StatelessWidget {
   final ScrollController scrollController;
+
   const DocumentsHeader({
     Key? key,
     required this.scrollController,
@@ -88,8 +85,8 @@ class DocumentsHeader extends StatelessWidget {
           text: "Ajouter un dossier",
           isMultiple: false,
           onTap: () {
-            bloc.addFolder(new
-            Folder(new Random().nextInt(99999), "Dossier", []));
+            bloc.addFolder(
+                new Folder(new Random().nextInt(99999), "Dossier", []));
 
             if (scrollController.hasClients)
               scrollController.animateTo(
@@ -108,12 +105,10 @@ class DocumentsBody extends StatefulWidget {
   const DocumentsBody({Key? key}) : super(key: key);
 
   @override
-  _DocumentsBodyState createState() =>
-      _DocumentsBodyState();
+  _DocumentsBodyState createState() => _DocumentsBodyState();
 }
 
-class _DocumentsBodyState
-    extends State<DocumentsBody> {
+class _DocumentsBodyState extends State<DocumentsBody> {
   final ScrollController controller = ScrollController();
 
   @override
@@ -128,85 +123,90 @@ class _DocumentsBodyState
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        DocumentsHeader( scrollController: scrollController),
+        DocumentsHeader(scrollController: scrollController),
         Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: lightGrey.withOpacity(0.3),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.15),
+                    spreadRadius: 0.5,
+                    blurRadius: 0.5,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(3),
+                color: white,
+              ),
+              child: Column(children: [
+                Container(
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: lightGrey.withOpacity(0.3),
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.15),
-                        spreadRadius: 0.5,
-                        blurRadius: 0.5,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(3),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(3),
+                        topRight: Radius.circular(3),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0)),
                     color: white,
                   ),
-                  child: Column(children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(3),
-                            topRight: Radius.circular(3),
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(0)),
-                        color: white,
-                      ),
-                      alignment: Alignment.bottomLeft,
-                      child: Row(children: [
-                        //Menu
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(child: Container()),
-                        SearchWidget(
-                          text: "",
-                          hintText: 'Recherche des documents',
-                          onChanged: (value) {},
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        CustomIconButton(
-                            icon: Icons.save_alt_rounded,
-                            message: 'Exporter',
-                            onTap: () {
-                              /*  bloc.fetch();*/
-                            }),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        CustomIconButton(
-                          icon: Icons.filter_alt_outlined,
-                          message: 'Filter',
-                          onTap: () {},
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                      ]),
+                  alignment: Alignment.bottomLeft,
+                  child: Row(children: [
+                    SizedBox(
+                      width: 20,
                     ),
-                    Divider(
-                      height: 1,
-                      color: dividerColor,
+                    SearchWidget(
+                      hintText: 'Recherche des documents...',
+                      onChanged: (value) {},
+                      width: 190,
                     ),
-                    DocumentsListHeader(),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(child: Container()),
+
+                    SizedBox(
+                      width: 15,
+                    ),
+                    CustomIconButton(
+                        icon: Icons.save_alt_rounded,
+                        message: 'Exporter',
+                        onTap: () {
+                          /*  bloc.fetch();*/
+                        }),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    CustomIconButton(
+                      icon: Icons.filter_alt_outlined,
+                      message: 'Filter',
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
                   ]),
-                )),
-        Padding(padding: EdgeInsets.symmetric(vertical: 20) ,child :FileDropZone()),
+                ),
+                Divider(
+                  height: 1,
+                  color: dividerColor,
+                ),
+                DocumentsListHeader(),
+              ]),
+            )),
+        Padding(
+            padding: EdgeInsets.symmetric(vertical: 20), child: FileDropZone()),
         Divider(
           height: 1,
           color: dividerColor,
         ),
         Expanded(
             child: DocumentsList(
-              parentContext: context, scrollController: scrollController,
-            )),
+          parentContext: context,
+          scrollController: scrollController,
+        )),
         Divider(
           height: 1,
           color: dividerColor,
@@ -220,7 +220,8 @@ class DocumentsList extends StatefulWidget {
   final BuildContext parentContext;
   final ScrollController scrollController;
 
-  const DocumentsList({Key? key, required this.parentContext , required this.scrollController})
+  const DocumentsList(
+      {Key? key, required this.parentContext, required this.scrollController})
       : super(key: key);
 
   @override
@@ -229,6 +230,7 @@ class DocumentsList extends StatefulWidget {
 
 class _DocumentsListState extends State<DocumentsList> {
   late final bloc;
+
   @override
   void initState() {
     bloc = BlocProvider.of<DocumentBloc>(widget.parentContext);
@@ -242,49 +244,64 @@ class _DocumentsListState extends State<DocumentsList> {
         child: StreamBuilder<List<Folder>>(
             stream: bloc.documentStream,
             builder: (context, snapshot) {
-
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
-                      ? (results!.length==1 && results.first.documents.isEmpty)
-                  //TODO:Change empty list widget
-                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucun document à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en ajouter un nouveau.", title: "Aucun document trouvé", buttonText: "Ajouter")
-                      :
-                  DragAndDropLists(contentsWhenEmpty: Container(),
-                    key: ValueKey(Random.secure()),
-                    scrollController: widget.scrollController,
-                    lastListTargetSize: 0,
-                    listPadding: EdgeInsets.only(bottom: 30),
-                    listInnerDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    children: results.skipWhile((element) => (element.id == 1 && element.documents.isEmpty)).map(buildList).toList(),
-                    itemDivider: Divider(thickness: 1, height: 1, color: dividerColor),
-                    lastItemTargetHeight:  10,
-                    itemDecorationWhileDragging: BoxDecoration(
-                      color: white,
-                      boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-                    ), onItemReorder: onItemReorder, onListReorder: (int oldListIndex, int newListIndex) {  },
-                   // listDragHandle: buildDragHandle(isList: true),
-                    itemDragHandle: buildDragHandle(),
-                  )
+                      ? (results!.length == 1 &&
+                              results.first.documents.isEmpty)
+                          //TODO:Change empty list widget
+                          ? NoItems(
+                              icon: "icons/no-phase.svg",
+                              message:
+                                  "Il n'y a aucun document à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en ajouter un nouveau.",
+                              title: "Aucun document trouvé",
+                              buttonText: "Ajouter")
+                          : DragAndDropLists(
+                              contentsWhenEmpty: Container(),
+                              key: ValueKey(Random.secure()),
+                              scrollController: widget.scrollController,
+                              lastListTargetSize: 0,
+                              listPadding: EdgeInsets.only(bottom: 30),
+                              listInnerDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              children: results
+                                  .skipWhile((element) => (element.id == 1 &&
+                                      element.documents.isEmpty))
+                                  .map(buildList)
+                                  .toList(),
+                              itemDivider: Divider(
+                                  thickness: 1, height: 1, color: dividerColor),
+                              lastItemTargetHeight: 10,
+                              itemDecorationWhileDragging: BoxDecoration(
+                                color: white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12, blurRadius: 4)
+                                ],
+                              ),
+                              onItemReorder: onItemReorder,
+                              onListReorder:
+                                  (int oldListIndex, int newListIndex) {},
+                              // listDragHandle: buildDragHandle(isList: true),
+                              itemDragHandle: buildDragHandle(),
+                            )
                       : Center(
-                    child: SpinKitFadingCube(
-                      color: active,
-                      size: 25,
-                      duration: Duration(milliseconds: 1200),
-                    ),
-                  ));
+                          child: SpinKitFadingCube(
+                            color: active,
+                            size: 25,
+                            duration: Duration(milliseconds: 1200),
+                          ),
+                        ));
             }));
   }
 
- void onItemReorder (int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
-if(!identical(oldListIndex, newListIndex))
-bloc.replaceAt(oldItemIndex, oldListIndex, newItemIndex,newListIndex);
-
- }
-
+  void onItemReorder(
+      int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+    if (!identical(oldListIndex, newListIndex))
+      bloc.replaceAt(oldItemIndex, oldListIndex, newItemIndex, newListIndex);
+  }
 
   DragHandle buildDragHandle({bool isList = false}) {
     final verticalAlignment = isList
@@ -297,49 +314,57 @@ bloc.replaceAt(oldItemIndex, oldListIndex, newItemIndex,newListIndex);
       verticalAlignment: verticalAlignment,
       child: Container(
         padding: EdgeInsets.only(left: 4),
-        child: Icon(Icons.drag_indicator_rounded, color: color , size: 17,),
+        child: Icon(
+          Icons.drag_indicator_rounded,
+          color: color,
+          size: 17,
+        ),
       ),
     );
   }
 
   DragAndDropList buildList(Folder folder) => DragAndDropList(
-    contentsWhenEmpty: Divider(thickness: 1, height: 1, color: dividerColor),
-    header: folder.id != 1 ? _buildFolder(folder) : null,
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: lightGrey.withOpacity(0.3),
-        width: 1,
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.15),
-          spreadRadius: 0.5,
-          blurRadius: 0.5,
+        contentsWhenEmpty:
+            Divider(thickness: 1, height: 1, color: dividerColor),
+        header: folder.id != 1 ? _buildFolder(folder) : null,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: lightGrey.withOpacity(0.3),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.15),
+              spreadRadius: 0.5,
+              blurRadius: 0.5,
+            ),
+          ],
+          borderRadius: BorderRadius.circular(3),
+          color: white,
         ),
-      ],
-      borderRadius: BorderRadius.circular(3),
-      color: white,
-    ),
-    children: folder.documents
-        .map((item) => DragAndDropItem(
-      child: _buildItem(item,folder),
-    )).toList(),
-  );
+        children: folder.documents
+            .map((item) => DragAndDropItem(
+                  child: _buildItem(item, folder),
+                ))
+            .toList(),
+      );
 
-  Widget _buildFolder(Folder folder ) {
+  Widget _buildFolder(Folder folder) {
     return TestProxy(
         key: ValueKey(folder),
         child: new FolderItem(
-          onTap: () {}, folder: folder,
+          onTap: () {},
+          folder: folder,
         ));
   }
 
-  Widget _buildItem(Document document ,Folder folder ) {
+  Widget _buildItem(Document document, Folder folder) {
     return TestProxy(
         key: ValueKey(document),
         child: new DocumentItem(
-          onTap: () {}, document: document,
-          folder : folder,
+          onTap: () {},
+          document: document,
+          folder: folder,
         ));
   }
 }

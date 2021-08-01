@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,8 +9,6 @@ import 'package:gestion_projets/pages/projects/project_details/BLoC/document_blo
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../locator.dart';
 
 class FolderItem extends StatefulWidget {
   final Function() onTap;
@@ -40,7 +37,6 @@ class _FolderItemState extends State<FolderItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -64,7 +60,6 @@ class _FolderItemState extends State<FolderItem>
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
                       print("tapped");
-
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -104,7 +99,8 @@ class _FolderItemState extends State<FolderItem>
                                     width: 5,
                                   ),
                                   Flexible(
-                                      child: Text('(${widget.folder.documents.length})',
+                                      child: Text(
+                                          '(${widget.folder.documents.length})',
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_active_12_600)),
                                 ],
@@ -127,7 +123,14 @@ class _FolderItemState extends State<FolderItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeFolder(widget.folder)) ,DeleteType.folder , widget.folder.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() => bloc
+                                                  .removeFolder(widget.folder)),
+                                          DeleteType.folder,
+                                          widget.folder.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],
@@ -141,10 +144,12 @@ class _FolderItemState extends State<FolderItem>
                       ),
                     ),
                   ),
-                  widget.folder.documents.isNotEmpty ? Divider(
-                    height: 1,
-                    color: dividerColor,
-                  ) : Container(),
+                  widget.folder.documents.isNotEmpty
+                      ? Divider(
+                          height: 1,
+                          color: dividerColor,
+                        )
+                      : Container(),
                   // Container(height: 60,)
                 ]))));
   }

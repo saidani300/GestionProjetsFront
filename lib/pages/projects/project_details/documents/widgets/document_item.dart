@@ -13,14 +13,12 @@ import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-
-import '../../../../../locator.dart';
 
 class DocumentItem extends StatefulWidget {
   final Function() onTap;
   final Document document;
   final Folder folder;
+
   const DocumentItem(
       {Key? key,
       required this.document,
@@ -34,7 +32,8 @@ class DocumentItem extends StatefulWidget {
 
 class _DocumentItemState extends State<DocumentItem>
     with AutomaticKeepAliveClientMixin<DocumentItem>, TickerProviderStateMixin {
-  String getDateAsText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
+  String getDateAsText(DateTime date) =>
+      DateFormat.yMMMMd('fr_FR').format(date);
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -50,9 +49,7 @@ class _DocumentItemState extends State<DocumentItem>
   dispose() {
     _controller.dispose();
     super.dispose();
-
   }
-
 
   @override
   bool get wantKeepAlive => true;
@@ -120,7 +117,8 @@ class _DocumentItemState extends State<DocumentItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(formatBytes(widget.document.size,2),
+                                      child: Text(
+                                          formatBytes(widget.document.size, 2),
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
                                 ],
@@ -136,7 +134,9 @@ class _DocumentItemState extends State<DocumentItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(getDateAsText(widget.document.creationDate),
+                                      child: Text(
+                                          getDateAsText(
+                                              widget.document.creationDate),
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
                                 ],
@@ -170,8 +170,7 @@ class _DocumentItemState extends State<DocumentItem>
                           ),
                           // ActionsMenu(),
                           SizedBox(
-                            width:widget.document.isUploaded
-                                ? 10 : 20,
+                            width: widget.document.isUploaded ? 10 : 20,
                           ),
                           Container(
                             width: 40,
@@ -185,33 +184,55 @@ class _DocumentItemState extends State<DocumentItem>
                                         message: 'Supprimer',
                                         color: Colors.redAccent,
                                         onTap: () {
-                                          deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeDocument(widget.folder, widget.document)), DeleteType.file ,widget.document.name);
+                                          deleteDialogBox(
+                                              context,
+                                              () => _controller
+                                                  .reverse()
+                                                  .whenComplete(() =>
+                                                      bloc.removeDocument(
+                                                          widget.folder,
+                                                          widget.document)),
+                                              DeleteType.file,
+                                              widget.document.name);
                                           //showDialogBox(context, onTap);
                                         })
                                     : Container(
-                                  height: 40,
-                                  width: 40,
-                                      child: Stack(
-                                        children :[ Lottie.asset(
-                                  'icons/59912-loading-circle.json',
-                                  animate: true,
-                                  repeat: true,
-                                  height: 40,
-                                  width: 40,
-                                ),
-                                        Center(child: Container( height: 40,
+                                        height: 40,
+                                        width: 40,
+                                        child: Stack(children: [
+                                          Lottie.asset(
+                                            'icons/59912-loading-circle.json',
+                                            animate: true,
+                                            repeat: true,
+                                            height: 40,
                                             width: 40,
-                                            child: CustomIconButton(icon: Icons.close_rounded, color: lightRed, message: "Annuler", onTap: (){_controller.reverse().whenComplete(() => bloc.removeDocument(widget.folder, widget.document));})))
-                                        ]
+                                          ),
+                                          Center(
+                                              child: Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  child: CustomIconButton(
+                                                      icon: Icons.close_rounded,
+                                                      color: lightRed,
+                                                      message: "Annuler",
+                                                      onTap: () {
+                                                        _controller
+                                                            .reverse()
+                                                            .whenComplete(() =>
+                                                                bloc.removeDocument(
+                                                                    widget
+                                                                        .folder,
+                                                                    widget
+                                                                        .document));
+                                                      })))
+                                        ]),
                                       ),
-                                    ),
                               ],
                             ),
                           ),
 
                           SizedBox(
-                            width: widget.document.isUploaded
-                                ? 20 :10,
+                            width: widget.document.isUploaded ? 20 : 10,
                           ),
                         ],
                       ),

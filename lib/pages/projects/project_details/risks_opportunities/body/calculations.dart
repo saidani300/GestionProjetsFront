@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_calculation_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
@@ -84,25 +85,7 @@ class CalculationsHeader extends StatelessWidget {
           text: "Ajouter un calcul",
           isMultiple: false,
           onTap: () {
-            bloc.addCalculation(
-                evaluation,
-                Calculation(
-                    new Random().nextInt(999999),
-                    4,
-                    DateTime.now(),
-                    DateTime.now(),
-                    DateTime.now().add(Duration(days: 48)),
-                    "name", [
-                  Criterion(1, "Gravité", 2, "G"),
-                  Criterion(2, "Fréquence", 1, "F"),
-                  Criterion(3, "Importance", 2, "I"),
-                ]));
-            if (scrollController.hasClients)
-              scrollController.animateTo(
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
+            createCalculationDialogBox(context, scrollController, evaluation);
           },
         ),
       ],
@@ -112,6 +95,7 @@ class CalculationsHeader extends StatelessWidget {
 
 class CalculationsBody extends StatefulWidget {
   final Evaluation evaluation;
+
   const CalculationsBody({Key? key, required this.evaluation})
       : super(key: key);
 
@@ -172,16 +156,17 @@ class _CalculationsBodyState extends State<CalculationsBody> {
                           ),
                           alignment: Alignment.bottomLeft,
                           child: Row(children: [
-                            //Menu
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SearchWidget(
+                              hintText: 'Rechercher des calculs...',
+                              onChanged: (value) {},
+                            ),
                             SizedBox(
                               width: 15,
                             ),
                             Expanded(child: Container()),
-                            SearchWidget(
-                              text: "",
-                              hintText: 'Rechercher des évaluations',
-                              onChanged: (value) {},
-                            ),
                             SizedBox(
                               width: 15,
                             ),
@@ -358,6 +343,7 @@ class CalculationsList extends StatefulWidget {
   final BuildContext parentContext;
   final ScrollController scrollController;
   final Evaluation evaluation;
+
   const CalculationsList({
     Key? key,
     required this.parentContext,
@@ -425,6 +411,7 @@ class _CalculationsListState extends State<CalculationsList> {
 
 class EvaluationDetails extends StatefulWidget {
   final Evaluation evaluation;
+
   const EvaluationDetails({Key? key, required this.evaluation})
       : super(key: key);
 

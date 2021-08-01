@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -44,7 +43,6 @@ class _MeasureItemState extends State<MeasureItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -235,7 +233,20 @@ class _MeasureItemState extends State<MeasureItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeMeasure(widget.indicator, widget.measure)), DeleteType.measure, "La mesure entre " + getText(widget.measure.startDate) + " et " + getText(widget.measure.endDate));
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.removeMeasure(
+                                                      widget.indicator,
+                                                      widget.measure)),
+                                          DeleteType.measure,
+                                          "La mesure entre " +
+                                              getText(
+                                                  widget.measure.startDate) +
+                                              " et " +
+                                              getText(widget.measure.endDate));
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

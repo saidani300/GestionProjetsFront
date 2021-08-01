@@ -1,10 +1,8 @@
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
-    as Model;
-import 'package:gestion_projets/pages/people/Data/user.dart';
 
 enum ObjectiveStatus {
   inProgress,
@@ -104,14 +102,17 @@ List<Objective> Objectives = [
             [
               Measure(5487, 55, DateTime.now(), DateTime.now(),
                   DateTime.now().add(Duration(days: 90)), []),
-              Measure(
-                  5548,
-                  24,
-                  DateTime.now().subtract(Duration(days: 30)),
-                  DateTime.now().subtract(Duration(days: 30)),
-                  DateTime.now(),
-                  [        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
-                  ])
+              Measure(5548, 24, DateTime.now().subtract(Duration(days: 30)),
+                  DateTime.now().subtract(Duration(days: 30)), DateTime.now(), [
+                Document(
+                    55,
+                    "Développement d'une nouvelle interface utilisateur",
+                    "url",
+                    "PDF",
+                    User(12, "Saidani Wael", "3"),
+                    DateTime.now(),
+                    656848),
+              ])
             ],
             "Avancement",
             "ATerminé/ATotal*100",

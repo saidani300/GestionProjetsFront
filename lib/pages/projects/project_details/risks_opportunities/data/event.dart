@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 
@@ -19,18 +19,15 @@ enum EventLevel {
   high,
 }
 
-enum EventCategory
-{
+enum EventCategory {
   category1,
   category2,
   category3,
   category4,
 }
 
-String categoryAsText(EventCategory category)
-{
-  switch (category)
-  {
+String categoryAsText(EventCategory category) {
+  switch (category) {
     case EventCategory.category1:
       return "Catégorie 1";
     case EventCategory.category2:
@@ -43,20 +40,20 @@ String categoryAsText(EventCategory category)
 }
 
 class Event {
-   int id;
-   String name;
-   String description;
-   String type;
-   String impact;
-   String cause;
-   String source;
-   DateTime identificationDate;
-   EventType eventType;
-   EventLevel level;
-   EventCategory category;
-   User user;
-   List<Evaluation> evaluations;
-   List<Document> documents;
+  int id;
+  String name;
+  String description;
+  String type;
+  String impact;
+  String cause;
+  String source;
+  DateTime identificationDate;
+  EventType eventType;
+  EventLevel level;
+  EventCategory category;
+  User user;
+  List<Evaluation> evaluations;
+  List<Document> documents;
 
   Event(
       this.id,
@@ -87,30 +84,31 @@ List<Event> events = [
       DateTime.now(),
       EventType.Risk,
       EventLevel.medium,
-EventCategory.category1,
+      EventCategory.category1,
       User(12, "Saidani Wael", "3"), [
     Evaluation(
         6565,
         DateTime.now(),
         "Indice de risque",
+        "",
         0,
         20,
         User(2, "Saidani Wael", "3"),
         [
           Calculation(54, 12, DateTime.now(), DateTime.now(),
-              DateTime.now().add(Duration(days: 35)), "name", [
+              DateTime.now().add(Duration(days: 35)), [
             Criterion(1, "Gravité", 3, "G"),
             Criterion(2, "Fréquence", 2, "F"),
             Criterion(3, "Importance", 2, "I"),
           ]),
           Calculation(98574, 4, DateTime.now(), DateTime.now(),
-              DateTime.now().add(Duration(days: 35)), "name", [
+              DateTime.now().add(Duration(days: 35)), [
             Criterion(1, "Gravité", 2, "G"),
             Criterion(2, "Fréquence", 1, "F"),
             Criterion(3, "Importance", 2, "I"),
           ])
         ],
-        Formula(545, "Indice de risque", 'F * I * G', [
+        Formula(545, "Indice de risque", 'F*I*G', [
           Criterion(1, "Gravité", 0, "G"),
           Criterion(2, "Fréquence", 0, "F"),
           Criterion(3, "Importance", 0, "I"),
@@ -119,13 +117,16 @@ EventCategory.category1,
         65987,
         DateTime.now(),
         "Indice de risque",
+        "",
         0,
         16,
         User(2, "Saidani Wael", "3"),
         [],
-        Formula(587, "Indice de risque", 'F * I* G', [ Criterion(1, "Gravité", 0, "G"),
+        Formula(587, "Indice de risque", 'F*I*G', [
+          Criterion(1, "Gravité", 0, "G"),
           Criterion(2, "Fréquence", 0, "F"),
-          Criterion(3, "Importance", 0, "I"),])),
+          Criterion(3, "Importance", 0, "I"),
+        ])),
   ], []),
   Event(
       8784,
@@ -138,7 +139,7 @@ EventCategory.category1,
       DateTime.now(),
       EventType.Risk,
       EventLevel.high,
-EventCategory.category1,
+      EventCategory.category1,
       User(12, "Saidani Wael", "4"), [], []),
   Event(
       84,
@@ -151,73 +152,70 @@ EventCategory.category1,
       DateTime.now(),
       EventType.Opportunity,
       EventLevel.low,
-EventCategory.category1,
+      EventCategory.category1,
       User(12, "Saidani Wael", "4"), [], []),
 ];
 
-EventTypeObject eventTypeAsObject(EventType eventType)
-{
-  switch(eventType)
-  {
-    case EventType.Opportunity :
-      return EventTypeObject("Opportunité",SvgPicture.asset(
-       "icons/up-arrow.svg",
-        color: lightBlue,
-        width: 20,
-        height: 20,
-      ), );
-    case EventType.Risk :
-      return EventTypeObject("Risque", SvgPicture.asset(
-        "icons/down-arrow.svg",
-        color: lightRed,
-        width: 20,
-        height: 20,
-      ),);
+EventTypeObject eventTypeAsObject(EventType eventType) {
+  switch (eventType) {
+    case EventType.Opportunity:
+      return EventTypeObject(
+        "Opportunité",
+        SvgPicture.asset(
+          "icons/up-arrow.svg",
+          color: lightBlue,
+          width: 20,
+          height: 20,
+        ),
+      );
+    case EventType.Risk:
+      return EventTypeObject(
+        "Risque",
+        SvgPicture.asset(
+          "icons/down-arrow.svg",
+          color: lightRed,
+          width: 20,
+          height: 20,
+        ),
+      );
   }
 }
 
-EventLevelObject eventLevelAsObject(EventType type , EventLevel level)
-{
-  switch(type)
-  {
+EventLevelObject eventLevelAsObject(EventType type, EventLevel level) {
+  switch (type) {
     case EventType.Opportunity:
-      switch(level)
-      {
-        case EventLevel.low :
+      switch (level) {
+        case EventLevel.low:
           return EventLevelObject("1", lightBlue);
-        case EventLevel.medium :
+        case EventLevel.medium:
           return EventLevelObject("2", active);
-        case EventLevel.high :
+        case EventLevel.high:
           return EventLevelObject("3", lightPurple);
       }
-    case EventType.Risk :
-      switch(level)
-      {
-        case EventLevel.low :
+    case EventType.Risk:
+      switch (level) {
+        case EventLevel.low:
           return EventLevelObject("1", lightBlue);
-        case EventLevel.medium :
+        case EventLevel.medium:
           return EventLevelObject("2", lightOrange);
-        case EventLevel.high :
+        case EventLevel.high:
           return EventLevelObject("3", lightRed);
       }
   }
-
 }
 
-class EventLevelObject{
+class EventLevelObject {
+  final String name;
 
-  final String name ;
-  final Color color ;
+  final Color color;
 
   EventLevelObject(this.name, this.color);
-
 }
 
-class EventTypeObject{
+class EventTypeObject {
+  final String name;
 
-  final String name ;
-  final Widget icon ;
+  final Widget icon;
 
   EventTypeObject(this.name, this.icon);
-
 }

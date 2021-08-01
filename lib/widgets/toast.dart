@@ -19,13 +19,10 @@ class TypeData {
   TypeData(this.color, this.icon);
 }
 
+enum ToastEvent { create, delete, modify }
 
-enum ToastEvent {create,delete,modify}
-
-String toastEventAsText(ToastEvent event)
-{
-  switch(event)
-  {
+String toastEventAsText(ToastEvent event) {
+  switch (event) {
     case ToastEvent.create:
       return 'créé avec succès.';
     case ToastEvent.delete:
@@ -34,6 +31,7 @@ String toastEventAsText(ToastEvent event)
       return 'modifié avec succès.';
   }
 }
+
 /// Toast Length
 /// Only for Android Platform
 enum Toast {
@@ -384,7 +382,7 @@ TypeData toastIconColor(ToastType type) {
   }
 }
 
-showToast(ToastType type , String name , {String? toastText,ToastEvent? event}) {
+showToast(ToastType type, String name, {String? toastText, ToastEvent? event}) {
   FToast fToast = FToast();
   fToast.init(locator<NavigationService>().navigatorKey.currentContext!);
   fToast.removeCustomToast();
@@ -437,12 +435,11 @@ showToast(ToastType type , String name , {String? toastText,ToastEvent? event}) 
               padding: EdgeInsets.all(20),
               child: Text.rich(TextSpan(
                 children: [
+                  TextSpan(text: "« $name »", style: textStyle_Text_12_600),
                   TextSpan(
-                      text:
-                          "« $name »",
-                      style: textStyle_Text_12_600),
-                  TextSpan(
-                    text: (event==null) ?  " " + toastText! : " " + toastEventAsText(event),
+                    text: (event == null)
+                        ? " " + toastText!
+                        : " " + toastEventAsText(event),
                     style: TextStyle(
                         color: text,
                         fontSize: 12,
@@ -480,6 +477,6 @@ showToast(ToastType type , String name , {String? toastText,ToastEvent? event}) 
   fToast.showToast(
     child: toast,
     gravity: ToastGravity.BOTTOM_LEFT,
-    toastDuration: Duration(seconds: 5),
+    toastDuration: Duration(seconds: 3),
   );
 }

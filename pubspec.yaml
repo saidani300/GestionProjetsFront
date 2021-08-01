@@ -45,6 +45,8 @@ dependencies:
   flutter_dropzone: ^2.0.1
   percent_indicator: ^3.0.1
   dio: ^4.0.0
+  math_expressions: ^2.1.1
+  function_tree: ^0.8.12
 
 dev_dependencies:
   flutter_test:

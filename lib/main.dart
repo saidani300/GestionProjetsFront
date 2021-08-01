@@ -83,13 +83,13 @@ class MyApp extends StatelessWidget {
                                           highlightColor: Colors.transparent,
                                           focusColor: Colors.transparent,
                                         ),
-                                        popupMenuTheme: PopupMenuThemeData(
+                                       /* popupMenuTheme: PopupMenuThemeData(
                                           color: white,
                                           textStyle: TextStyle(
                                               fontFamily: 'Montserrat',
                                               fontSize: 13,
                                               color: dark),
-                                        ),
+                                        ),*/
                                         scaffoldBackgroundColor: white,
                                         textTheme:
                                             GoogleFonts.montserratTextTheme(

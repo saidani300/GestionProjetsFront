@@ -43,18 +43,30 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case objectivesPageRoute:
       return _pageRoute(ProjectObjectives(), settings);
     case indicatorPageRoute:
-      return _pageRoute(IndicatorBody(indicator: settings.arguments as Indicator,), settings);
+      return _pageRoute(
+          IndicatorBody(
+            indicator: settings.arguments as Indicator,
+          ),
+          settings);
     case eventsPageRoute:
       return _pageRoute(ProjectRisksOpportunities(), settings);
     case eventEvaluationsPageRoute:
-      return _pageRoute(EvaluationsBody(event: settings.arguments as Event,), settings);
+      return _pageRoute(
+          EvaluationsBody(
+            event: settings.arguments as Event,
+          ),
+          settings);
     case eventsListPageRoute:
       return _pageRoute(ProjectRisksOpportunitiesBody(), settings);
     case evaluationCalculationsPageRoute:
-      return _pageRoute(CalculationsBody(evaluation: settings.arguments as Evaluation,), settings);
+      return _pageRoute(
+          CalculationsBody(
+            evaluation: settings.arguments as Evaluation,
+          ),
+          settings);
     case meetingsPageRoute:
       return _pageRoute(ProjectMeetings(), settings);
-    case objectivesListPageRoute :
+    case objectivesListPageRoute:
       return _pageRoute(ProjectObjectivesBody(), settings);
     case documentsPageRoute:
       return _pageRoute(ProjectDocuments(), settings);

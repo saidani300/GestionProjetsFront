@@ -45,7 +45,6 @@ class _CalculationItemState extends State<CalculationItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -200,7 +199,17 @@ class _CalculationItemState extends State<CalculationItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.removeCalculation(widget.evaluation, widget.calculation)),DeleteType.calculation,widget.calculation.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.removeCalculation(
+                                                      widget.evaluation,
+                                                      widget.calculation)),
+                                          DeleteType.calculation,
+                                          widget.calculation.creationDate
+                                              .toString());
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

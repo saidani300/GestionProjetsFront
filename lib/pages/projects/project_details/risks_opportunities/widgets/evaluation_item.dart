@@ -50,7 +50,6 @@ class _EvaluationItemState extends State<EvaluationItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -74,8 +73,8 @@ class _EvaluationItemState extends State<EvaluationItem>
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
                       print("tapped");
-                      locator<NavigationService>()
-                          .eventNavigateTo(evaluationCalculationsPageRoute , widget.evaluation);
+                      locator<NavigationService>().eventNavigateTo(
+                          evaluationCalculationsPageRoute, widget.evaluation);
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -114,6 +113,7 @@ class _EvaluationItemState extends State<EvaluationItem>
                             child: Container(
                                 child: Row(children: [
                               CustomTag(
+                                letterSpacing: 1,
                                 text: widget.evaluation.formula.formula,
                                 color: text,
                                 date: widget.evaluation.formula.name,
@@ -219,7 +219,16 @@ class _EvaluationItemState extends State<EvaluationItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.removeEvaluation(widget.event, widget.evaluation)),DeleteType.evaluation, widget.evaluation.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.removeEvaluation(
+                                                      widget.event,
+                                                      widget.evaluation)),
+                                          DeleteType.evaluation,
+                                          widget.evaluation.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

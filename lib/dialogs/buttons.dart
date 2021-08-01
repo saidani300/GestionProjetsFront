@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+
 class DialogButton extends StatefulWidget {
   final String text;
   final Function() onTap;
   final Color color;
-  const DialogButton(
-      {Key? key,
-        required this.text,
-        required this.onTap,
-        this.color = active,
-      })
-      : super(key: key);
+
+  const DialogButton({
+    Key? key,
+    required this.text,
+    required this.onTap,
+    this.color = active,
+  }) : super(key: key);
 
   @override
   _DialogButtonState createState() => _DialogButtonState();
@@ -29,11 +30,11 @@ class _DialogButtonState extends State<DialogButton> {
         onHover: (value) {
           value
               ? setState(() {
-            isHover = true;
-          })
+                  isHover = true;
+                })
               : setState(() {
-            isHover = false;
-          });
+                  isHover = false;
+                });
         },
         child: Container(
           decoration: BoxDecoration(
@@ -61,12 +62,12 @@ class _DialogButtonState extends State<DialogButton> {
 class DialogOutlinedButton extends StatefulWidget {
   final String text;
   final Function() onTap;
-  const DialogOutlinedButton(
-      {Key? key,
-        required this.text,
-        required this.onTap,
-      })
-      : super(key: key);
+
+  const DialogOutlinedButton({
+    Key? key,
+    required this.text,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   _DialogOutlinedButtonState createState() => _DialogOutlinedButtonState();
@@ -85,16 +86,18 @@ class _DialogOutlinedButtonState extends State<DialogOutlinedButton> {
         onHover: (value) {
           value
               ? setState(() {
-            isHover = true;
-          })
+                  isHover = true;
+                })
               : setState(() {
-            isHover = false;
-          });
+                  isHover = false;
+                });
         },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(3)),
-            border: Border.all(width: 1 , color: isHover ? text.withAlpha(150) : text.withAlpha(100)),
+            border: Border.all(
+                width: 1,
+                color: isHover ? text.withAlpha(150) : text.withAlpha(100)),
           ),
           padding: EdgeInsets.all(9),
           child: Row(

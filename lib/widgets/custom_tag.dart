@@ -7,6 +7,7 @@ class CustomTag extends StatelessWidget {
   final Color? color;
   final Widget? icon;
   final String date;
+  final double letterSpacing;
 
   const CustomTag(
       {Key? key,
@@ -14,7 +15,8 @@ class CustomTag extends StatelessWidget {
       required this.text,
       required this.color,
       this.icon,
-      this.date = ""})
+      this.date = "",
+      this.letterSpacing = 0})
       : super(key: key);
 
   @override
@@ -44,7 +46,7 @@ class CustomTag extends StatelessWidget {
                     style: TextStyle(
                         color: white,
                         fontSize: 8.5,
-                        letterSpacing: 0,
+                        letterSpacing: letterSpacing,
                         fontWeight: FontWeight.w600),
                   )
                 ],

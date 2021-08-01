@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,7 +10,14 @@ class NoItems extends StatelessWidget {
   final String title;
   final String message;
   final String? buttonText;
-  const NoItems({Key? key , required this.icon , required this.message , required this.title , required this.buttonText}) : super(key: key);
+
+  const NoItems(
+      {Key? key,
+      required this.icon,
+      required this.message,
+      required this.title,
+      required this.buttonText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +28,18 @@ class NoItems extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(child: Container()),
-         /* SvgPicture.asset(
-            icon,
-            color: text.withOpacity(0.5),
-            width: 30,
-            height: 30,
-          ),*/
-          Container(constraints: BoxConstraints(maxWidth: 400 , maxHeight: 400),  child : Lottie.asset(
-            'icons/astronaut.json',
-            repeat: true,
-            animate: true,
-            fit: BoxFit.fill,
-          )),
+          // Expanded(child: Container()),
+          Flexible(
+            child: Container(
+              constraints: BoxConstraints(maxHeight: 100),
+              child: Lottie.asset(
+                'icons/astronaut.json',
+                repeat: true,
+                animate: true,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
@@ -63,8 +68,15 @@ class NoItems extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Visibility(visible: buttonText != null, child: MultiOptionsButton(text: buttonText!, onTap: () {  }, isMultiple: false, withIcon: false,)),
-          Expanded(child: Container())
+          Visibility(
+              visible: buttonText != null,
+              child: MultiOptionsButton(
+                text: buttonText!,
+                onTap: () {},
+                isMultiple: false,
+                withIcon: false,
+              )),
+          //  Expanded(child: Container())
         ],
       ),
     ));

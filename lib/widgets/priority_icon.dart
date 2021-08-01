@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 
 class PriorityIcon extends StatelessWidget {
   final double size;

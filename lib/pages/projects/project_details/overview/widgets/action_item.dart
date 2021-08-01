@@ -1,10 +1,10 @@
-
 import 'dart:math';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
@@ -14,9 +14,8 @@ import 'package:gestion_projets/pages/projects/project_details/overview/data/act
     as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
@@ -28,15 +27,18 @@ import '../../widgets/open_close_animated_arrow.dart';
 class ActionItem extends StatefulWidget {
   final Model.Action action;
   final Phase phase;
-  const ActionItem({Key? key, required this.action , required this.phase}) : super(key: key);
+
+  const ActionItem({Key? key, required this.action, required this.phase})
+      : super(key: key);
 
   @override
   _ActionItemState createState() => _ActionItemState();
 }
 
-class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin{
+class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+
   @override
   initState() {
     super.initState();
@@ -46,12 +48,13 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin{
 
     _controller.forward();
   }
+
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
+
   bool isExpanded = false;
   bool isHover = false;
 
@@ -64,241 +67,270 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin{
     return FadeTransition(
         opacity: _animation,
         child: SizeTransition(
-        sizeFactor: _animation,
-        child:  Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Container(
-              height: 60,
-              child: InkWell(
-                  onTap: () {
-                    print("tapped");
-                  },
-                  onHover: (value) {
-                    value
-                        ? setState(() {
-                            isHover = true;
-                          })
-                        : setState(() {
-                            isHover = false;
-                          });
-                  },
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  child: Row(
-                    children: [
-                      Visibility(
-                          visible: isHover,
-                          maintainState: true,
-                          maintainSize: true,
-                          maintainAnimation: true,
-                          child: Container(
-                              width: 25,
-                              child: Row(children: [
-                                OpenCloseArrowButton(
-                                  onTap: () {
-                                    isExpanded
-                                        ? setState(() {
-                                            isExpanded = false;
-                                          })
-                                        : setState(() {
-                                            isExpanded = true;
-                                          });
-                                  },
-                                  color: active,
-                                  isExpanded: isExpanded,
-                                ),
-                              ]))),
-                      Expanded(
-                          child: Container(
-                        height: 60,
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                  child: Row(
-                                children: [
-                                  DottedLine(
-                                    direction: Axis.vertical,
-                                    lineLength: double.infinity,
-                                    lineThickness: 1.0,
-                                    dashLength: 2,
-                                    dashColor: text.withOpacity(0.3),
-                                    dashRadius: 0.0,
-                                    dashGapLength: 2,
-                                    dashGapColor: Colors.transparent,
-                                    dashGapRadius: 0.0,
-                                  ),
-                                  Container(
-                                    width: 20,
-                                    child: DottedLine(
-                                      direction: Axis.horizontal,
-                                      lineLength: double.infinity,
-                                      lineThickness: 1.0,
-                                      dashLength: 2,
-                                      dashColor: text.withOpacity(0.3),
-                                      dashRadius: 0.0,
-                                      dashGapLength: 2,
-                                      dashGapColor: Colors.transparent,
-                                      dashGapRadius: 0.0,
-                                    ),
-                                  ),
-                                  ChangeStatusButton(
-                                    onTap: () {
-
-                                    },
-                                    status: widget.action.status,
-                                    isChangeable: false,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Flexible(
-                                      child: Text(widget.action.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                  SizedBox(width: 5),
-                                  Visibility(
-                                      visible:
-                                          (widget.action.documents.isNotEmpty),
-                                      child: CustomIconButton(
-                                        icon: Icons.attach_file_rounded,
-                                        message:
-                                            "${widget.action.documents.length} Attachement",
-                                        onTap: () {},
-                                        size: 15,
+            sizeFactor: _animation,
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 60,
+                      child: InkWell(
+                          onTap: () {
+                            print("tapped");
+                          },
+                          onHover: (value) {
+                            value
+                                ? setState(() {
+                                    isHover = true;
+                                  })
+                                : setState(() {
+                                    isHover = false;
+                                  });
+                          },
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          child: Row(
+                            children: [
+                              Visibility(
+                                  visible: isHover,
+                                  maintainState: true,
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  child: Container(
+                                      width: 25,
+                                      child: Row(children: [
+                                        OpenCloseArrowButton(
+                                          onTap: () {
+                                            isExpanded
+                                                ? setState(() {
+                                                    isExpanded = false;
+                                                  })
+                                                : setState(() {
+                                                    isExpanded = true;
+                                                  });
+                                          },
+                                          color: active,
+                                          isExpanded: isExpanded,
+                                        ),
+                                      ]))),
+                              Expanded(
+                                  child: Container(
+                                height: 60,
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                          child: Row(
+                                        children: [
+                                          DottedLine(
+                                            direction: Axis.vertical,
+                                            lineLength: double.infinity,
+                                            lineThickness: 1.0,
+                                            dashLength: 2,
+                                            dashColor: text.withOpacity(0.3),
+                                            dashRadius: 0.0,
+                                            dashGapLength: 2,
+                                            dashGapColor: Colors.transparent,
+                                            dashGapRadius: 0.0,
+                                          ),
+                                          Container(
+                                            width: 20,
+                                            child: DottedLine(
+                                              direction: Axis.horizontal,
+                                              lineLength: double.infinity,
+                                              lineThickness: 1.0,
+                                              dashLength: 2,
+                                              dashColor: text.withOpacity(0.3),
+                                              dashRadius: 0.0,
+                                              dashGapLength: 2,
+                                              dashGapColor: Colors.transparent,
+                                              dashGapRadius: 0.0,
+                                            ),
+                                          ),
+                                          ChangeStatusButton(
+                                            onTap: () {},
+                                            status: widget.action.status,
+                                            isChangeable: false,
+                                          ),
+                                          SizedBox(width: 10),
+                                          Flexible(
+                                              child: Text(widget.action.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      textStyle_Text_12_600)),
+                                          SizedBox(width: 5),
+                                          Visibility(
+                                              visible: (widget
+                                                  .action.documents.isNotEmpty),
+                                              child: CustomIconButton(
+                                                icon: Icons.attach_file_rounded,
+                                                message:
+                                                    "${widget.action.documents.length} Attachement",
+                                                onTap: () {},
+                                                size: 15,
+                                              )),
+                                        ],
                                       )),
-                                ],
+                                      flex: 5,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          child: Row(children: [
+                                        Flexible(
+                                            child: Text(
+                                                getText(widget.action.endDate),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: textStyle_Text_12_600)),
+                                      ])),
+                                      flex: 2,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          child: Row(children: [
+                                        Avatar(
+                                          name: widget.action.user.name,
+                                          picture: widget.action.user.avatar,
+                                          size: 25,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Flexible(
+                                            child: Text(widget.action.user.name,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: textStyle_Text_12_600)),
+                                        // Expanded(child: Container()),
+                                      ])),
+                                      flex: 2,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          child: Row(children: [
+                                        PriorityIcon(
+                                          priority: widget.action.priority,
+                                        )
+                                      ])),
+                                      flex: 1,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          child: Row(children: [
+                                        Progress(
+                                          completed: widget.action.tasks
+                                              .where((element) =>
+                                                  element.status ==
+                                                      Status.completed ||
+                                                  element.status ==
+                                                      Status.approved)
+                                              .length,
+                                          inProgress: widget.action.tasks
+                                              .where((element) =>
+                                                  element.status ==
+                                                  Status.inProgress)
+                                              .length,
+                                        ),
+                                      ])),
+                                      flex: 1,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          child: Row(children: [
+                                        Expanded(child: Container()),
+                                        ActionsMenu(
+                                          onTapDeleted: () {
+                                            deleteDialogBox(
+                                                context,
+                                                () => _controller
+                                                    .reverse()
+                                                    .whenComplete(() =>
+                                                        bloc.removeAction(
+                                                            widget.phase,
+                                                            widget.action)),
+                                                DeleteType.action,
+                                                widget.action.name);
+                                          },
+                                          onTapAdd: () {
+                                            bloc.addTask(
+                                              widget.action,
+                                              new Task(
+                                                  new Random().nextInt(999999),
+                                                  "Développement d'une nouvelle interface utilisateur",
+                                                  DateTime.now(),
+                                                  DateTime.now()
+                                                      .add(Duration(days: 15)),
+                                                  Status.inProgress,
+                                                  User(2, "Saidani Wael",
+                                                      "https://i.imgur.com/01lxY0W.jpeg"),
+                                                  [
+                                                    Document(
+                                                        55,
+                                                        "Développement d'une nouvelle interface utilisateur",
+                                                        "url",
+                                                        "PDF",
+                                                        User(12, "Saidani Wael",
+                                                            "3"),
+                                                        DateTime.now(),
+                                                        656848),
+                                                  ],
+                                                  Priority.Normal),
+                                            );
+                                          },
+                                        ),
+                                      ])),
+                                      flex: 1,
+                                    ),
+                                  ],
+                                ),
                               )),
-                              flex: 5,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Container(
-                                  child: Row(children: [
-                                Flexible(
-                                    child: Text(getText(widget.action.endDate),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: textStyle_Text_12_600)),
-                              ])),
-                              flex: 2,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Container(
-                                  child: Row(children: [
-                                Avatar(
-                                  name: widget.action.user.name,
-                                  picture: widget.action.user.avatar,
-                                  size: 25,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Flexible(
-                                    child: Text(widget.action.user.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: textStyle_Text_12_600)),
-                                // Expanded(child: Container()),
-                              ])),
-                              flex: 2,
-                            ),
-                            Expanded(
-                              child: Container(
-                                  child: Row(children: [
-                                PriorityIcon(
-                                  priority: widget.action.priority,
-                                )
-                              ])),
-                              flex: 1,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Expanded(
-                              child: Container(
-                                  child: Row(children: [
-                                Progress(
-                                  completed: widget.action.tasks
-                                      .where((element) =>
-                                          element.status == Status.completed ||
-                                          element.status == Status.approved)
-                                      .length,
-                                  inProgress: widget.action.tasks
-                                      .where((element) =>
-                                          element.status == Status.inProgress)
-                                      .length,
-                                ),
-                              ])),
-                              flex: 1,
-                            ),
-                            Expanded(
-                              child: Container(
-                                  child: Row(children: [
-                                Expanded(child: Container()),
-                                ActionsMenu(onTapDeleted: () {
-
-                                  deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeAction(widget.phase, widget.action)),DeleteType.action , widget.action.name);
-                                }, onTapAdd: () {
-
-                                  bloc.addTask(widget.action, new Task(
-                                      new Random().nextInt(999999),
-                                      "Développement d'une nouvelle interface utilisateur",
-                                      DateTime.now(),
-                                      DateTime.now().add(Duration(days: 15)),
-                                      Status.inProgress,
-                                      User(2, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
-                                      [
-                                      Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
-                                      ],
-                                      Priority.Normal),);
-                                },),
-                              ])),
-                              flex: 1,
-                            ),
-                          ],
-                        ),
+                            ],
+                          )),
+                    ),
+                    AnimatedCrossFade(
+                      firstCurve: Curves.easeIn,
+                      secondCurve: Curves.easeOut,
+                      firstChild: Container(),
+                      secondChild: Container(
+                          child: TasksList(
+                        action: widget.action,
+                        parentContext: context,
                       )),
-                    ],
-                  )),
-            ),
-            AnimatedCrossFade(
-              firstCurve: Curves.easeIn,
-              secondCurve: Curves.easeOut,
-              firstChild: Container(),
-              secondChild: Container(
-                child: TasksList(action: widget.action, parentContext: context,)
-              ),
-              crossFadeState: isExpanded
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              duration: Duration(milliseconds: 200),
-            ),
-            SizedBox(
-              height: 1,
-            ),
-          ],
-        ))));
+                      crossFadeState: isExpanded
+                          ? CrossFadeState.showSecond
+                          : CrossFadeState.showFirst,
+                      duration: Duration(milliseconds: 200),
+                    ),
+                    SizedBox(
+                      height: 1,
+                    ),
+                  ],
+                ))));
   }
 }
-
 
 class TasksList extends StatefulWidget {
   final BuildContext parentContext;
   final Model.Action action;
-  const TasksList({Key? key, required this.parentContext , required this.action}) : super(key: key);
+
+  const TasksList({Key? key, required this.parentContext, required this.action})
+      : super(key: key);
 
   @override
   _TasksListState createState() => _TasksListState();
 }
 
 class _TasksListState extends State<TasksList> {
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -307,18 +339,19 @@ class _TasksListState extends State<TasksList> {
       controller: null,
       primary: false,
       children:
-      widget.action.tasks.map((e) => _buildItem(widget.action,e)).toList(),
+          widget.action.tasks.map((e) => _buildItem(widget.action, e)).toList(),
     );
   }
 
-  Widget _buildItem(Model.Action action , Task task) {
+  Widget _buildItem(Model.Action action, Task task) {
     return TestProxy(
         key: ValueKey(task),
-        child: new TaskItem(action: action, task: task,
+        child: new TaskItem(
+          action: action,
+          task: task,
         ));
   }
 }
-
 
 class ActionButton extends StatefulWidget {
   final Color color;
@@ -396,7 +429,10 @@ class _ActionButtonState extends State<ActionButton> {
 class ActionsMenu extends StatelessWidget {
   final Function() onTapAdd;
   final Function() onTapDeleted;
-  const ActionsMenu({Key? key,required this.onTapAdd,required this.onTapDeleted}) : super(key: key);
+
+  const ActionsMenu(
+      {Key? key, required this.onTapAdd, required this.onTapDeleted})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +462,7 @@ class ActionsMenu extends StatelessWidget {
           ),
           // child: CustomIconButton(icon: Icons.more_vert_rounded, message: 'Actions'),
           onSelected: (selectedValue) {
-            switch(selectedValue){
+            switch (selectedValue) {
               case 1:
                 onTapAdd();
                 break;

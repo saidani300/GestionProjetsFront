@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -22,14 +23,11 @@ import 'package:gestion_projets/widgets/toast.dart';
 
 import '../../../../../locator.dart';
 
-
-
 class ProjectTasksHeader extends StatelessWidget {
   final ScrollController scrollController;
-  const ProjectTasksHeader({
-    Key? key,
-    required this.scrollController
-  }) : super(key: key);
+
+  const ProjectTasksHeader({Key? key, required this.scrollController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +91,16 @@ class ProjectTasksHeader extends StatelessWidget {
                 DateTime.now().add(Duration(days: 17)),
                 Model.Status.inProgress,
                 User(30, "Saidani Wael", "5"),
-                [        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),],
+                [
+                  Document(
+                      55,
+                      "Développement d'une nouvelle interface utilisateur",
+                      "url",
+                      "PDF",
+                      User(12, "Saidani Wael", "3"),
+                      DateTime.now(),
+                      656848),
+                ],
                 Priority.Important,
                 []));
             if (scrollController.hasClients)
@@ -102,7 +109,9 @@ class ProjectTasksHeader extends StatelessWidget {
                 curve: Curves.easeOut,
                 duration: const Duration(milliseconds: 300),
               );
-            showToast(ToastType.success , "Développement d'une nouvelle interface utilisateur",event : ToastEvent.create);
+            showToast(ToastType.success,
+                "Développement d'une nouvelle interface utilisateur",
+                event: ToastEvent.create);
           },
         ),
       ],
@@ -130,7 +139,9 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectTasksHeader(scrollController: controller,),
+        ProjectTasksHeader(
+          scrollController: controller,
+        ),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -162,15 +173,16 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
+                        TaskShowByViewMenu(),
                         SizedBox(
                           width: 20,
                         ),
+
+                        Expanded(child: Container()),
                         SearchWidget(
-                          text: "",
-                          hintText: 'Rechercher des tâches',
+                          hintText: 'Rechercher des tâches...',
                           onChanged: (value) {},
                         ),
-                        Expanded(child: Container()),
                         SizedBox(
                           width: 15,
                         ),
@@ -317,7 +329,8 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                     ),
                     Expanded(
                         child: TasksList(
-                      parentContext: context, scrollController: controller,
+                      parentContext: context,
+                      scrollController: controller,
                     )),
                   ]),
                 )))
@@ -329,7 +342,10 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
 class TasksList extends StatefulWidget {
   final BuildContext parentContext;
   final ScrollController scrollController;
-  const TasksList({Key? key, required this.parentContext , required this.scrollController}) : super(key: key);
+
+  const TasksList(
+      {Key? key, required this.parentContext, required this.scrollController})
+      : super(key: key);
 
   @override
   _TasksListState createState() => _TasksListState();
@@ -351,13 +367,17 @@ class _TasksListState extends State<TasksList> {
         child: StreamBuilder<List<TaskModel>>(
             stream: bloc.taskStream,
             builder: (context, snapshot) {
-
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                          ? NoItems(icon: "icons/no-tasks.svg", message: "Il n'y a aucune tâche à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.", title: "Aucune tâche trouvée", buttonText: "Créer")
+                          ? NoItems(
+                              icon: "icons/no-tasks.svg",
+                              message:
+                                  "Il n'y a aucune tâche à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
+                              title: "Aucune tâche trouvée",
+                              buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
@@ -393,6 +413,5 @@ class TestProxy extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, RenderObject renderObject) {
-  }
+  void updateRenderObject(BuildContext context, RenderObject renderObject) {}
 }

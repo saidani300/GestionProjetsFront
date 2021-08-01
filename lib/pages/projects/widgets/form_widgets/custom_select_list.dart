@@ -538,7 +538,8 @@ class _PopupMenu<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double unit = 1.0 /
-        (route.items.length + 1.5); // 1.0 for the width and 0.5 for the last item's fade.
+        (route.items.length +
+            1.5); // 1.0 for the width and 0.5 for the last item's fade.
     final List<Widget> children = <Widget>[];
     final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
 
@@ -570,8 +571,7 @@ class _PopupMenu<T> extends StatelessWidget {
       );
     }
 
-    final CurveTween opacity =
-        CurveTween(curve: const Interval(0.0, 1.0));
+    final CurveTween opacity = CurveTween(curve: const Interval(0.0, 1.0));
     final CurveTween width = CurveTween(curve: Interval(0.0, unit));
     final CurveTween height =
         CurveTween(curve: Interval(0.0, unit * route.items.length));

@@ -12,8 +12,9 @@ class MeetingBloc implements Bloc {
   Stream<List<Meeting>> get meetingStream => _controller.stream;
 
   Future init() async {
-   // List<Meeting> meetings = await _client.fetchMeetings();
-    Future.delayed(Duration(milliseconds: 300) , () =>  _controller.sink.add(meetings));
+    // List<Meeting> meetings = await _client.fetchMeetings();
+    Future.delayed(
+        Duration(milliseconds: 300), () => _controller.sink.add(meetings));
   }
 
   fetch() {

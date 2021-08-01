@@ -1,9 +1,9 @@
 import 'dart:async';
+
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
 import 'package:gestion_projets/pages/projects/service/API.dart';
 
 import 'bloc.dart';
-
 
 class ProjectTypeBloc implements Bloc {
   final _controller = StreamController<List<ProjectType>>();
@@ -12,7 +12,8 @@ class ProjectTypeBloc implements Bloc {
   Stream<List<ProjectType>> get projectTypeStream => _controller.stream;
 
   Future init() async {
-    Future.delayed(Duration(milliseconds: 300) , () => _controller.sink.add(projectTypesList));
+    Future.delayed(Duration(milliseconds: 300),
+        () => _controller.sink.add(projectTypesList));
   }
 
   fetch() {

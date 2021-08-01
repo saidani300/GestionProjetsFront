@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/forms/create_project_form.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/widgets/toast.dart';
 import 'package:get/get.dart';
 
@@ -93,7 +93,8 @@ DeleteMessage deleteTypeAsText(DeleteType type) {
   }
 }
 
-deleteDialogBox(BuildContext context, Function() onTap, DeleteType type , String name) {
+deleteDialogBox(
+    BuildContext context, Function() onTap, DeleteType type, String name) {
   DeleteMessage message = deleteTypeAsText(type);
   showDialog(
     context: context,
@@ -129,7 +130,7 @@ deleteDialogBox(BuildContext context, Function() onTap, DeleteType type , String
                 ),
                 Flexible(
                     child: Text(
-                      message.text,
+                  message.text,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: text.withOpacity(0.8),
@@ -150,7 +151,7 @@ deleteDialogBox(BuildContext context, Function() onTap, DeleteType type , String
           DialogButton(
             onTap: () {
               onTap();
-              showToast(ToastType.success , name,event : ToastEvent.delete);
+              showToast(ToastType.success, name, event: ToastEvent.delete);
               Navigator.of(context).pop();
             },
             text: 'Continuer',
@@ -163,9 +164,15 @@ deleteDialogBox(BuildContext context, Function() onTap, DeleteType type , String
 }
 
 createDialogBox(BuildContext context) {
-  final nameController =TextEditingController(text: "");
-  final descriptionController =TextEditingController(text: "");
-  Project project = new Project(new Random().nextInt(999999999), "", projectTypesList.first, users.first, Status.inProgress, DateTime.now(), DateTime.now(), Priority.Normal , []);
+  Project project = new Project(
+      new Random().nextInt(999999999),
+      "",
+      projectTypesList.first,
+      users.first,
+      Status.inProgress,
+      DateTime.now(),
+      DateTime.now(),
+      Priority.Normal, []);
   final bloc = BlocProvider.of<ProjectBloc>(context);
   showDialog(
     context: context,
@@ -173,16 +180,25 @@ createDialogBox(BuildContext context) {
       return AlertDialog(
         contentPadding: EdgeInsets.all(0),
         actionsPadding: EdgeInsets.all(10),
-        content: CreateProjectForm(nameController: nameController, project : project, descriptionController: descriptionController,),
+        content: CreateProjectForm(
+          project: project,
+        ),
         actions: [
-          DialogOutlinedButton(onTap: () {Navigator.of(context).pop();}, text: 'Annuler',),
+          DialogOutlinedButton(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            text: 'Annuler',
+          ),
           SizedBox(
             width: 5,
           ),
-          DialogButton(text: 'Créer', onTap: (){
-            Navigator.of(context).pop();
-            bloc.add(project);
-          }),
+          DialogButton(
+              text: 'Créer',
+              onTap: () {
+                Navigator.of(context).pop();
+                bloc.add(project);
+              }),
         ],
       );
     },

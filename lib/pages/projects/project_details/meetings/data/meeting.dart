@@ -1,5 +1,5 @@
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
@@ -19,7 +19,8 @@ class Meeting {
   final List<User> participants;
   final List<Document> documents;
 
-  Meeting(this.id, this.name, this.date, this.time ,this.comment, this.participants, this.status, this.documents );
+  Meeting(this.id, this.name, this.date, this.time, this.comment,
+      this.participants, this.status, this.documents);
 
   Meeting.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -38,7 +39,7 @@ class Meeting {
         'id': id,
         'name': name,
         'date': date.toIso8601String(),
-         'time': time,
+        'time': time,
         'comment': comment,
         'status': status.index,
         'participants': participants.map((x) => x.toJson()).toList(),
@@ -81,7 +82,7 @@ List<Meeting> meetings = [
       DateTime.now().add(Duration(days: 8)),
       '10:00',
       "",
-      [users.first, users.elementAt(1) , users.elementAt(2), users.elementAt(3)],
+      [users.first, users.elementAt(1), users.elementAt(2), users.elementAt(3)],
       MeetingStatus.programmed,
       []),
   Meeting(
@@ -108,7 +109,7 @@ List<Meeting> meetings = [
       DateTime.now().add(Duration(days: 0)),
       '13:00',
       "",
-      [users.first, users.elementAt(1) ,users.elementAt(6) ,users.elementAt(4)],
+      [users.first, users.elementAt(1), users.elementAt(6), users.elementAt(4)],
       MeetingStatus.completed,
       []),
   Meeting(
@@ -117,7 +118,7 @@ List<Meeting> meetings = [
       DateTime.now().add(Duration(days: 0)),
       '10:00',
       "",
-      [users.first, users.elementAt(1) ,users.elementAt(3)],
+      [users.first, users.elementAt(1), users.elementAt(3)],
       MeetingStatus.completed,
       []),
 ];

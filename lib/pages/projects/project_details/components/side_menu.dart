@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/Data/project_details_menu.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/side_menu_item.dart';
-import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/project_icon.dart';
 
@@ -109,17 +108,22 @@ class _SideMenuState extends State<SideMenu> {
               Row(
                 children: [
                   Expanded(child: Container()),
-                  ExpandButton(onTap: () { if (_isExpanded)
-                    _isExpanded = false;
-                  else
-                    Future.delayed(Duration(milliseconds: 200), () {
+                  ExpandButton(
+                    onTap: () {
+                      if (_isExpanded)
+                        _isExpanded = false;
+                      else
+                        Future.delayed(Duration(milliseconds: 200), () {
+                          setState(() {
+                            _isExpanded = true;
+                          });
+                        });
                       setState(() {
-                        _isExpanded = true;
+                        (_width == 230) ? _width = 60.1 : _width = 230;
                       });
-                    });
-                  setState(() {
-                    (_width == 230) ? _width = 60.1 : _width = 230;
-                  }); }, isExpanded: _isExpanded,),
+                    },
+                    isExpanded: _isExpanded,
+                  ),
                   /*CustomIconButton(
                     size: 24,
                     icon: Icons.keyboard_arrow_left_rounded,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,9 +6,9 @@ import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
@@ -49,7 +48,6 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -236,10 +234,18 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.removesSubTask(widget.task, widget.subtask)),DeleteType.subtask,widget.subtask.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.removesSubTask(
+                                                      widget.task,
+                                                      widget.subtask)),
+                                          DeleteType.subtask,
+                                          widget.subtask.name);
                                       //showDialogBox(context, onTap);
                                     }),
-
                               ],
                             ),
                           ),

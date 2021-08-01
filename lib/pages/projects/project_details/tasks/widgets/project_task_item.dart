@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
@@ -15,11 +16,10 @@ import 'package:gestion_projets/pages/projects/project_details/overview/body/pro
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
     as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_subtask_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
@@ -54,7 +54,6 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -230,7 +229,14 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.remove(widget.task)),DeleteType.task,widget.task.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.remove(widget.task)),
+                                          DeleteType.task,
+                                          widget.task.name);
                                     }),
                                 Row(mainAxisSize: MainAxisSize.min, children: [
                                   SizedBox(
@@ -251,7 +257,16 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                                     .add(Duration(days: 17)),
                                                 Model.Status.inProgress,
                                                 User(30, "Saidani Wael", "5"),
-                                                [        Document(55, "Développement d'une nouvelle interface utilisateur", "url", "PDF", User(12,"Saidani Wael" , "3"), DateTime.now(), 656848),
+                                                [
+                                                  Document(
+                                                      55,
+                                                      "Développement d'une nouvelle interface utilisateur",
+                                                      "url",
+                                                      "PDF",
+                                                      User(12, "Saidani Wael",
+                                                          "3"),
+                                                      DateTime.now(),
+                                                      656848),
                                                 ],
                                                 Priority.Important,
                                                 []));
@@ -298,7 +313,8 @@ class _SubTasksListState extends State<SubTasksList> {
   Widget build(BuildContext context) {
     return Container(
         child: ListView(
-          controller: null,primary: false,
+      controller: null,
+      primary: false,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       key: ValueKey(Random.secure()),

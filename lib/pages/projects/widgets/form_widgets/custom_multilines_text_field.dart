@@ -1,19 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 
-import '../project_item.dart';
-
-
 class MultiLinesTextFieldWidget extends StatefulWidget {
-final  Function(String value) onChange;
-final String? hintText;
-  final TextEditingController descriptionController;
-   MultiLinesTextFieldWidget({
+  final Function(String value) onChange;
+  final String? hintText;
+
+  MultiLinesTextFieldWidget({
     Key? key,
-     required this.onChange,
+    required this.onChange,
     this.hintText,
-    required this.descriptionController,
   }) : super(key: key);
 
   @override
@@ -21,13 +16,16 @@ final String? hintText;
       _MultiLinesTextFieldWidgetState();
 }
 
-class _MultiLinesTextFieldWidgetState extends State<MultiLinesTextFieldWidget> {
+class _MultiLinesTextFieldWidgetState extends State<MultiLinesTextFieldWidget>
+    with AutomaticKeepAliveClientMixin<MultiLinesTextFieldWidget> {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
-    final styleHint =
-        TextStyle(fontSize: 12, fontWeight: FontWeight.w500);
+    final styleHint = TextStyle(fontSize: 12, fontWeight: FontWeight.w500);
     return Container(
         child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -35,7 +33,6 @@ class _MultiLinesTextFieldWidgetState extends State<MultiLinesTextFieldWidget> {
       children: [
         Container(
           child: TextField(
-            controller: widget.descriptionController,
             scrollPadding: EdgeInsets.all(0),
             expands: false,
             textAlignVertical: TextAlignVertical.top,
@@ -43,27 +40,24 @@ class _MultiLinesTextFieldWidgetState extends State<MultiLinesTextFieldWidget> {
             maxLines: 5,
             cursorWidth: 1.5,
             decoration: InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.all(12),
-              enabledBorder: OutlineInputBorder(
-                borderRadius:BorderRadius.all(Radius.circular(3)),
-                borderSide: BorderSide(width: 1.2 , color: text.withAlpha(50)),
-              ),
-              border: OutlineInputBorder(
-                borderRadius:BorderRadius.all(Radius.circular(3)),
-                borderSide: BorderSide(width: 1.2 , color: text.withAlpha(50)),
-              ),
-              hintStyle: styleHint,
-              hintText: widget.hintText,
+                isDense: true,
+                contentPadding: EdgeInsets.all(12),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                  borderSide: BorderSide(width: 1.2, color: text.withAlpha(50)),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                  borderSide: BorderSide(width: 1.2, color: text.withAlpha(50)),
+                ),
+                hintStyle: styleHint,
+                hintText: widget.hintText,
                 focusedBorder: const OutlineInputBorder(
-                  borderRadius:BorderRadius.all(Radius.circular(3)),
-                  borderSide: const BorderSide(
-                      color: active, width: 1.2),
-                )
-            ),
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                  borderSide: const BorderSide(color: active, width: 1.2),
+                )),
             style: textStyle_Text_13_500,
-              onChanged: (value)
-            {
+            onChanged: (value) {
               widget.onChange(value);
             },
           ),

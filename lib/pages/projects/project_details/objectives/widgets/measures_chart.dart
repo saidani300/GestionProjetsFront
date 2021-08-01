@@ -12,7 +12,8 @@ class MeasuresChart extends StatefulWidget {
   final Indicator indicator;
   final BuildContext parentContext;
 
-  const MeasuresChart({Key? key, required this.parentContext , required this.indicator})
+  const MeasuresChart(
+      {Key? key, required this.parentContext, required this.indicator})
       : super(key: key);
 
   @override
@@ -21,6 +22,7 @@ class MeasuresChart extends StatefulWidget {
 
 class _MeasuresChartState extends State<MeasuresChart> {
   String getText(DateTime date) => DateFormat.yMMMM('fr_FR').format(date);
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +38,6 @@ class _MeasuresChartState extends State<MeasuresChart> {
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-
               final results = snapshot.data;
               return (snapshot.hasData)
                   ? SfCartesianChart(
@@ -53,8 +54,7 @@ class _MeasuresChartState extends State<MeasuresChart> {
                         autoScrollingDelta: 8,
                       ),
                       primaryYAxis: NumericAxis(
-                          labelFormat:
-                              '{value} ' + widget.indicator.unit,
+                          labelFormat: '{value} ' + widget.indicator.unit,
                           labelStyle: TextStyle(
                               color: text,
                               fontSize: 11,
@@ -66,21 +66,19 @@ class _MeasuresChartState extends State<MeasuresChart> {
                           interval: widget.indicator.maxValue / 10,
                           axisLine: const AxisLine(width: 0),
                           majorTickLines: const MajorTickLines(size: 0)),
-                      series: _getDefaultColumn(
-                          widget.indicator.measures
-                              .map((e) => new ChartData(
-                                    x: /*getText(e.startDate)+" - " + getText(e.endDate)*/ e
-                                        .endDate
-                                        .toString(),
-                                    y: e.value,
-                                    pointColor: e.value <
-                                        widget.indicator
-                                                .criticalThreshold
+                      series: _getDefaultColumn(widget.indicator.measures
+                          .map((e) => new ChartData(
+                                x: /*getText(e.startDate)+" - " + getText(e.endDate)*/ e
+                                    .endDate
+                                    .toString(),
+                                y: e.value,
+                                pointColor:
+                                    e.value < widget.indicator.criticalThreshold
                                         ? lightRed
                                         : text,
-                                    secondSeriesYValue: 70,
-                                  ))
-                              .toList()),
+                                secondSeriesYValue: 70,
+                              ))
+                          .toList()),
                       legend: Legend(
                         isVisible: true,
                         textStyle: TextStyle(

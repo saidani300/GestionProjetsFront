@@ -9,9 +9,9 @@ class ExpandButton extends StatefulWidget {
 
   ExpandButton(
       {Key? key,
-        required this.onTap,
-        this.isExpanded = false,
-        this.color = active})
+      required this.onTap,
+      this.isExpanded = false,
+      this.color = active})
       : super(key: key);
 
   @override
@@ -49,14 +49,13 @@ class _ExpandButtonState extends State<ExpandButton>
           });
         },
         child: RotationTransition(
-              turns: Tween(begin: 0.0, end: 0.5).animate(rotationController),
-              child:
-              SvgPicture.asset(
-                "icons/expand.svg",
-                color: onHover ? active : text.withAlpha(150),
-                width: 23,
-                height: 23,
-              ),
-            ));
+          turns: Tween(begin: 0.0, end: 0.5).animate(rotationController),
+          child: SvgPicture.asset(
+            "icons/expand.svg",
+            color: onHover ? active : text.withAlpha(150),
+            width: 23,
+            height: 23,
+          ),
+        ));
   }
 }

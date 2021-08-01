@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
@@ -50,7 +50,6 @@ class _ObjectiveItemState extends State<ObjectiveItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -226,7 +225,14 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.remove(widget.objective)), DeleteType.objective , widget.objective.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() => bloc
+                                                  .remove(widget.objective)),
+                                          DeleteType.objective,
+                                          widget.objective.name);
                                     }),
                                 Row(mainAxisSize: MainAxisSize.min, children: [
                                   SizedBox(
@@ -309,8 +315,9 @@ class _IndicatorsListState extends State<IndicatorsList> {
   Widget build(BuildContext context) {
     return Container(
         child: ListView(
-          controller: null,primary: false,
-          physics: const NeverScrollableScrollPhysics(),
+      controller: null,
+      primary: false,
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       key: ValueKey(Random.secure()),
       children: widget.objective.indicators

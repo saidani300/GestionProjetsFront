@@ -4,31 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
-    as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/widgets/phase_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
 
-
 class ProjectOverviewHeader extends StatelessWidget {
   final ScrollController controller;
-  const ProjectOverviewHeader({
-    Key? key,
-    required this.controller
-  }) : super(key: key);
+
+  const ProjectOverviewHeader({Key? key, required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +124,9 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectOverviewHeader(controller: controller,),
+        ProjectOverviewHeader(
+          controller: controller,
+        ),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -164,14 +159,13 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
-                        //Menu
+                        ShowByViewMenu(),
                         SizedBox(
                           width: 15,
                         ),
                         Expanded(child: Container()),
                         SearchWidget(
-                          text: "",
-                          hintText: 'Rechercher',
+                          hintText: 'Rechercher des phases...',
                           onChanged: (value) {},
                         ),
                         SizedBox(
@@ -288,7 +282,8 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
                     ),
                     Expanded(
                         child: PhasesList(
-                      parentContext: context, scrollController: controller,
+                      parentContext: context,
+                      scrollController: controller,
                     )),
                   ]),
                 )))
@@ -300,7 +295,10 @@ class _ProjectOverviewBodyState extends State<ProjectOverviewBody> {
 class PhasesList extends StatefulWidget {
   final BuildContext parentContext;
   final ScrollController scrollController;
-  const PhasesList({Key? key, required this.parentContext , required this.scrollController}) : super(key: key);
+
+  const PhasesList(
+      {Key? key, required this.parentContext, required this.scrollController})
+      : super(key: key);
 
   @override
   _PhasesListState createState() => _PhasesListState();
@@ -323,13 +321,17 @@ class _PhasesListState extends State<PhasesList> {
         child: StreamBuilder<List<Phase>>(
             stream: bloc.phaseStream,
             builder: (context, snapshot) {
-
               final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune phase ou action à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.", title: "Aucune phase ou action trouvée", buttonText: "Créer")
+                          ? NoItems(
+                              icon: "icons/no-phase.svg",
+                              message:
+                                  "Il n'y a aucune phase ou action à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
+                              title: "Aucune phase ou action trouvée",
+                              buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
@@ -364,6 +366,5 @@ class TestProxy extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, RenderObject renderObject) {
-  }
+  void updateRenderObject(BuildContext context, RenderObject renderObject) {}
 }

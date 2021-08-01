@@ -50,7 +50,6 @@ class _IndicatorItemState extends State<IndicatorItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -74,8 +73,8 @@ class _IndicatorItemState extends State<IndicatorItem>
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
                       print("tapped");
-                      locator<NavigationService>()
-                          .objectiveNavigateTo(indicatorPageRoute , widget.indicator);
+                      locator<NavigationService>().objectiveNavigateTo(
+                          indicatorPageRoute, widget.indicator);
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -219,7 +218,16 @@ class _IndicatorItemState extends State<IndicatorItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.removeIndicator(widget.objective, widget.indicator)),DeleteType.indicator , widget.indicator.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.removeIndicator(
+                                                      widget.objective,
+                                                      widget.indicator)),
+                                          DeleteType.indicator,
+                                          widget.indicator.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],

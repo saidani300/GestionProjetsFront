@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/service/API.dart';
 
@@ -21,8 +20,9 @@ class ProjectBloc implements Bloc {
   Stream<List<Project>> get projectStream => _controller.stream;
 
   Future init() async {
-  //  List<Project> projects = await _client.fetchProjects();
-    Future.delayed(Duration(milliseconds: 300) , () => _controller.sink.add(filter(projects)));
+    //  List<Project> projects = await _client.fetchProjects();
+    Future.delayed(Duration(milliseconds: 300),
+        () => _controller.sink.add(filter(projects)));
   }
 
   fetch() {
@@ -32,7 +32,7 @@ class ProjectBloc implements Bloc {
   remove(Project project) async {
     projects.remove(project);
 
-   _controller.sink.add(filter(projects));
+    _controller.sink.add(filter(projects));
   }
 
   add(Project project) async {

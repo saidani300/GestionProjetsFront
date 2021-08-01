@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -44,7 +43,6 @@ class _EventItemState extends State<EventItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -68,8 +66,8 @@ class _EventItemState extends State<EventItem>
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
                       print("tapped");
-                      locator<NavigationService>()
-                          .eventNavigateTo(eventEvaluationsPageRoute , widget.event);
+                      locator<NavigationService>().eventNavigateTo(
+                          eventEvaluationsPageRoute, widget.event);
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -135,7 +133,10 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.event.impact.isEmpty ? "_" : widget.event.impact,
+                                      child: Text(
+                                          widget.event.impact.isEmpty
+                                              ? "_"
+                                              : widget.event.impact,
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
                                 ],
@@ -152,7 +153,10 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.event.source.isEmpty ? "_" : widget.event.source,
+                                      child: Text(
+                                          widget.event.source.isEmpty
+                                              ? "_"
+                                              : widget.event.source,
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
                                 ],
@@ -227,7 +231,8 @@ class _EventItemState extends State<EventItem>
                                 children: [
                                   Container(
                                       child: LevelTag(
-                                    level: widget.event.level, type: widget.event.eventType,
+                                    level: widget.event.level,
+                                    type: widget.event.eventType,
                                   ))
                                 ]),
                             flex: 1,
@@ -247,7 +252,17 @@ class _EventItemState extends State<EventItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() =>  _controller.reverse().whenComplete(() => bloc.remove(widget.event)), (widget.event.eventType ==EventType.Risk) ? DeleteType.risk : DeleteType.opportunity , widget.event.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.remove(widget.event)),
+                                          (widget.event.eventType ==
+                                                  EventType.Risk)
+                                              ? DeleteType.risk
+                                              : DeleteType.opportunity,
+                                          widget.event.name);
                                     }),
                               ],
                             ),
@@ -281,17 +296,25 @@ Color TypeColor(EventType type) {
 class LevelTag extends StatelessWidget {
   final EventLevel level;
   final EventType type;
-  const LevelTag({Key? key, required this.level , required this.type}) : super(key: key);
+
+  const LevelTag({Key? key, required this.level, required this.type})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     switch (level) {
       case EventLevel.low:
-        return CustomTag(text: eventLevelAsObject(type, level).name, color: eventLevelAsObject(type, level).color);
+        return CustomTag(
+            text: eventLevelAsObject(type, level).name,
+            color: eventLevelAsObject(type, level).color);
       case EventLevel.medium:
-        return CustomTag(text: eventLevelAsObject(type, level).name, color: eventLevelAsObject(type, level).color);
+        return CustomTag(
+            text: eventLevelAsObject(type, level).name,
+            color: eventLevelAsObject(type, level).color);
       case EventLevel.high:
-        return CustomTag(text: eventLevelAsObject(type, level).name, color: eventLevelAsObject(type, level).color);
+        return CustomTag(
+            text: eventLevelAsObject(type, level).name,
+            color: eventLevelAsObject(type, level).color);
     }
   }
 }

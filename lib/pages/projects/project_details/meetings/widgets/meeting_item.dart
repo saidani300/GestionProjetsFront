@@ -39,7 +39,6 @@ class _MeetingItemState extends State<MeetingItem>
 
   @override
   dispose() {
-
     _controller.dispose();
     super.dispose();
   }
@@ -127,13 +126,13 @@ class _MeetingItemState extends State<MeetingItem>
                           ),
                           Expanded(
                             child: Container(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: Text(widget.meeting.time,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
-                                ],
+                                child: Row(
+                              children: [
+                                Flexible(
+                                    child: Text(widget.meeting.time,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
+                              ],
                             )),
                             flex: 2,
                           ),
@@ -210,7 +209,14 @@ class _MeetingItemState extends State<MeetingItem>
                                     message: 'Supprimer',
                                     color: Colors.redAccent,
                                     onTap: () {
-                                      deleteDialogBox(context,() => _controller.reverse().whenComplete(() => bloc.remove(widget.meeting)), DeleteType.file,widget.meeting.name);
+                                      deleteDialogBox(
+                                          context,
+                                          () => _controller
+                                              .reverse()
+                                              .whenComplete(() =>
+                                                  bloc.remove(widget.meeting)),
+                                          DeleteType.file,
+                                          widget.meeting.name);
                                       //showDialogBox(context, onTap);
                                     }),
                               ],
@@ -247,7 +253,7 @@ Color statusToColor(MeetingStatus status) {
 String statusToText(MeetingStatus status) {
   switch (status) {
     case MeetingStatus.programmed:
-      return "programmé";
+      return "Programmée";
     case MeetingStatus.inProgress:
       return "En cours";
     case MeetingStatus.completed:

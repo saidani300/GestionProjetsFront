@@ -7,24 +7,25 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/file_upload_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:lottie/lottie.dart';
 
 class Attachments extends StatefulWidget {
   final List<Document> documents;
+
   const Attachments({Key? key, required this.documents}) : super(key: key);
 
   @override
   _AttachmentsState createState() => _AttachmentsState();
 }
 
-class _AttachmentsState extends State<Attachments> {
+class _AttachmentsState extends State<Attachments>
+    with AutomaticKeepAliveClientMixin<Attachments> {
   late final bloc;
 
   @override
@@ -34,7 +35,11 @@ class _AttachmentsState extends State<Attachments> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -54,8 +59,7 @@ class _AttachmentsState extends State<Attachments> {
                             .map(
                               (e) => Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child:
-                                    _buildFolder(widget.documents, e),
+                                child: _buildFolder(widget.documents, e),
                               ),
                             )
                             .toList(),
@@ -80,6 +84,7 @@ class _AttachmentsState extends State<Attachments> {
 class FileItem extends StatefulWidget {
   final Document document;
   final List<Document> documents;
+
   const FileItem({Key? key, required this.document, required this.documents})
       : super(key: key);
 
@@ -185,12 +190,25 @@ class _FileItemState extends State<FileItem> with TickerProviderStateMixin {
                                           height: 30,
                                           width: 30,
                                         ),
-                                        Center(child: Container( height: 30,
-                                            width: 30,
-                                            child: CustomIconButton(icon: Icons.close_rounded, size: 15, color: lightRed, message: "Annuler", onTap: (){_controller.reverse().whenComplete(() =>
-                                                bloc.removeDocument(
-                                                    widget.documents,
-                                                    widget.document));})))
+                                        Center(
+                                            child: Container(
+                                                height: 30,
+                                                width: 30,
+                                                child: CustomIconButton(
+                                                    icon: Icons.close_rounded,
+                                                    size: 15,
+                                                    color: lightRed,
+                                                    message: "Annuler",
+                                                    onTap: () {
+                                                      _controller
+                                                          .reverse()
+                                                          .whenComplete(() =>
+                                                              bloc.removeDocument(
+                                                                  widget
+                                                                      .documents,
+                                                                  widget
+                                                                      .document));
+                                                    })))
                                       ])),
                             ],
                           ),
@@ -207,6 +225,7 @@ class _FileItemState extends State<FileItem> with TickerProviderStateMixin {
 
 class FileDropZone extends StatefulWidget {
   final List<Document> documents;
+
   const FileDropZone({Key? key, required this.documents}) : super(key: key);
 
   @override
@@ -219,6 +238,7 @@ class _FileDropZoneState extends State<FileDropZone>
   late final AnimationController _controller;
   late LottieComposition _composition;
   bool highlight = false;
+
   @override
   void initState() {
     super.initState();

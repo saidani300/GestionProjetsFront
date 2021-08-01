@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/project_details/BLoC/meeting_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/meeting_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -19,14 +20,13 @@ import 'package:gestion_projets/services/navigation_service.dart';
 
 import '../../../../../locator.dart';
 
-
 class ProjectMeetingsHeader extends StatelessWidget {
   final ScrollController scrollController;
+
   const ProjectMeetingsHeader({
     Key? key,
     required this.scrollController,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class ProjectMeetingsHeader extends StatelessWidget {
         MultiOptionsButton(
           text: "Créer une réunion",
           isMultiple: false,
-          onTap: ()  {
+          onTap: () {
             bloc.add(new Meeting(
                 new Random().nextInt(99999),
                 "Retard potentiel pour une tâche",
@@ -125,7 +125,9 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProjectMeetingsHeader(scrollController: controller,),
+        ProjectMeetingsHeader(
+          scrollController: controller,
+        ),
         Expanded(
             child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -157,14 +159,13 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
                       ),
                       alignment: Alignment.bottomLeft,
                       child: Row(children: [
-                        //Menu
+                        MeetingShowByViewMenu(),
                         SizedBox(
                           width: 15,
                         ),
                         Expanded(child: Container()),
                         SearchWidget(
-                          text: "",
-                          hintText: 'Rechercher des réunions',
+                          hintText: 'Rechercher des réunions...',
                           onChanged: (value) {},
                         ),
                         SizedBox(
@@ -198,7 +199,10 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
                       height: 1,
                       color: dividerColor,
                     ),
-                    Expanded(child: MeetingsList(scrollController: controller,)),
+                    Expanded(
+                        child: MeetingsList(
+                      scrollController: controller,
+                    )),
                   ]),
                 )))
       ],
@@ -208,6 +212,7 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
 
 class MeetingsList extends StatefulWidget {
   final ScrollController scrollController;
+
   const MeetingsList({
     Key? key,
     required this.scrollController,
@@ -236,7 +241,12 @@ class _MeetingsListState extends State<MeetingsList> {
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
                       ? (results!.isEmpty)
-                      ? NoItems(icon: "icons/no-phase.svg", message: "Il n'y a aucune réunion planifiée à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle et inviter des membres de l'équipe.", title: "Aucune réunion planifiée", buttonText: "Créer")
+                          ? NoItems(
+                              icon: "icons/no-phase.svg",
+                              message:
+                                  "Il n'y a aucune réunion planifiée à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle et inviter des membres de l'équipe.",
+                              title: "Aucune réunion planifiée",
+                              buttonText: "Créer")
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
@@ -263,7 +273,6 @@ class _MeetingsListState extends State<MeetingsList> {
   }
 }
 
-
 class MeetingsListHeader extends StatelessWidget {
   const MeetingsListHeader({Key? key}) : super(key: key);
 
@@ -285,16 +294,16 @@ class MeetingsListHeader extends StatelessWidget {
             width: 20,
           ),
           Expanded(
-                          child: Container(
-                            child: Row(
-                              children: [
-                                Flexible(
-                                    child: Text("Réunion",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: textStyle_Text_12_600)),
-                              ],
-                            ),
-                          ),
+            child: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Réunion",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
             flex: 4,
           ),
           SizedBox(
