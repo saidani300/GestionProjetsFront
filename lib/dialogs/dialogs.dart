@@ -7,8 +7,8 @@ import 'package:gestion_projets/dialogs/forms/create_project_form.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/widgets/toast.dart';
 import 'package:get/get.dart';
@@ -34,6 +34,7 @@ enum DeleteType {
   folder,
   file,
   meeting,
+  notification,
 }
 
 class DeleteMessage {
@@ -90,6 +91,9 @@ DeleteMessage deleteTypeAsText(DeleteType type) {
     case DeleteType.meeting:
       return DeleteMessage("Voulez-vous vraiment supprimer cette réunion ?",
           "Cette réunion sera définitivement supprimé et vous n'y aurez plus accès.");
+    case DeleteType.notification:
+      return DeleteMessage("Voulez-vous vraiment supprimer toutes les notifications ?",
+          "Toutes les notifications seront définitivement supprimées et vous n'y aurez plus accès.");
   }
 }
 

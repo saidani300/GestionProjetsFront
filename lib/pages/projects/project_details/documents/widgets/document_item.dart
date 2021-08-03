@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
+import 'package:gestion_projets/BLoC/document_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -68,7 +68,7 @@ class _DocumentItemState extends State<DocumentItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () async {
-                      print("tapped");
+
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -104,6 +104,10 @@ class _DocumentItemState extends State<DocumentItem>
                                       child: Text(widget.document.name,
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_Text_12_600)),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomIconButton(icon: Icons.download_rounded, message: "Télécharger", onTap: (){}),
                                 ],
                               ),
                             ),

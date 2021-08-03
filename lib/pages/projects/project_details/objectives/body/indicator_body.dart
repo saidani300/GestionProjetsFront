@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/chartData.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
@@ -702,7 +702,7 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
       InkWell(
         hoverColor: active.withOpacity(0.015),
         onTap: () {
-          print("tapped");
+
           widget.onTap();
         },
         highlightColor: Colors.transparent,

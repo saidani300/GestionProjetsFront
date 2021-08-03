@@ -8,7 +8,7 @@ class TasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: white,
+      color: backgroundColor,
       child: Center(
         child: SpinKitFadingCube(
           color: active,

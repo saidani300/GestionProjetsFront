@@ -1,6 +1,7 @@
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -66,7 +67,6 @@ String priorityAsText(Priority priority) {
   }
 }
 
-//TODO: Fix Dates Format use DataTime formats
 List<Project> projects = [
   Project(
       544,
@@ -76,16 +76,7 @@ List<Project> projects = [
       Status.inProgress,
       DateTime.now(),
       DateTime.now().add(Duration(days: 38)),
-      Priority.Normal, []),
-  Project(
-      59898,
-      "Développement d'une nouvelle interface utilisateur",
-      projectTypesList.first,
-      users.elementAt(6),
-      Status.completed,
-      DateTime.now().subtract(Duration(days: 38)),
-      DateTime.now().add(Duration(days: 1)),
-      Priority.Normal, []),
+      Priority.Normal, [documents.first.documents.first , documents.first.documents.last]),
   Project(
       5,
       "Développement d'une nouvelle interface utilisateur",
@@ -94,7 +85,7 @@ List<Project> projects = [
       Status.inProgress,
       DateTime.now().subtract(Duration(days: 50)),
       DateTime.now().subtract(Duration(days: 38)),
-      Priority.Important, []),
+      Priority.Important, [documents.first.documents.first ,]),
   Project(
       447,
       "Développement d'une nouvelle interface utilisateur",
@@ -112,7 +103,7 @@ List<Project> projects = [
       Status.completed,
       DateTime.now(),
       DateTime.now().add(Duration(days: 150)),
-      Priority.Normal, []),
+      Priority.Normal, [documents.first.documents.first ,]),
   Project(
       55558888,
       "Projet Qalitas",

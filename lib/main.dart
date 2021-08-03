@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/document_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/meeting_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/task_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/document_bloc.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
+import 'package:gestion_projets/BLoC/meeting_bloc.dart';
+import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/BLoC/project_bloc.dart';
+import 'package:gestion_projets/BLoC/task_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'BLoC/notification_bloc.dart';
 import 'constants/style.dart';
 import 'controllers/top_nav_menu_controller.dart';
 import 'layout.dart';
@@ -25,7 +26,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<DocumentBloc>(
+    return BlocProvider<NotificationBloc>(
+        bloc: NotificationBloc(),
+    child: BlocProvider<DocumentBloc>(
         bloc: DocumentBloc(),
         child: BlocProvider<MeetingBloc>(
             bloc: MeetingBloc(),
@@ -84,11 +87,10 @@ class MyApp extends StatelessWidget {
                                           focusColor: Colors.transparent,
                                         ),
                                        /* popupMenuTheme: PopupMenuThemeData(
-                                          color: white,
                                           textStyle: TextStyle(
                                               fontFamily: 'Montserrat',
-                                              fontSize: 13,
-                                              color: dark),
+                                              fontSize: 12,
+                                              color: text),
                                         ),*/
                                         scaffoldBackgroundColor: white,
                                         textTheme:
@@ -105,7 +107,7 @@ class MyApp extends StatelessWidget {
                                             ColorScheme.light(primary: active),
                                       ),
                                       home: SiteLayout(),
-                                    ))))))));
+                                    )))))))));
     // home: SiteLayout()
   }
 }

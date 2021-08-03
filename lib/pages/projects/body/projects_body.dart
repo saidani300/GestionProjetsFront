@@ -9,8 +9,8 @@ import 'package:gestion_projets/dialogs/messages.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
 import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/project_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/project_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
@@ -335,6 +335,39 @@ class ProjectsListHeader extends StatelessWidget {
                   ]),
             ),
             flex: 2,
+          ),
+          SizedBox(
+            width: 18,
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          orderBy.value = "Priority";
+                          isAscending.value = !isAscending.value;
+                          tapOrderBy();
+                        },
+                        child: Obx(() => Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text("Priorité", style: textStyle_Text_12_600),
+                              Visibility(
+                                  visible:
+                                  (orderBy.value.contains("Priority")),
+                                  child: Icon(
+                                      (isAscending.value)
+                                          ? Icons.keyboard_arrow_up_rounded
+                                          : Icons
+                                          .keyboard_arrow_down_rounded,
+                                      size: 12)),
+                            ]))),
+                  ]),
+            ),
+            flex: 1,
           ),
           SizedBox(
             width: 18,

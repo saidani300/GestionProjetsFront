@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/notification_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/widgets/top_nav.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:get/get.dart';
+import 'package:gestion_projets/pages/notifications/data/notification.dart'
+    as Model;
 
 import 'notification_item.dart';
 
@@ -19,14 +24,20 @@ class NotificationMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
         data: Theme.of(context).copyWith(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            textTheme: TextTheme(),
-            hoverColor: active.withOpacity(0.03),
-            dividerTheme: DividerThemeData(
-              thickness: 0.5,
-              space: 0,
-            )),
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          hoverColor: active.withOpacity(0.03),
+          dividerTheme: DividerThemeData(
+            thickness: 0.5,
+            space: 0,
+          ),
+          popupMenuTheme: PopupMenuThemeData(
+            textStyle: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 12,
+                color: text),
+          ),
+        ),
         child: Tooltip(
           message: 'Notifications',
           child: ClipRRect(
@@ -37,9 +48,6 @@ class NotificationMenu extends StatelessWidget {
                   padding: EdgeInsets.all(0),
                   elevation: 5,
                   offset: Offset(0, 50),
-                  // splashRadius: 20,
-                  // hoverColor: active.withOpacity(0.1),
-                  // iconSize: 20,
                   tooltip: 'Notifications',
                   child: Container(
                     child: Stack(
@@ -75,7 +83,6 @@ class NotificationMenu extends StatelessWidget {
                       ],
                     ),
                   ),
-//Items
                   itemBuilder: (context) {
                     return listItems(context);
                   }),
@@ -86,146 +93,151 @@ class NotificationMenu extends StatelessWidget {
 }
 
 List<PopupMenuEntry<Object>> listItems(BuildContext context) {
-  List<PopupMenuEntry<Object>> list = [];
-  list.add(
+  final bloc = BlocProvider.of<NotificationBloc>(context);
+  bloc.init();
+  return [
     PopupMenuItem(
       enabled: false,
       value: 0,
       height: 60,
-      child: NotificationsMenuHeader(),
+      child: StreamBuilder<List<Model.Notification>>(
+      stream: bloc.notificationStream,
+      builder: (context, snapshot) {
+    return (snapshot.hasData)
+          ? NotificationsMenuHeader(isEmpty:snapshot.data!.isEmpty): NotificationsMenuHeader(isEmpty: true,);})
     ),
-  );
-  list.add(
     PopupMenuDivider(
       height: 0.5,
     ),
-  );
-  if (!isEmpty) {
-    list.add(
-      PopupMenuItem(
-        value: 1,
-        child: NotificationItem(),
-      ),
-    );
-    list.add(
-      PopupMenuDivider(
-        height: 0.5,
-      ),
-    );
-    list.add(
-      PopupMenuItem(
-        value: 2,
-        child: NotificationItem(),
-      ),
-    );
-    list.add(
-      PopupMenuDivider(
-        height: 0.5,
-      ),
-    );
-    list.add(
-      PopupMenuItem(
-        value: 3,
-        child: NotificationItem(),
-      ),
-    );
-  } else {
-    list.add(
-      PopupMenuItem(
-        value: 3,
-        enabled: false,
-        child: NotificationsItemEmpty(),
-      ),
-    );
-  }
-  list.add(
+    PopupMenuItem(
+            padding: EdgeInsets.all(0),
+            value: 1,
+            enabled: false,
+            child: Container(
+              width: 380,
+              constraints: BoxConstraints(maxHeight: 300),
+              child: StreamBuilder<List<Model.Notification>>(
+                  stream: bloc.notificationStream,
+                  builder: (context, snapshot) {
+                    final results = snapshot.data;
+                    return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: (snapshot.hasData)
+                            ? snapshot.data!.isEmpty
+                                ? NotificationsItemEmpty()
+                                : ListView(
+                                    shrinkWrap: true,
+                                    children: results!
+                                        .map((e) =>
+                                            NotificationItem(notification: e , isLast :identical(results.last,e) ))
+                                        .toList(),
+                                  )
+                            : Center(
+                                child: SpinKitFadingCube(
+                                  color: active,
+                                  size: 25,
+                                  duration: Duration(milliseconds: 1200),
+                                ),
+                              ));
+                  }),
+            ),
+          ),
     PopupMenuDivider(
       height: 0.5,
     ),
-  );
-  list.add(
     PopupMenuItem(
       enabled: false,
       value: 4,
       height: 40,
-      child: Row(
-        children: [
-          Expanded(child: Container()),
-          if (!isEmpty)
-            new NotificationsButton(
-              buttonText: 'Plus',
-              withIcon: true,
-              buttonIcon: Icons.keyboard_arrow_right,
-            ),
-          Expanded(child: Container()),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Expanded(child: Container()),
+            if (!isEmpty)
+              new NotificationsButton(
+                buttonText: 'Plus',
+                withIcon: true,
+                buttonIcon: Icons.keyboard_arrow_right, onTap: () {  },
+              ),
+            Expanded(child: Container()),
+          ],
+        ),
       ),
     ),
-  );
-  return list;
+  ];
 }
 
 class NotificationsMenuHeader extends StatelessWidget {
-  const NotificationsMenuHeader({Key? key}) : super(key: key);
+  final bool isEmpty;
+  const NotificationsMenuHeader({Key? key , required this.isEmpty}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<NotificationBloc>(context);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Notifications',
-          style: textStyle_Text_14_500,
+          style: textStyle_Text_13_500,
         ),
         Expanded(child: Container()),
-        if (!isEmpty) new NotificationsButton(buttonText: 'Effacer tout'),
+        if (!isEmpty) new NotificationsButton(buttonText: 'Effacer tout', onTap: () {
+          deleteDialogBox(context, (){ bloc.removeAll();}, DeleteType.notification, "Les notifications");}, ),
       ],
     );
   }
 }
 
-class NotificationsButton extends StatelessWidget {
-  var notificationsButtonColor = active.withOpacity(0.8).obs;
+class NotificationsButton extends StatefulWidget {
   final String buttonText;
   final bool withIcon;
   final IconData buttonIcon;
-
+  final Function() onTap;
   NotificationsButton(
       {Key? key,
       required this.buttonText,
       this.withIcon = false,
-      this.buttonIcon = Icons.keyboard_arrow_right})
+      this.buttonIcon = Icons.keyboard_arrow_right,required this.onTap})
       : super(key: key);
 
   @override
+  _NotificationsButtonState createState() => _NotificationsButtonState();
+}
+
+class _NotificationsButtonState extends State<NotificationsButton> {
+  bool isHover = false;
+  @override
   Widget build(BuildContext context) {
+
     return InkWell(
         onTap: () {
-          showDialogBox(context);
+          widget.onTap();
         },
         hoverColor: Colors.transparent,
         onHover: (value) {
           value
-              ? notificationsButtonColor.value = active
-              : notificationsButtonColor.value = active.withOpacity(0.8);
+              ? setState(() { isHover = true; }):
+          setState(() { isHover = false; });//notificationsButtonColor.value = active.withOpacity(0.8);
         },
-        child: Obx(
-          () => Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              buttonText,
+              widget.buttonText,
               style: TextStyle(
-                  color: notificationsButtonColor.value,
+                  color: isHover ? active : active.withOpacity(0.8),
                   fontSize: 12,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w500),
             ),
-            if (withIcon)
+            if (widget.withIcon)
               Icon(
-                buttonIcon,
-                color: notificationsButtonColor.value,
+                widget.buttonIcon,
+                color: isHover ? active : active.withOpacity(0.8),
                 size: 16,
               ),
           ]),
-        ));
+        );
   }
 }

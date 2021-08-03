@@ -8,12 +8,10 @@ import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/notification_menu.dart';
 import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
-
 import '../locator.dart';
 
 Color notificationsColor = text;
 Color supportColor = text;
-Color settingsColor = text.withOpacity(0.4);
 
 AppBar topNavigationBar(context) => AppBar(
       toolbarHeight: 55,
@@ -22,8 +20,9 @@ AppBar topNavigationBar(context) => AppBar(
           Padding(
             padding: const EdgeInsets.only(left: 16),
             child: Image.asset(
-              "icons/logo.png",
+              "icons/logo_50.png",
               width: 28,
+              height: 28,
             ),
           ),
         ],
@@ -34,7 +33,6 @@ AppBar topNavigationBar(context) => AppBar(
       backgroundColor: white,
     );
 
-//PopupMenu
 _showPopupMenu(BuildContext context) {
   showMenu<int>(
     context: context,
@@ -101,9 +99,15 @@ showDialogBox(BuildContext context) {
   );
 }
 
-class NavigationBarBody extends StatelessWidget {
+class NavigationBarBody extends StatefulWidget {
   const NavigationBarBody({Key? key}) : super(key: key);
 
+  @override
+  _NavigationBarBodyState createState() => _NavigationBarBodyState();
+}
+
+class _NavigationBarBodyState extends State<NavigationBarBody> {
+  bool isHover = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -122,7 +126,6 @@ class NavigationBarBody extends StatelessWidget {
                             itemName: e.name,
                             onTap: () {
                               if (!menuController.isActive(e.name)) {
-                                /// print(listKey);
                                 menuController.changeActiveItemTo(e.name);
                                 // navigationController.navigateTo(e.route);
                                 locator<NavigationService>()
@@ -174,9 +177,8 @@ class NavigationBarBody extends StatelessWidget {
             },
             hoverColor: Colors.transparent,
             onHover: (value) {
-              value
-                  ? settingsColor = active
-                  : settingsColor = text.withOpacity(0.4);
+              value ? setState(() { isHover = true; }):
+              setState(() { isHover = false; });
             },
             child: Row(
               children: [
@@ -184,7 +186,7 @@ class NavigationBarBody extends StatelessWidget {
                   height: 30,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: settingsColor,
+                      color: isHover ? active : text.withAlpha(150),
                       borderRadius: BorderRadius.circular(30)),
                   child: Container(
                     decoration: BoxDecoration(
@@ -215,7 +217,7 @@ class NavigationBarBody extends StatelessWidget {
                 ),
                 Icon(
                   Icons.keyboard_arrow_down_rounded,
-                  color: settingsColor,
+                  color: isHover ? active : text.withAlpha(150),
                   size: 20,
                 ),
               ],

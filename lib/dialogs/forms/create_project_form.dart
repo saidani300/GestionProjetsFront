@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gestion_projets/BLoC/user_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/date_picker.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/priority_picker.dart';
@@ -9,9 +11,9 @@ import 'package:gestion_projets/dialogs/forms/widgets/user_picker.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/file_upload_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/project_type_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
+import 'package:gestion_projets/BLoC/project_type_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_multilines_text_field.dart';
@@ -42,7 +44,9 @@ class _CreateProjectFormState extends State<CreateProjectForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocProvider<ProjectTypeBloc>(
+    return BlocProvider<UserBloc>(
+        bloc: UserBloc(),
+    child: BlocProvider<ProjectTypeBloc>(
         bloc: ProjectTypeBloc(),
         child: BlocProvider<UploadBloc>(
             bloc: UploadBloc(),
@@ -317,7 +321,7 @@ class _CreateProjectFormState extends State<CreateProjectForm>
                       ),
                     )
                   ]),
-            )));
+            ))));
   }
 }
 
@@ -405,7 +409,13 @@ class _ProjectTypeBoxState extends State<ProjectTypeBox>
                           fontSize: 12,
                         ),
                       )
-                    : Container(),
+                    : Center(
+                  child: SpinKitThreeBounce(
+                    color: active,
+                    size: 15,
+                    duration: Duration(milliseconds: 1200),
+                  ),
+                ),
                 enabled: true,
                 onSelected: (value) {
                   setState(() {

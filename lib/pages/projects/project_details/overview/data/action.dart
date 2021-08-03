@@ -6,15 +6,15 @@ import 'package:gestion_projets/pages/projects/project_details/overview/data/pha
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
 
 class Action {
-  final int id;
-  final String name;
-  final DateTime startDate;
-  final DateTime endDate;
+  int id;
+  String name;
+  DateTime startDate;
+  DateTime endDate;
   Model.Status status;
-  final User user;
-  final List<Task> tasks;
-  final List<Document> documents;
-  final Priority priority;
+  User user;
+  List<Task> tasks;
+  List<Document> documents;
+  Priority priority;
 
   Action(this.id, this.name, this.startDate, this.endDate, this.status,
       this.user, this.tasks, this.documents, this.priority);

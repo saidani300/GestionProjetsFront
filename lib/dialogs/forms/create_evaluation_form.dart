@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/criterion_bloc.dart';
+import 'package:gestion_projets/BLoC/user_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/forms/widgets/add_criterion.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/text_field.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/user_picker.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
@@ -26,6 +30,7 @@ class CreateEvaluationForm extends StatefulWidget {
 
 class _CreateEvaluationFormState extends State<CreateEvaluationForm>
     with AutomaticKeepAliveClientMixin<CreateEvaluationForm> {
+  List<Criterion> criteria = [];
   final ScrollController scrollController = new ScrollController();
 
   @override
@@ -35,7 +40,11 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Container(
+    return BlocProvider<CriterionBloc>(
+        bloc: CriterionBloc(),
+    child: BlocProvider<UserBloc>(
+        bloc: UserBloc(),
+    child: Container(
       width: 500,
       constraints: BoxConstraints(maxHeight: 522),
       child: Column(
@@ -212,13 +221,24 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Container(
-                          child: Text(
-                            "Formule",
-                            style: TextStyle(
-                                color: active,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.start,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Formule",
+                                style: TextStyle(
+                                    color: active,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CustomIconButton(
+                                  icon: Icons.info_outline,
+                                  message: "Formule",
+                                  onTap: () {})
+                            ],
                           ),
                         ),
                       ),
@@ -266,13 +286,24 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Container(
-                          child: Text(
-                            "Critères",
-                            style: TextStyle(
-                                color: text,
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.start,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Critères",
+                                style: TextStyle(
+                                    color: text,
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w600),
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CustomIconButton(
+                                  icon: Icons.info_outline,
+                                  message: "Critères",
+                                  onTap: () {})
+                            ],
                           ),
                         ),
                       ),
@@ -281,11 +312,7 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: AddCriterionButton(
-                          onTap: () {},
-                          text: 'Ajouter un critère',
-                          color: dividerColor,
-                        ),
+                        child: Criteria(criteria: widget.evaluation.formula.criteria,),
                       ),
                       SizedBox(
                         height: 20,
@@ -301,7 +328,7 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
               ),
             )
           ]),
-    );
+    )));
   }
 }
 

@@ -8,7 +8,7 @@ class PeoplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black.withOpacity(0.04),
+      color: backgroundColor,
       child: Center(
         child: SpinKitFadingCube(
           color: active,

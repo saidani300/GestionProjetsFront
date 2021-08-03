@@ -3,8 +3,8 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
     as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
@@ -66,7 +66,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                   height: 60,
                   child: InkWell(
                       onTap: () {
-                        print("tapped");
+
                       },
                       onHover: (value) {
                         value

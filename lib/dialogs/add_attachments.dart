@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/file_upload_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -92,7 +92,7 @@ class FileItem extends StatefulWidget {
   _FileItemState createState() => _FileItemState();
 }
 
-class _FileItemState extends State<FileItem> with TickerProviderStateMixin {
+class _FileItemState extends State<FileItem>with AutomaticKeepAliveClientMixin<FileItem>  , TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -111,7 +111,11 @@ class _FileItemState extends State<FileItem> with TickerProviderStateMixin {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final bloc = BlocProvider.of<UploadBloc>(context);
 
     return FadeTransition(

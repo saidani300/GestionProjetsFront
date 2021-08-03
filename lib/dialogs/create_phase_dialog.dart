@@ -1,37 +1,33 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 
 import 'buttons.dart';
-import 'forms/create_event_form.dart';
+import 'forms/create_phase_form.dart';
 
-createEventDialogBox(BuildContext context, ScrollController controller) {
-  Event event = new Event(
+createPhaseDialogBox(BuildContext context, ScrollController controller) {
+  Phase phase = new Phase(
       Random().nextInt(999999),
       "",
-      "",
-      "",
-      "",
-      "",
-      "",
+      Priority.Normal,
       DateTime.now(),
-      EventType.Opportunity,
-      EventLevel.low,
-      EventCategory.category1,
-      users.last, [], []);
-  final bloc = BlocProvider.of<EventBloc>(context);
+      DateTime.now(),
+      [],
+      [],
+      DateTime.now(),
+      DateTime.now().add(Duration(days: 30)));
+  final bloc = BlocProvider.of<PhaseBloc>(context);
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
         contentPadding: EdgeInsets.all(0),
         actionsPadding: EdgeInsets.all(10),
-        content: CreateEventForm(
-          event: event,
+        content: CreatePhaseForm(phase: phase,
         ),
         actions: [
           DialogOutlinedButton(
@@ -47,7 +43,7 @@ createEventDialogBox(BuildContext context, ScrollController controller) {
               text: 'Créer',
               onTap: () {
                 Navigator.of(context).pop();
-                bloc.add(event);
+                bloc.add(phase);
                 if (controller.hasClients)
                   controller.animateTo(
                     0.0,

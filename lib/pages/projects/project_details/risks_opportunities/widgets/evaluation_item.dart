@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -72,7 +72,7 @@ class _EvaluationItemState extends State<EvaluationItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-                      print("tapped");
+
                       locator<NavigationService>().eventNavigateTo(
                           evaluationCalculationsPageRoute, widget.evaluation);
                     },
@@ -113,7 +113,7 @@ class _EvaluationItemState extends State<EvaluationItem>
                             child: Container(
                                 child: Row(children: [
                               CustomTag(
-                                letterSpacing: 1,
+                                letterSpacing: 2,
                                 text: widget.evaluation.formula.formula,
                                 color: text,
                                 date: widget.evaluation.formula.name,

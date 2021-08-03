@@ -4,8 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/routing/routes.dart';
@@ -65,7 +65,7 @@ class _EventItemState extends State<EventItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-                      print("tapped");
+
                       locator<NavigationService>().eventNavigateTo(
                           eventEvaluationsPageRoute, widget.event);
                     },

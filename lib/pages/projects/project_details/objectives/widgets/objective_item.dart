@@ -6,8 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
@@ -72,7 +72,7 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-                      print("tapped");
+
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,

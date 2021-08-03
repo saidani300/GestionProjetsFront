@@ -12,6 +12,9 @@ const String tasksPageRoute = "/alltasks";
 const activitiesPageDisplayName = "Activités";
 const String activitiesPageRoute = "/activities";
 
+const PeoplePageDisplayName = "Personnes";
+
+
 const String projectDetailsPageRoute = "/details";
 
 const String projectListPageRoute = "/all";
@@ -49,5 +52,6 @@ List<MenuItem> TopVarMenuItemRoutes = [
   MenuItem(dashboardPageDisplayName, dashboardPageRoute),
   MenuItem(projectsPageDisplayName, projectsPageRoute),
   MenuItem(tasksPageDisplayName, tasksPageRoute),
-  MenuItem(activitiesPageDisplayName, activitiesPageRoute)
+  MenuItem(activitiesPageDisplayName, activitiesPageRoute),
+  MenuItem(PeoplePageDisplayName, activitiesPageRoute)
 ];

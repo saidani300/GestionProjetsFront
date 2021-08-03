@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_action_dialog.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
@@ -31,13 +32,15 @@ class _PhaseItemState extends State<PhaseItem>
     with AutomaticKeepAliveClientMixin<PhaseItem>, TickerProviderStateMixin {
   bool isExpanded = false;
   bool actionsVisible = false;
-
+  late AnimationController rotationController;
 //Animation
   late AnimationController _controller;
   late Animation<double> _animation;
 
   initState() {
     super.initState();
+    rotationController = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
     _controller = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
@@ -88,7 +91,7 @@ class _PhaseItemState extends State<PhaseItem>
                                       });
                               },
                               color: active,
-                              isExpanded: isExpanded,
+                              isExpanded: isExpanded, rotationController: rotationController,
                             ),
                             SizedBox(
                               width: 5,
@@ -96,7 +99,7 @@ class _PhaseItemState extends State<PhaseItem>
                             Expanded(
                                 child: InkWell(
                                     onTap: () {
-                                      print("tapped");
+
                                     },
                                     onHover: (value) {
                                       value
@@ -222,34 +225,14 @@ class _PhaseItemState extends State<PhaseItem>
                                             icon: Icons.add_circle_rounded,
                                             message: "Ajouter une action",
                                             enableToolTip: true,
-                                            onTap: () {
-                                              bloc.addAction(
-                                                  widget.phase,
-                                                  new Model.Action(
-                                                      new Random()
-                                                          .nextInt(99999),
-                                                      "Développement d'une nouvelle interface utilisateur",
-                                                      DateTime.now(),
-                                                      DateTime.now().add(
-                                                          Duration(days: 30)),
-                                                      Status.inProgress,
-                                                      User(1, "Saidani Wael",
-                                                          "3"),
-                                                      [],
-                                                      [
-                                                        Document(
-                                                            55,
-                                                            "Développement d'une nouvelle interface utilisateur",
-                                                            "url",
-                                                            "PDF",
-                                                            User(
-                                                                12,
-                                                                "Saidani Wael",
-                                                                "3"),
-                                                            DateTime.now(),
-                                                            656848),
-                                                      ],
-                                                      Priority.Normal));
+                                            onTap: () async {
+                                              await createActionDialogBox(context , widget.phase ,() async {if(isExpanded == false) {
+                                                setState(() {
+                                                  isExpanded = true;
+                                                });
+                                                await  rotationController.forward();
+                                              } } );
+
                                             },
                                             size: 23,
                                           ),

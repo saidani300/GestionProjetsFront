@@ -5,14 +5,14 @@ import 'package:gestion_projets/pages/projects/project_details/overview/data/pha
     as Model;
 
 class Task {
-  final int id;
-  final String name;
-  final DateTime startDate;
-  final DateTime endDate;
+  int id;
+  String name;
+  DateTime startDate;
+  DateTime endDate;
   Model.Status status;
-  final User user;
-  final List<Document> documents;
-  final Priority priority;
+  User user;
+  List<Document> documents;
+  Priority priority;
 
   Task(this.id, this.name, this.startDate, this.endDate, this.status, this.user,
       this.documents, this.priority);

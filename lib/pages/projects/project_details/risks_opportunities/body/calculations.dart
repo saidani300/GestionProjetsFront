@@ -5,8 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_calculation_dialog.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
@@ -459,7 +459,7 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                 InkWell(
                                   hoverColor: active.withOpacity(0.015),
                                   onTap: () {
-                                    print("tapped");
+
                                   },
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
@@ -503,6 +503,7 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                           child: Container(
                                               child: Row(children: [
                                             CustomTag(
+                                              letterSpacing: 2,
                                               text: widget
                                                   .evaluation.formula.formula,
                                               color: text,

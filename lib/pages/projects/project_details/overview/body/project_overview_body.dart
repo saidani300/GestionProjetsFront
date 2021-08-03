@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/dialogs/create_phase_dialog.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/widgets/phase_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/widgets/view_types.dart';
@@ -82,18 +84,7 @@ class ProjectOverviewHeader extends StatelessWidget {
         MultiOptionsButton(
           text: "Créer une phase",
           onTap: () {
-            bloc.add(new Phase(
-                new Random.secure().nextInt(1000),
-                new Random.secure().hashCode.toString(),
-                DateTime.now(),
-                DateTime.now(), []));
-            //ScrollUp when Adding new Phase
-            if (controller.hasClients)
-              controller.animateTo(
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
+            createPhaseDialogBox(context, controller);
           },
         ),
       ],

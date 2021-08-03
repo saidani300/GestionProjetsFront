@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:function_tree/function_tree.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 
@@ -17,7 +17,7 @@ createCalculationDialogBox(
       18,
       DateTime.now(),
       DateTime.now(),
-      DateTime.now(),
+      DateTime.now().add(Duration(days: 30)),
       evaluation.formula.criteria);
   final bloc = BlocProvider.of<EventBloc>(context);
   showDialog(

@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/event_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 
@@ -21,10 +21,7 @@ createEvaluationDialogBox(
       0,
       users.last,
       [],
-      Formula(545, "Indice de risque", 'F * I * G', [
-        Criterion(1, "Gravité", 0, "G"),
-        Criterion(2, "Fréquence", 0, "F"),
-        Criterion(3, "Importance", 0, "I"),
+      Formula(Random().nextInt(99999), "", '', [
       ]));
   final bloc = BlocProvider.of<EventBloc>(context);
   showDialog(

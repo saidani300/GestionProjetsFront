@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_task_dialog.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
@@ -38,10 +39,13 @@ class ActionItem extends StatefulWidget {
 class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late AnimationController rotationController;
 
   @override
   initState() {
     super.initState();
+    rotationController = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
     _controller = new AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
@@ -76,7 +80,7 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                       height: 60,
                       child: InkWell(
                           onTap: () {
-                            print("tapped");
+
                           },
                           onHover: (value) {
                             value
@@ -111,7 +115,7 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                                   });
                                           },
                                           color: active,
-                                          isExpanded: isExpanded,
+                                          isExpanded: isExpanded, rotationController: rotationController,
                                         ),
                                       ]))),
                               Expanded(
@@ -261,31 +265,14 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                                 DeleteType.action,
                                                 widget.action.name);
                                           },
-                                          onTapAdd: () {
-                                            bloc.addTask(
-                                              widget.action,
-                                              new Task(
-                                                  new Random().nextInt(999999),
-                                                  "Développement d'une nouvelle interface utilisateur",
-                                                  DateTime.now(),
-                                                  DateTime.now()
-                                                      .add(Duration(days: 15)),
-                                                  Status.inProgress,
-                                                  User(2, "Saidani Wael",
-                                                      "https://i.imgur.com/01lxY0W.jpeg"),
-                                                  [
-                                                    Document(
-                                                        55,
-                                                        "Développement d'une nouvelle interface utilisateur",
-                                                        "url",
-                                                        "PDF",
-                                                        User(12, "Saidani Wael",
-                                                            "3"),
-                                                        DateTime.now(),
-                                                        656848),
-                                                  ],
-                                                  Priority.Normal),
-                                            );
+                                          onTapAdd: () async {
+                                            await createTaskDialogBox(context , widget.action ,() async {if(isExpanded == false) {
+                                              setState(() {
+                                                isExpanded = true;
+                                              });
+                                              await  rotationController.forward();
+                                            } } );
+
                                           },
                                         ),
                                       ])),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -69,7 +69,7 @@ class _MeasureItemState extends State<MeasureItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-                      print("tapped");
+
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,

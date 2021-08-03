@@ -24,11 +24,9 @@ List<ShowByStatusItem> showByStatusItems = [
   ShowByStatusItem(InProgressName),
 ];
 
-Phase newPhase = Phase(Random.secure().nextInt(1000),
-    Random.secure().hashCode.toString(), DateTime.now(), DateTime.now(), []);
 
-List<Phase> Phases = [
-  Phase(1, 'Specification'.toUpperCase(), DateTime.now(), DateTime.now(), [
+List<Phase> phases = [
+  Phase(1, 'Specification'.toUpperCase(),Priority.Normal, DateTime.now(), DateTime.now(),[], [
     Model.Action(
         1,
         "Développement d'une nouvelle interface utilisateur",
@@ -183,8 +181,8 @@ List<Phase> Phases = [
               656848),
         ],
         Priority.Important)
-  ]),
-  Phase(2, 'Développement'.toUpperCase(), DateTime.now(), DateTime.now(), [
+  ],DateTime.now(),DateTime.now(),),
+  Phase(2, 'Développement'.toUpperCase(),Priority.Normal, DateTime.now(), DateTime.now(),[], [
     Model.Action(
         56456,
         "Développement d'une nouvelle interface utilisateur",
@@ -421,6 +419,6 @@ List<Phase> Phases = [
               656848),
         ],
         Priority.Important)
-  ]),
+  ],DateTime.now(),DateTime.now(),),
   //Phase(2, 'name')
 ];
