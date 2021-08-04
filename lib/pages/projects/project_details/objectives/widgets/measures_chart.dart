@@ -66,17 +66,15 @@ class _MeasuresChartState extends State<MeasuresChart> {
                           interval: widget.indicator.maxValue / 10,
                           axisLine: const AxisLine(width: 0),
                           majorTickLines: const MajorTickLines(size: 0)),
-                      series: _getDefaultColumn(widget.indicator.measures
+                      series: _getDefaultColumn(widget.indicator.measures.reversed
                           .map((e) => new ChartData(
-                                x: /*getText(e.startDate)+" - " + getText(e.endDate)*/ e
-                                    .endDate
-                                    .toString(),
+                                x: DateFormat('dd/M/yy').format(e.startDate) + " - " + DateFormat('dd/M/yy').format(e.endDate),
                                 y: e.value,
                                 pointColor:
                                     e.value < widget.indicator.criticalThreshold
                                         ? lightRed
                                         : text,
-                                secondSeriesYValue: 70,
+                                secondSeriesYValue: widget.indicator.criticalThreshold,
                               ))
                           .toList()),
                       legend: Legend(

@@ -7,8 +7,9 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart' as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
-import 'buttons.dart';
+import 'forms/widgets/buttons.dart';
 import 'forms/create_task_form.dart';
 
 createTaskDialogBox(BuildContext context, Model.Action action , Function() expand) {
@@ -38,7 +39,9 @@ createTaskDialogBox(BuildContext context, Model.Action action , Function() expan
                 Navigator.of(context).pop();
                 await expand();
                 bloc.addTask(action, task);
-
+                showToast(ToastType.success,
+                    task.name,
+                    event: ToastEvent.create);
               }),
         ],
       );

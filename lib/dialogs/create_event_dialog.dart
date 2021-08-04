@@ -5,8 +5,9 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
-import 'buttons.dart';
+import 'forms/widgets/buttons.dart';
 import 'forms/create_event_form.dart';
 
 createEventDialogBox(BuildContext context, ScrollController controller) {
@@ -54,6 +55,9 @@ createEventDialogBox(BuildContext context, ScrollController controller) {
                     curve: Curves.easeOut,
                     duration: const Duration(milliseconds: 300),
                   );
+                showToast(ToastType.success,
+                    event.name,
+                    event: ToastEvent.create);
               }),
         ],
       );

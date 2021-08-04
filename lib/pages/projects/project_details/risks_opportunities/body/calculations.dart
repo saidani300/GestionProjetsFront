@@ -567,11 +567,7 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                               children: [
                                                 Flexible(
                                                     child: Text(
-                                                        getText(events
-                                                            .first
-                                                            .evaluations
-                                                            .first
-                                                            .creationDate),
+                                                        getText(widget.evaluation.creationDate),
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style:
@@ -591,26 +587,15 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                                   height: 30,
                                                   width: 30,
                                                   child: Avatar(
-                                                    picture: events
-                                                        .first
-                                                        .evaluations
-                                                        .first
-                                                        .user
-                                                        .avatar,
-                                                    name: events
-                                                        .first
-                                                        .evaluations
-                                                        .first
-                                                        .user
-                                                        .name,
+                                                    picture: widget.evaluation.user.avatar,
+                                                    name: widget.evaluation.user.name,
                                                   )),
                                               SizedBox(
                                                 width: 15,
                                               ),
                                               Flexible(
                                                   child: Text(
-                                                      widget
-                                                          .evaluation.user.name,
+                                                      widget.evaluation.user.name,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style:

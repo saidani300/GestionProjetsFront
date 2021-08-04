@@ -187,9 +187,7 @@ class _IndicatorItemState extends State<IndicatorItem>
                               children: [
                                 Flexible(
                                     child: Text(
-                                        widget.indicator.autoMeasure
-                                            ? "Automatique :"
-                                            : "Manuelle : ",
+                                        natureAsText(widget.indicator.nature) +" : ",
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                                 Flexible(
@@ -249,15 +247,3 @@ class _IndicatorItemState extends State<IndicatorItem>
   }
 }
 
-String indicatorFrequencyAsText(Frequency frequency) {
-  switch (frequency) {
-    case Frequency.monthly:
-      return 'Mensuel';
-    case Frequency.quarterly:
-      return 'Trimestriel';
-    case Frequency.semiAnnually:
-      return 'Semestriel';
-    case Frequency.annually:
-      return 'Annuel';
-  }
-}

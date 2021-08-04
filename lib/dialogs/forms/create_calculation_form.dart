@@ -149,7 +149,7 @@ class _CreateCalculationFormState extends State<CreateCalculationForm>
                                     setDate: (DateTime date) {
                                       widget.calculation.endDate = date;
                                     },
-                                    initDate: DateTime.now()),
+                                    initDate: DateTime.now().add(Duration(days: 30))),
                               ]),
                         ),
                       ]),

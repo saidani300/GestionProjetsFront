@@ -5,8 +5,9 @@ import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
-import 'buttons.dart';
+import 'forms/widgets/buttons.dart';
 import 'forms/create_phase_form.dart';
 
 createPhaseDialogBox(BuildContext context, ScrollController controller) {
@@ -45,11 +46,14 @@ createPhaseDialogBox(BuildContext context, ScrollController controller) {
                 Navigator.of(context).pop();
                 bloc.add(phase);
                 if (controller.hasClients)
-                  controller.animateTo(
+                  {controller.animateTo(
                     0.0,
                     curve: Curves.easeOut,
                     duration: const Duration(milliseconds: 300),
-                  );
+                  );}
+                showToast(ToastType.success,
+                    phase.name,
+                    event: ToastEvent.create);
               }),
         ],
       );

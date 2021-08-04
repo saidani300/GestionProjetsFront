@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_subtask_form.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
@@ -84,34 +85,8 @@ class ProjectTasksHeader extends StatelessWidget {
           text: "Créer une tâche",
           isMultiple: false,
           onTap: () {
-            bloc.add(new TaskModel(
-                new Random().nextInt(99999),
-                "Développement d'une nouvelle interface utilisateur",
-                DateTime.now(),
-                DateTime.now().add(Duration(days: 17)),
-                Model.Status.inProgress,
-                User(30, "Saidani Wael", "5"),
-                [
-                  Document(
-                      55,
-                      "Développement d'une nouvelle interface utilisateur",
-                      "url",
-                      "PDF",
-                      User(12, "Saidani Wael", "3"),
-                      DateTime.now(),
-                      656848),
-                ],
-                Priority.Important,
-                []));
-            if (scrollController.hasClients)
-              scrollController.animateTo(
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
-            showToast(ToastType.success,
-                "Développement d'une nouvelle interface utilisateur",
-                event: ToastEvent.create);
+            createSubTaskDialogBox(context,null,scrollController,false);
+
           },
         ),
       ],

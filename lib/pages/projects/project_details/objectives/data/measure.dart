@@ -1,22 +1,21 @@
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 
 class Measure {
-  final int id;
-  final double value;
-  final DateTime creationDate;
-  final DateTime startDate;
-  final DateTime endDate;
-  final List<Document> documents;
-
+  int id;
+  double value;
+  DateTime creationDate;
+  DateTime startDate;
+  DateTime endDate;
+  String comment;
   Measure(
     this.id,
     this.value,
     this.creationDate,
     this.startDate,
     this.endDate,
-    this.documents,
+    this.comment,
   );
 }
 
 Measure measure = new Measure(5487, 50.5, DateTime.now(), DateTime.now(),
-    DateTime.now().add(Duration(days: 90)), []);
+    DateTime.now().add(Duration(days: 90)),"" );

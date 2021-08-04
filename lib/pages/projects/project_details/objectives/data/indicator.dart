@@ -9,19 +9,68 @@ enum Frequency {
   annually //annuel
 }
 
+String indicatorFrequencyAsText(Frequency frequency) {
+  switch (frequency) {
+    case Frequency.monthly:
+      return 'Mensuel';
+    case Frequency.quarterly:
+      return 'Trimestriel';
+    case Frequency.semiAnnually:
+      return 'Semestriel';
+    case Frequency.annually:
+      return 'Annuel';
+  }
+}
+
+
+enum IndicatorType
+{
+  type1,
+  type2,
+  type3,
+}
+
+String indicatorTypeAsText(IndicatorType type)
+{
+  switch(type)
+  {
+    case IndicatorType.type1 :
+      return 'Type 1';
+    case IndicatorType.type2 :
+      return 'Type 2';
+    case IndicatorType.type3 :
+      return 'Type 3';
+  }
+}
+enum Nature
+{
+  manual,
+  automatic,
+}
+
+String natureAsText(Nature nature)
+{
+  switch(nature)
+  {
+    case Nature.manual:
+      return 'Manuelle';
+    case Nature.automatic:
+      return 'Automatique';
+  }
+}
 class Indicator {
-  final int id;
-  final String name;
-  final String type;
-  final String calculationMethod;
-  final double minValue;
-  final double maxValue;
-  final double criticalThreshold;
-  final bool autoMeasure;
-  final String unit;
-  final Frequency frequency;
-  final User user;
-  final List<Measure> measures;
+  int id;
+  String name;
+  IndicatorType type;
+  String calculationMethod;
+  double minValue;
+  double maxValue;
+  double criticalThreshold;
+  Nature nature;
+  String unit;
+  Frequency frequency;
+  User user;
+  List<Measure> measures;
 
   Indicator(
     this.id,
@@ -33,7 +82,7 @@ class Indicator {
     this.minValue,
     this.maxValue,
     this.criticalThreshold,
-    this.autoMeasure,
+    this.nature,
     this.unit,
     this.frequency,
   );

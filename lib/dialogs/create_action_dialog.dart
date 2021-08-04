@@ -8,8 +8,9 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart' as Model;
 import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
-import 'buttons.dart';
+import 'forms/widgets/buttons.dart';
 import 'forms/create_phase_form.dart';
 
 createActionDialogBox(BuildContext context, Phase phase , Function() expand) {
@@ -39,7 +40,9 @@ createActionDialogBox(BuildContext context, Phase phase , Function() expand) {
                 Navigator.of(context).pop();
                 await expand();
                 bloc.addAction(phase, action);
-
+                showToast(ToastType.success,
+                    action.name,
+                    event: ToastEvent.create);
               }),
         ],
       );

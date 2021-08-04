@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_indicator_dialog.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
@@ -23,9 +24,10 @@ import 'indicator_item.dart';
 
 class ObjectiveItem extends StatefulWidget {
   final VoidCallback onTap;
+  final bool isLast;
   final Objective objective;
 
-  const ObjectiveItem({Key? key, required this.objective, required this.onTap})
+  const ObjectiveItem({Key? key, required this.objective, required this.onTap , this.isLast = false})
       : super(key: key);
 
   @override
@@ -243,22 +245,7 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                       message: 'Ajouter un indicateur',
                                       color: active,
                                       onTap: () {
-                                        bloc.addIndicator(
-                                            widget.objective,
-                                            new Indicator(
-                                                new Random().nextInt(99999),
-                                                "Nombre d'actions terminées",
-                                                User(6, "Saidani Wael", "7"),
-                                                [],
-                                                "Avancement",
-                                                "ATerminé/ATotal*100",
-                                                0,
-                                                100,
-                                                30,
-                                                false,
-                                                "%",
-                                                Frequency.monthly));
-                                        //showDialogBox(context, onTap);
+                                        createIndicatorDialogBox(context , widget.objective);
                                       }),
                                 ]),
                               ],
@@ -293,7 +280,20 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                     parentContext: context,
                     objective: widget.objective,
                   ),
-                  // Container(height: 60,)
+
+                   Visibility(
+                     visible: !widget.isLast,
+                     child: Column(mainAxisSize: MainAxisSize.min,
+                       children: [
+                         Container(height: 40,),
+                         Divider(
+                           height: 1,
+                           color: dividerColor,
+                         ),
+                       ],
+                     ),
+                   ),
+
                 ]))));
   }
 }

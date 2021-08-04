@@ -37,7 +37,7 @@ class ObjectiveBloc implements Bloc {
   }
 
   addMeasure(Indicator indicator, Measure measure) async {
-    indicator.measures.add(measure);
+    indicator.measures.insert(0,measure);
     _controller.sink.add(Objectives);
   }
 
@@ -47,7 +47,7 @@ class ObjectiveBloc implements Bloc {
   }
 
   addIndicator(Objective objective, Indicator indicator) async {
-    objective.indicators.add(indicator);
+    objective.indicators.insert(0,indicator);
     _controller.sink.add(Objectives);
   }
 

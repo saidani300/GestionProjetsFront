@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/dialogs/create_measure_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/chartData.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
@@ -89,21 +90,7 @@ class IndicatorHeader extends StatelessWidget {
           text: "Ajouter une mesure",
           isMultiple: false,
           onTap: () {
-            bloc.addMeasure(
-                indicator,
-                new Measure(
-                    new Random().nextInt(99999),
-                    new Random().nextInt(100).toDouble(),
-                    DateTime.now(),
-                    DateTime.now(),
-                    DateTime.now().add(Duration(days: 90)), []));
-
-            if (controller.hasClients)
-              controller.animateTo(
-                controller.position.maxScrollExtent,
-                curve: Curves.fastOutSlowIn,
-                duration: const Duration(milliseconds: 300),
-              );
+            createMeasureDialogBox(context , controller , indicator);
           },
         ),
       ],
@@ -275,18 +262,6 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                                 ),
                                 flex: 2,
                               ),
-                              Expanded(
-                                child: Container(
-                                    child: Row(children: [
-                                  Flexible(
-                                      child: Text(
-                                    "Date de création",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: style,
-                                  )),
-                                ])),
-                                flex: 2,
-                              ),
                               SizedBox(
                                 width: 20,
                               ),
@@ -314,6 +289,21 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                                     style: style,
                                   )),
                                 ]),
+                                flex: 2,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Container(
+                                    child: Row(children: [
+                                      Flexible(
+                                          child: Text(
+                                            "Commentaire",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: style,
+                                          )),
+                                    ])),
                                 flex: 2,
                               ),
                               // ActionsMenu(),
@@ -815,9 +805,7 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                   children: [
                     Flexible(
                         child: Text(
-                            widget.indicator.autoMeasure
-                                ? "Automatique :"
-                                : "Manuelle : ",
+                            natureAsText(widget.indicator.nature) +" : ",
                             overflow: TextOverflow.ellipsis,
                             style: textStyle_Text_12_600)),
                     Flexible(

@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_subtask_form.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
@@ -247,30 +248,8 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                       message: 'Ajouter une sous-tâche',
                                       color: active,
                                       onTap: () {
-                                        bloc.addSubTask(
-                                            widget.task,
-                                            new TaskModel(
-                                                new Random().nextInt(99999),
-                                                "Développement d'une nouvelle interface utilisateur",
-                                                DateTime.now(),
-                                                DateTime.now()
-                                                    .add(Duration(days: 17)),
-                                                Model.Status.inProgress,
-                                                User(30, "Saidani Wael", "5"),
-                                                [
-                                                  Document(
-                                                      55,
-                                                      "Développement d'une nouvelle interface utilisateur",
-                                                      "url",
-                                                      "PDF",
-                                                      User(12, "Saidani Wael",
-                                                          "3"),
-                                                      DateTime.now(),
-                                                      656848),
-                                                ],
-                                                Priority.Important,
-                                                []));
-                                        //showDialogBox(context, onTap);
+                                        createSubTaskDialogBox(context,widget.task,null,true);
+
                                       }),
                                 ]),
                               ],

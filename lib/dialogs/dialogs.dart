@@ -14,7 +14,7 @@ import 'package:gestion_projets/widgets/toast.dart';
 import 'package:get/get.dart';
 
 import '../pages/projects/widgets/custom_icon_button.dart';
-import 'buttons.dart';
+import 'forms/widgets/buttons.dart';
 
 var createOther = false.obs;
 

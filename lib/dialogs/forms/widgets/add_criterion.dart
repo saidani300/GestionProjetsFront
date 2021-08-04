@@ -22,6 +22,7 @@ class _CriteriaState extends State<Criteria>
     with AutomaticKeepAliveClientMixin<Criteria> {
   final abbreviationController = TextEditingController();
   final nameController = TextEditingController();
+  var focusNode = FocusNode();
   late final bloc;
 
   @override
@@ -31,6 +32,11 @@ class _CriteriaState extends State<Criteria>
     bloc.init(widget.criteria);
   }
 
+  @override
+  void dispose() {
+focusNode.dispose();
+super.dispose();
+  }
   @override
   bool get wantKeepAlive => true;
 
@@ -58,6 +64,7 @@ class _CriteriaState extends State<Criteria>
               Expanded(
                         child: TextField(scrollPadding: EdgeInsets.all(0),
                             cursorWidth: 1.5,
+                            focusNode: focusNode,
                             controller: abbreviationController,
                             decoration: InputDecoration(
                               hintText: "Abréviation",
@@ -100,6 +107,7 @@ class _CriteriaState extends State<Criteria>
                               bloc.addCriterion(widget.criteria, new Criterion(Random().nextInt(99999) , nameController.value.text , 0 , abbreviationController.value.text));
                         nameController.clear();
                         abbreviationController.clear();
+                              focusNode.requestFocus();
                         })
                   ],
                 ),

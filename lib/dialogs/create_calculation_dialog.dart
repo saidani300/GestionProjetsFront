@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:function_tree/function_tree.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/body/calculations.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
-import 'buttons.dart';
+import 'forms/widgets/buttons.dart';
 import 'forms/create_calculation_form.dart';
 
 createCalculationDialogBox(
     BuildContext context, ScrollController controller, Evaluation evaluation) {
   Calculation calculation = new Calculation(
       Random().nextInt(99999),
-      18,
+      0,
       DateTime.now(),
       DateTime.now(),
       DateTime.now().add(Duration(days: 30)),
@@ -57,6 +59,9 @@ createCalculationDialogBox(
                     curve: Curves.easeOut,
                     duration: const Duration(milliseconds: 300),
                   );
+                showToast(ToastType.success,
+                    "Le calcul de " + getText(calculation.creationDate),
+                    event: ToastEvent.create);
               }),
         ],
       );

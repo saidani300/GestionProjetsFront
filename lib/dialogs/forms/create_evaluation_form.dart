@@ -228,7 +228,7 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
                                 style: TextStyle(
                                     color: active,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w500),
+                                    fontWeight: FontWeight.w600),
                                 textAlign: TextAlign.start,
                               ),
                               SizedBox(

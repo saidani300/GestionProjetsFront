@@ -15,7 +15,7 @@ import 'package:gestion_projets/pages/projects/project_details/overview/data/tas
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_multilines_text_field.dart';
 
-import '../add_attachments.dart';
+import 'widgets/add_attachments.dart';
 
 //TODO: "Create Another one" Checkbox
 

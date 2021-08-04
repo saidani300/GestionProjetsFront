@@ -144,18 +144,6 @@ class _MeasureItemState extends State<MeasureItem>
                             ),
                             flex: 2,
                           ),
-                          Expanded(
-                            child: Container(
-                                child: Row(children: [
-                              Flexible(
-                                  child: Text(
-                                getText(widget.measure.creationDate),
-                                overflow: TextOverflow.ellipsis,
-                                style: style,
-                              )),
-                            ])),
-                            flex: 2,
-                          ),
                           SizedBox(
                             width: 20,
                           ),
@@ -185,7 +173,28 @@ class _MeasureItemState extends State<MeasureItem>
                             ]),
                             flex: 2,
                           ),
-                          // ActionsMenu(),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                      child: Text(
+                                          widget.measure.comment.isEmpty
+                                              ? "Pas de commentaire"
+                                              : widget.measure.comment,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: widget.measure.comment.isEmpty
+                                              ? textStyle_Text_11_500
+                                              : textStyle_Text_12_600)),
+                                ],
+                              ),
+                            ),
+                            flex: 2,
+                          ),
+
                           SizedBox(
                             width: 10,
                           ),

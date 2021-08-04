@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_objective_dialog.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
@@ -82,23 +83,7 @@ class ProjectObjectivesHeader extends StatelessWidget {
           text: "Créer un Objectif",
           isMultiple: false,
           onTap: () {
-            bloc.add(new Objective(
-                new Random().nextInt(99999),
-                "Objectif de développement",
-                DateTime.now(),
-                ObjectiveStatus.awaitingApproval,
-                User(1, "Saidani Wael", "3"),
-                [],
-                Priority.Important,
-                "Développement",
-                [],
-                DateTime.now()));
-            if (scrollController.hasClients)
-              scrollController.animateTo(
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
+            createObjectiveDialogBox(context, scrollController);
           },
         ),
       ],
@@ -381,7 +366,7 @@ class _ObjectivesListState extends State<ObjectivesList> {
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
                               children:
-                                  results.map((e) => _buildItem(e)).toList(),
+                                  results.map((e) => _buildItem(e , identical(results.last, e))).toList(),
                             )
                       : Center(
                           child: SpinKitFadingCube(
@@ -393,11 +378,12 @@ class _ObjectivesListState extends State<ObjectivesList> {
             }));
   }
 
-  Widget _buildItem(Objective objective) {
+  Widget _buildItem(Objective objective , bool isLast) {
     return TestProxy(
         key: ValueKey(objective),
         child: new ObjectiveItem(
           objective: objective,
+          isLast : isLast,
           onTap: () {},
         ));
   }
