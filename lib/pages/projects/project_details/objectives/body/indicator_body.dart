@@ -14,7 +14,7 @@ import 'package:gestion_projets/pages/projects/project_details/objectives/data/o
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/indicator_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/measure_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/measures_chart.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -398,7 +398,7 @@ class _MeasuresListState extends State<MeasuresList> {
                               message:
                                   "Il n'y a aucune mesure créée, vous pouvez en créer une nouvelle pour suivre les performances selon cet indicateur.",
                               title: "Aucune mesure trouvée",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () {createMeasureDialogBox(context , widget.scrollController , widget.indicator);  },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

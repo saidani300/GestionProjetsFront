@@ -36,7 +36,9 @@ class _CreateMeasureFormState extends State<CreateMeasureForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Container(
+    return GestureDetector(
+        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
+    child: Container(
       width: 500,
       constraints: BoxConstraints(maxHeight: 522),
       child: Column(
@@ -190,7 +192,7 @@ class _CreateMeasureFormState extends State<CreateMeasureForm>
               ),
             )
           ]),
-    );
+    ));
   }
 }
 
@@ -209,10 +211,10 @@ class FormHeader extends StatelessWidget {
               color: active,
             ),
             child: SvgPicture.asset(
-              "icons/side_menu/speedometer.svg",
+              "icons/Project_menu_icons/trophy_icon_filled.svg",
               color: white,
-              width: 18,
-              height: 18,
+              width: 16,
+              height: 16,
             ),
           ),
           SizedBox(

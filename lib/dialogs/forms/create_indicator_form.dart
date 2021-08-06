@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/user_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
@@ -34,7 +35,9 @@ class _CreateIndicatorFormState extends State<CreateIndicatorForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocProvider<UserBloc>(
+    return GestureDetector(
+        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
+    child: BlocProvider<UserBloc>(
         bloc: UserBloc(),
         child: Container(
           width: 500,
@@ -393,7 +396,7 @@ class _CreateIndicatorFormState extends State<CreateIndicatorForm>
                   ),
                 )
               ]),
-        ));
+        )));
   }
 }
 
@@ -411,10 +414,11 @@ class FormHeader extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: active,
             ),
-            child: Icon(
-              Icons.account_tree_rounded,
-              size: 20,
+            child: SvgPicture.asset(
+              "icons/Project_menu_icons/trophy_icon_filled.svg",
               color: white,
+              width: 16,
+              height: 16,
             ),
           ),
           SizedBox(

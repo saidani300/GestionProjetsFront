@@ -7,7 +7,7 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_calculation_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
@@ -380,7 +380,7 @@ class _CalculationsListState extends State<CalculationsList> {
                               message:
                                   "Il n'y a aucun calcul à afficher pour vous, vous pouvez en créer un nouveau pour évaluer un risque ou une opportunité en fonction de paramètres en une période précise.",
                               title: "Aucun calcul trouvé",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () { createCalculationDialogBox(context, widget.scrollController, widget.evaluation);},)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

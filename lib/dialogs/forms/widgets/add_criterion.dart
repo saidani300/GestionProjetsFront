@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/BLoC/criterion_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 

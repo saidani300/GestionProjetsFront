@@ -9,14 +9,15 @@ class NoItems extends StatelessWidget {
   final String icon;
   final String title;
   final String message;
-  final String? buttonText;
-
+  final String buttonText;
+  final Function() onTap;
   const NoItems(
       {Key? key,
       required this.icon,
       required this.message,
       required this.title,
-      required this.buttonText})
+      required this.buttonText,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -69,10 +70,10 @@ class NoItems extends StatelessWidget {
             height: 20,
           ),
           Visibility(
-              visible: buttonText != null,
+              visible: buttonText.isNotEmpty,
               child: MultiOptionsButton(
-                text: buttonText!,
-                onTap: () {},
+                text: buttonText,
+                onTap: () {onTap();},
                 isMultiple: false,
                 withIcon: false,
               )),

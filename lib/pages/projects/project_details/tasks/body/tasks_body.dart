@@ -10,7 +10,7 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart'
     as Model;
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_task_item.dart';
@@ -352,7 +352,7 @@ class _TasksListState extends State<TasksList> {
                               message:
                                   "Il n'y a aucune tâche à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
                               title: "Aucune tâche trouvée",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () {createSubTaskDialogBox(context,null,widget.scrollController,false);  },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

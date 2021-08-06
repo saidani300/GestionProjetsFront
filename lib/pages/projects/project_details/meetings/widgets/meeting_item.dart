@@ -142,7 +142,7 @@ class _MeetingItemState extends State<MeetingItem>
                           Expanded(
                             child: Container(
                                 child: RowSuper(
-                              children: widget.meeting.participants
+                              children: widget.meeting.participants.reversed
                                   .map((e) => Container(
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,

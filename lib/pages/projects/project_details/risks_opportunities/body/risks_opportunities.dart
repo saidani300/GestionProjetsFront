@@ -7,7 +7,7 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_event_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/view_types.dart';
@@ -368,7 +368,7 @@ class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
                               message:
                                   "Il n'y a aucun risque ou opportunité à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer un nouveau.",
                               title: "Aucun risque ou opportunité trouvé",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () {createEventDialogBox(context, widget.scrollController);  },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

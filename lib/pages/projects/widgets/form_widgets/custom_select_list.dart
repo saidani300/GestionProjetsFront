@@ -575,7 +575,7 @@ class _PopupMenu<T> extends StatelessWidget {
     final CurveTween width = CurveTween(curve: Interval(0.0, unit));
     final CurveTween height =
         CurveTween(curve: Interval(0.0, unit * route.items.length));
-
+    final controller = ScrollController();
     final Widget child = ConstrainedBox(
       constraints: const BoxConstraints(
         minWidth: _kMenuMinWidth,
@@ -589,11 +589,16 @@ class _PopupMenu<T> extends StatelessWidget {
           namesRoute: true,
           explicitChildNodes: true,
           label: semanticLabel,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              vertical: _kMenuVerticalPadding,
+          child: Scrollbar(
+            controller: controller,
+            isAlwaysShown : true,
+            child: SingleChildScrollView(
+              controller: controller,
+              padding: const EdgeInsets.symmetric(
+                vertical: _kMenuVerticalPadding,
+              ),
+              child: ListBody(children: children),
             ),
-            child: ListBody(children: children),
           ),
         ),
       ),
@@ -1190,7 +1195,9 @@ class CustomListPopupMenuButtonState<T>
 
     if (widget.child != null)
       return InkWell(
-        onTap: widget.enabled ? showButtonMenu : null,
+        onTap: (){if(widget.enabled) showButtonMenu();
+        FocusManager.instance.primaryFocus!.unfocus();
+        },
         canRequestFocus: _canRequestFocus,
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,

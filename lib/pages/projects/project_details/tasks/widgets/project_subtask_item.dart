@@ -5,11 +5,12 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/pages/projects/widgets/status_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
@@ -162,9 +163,40 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                          getText(widget.subtask.endDate),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                        getText(widget.subtask.endDate),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: (widget.subtask.endDate.isBefore(DateTime.now()) && widget.subtask.status == Status.inProgress)
+                                                ? lightRed
+                                                : text,
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600),
+                                      )),
+                                  Visibility(
+                                      visible: (widget.subtask.endDate.isBefore(DateTime.now()) && widget.subtask.status == Status.inProgress),
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Tooltip(
+                                                preferBelow: false,
+                                                verticalOffset: 15,
+                                                message: "En retard",
+                                                decoration: BoxDecoration(
+                                                    color: lightRed,
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            2))),
+                                                child: Icon(
+                                                  Icons.warning_rounded,
+                                                  color: lightRed,
+                                                  size: 15,
+                                                ))
+                                          ]))
                                 ],
                               ),
                             ),
@@ -212,10 +244,10 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                      child: StatusTag(
+                                      child: GlobalStatusTag(
                                           status: widget.subtask.status,
                                           date:
-                                              getText(widget.subtask.endDate)))
+                                              getText(widget.subtask.endDate), deadLine: widget.subtask.endDate,))
                                 ]),
                             flex: 2,
                           ),

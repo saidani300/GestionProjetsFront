@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/project_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 
 class ShowByStatusItemData {
   final String name;

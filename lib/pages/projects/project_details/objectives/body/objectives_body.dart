@@ -12,7 +12,7 @@ import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/view_types.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -237,7 +237,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                                 children: [
                                   Flexible(
                                       child: Text(
-                                    "Date de création",
+                                    "Date limite",
                                     overflow: TextOverflow.ellipsis,
                                     style: style,
                                   )),
@@ -361,7 +361,7 @@ class _ObjectivesListState extends State<ObjectivesList> {
                               message:
                                   "Il n'y a aucun objectif à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer un nouveau.",
                               title: "Aucun objectif trouvé",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () {createObjectiveDialogBox(context, widget.scrollController);  },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

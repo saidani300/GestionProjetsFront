@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
 import 'package:gestion_projets/BLoC/user_bloc.dart';
@@ -11,7 +12,7 @@ import 'package:gestion_projets/dialogs/forms/widgets/text_field.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/user_picker.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_multilines_text_field.dart';
 
@@ -39,7 +40,9 @@ class _CreateTaskFormState extends State<CreateTaskForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocProvider<UserBloc>(
+    return GestureDetector(
+        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
+    child: BlocProvider<UserBloc>(
         bloc: UserBloc(),
     child: BlocProvider<UploadBloc>(
         bloc: UploadBloc(),
@@ -293,7 +296,7 @@ class _CreateTaskFormState extends State<CreateTaskForm>
                   ),
                 )
               ]),
-        )));
+        ))));
   }
 }
 
@@ -311,10 +314,11 @@ class FormHeader extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: active,
             ),
-            child: Icon(
-              Icons.task_rounded,
-              size: 20,
+            child: SvgPicture.asset(
+              "icons/Project_menu_icons/structure_icon_filled.svg",
               color: white,
+              width: 16,
+              height: 16,
             ),
           ),
           SizedBox(

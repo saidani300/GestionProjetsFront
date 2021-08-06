@@ -11,7 +11,7 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:lottie/lottie.dart';
 
@@ -275,6 +275,7 @@ class _FileDropZoneState extends State<FileDropZone>
                   new Positioned.fill(
                       child: DropzoneView(
                     onDrop: (value) async {
+                      FocusManager.instance.primaryFocus!.unfocus();
                       File file = value as File;
                       var bytes;
                       bytes = await compute(controller.getFileData, value);
@@ -331,6 +332,7 @@ class _FileDropZoneState extends State<FileDropZone>
                                       fontWeight: FontWeight.w600),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
+                                      FocusManager.instance.primaryFocus!.unfocus();
                                       final events = await controller.pickFiles(
                                           multiple: true);
                                       if (events.isEmpty) return;

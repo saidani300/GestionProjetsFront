@@ -5,11 +5,12 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/pages/projects/widgets/status_tag.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
@@ -36,7 +37,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
   initState() {
     super.initState();
     _controller = new AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
+        duration: const Duration(milliseconds: 200), vsync: this, value: 0.0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _controller.forward();
@@ -144,7 +145,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                           child: Text(widget.task.name,
                                               overflow: TextOverflow.ellipsis,
                                               style: textStyle_Text_12_600)),
-                                      SizedBox(width: 5),
+                                      SizedBox(width: 2),
                                       Visibility(
                                           visible: (widget
                                               .task.documents.isNotEmpty),
@@ -170,8 +171,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                       getText(widget.task.endDate),
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          color: widget.task.endDate
-                                                  .isBefore(DateTime.now())
+                                          color: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress)
                                               ? lightRed
                                               : text,
                                           fontSize: 12,
@@ -179,8 +179,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                           fontWeight: FontWeight.w600),
                                     )),
                                     Visibility(
-                                        visible: widget.task.endDate
-                                            .isBefore(DateTime.now()),
+                                        visible: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress),
                                         child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -245,9 +244,9 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                 Expanded(
                                   child: Container(
                                       child: Row(children: [
-                                    StatusTag(
+                                    GlobalStatusTag(
                                         status: widget.task.status,
-                                        date: getText(widget.task.endDate)),
+                                        date: getText(widget.task.endDate), deadLine: widget.task.endDate,),
                                     // Expanded(child: Container()),
                                   ])),
                                   flex: 1,
@@ -453,33 +452,6 @@ class ActionsMenu extends StatelessWidget {
   }
 }
 
-class StatusTag extends StatelessWidget {
-  final Status status;
-  final String date;
-
-  const StatusTag({Key? key, required this.status, this.date = ""})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    switch (status) {
-      case Status.completed:
-        return CustomTag(text: 'Terminé', color: lightBlue, date: date
-            /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: white, size: 12,),),*/
-            );
-      case Status.inProgress:
-        return CustomTag(
-          text: 'En cours',
-          color: lightOrange,
-          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
-        );
-      case Status.approved:
-        return CustomTag(text: 'Approuvé', color: lightPurple, date: date
-            /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
-            );
-    }
-  }
-}
 
 void UpdateAction(Model.Action action) {
   action.tasks.every((element) => element.status == Status.approved)

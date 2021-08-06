@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/dialogs/create_meeting_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/meeting_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/meeting_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/view_types.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -83,21 +83,7 @@ class ProjectMeetingsHeader extends StatelessWidget {
           text: "Créer une réunion",
           isMultiple: false,
           onTap: () {
-            bloc.add(new Meeting(
-                new Random().nextInt(99999),
-                "Retard potentiel pour une tâche",
-                DateTime.now().add(Duration(days: 13)),
-                '15:00',
-                "",
-                [users.first, users.elementAt(1)],
-                MeetingStatus.programmed,
-                []));
-            if (scrollController.hasClients)
-              scrollController.animateTo(
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
+            createMeetingDialogBox(context, scrollController);
           },
         ),
       ],
@@ -246,7 +232,7 @@ class _MeetingsListState extends State<MeetingsList> {
                               message:
                                   "Il n'y a aucune réunion planifiée à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle et inviter des membres de l'équipe.",
                               title: "Aucune réunion planifiée",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () {createMeetingDialogBox(context, widget.scrollController);  },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

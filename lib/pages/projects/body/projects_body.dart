@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_project_dialog.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/dialogs/messages.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
@@ -11,8 +12,8 @@ import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
 import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/project_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
@@ -82,7 +83,7 @@ class ProjectsPageHeader extends StatelessWidget {
             text: "Créer un projet",
             isMultiple: false,
             onTap: () {
-              createDialogBox(context);
+              createProjectDialogBox(context);
             }),
       ],
     );
@@ -279,6 +280,40 @@ class ProjectsListHeader extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
+                        orderBy.value = "StartDate";
+                        isAscending.value = !isAscending.value;
+                        tapOrderBy();
+                      },
+                      child: Obx(() => Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text("Date de début",
+                                style: textStyle_Text_12_600),
+                            Visibility(
+                                visible:
+                                (orderBy.value.contains("StartDate")),
+                                child: Icon(
+                                    (isAscending.value)
+                                        ? Icons.keyboard_arrow_up_rounded
+                                        : Icons.keyboard_arrow_down_rounded,
+                                    size: 12)),
+                          ])),
+                    )
+                  ]),
+            ),
+            flex: 2,
+          ),
+          SizedBox(
+            width: 18,
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
                         orderBy.value = "DeadLine";
                         isAscending.value = !isAscending.value;
                         tapOrderBy();
@@ -405,7 +440,13 @@ class ProjectsListHeader extends StatelessWidget {
           SizedBox(
             width: 18,
           ),
-          Text("Actions", style: textStyle_Text_12_600),
+          Container( width: 50,
+            child: Row( mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+              ],
+            ),
+          ),
+
           SizedBox(
             width: 20,
           ),
@@ -449,8 +490,8 @@ class _ProjectsListState extends State<ProjectsList> {
                           ? (projectsSearchQuery.isNotEmpty)
                               ? NoResultFound()
                               : projectsFilterData.status == Status.completed
-                                  ? NoCompletedProjects()
-                                  : NoProjects()
+                                  ? NoCompletedProjects(onTap: () {createProjectDialogBox(context);  },)
+                                  : NoProjects(onTap: () { createProjectDialogBox(context); },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: scrollController,

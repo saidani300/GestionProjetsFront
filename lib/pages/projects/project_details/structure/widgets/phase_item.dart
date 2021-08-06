@@ -10,10 +10,10 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/open_close_animated_arrow.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 
@@ -42,7 +42,7 @@ class _PhaseItemState extends State<PhaseItem>
     rotationController = AnimationController(
         duration: const Duration(milliseconds: 200), vsync: this);
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
+        duration: const Duration(milliseconds: 200), vsync: this, value: 0.0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _controller.forward();

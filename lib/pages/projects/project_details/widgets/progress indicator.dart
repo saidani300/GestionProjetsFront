@@ -84,7 +84,7 @@ class Progress extends StatelessWidget {
                             flex: completed,
                           )),
                       Visibility(
-                          visible: (inProgress != 0 || completed != 0),
+                          visible: !(inProgress == 0 || completed == 0),
                           child: SizedBox(
                             width: 1,
                           )),

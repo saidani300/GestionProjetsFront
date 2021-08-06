@@ -8,7 +8,7 @@ import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_evaluation_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/evaluation_item.dart';
@@ -382,7 +382,7 @@ class _EvaluationsListState extends State<EvaluationsList> {
                               message:
                                   "Il n'y a aucune évaluation à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
                               title: "Aucune évaluation trouvée",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () {createEvaluationDialogBox(context, widget.scrollController, widget.event);  },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

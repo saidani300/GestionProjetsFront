@@ -40,7 +40,9 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocProvider<CriterionBloc>(
+    return GestureDetector(
+        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
+    child: BlocProvider<CriterionBloc>(
         bloc: CriterionBloc(),
     child: BlocProvider<UserBloc>(
         bloc: UserBloc(),
@@ -328,7 +330,7 @@ class _CreateEvaluationFormState extends State<CreateEvaluationForm>
               ),
             )
           ]),
-    )));
+    ))));
   }
 }
 
@@ -347,7 +349,7 @@ class FormHeader extends StatelessWidget {
               color: active,
             ),
             child: SvgPicture.asset(
-              "icons/side_menu/speedometer.svg",
+              "icons/Project_menu_icons/event_icon_filled.svg",
               color: white,
               width: 18,
               height: 18,

@@ -8,7 +8,7 @@ import 'package:gestion_projets/pages/projects/project_details/objectives/body/i
 import 'package:gestion_projets/pages/projects/project_details/objectives/body/objectives_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/objectives.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/project_overview.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/project_overview.dart';
 import 'package:gestion_projets/pages/projects/project_details/project_details.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/body/calculations.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/body/evaluations.dart';

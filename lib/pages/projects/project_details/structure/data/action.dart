@@ -1,9 +1,9 @@
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 
 class Action {
   int id;

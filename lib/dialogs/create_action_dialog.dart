@@ -6,8 +6,8 @@ import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/dialogs/forms/create_action_form.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart' as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart' as Model;
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/widgets/toast.dart';
 
 import 'forms/widgets/buttons.dart';

@@ -10,14 +10,14 @@ enum MeetingStatus {
 }
 
 class Meeting {
-  final int id;
-  final String name;
-  final DateTime date;
-  final String comment;
-  final String time;
-  final MeetingStatus status;
-  final List<User> participants;
-  final List<Document> documents;
+  int id;
+  String name;
+  DateTime date;
+  String comment;
+  String time;
+  MeetingStatus status;
+  List<User> participants;
+  List<Document> documents;
 
   Meeting(this.id, this.name, this.date, this.time, this.comment,
       this.participants, this.status, this.documents);

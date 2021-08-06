@@ -8,9 +8,9 @@ import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/dialogs/create_phase_dialog.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/phase_item.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/view_types.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/widgets/phase_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -68,7 +68,7 @@ class ProjectOverviewHeader extends StatelessWidget {
         SizedBox(
           width: 2,
         ),
-        Text("Aperçu", style: textStyle_Text_12_600),
+        Text("Structure", style: textStyle_Text_12_600),
         SizedBox(
           width: 2,
         ),
@@ -76,7 +76,7 @@ class ProjectOverviewHeader extends StatelessWidget {
             padding: EdgeInsets.only(top: 2),
             child: CustomIconButton(
               icon: Icons.info,
-              message: "Aperçu",
+              message: "Structure",
               onTap: () {},
               size: 17,
             )),
@@ -322,7 +322,7 @@ class _PhasesListState extends State<PhasesList> {
                               message:
                                   "Il n'y a aucune phase ou action à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
                               title: "Aucune phase ou action trouvée",
-                              buttonText: "Créer")
+                              buttonText: "Créer", onTap: () { createPhaseDialogBox(context, widget.scrollController); },)
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/Data/items.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 
 import 'bloc.dart';
 

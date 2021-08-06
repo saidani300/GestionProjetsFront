@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
 import 'package:gestion_projets/dialogs/create_subtask_form.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
@@ -13,15 +14,16 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_subtask_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/pages/projects/widgets/status_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
@@ -130,7 +132,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                         icon: Icons.attach_file_rounded,
                                         message:
                                             "${widget.task.documents.length.toString()} Attachement",
-                                        onTap: () {},
+                                        onTap: () {attachmentsDialogBox(context  , widget.task.documents);},
                                         size: 15,
                                       )),
                                 ],
@@ -159,9 +161,41 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(getText(widget.task.endDate),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                      child: Text(
+                                        getText(widget.task.endDate),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress)
+                                                ? lightRed
+                                                : text,
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600),
+                                      )),
+                                  Visibility(
+                                      visible: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress),
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Tooltip(
+                                                preferBelow: false,
+                                                verticalOffset: 15,
+                                                message: "En retard",
+                                                decoration: BoxDecoration(
+                                                    color: lightRed,
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            2))),
+                                                child: Icon(
+                                                  Icons.warning_rounded,
+                                                  color: lightRed,
+                                                  size: 15,
+                                                ))
+                                          ]))
                                 ],
                               ),
                             ),
@@ -209,9 +243,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                      child: StatusTag(
+                                      child: GlobalStatusTag(
                                           status: widget.task.status,
-                                          date: getText(widget.task.endDate)))
+                                          date: getText(widget.task.endDate), deadLine: widget.task.endDate,))
                                 ]),
                             flex: 2,
                           ),

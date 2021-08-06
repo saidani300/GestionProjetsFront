@@ -19,11 +19,11 @@ class User {
 
 List<User> users = [
   User(1, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
-  User(1, "Wael Saidani", "2"),
-  User(1, "Saidani Wael", "4"),
-  User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
-  User(1, "Saidani Wael", "5"),
-  User(1, "Saidani Wael", "6"),
-  User(1, "Saidani Wael", "8"),
-  User(1, "Saidani Wael", "3"),
+  User(2, "Wael Saidani", "2"),
+  User(3, "Saidani Wael", "4"),
+  User(4, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
+  User(5, "Saidani Wael", "5"),
+  User(6, "Saidani Wael", "6"),
+  User(7, "Saidani Wael", "8"),
+  User(8, "Saidani Wael", "3"),
 ];

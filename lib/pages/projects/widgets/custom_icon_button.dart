@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:get/get.dart';
 
-class CustomIconButton extends StatelessWidget {
+class CustomIconButton extends StatefulWidget {
   final IconData icon;
   final String message;
   final Color color;
   final VoidCallback onTap;
   final bool enableToolTip;
-  var iconColor = text.withOpacity(0.7).obs;
   final double size;
 
   CustomIconButton(
@@ -22,48 +20,50 @@ class CustomIconButton extends StatelessWidget {
       : super(key: key);
 
   @override
+  _CustomIconButtonState createState() => _CustomIconButtonState();
+}
+
+class _CustomIconButtonState extends State<CustomIconButton> {
+  bool isHover = false;
+  @override
   Widget build(BuildContext context) {
-    return (enableToolTip)
+    return (widget.enableToolTip)
         ? Tooltip(
-            message: message,
+            message: widget.message,
             child: SizedBox(
               child: InkWell(
-                onTap: onTap,
+                onTap: widget.onTap,
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 onHover: (value) {
                   value
-                      ? iconColor.value = color
-                      : iconColor.value = text.withOpacity(0.7);
+                      ? setState(()=> isHover = true)
+                      : setState(()=> isHover = false);
                 },
-                child: Obx(
-                  () => Icon(
-                    icon,
-                    color: iconColor.value,
-                    size: size,
-                  ),
+                child: Icon(
+                    widget.icon,
+                    color: isHover ? widget.color : text.withOpacity(0.7),
+                    size: widget.size,
                 ),
               ),
             ),
           )
         : SizedBox(
             child: InkWell(
-              onTap: onTap,
+              onTap: widget.onTap,
               hoverColor: Colors.transparent,
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               onHover: (value) {
                 value
-                    ? iconColor.value = color
-                    : iconColor.value = text.withOpacity(0.7);
+                    ? setState(()=> isHover = true)
+                    : setState(()=> isHover = false);
               },
-              child: Obx(
-                () => Icon(
-                  icon,
-                  color: iconColor.value,
-                  size: size,
-                ),
+              child:Icon(
+                  widget.icon,
+                  color: isHover ? widget.color : text.withOpacity(0.7),
+                  size: widget.size,
               ),
             ),
           );

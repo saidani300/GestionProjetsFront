@@ -10,16 +10,10 @@ class ProjectDetailsMenuItem {
 }
 
 List<ProjectDetailsMenuItem> projectDetailsMenu = [
-  ProjectDetailsMenuItem(
-      "Aperçu", "icons/side_menu/cube.svg", overviewPageRoute, true),
-  ProjectDetailsMenuItem(
-      "Tâches", "icons/side_menu/task.svg", projectTasksPageRoute, false),
-  ProjectDetailsMenuItem(
-      "Objectifs", "icons/side_menu/cup.svg", objectivesPageRoute, false),
-  ProjectDetailsMenuItem("Risques / Opportunités",
-      "icons/side_menu/speedometer.svg", eventsPageRoute, false),
-  ProjectDetailsMenuItem(
-      "Réunions", "icons/side_menu/calendar.svg", meetingsPageRoute, false),
-  ProjectDetailsMenuItem(
-      "Documents", "icons/side_menu/file.svg", documentsPageRoute, false),
+  ProjectDetailsMenuItem("Structure", "icons/Project_menu_icons/structure_icon.svg", overviewPageRoute, true),
+  ProjectDetailsMenuItem("Tâches", "icons/Project_menu_icons/task_icon.svg", projectTasksPageRoute, false),
+  ProjectDetailsMenuItem("Objectifs", "icons/Project_menu_icons/trophy_icon.svg", objectivesPageRoute, false),
+  ProjectDetailsMenuItem("Risques / Opportunités", "icons/Project_menu_icons/event_icon.svg", eventsPageRoute, false),
+  ProjectDetailsMenuItem("Réunions", "icons/Project_menu_icons/calendar_icon.svg", meetingsPageRoute, false),
+  ProjectDetailsMenuItem("Documents", "icons/Project_menu_icons/documents_icon.svg", documentsPageRoute, false),
 ];

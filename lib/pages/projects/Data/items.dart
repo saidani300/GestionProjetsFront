@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 
 const AllName = "Tous";
 const CompletedName = "Terminé";

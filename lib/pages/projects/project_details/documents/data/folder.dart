@@ -2,9 +2,9 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 
 class Folder {
-  final int id;
-  final String name;
-  final List<Document> documents;
+  int id;
+  String name;
+  List<Document> documents;
 
   Folder(this.id, this.name, this.documents);
 }

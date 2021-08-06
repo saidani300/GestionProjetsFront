@@ -27,7 +27,6 @@ class _FormTextFieldState extends State<FormTextField>
       child: TextFormField(
         initialValue: widget.initText,
         cursorWidth: 1.5,
-
         decoration: InputDecoration(
           suffixText: widget.suffixText,
             suffixStyle: textStyle_active_12_600,

@@ -40,7 +40,9 @@ class _CreateEventFormState extends State<CreateEventForm>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocProvider<UploadBloc>(
+    return GestureDetector(
+        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
+    child: BlocProvider<UploadBloc>(
         bloc: UploadBloc(),
         child: Container(
           width: 500,
@@ -353,7 +355,7 @@ class _CreateEventFormState extends State<CreateEventForm>
                   ),
                 )
               ]),
-        ));
+        )));
   }
 }
 
@@ -372,7 +374,7 @@ class FormHeader extends StatelessWidget {
               color: active,
             ),
             child: SvgPicture.asset(
-              "icons/side_menu/speedometer.svg",
+              "icons/Project_menu_icons/event_icon_filled.svg",
               color: white,
               width: 18,
               height: 18,

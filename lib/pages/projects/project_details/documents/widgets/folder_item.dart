@@ -23,10 +23,9 @@ class FolderItem extends StatefulWidget {
 
 class _FolderItemState extends State<FolderItem>
     with AutomaticKeepAliveClientMixin<FolderItem>, TickerProviderStateMixin {
-  String getText(DateTime date) => DateFormat.yMMMMd('fr_FR').format(date);
   late AnimationController _controller;
   late Animation<double> _animation;
-
+  bool isHover = false;
   initState() {
     super.initState();
     _controller = AnimationController(
@@ -59,10 +58,13 @@ class _FolderItemState extends State<FolderItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-
                     },
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
+                    onHover:  (value)
+                    {
+                      value ? setState(() => isHover = true) : setState(() => isHover = false);
+                    },
                     child: Container(
                       height: 60,
                       child: Row(
@@ -103,6 +105,10 @@ class _FolderItemState extends State<FolderItem>
                                           '(${widget.folder.documents.length})',
                                           overflow: TextOverflow.ellipsis,
                                           style: textStyle_active_12_600)),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Visibility(visible: isHover, child: CustomIconButton(onTap: () {  }, message: 'Modifier', icon: Icons.edit_rounded, size: 13,))
                                 ],
                               ),
                             ),

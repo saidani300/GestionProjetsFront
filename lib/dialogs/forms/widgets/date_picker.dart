@@ -44,7 +44,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget>
         enableFeedback: false,
         canRequestFocus: false,
         excludeFromSemantics: true,
-        onTap: () => pickDate(context),
+        onTap: (){pickDate(context); FocusManager.instance.primaryFocus!.unfocus();},
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,

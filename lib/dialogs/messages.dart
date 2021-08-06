@@ -50,7 +50,8 @@ class NoResultFound extends StatelessWidget {
 }
 
 class NoProjects extends StatelessWidget {
-  const NoProjects({Key? key}) : super(key: key);
+  final Function() onTap;
+  const NoProjects({Key? key , required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class NoProjects extends StatelessWidget {
               padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
             ),
-            onPressed: () {},
+            onPressed: () { onTap();},
             child: Text(
               'Créer',
               style: TextStyle(
@@ -129,7 +130,9 @@ class NoProjects extends StatelessWidget {
 }
 
 class NoCompletedProjects extends StatelessWidget {
-  const NoCompletedProjects({Key? key}) : super(key: key);
+  final Function() onTap;
+
+  const NoCompletedProjects({Key? key , required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +163,7 @@ class NoCompletedProjects extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Expanded(
+          Flexible(
             child: Text(
               "Il n'y a aucun projet terminé à afficher pour vous, pas encore de projet marqué comme terminé.",
               textAlign: TextAlign.center,
@@ -169,6 +172,35 @@ class NoCompletedProjects extends StatelessWidget {
                   fontSize: 12.5,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w500),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextButton(
+            style: ButtonStyle(
+              fixedSize:
+              MaterialStateProperty.all<Size>(Size(double.infinity, 34)),
+              // backgroundColor: MaterialStateProperty.all<Color>(active),
+              backgroundColor:
+              MaterialStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return buttonHover;
+                } else {
+                  return active;
+                }
+              }),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 16)),
+            ),
+            onPressed: () { onTap();},
+            child: Text(
+              'Créer',
+              style: TextStyle(
+                  color: white,
+                  fontSize: 11.5,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w400),
             ),
           ),
           Expanded(child: Container())

@@ -5,7 +5,8 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/project_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/widgets/status_tag.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
@@ -66,7 +67,6 @@ class _ProjectItemState extends State<ProjectItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-
                       locator<NavigationService>()
                           .projectNavigateTo(projectDetailsPageRoute);
                     },
@@ -98,6 +98,34 @@ class _ProjectItemState extends State<ProjectItem>
                               project: widget.project,
                             ),
                             flex: 3,
+                          ),
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                        child: Text(
+                                            getText(widget.project.startDate),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: textStyle_Text_12_600)),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "",
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ]),
+                            ),
+                            flex: 2,
                           ),
                           SizedBox(
                             width: 18,
@@ -152,35 +180,42 @@ class _ProjectItemState extends State<ProjectItem>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    child: StatusTag(
-                                        status: widget.project.status),
+                                    child: GlobalStatusTag(
+                                        status: widget.project.status , deadLine: widget.project.endDate, date: (widget.project.status == Status.completed) ? getText(widget.project.endDate) : "",),
                                   )
                                 ]),
                             flex: 1,
                           ),
                           SizedBox(
-                            width: 20,
+                            width: 18,
                           ),
                           // ActionsMenu(),
-                          CustomIconButton(
-                            icon: Icons.edit_outlined,
-                            message: 'Modifier',
-                            size: 16,
-                            onTap: () {},
+                          Container( width: 50,
+                            child: Row( mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CustomIconButton(
+                                  icon: Icons.edit_outlined,
+                                  message: 'Modifier',
+                                  size: 16,
+                                  onTap: () {},
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                CustomIconButton(
+                                    icon: Icons.delete_outline_rounded,
+                                    message: 'Supprimer',
+                                    color: Colors.redAccent,
+                                    onTap: () {
+                                      deleteDialogBox(context, () {
+                                        _controller.reverse().whenComplete(
+                                                () => bloc.remove(widget.project));
+                                      }, DeleteType.project, widget.project.name);
+                                    }),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CustomIconButton(
-                              icon: Icons.delete_outline_rounded,
-                              message: 'Supprimer',
-                              color: Colors.redAccent,
-                              onTap: () {
-                                deleteDialogBox(context, () {
-                                  _controller.reverse().whenComplete(
-                                      () => bloc.remove(widget.project));
-                                }, DeleteType.project, widget.project.name);
-                              }),
+
                           SizedBox(
                             width: 20,
                           ),
@@ -211,9 +246,11 @@ class ProjectName extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(project.name,
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle_Text_12_600),
+              Flexible(
+                child: Text(project.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: textStyle_Text_12_600),
+              ),
               SizedBox(
                 width: 5,
               ),
@@ -266,17 +303,19 @@ class ProjectDeadline extends StatelessWidget {
             SizedBox(
               height: 5,
             ),
-            Text(
-              days,
-              style: TextStyle(
-                  color: (days.startsWith("En retard"))
-                      ? lightRed
-                      : text.withOpacity(0.7),
-                  fontSize: 11,
-                  letterSpacing: 0,
-                  fontWeight: (days.startsWith("En retard"))
-                      ? FontWeight.w600
-                      : FontWeight.w500),
+            Flexible(
+              child: Text(
+                days,
+                style: TextStyle(
+                    color: (days.startsWith("En retard"))
+                        ? lightRed
+                        : text.withOpacity(0.7),
+                    fontSize: 11,
+                    letterSpacing: 0,
+                    fontWeight: (days.startsWith("En retard"))
+                        ? FontWeight.w600
+                        : FontWeight.w500),
+              ),
             ),
           ]),
     );
@@ -331,33 +370,5 @@ class ProjectTeamLeader extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class StatusTag extends StatelessWidget {
-  final Status status;
-  final String date;
-
-  const StatusTag({Key? key, required this.status, this.date = ""})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    switch (status) {
-      case Status.completed:
-        return CustomTag(text: 'Terminé', color: lightBlue, date: date
-            /* icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.check_rounded , color: white, size: 12,),),*/
-            );
-      case Status.inProgress:
-        return CustomTag(
-          text: 'En cours',
-          color: lightOrange,
-          /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
-        );
-      case Status.approved:
-        return CustomTag(text: 'Approuvé', color: lightPurple, date: date
-            /*icon: Padding(padding: EdgeInsets.only(right: 3), child: Icon(Icons.more_horiz_rounded , color: white, size: 12,),),*/
-            );
-    }
   }
 }

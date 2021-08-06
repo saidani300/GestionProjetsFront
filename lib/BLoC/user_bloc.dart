@@ -7,7 +7,6 @@ import 'bloc.dart';
 
 class UserBloc implements Bloc {
   final _controller = StreamController<List<User>>();
-  final _client = APIClient();
 
   Stream<List<User>> get userStream => _controller.stream;
 
@@ -25,10 +24,13 @@ class UserBloc implements Bloc {
     _controller.sink.add(users);
   }
 
+
+
   add(User user) async {
     users.insert(0, user);
     _controller.sink.add(users);
   }
+
 
   @override
   void dispose() {

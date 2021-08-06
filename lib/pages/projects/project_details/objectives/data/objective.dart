@@ -6,7 +6,6 @@ import 'package:gestion_projets/pages/projects/project_details/objectives/data/m
 
 enum ObjectiveStatus {
   inProgress,
-  awaitingApproval,
   achieved,
   notAchieved,
 }

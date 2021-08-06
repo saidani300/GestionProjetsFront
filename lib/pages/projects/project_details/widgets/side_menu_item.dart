@@ -53,8 +53,8 @@ class _SideMenuItemExpandedState extends State<SideMenuItemExpanded> {
                   SvgPicture.asset(
                     widget.item.icon,
                     color: widget.isActive ? active : onHover,
-                    width: 18,
-                    height: 18,
+                    width: 20,
+                    height: 20,
                   ),
                   SizedBox(
                     width: 15,

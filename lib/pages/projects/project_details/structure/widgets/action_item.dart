@@ -10,12 +10,12 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/action.dart'
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/task.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/widgets/task_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/progress%20indicator.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
@@ -47,7 +47,7 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
     rotationController = AnimationController(
         duration: const Duration(milliseconds: 200), vsync: this);
     _controller = new AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this, value: 0.0);
+        duration: const Duration(milliseconds: 200), vsync: this, value: 0.0);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _controller.forward();
@@ -190,7 +190,37 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                             child: Text(
                                                 getText(widget.action.endDate),
                                                 overflow: TextOverflow.ellipsis,
-                                                style: textStyle_Text_12_600)),
+                                                style: TextStyle(
+                                                    color: (widget.action.endDate.isBefore(DateTime.now()) && widget.action.status == Status.inProgress)
+                                                        ? lightRed
+                                                        : text,
+                                                    fontSize: 12,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w600),)),
+                                            Visibility(
+                                                visible: (widget.action.endDate.isBefore(DateTime.now()) && widget.action.status == Status.inProgress),
+                                                child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 3,
+                                                      ),
+                                                      Tooltip(
+                                                          preferBelow: false,
+                                                          verticalOffset: 15,
+                                                          message: "En retard",
+                                                          decoration: BoxDecoration(
+                                                              color: lightRed,
+                                                              borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      2))),
+                                                          child: Icon(
+                                                            Icons.warning_rounded,
+                                                            color: lightRed,
+                                                            size: 15,
+                                                          ))
+                                                    ]))
                                       ])),
                                       flex: 2,
                                     ),

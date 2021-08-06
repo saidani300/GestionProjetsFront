@@ -2,7 +2,7 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 enum Priority { Important, Normal, Low }

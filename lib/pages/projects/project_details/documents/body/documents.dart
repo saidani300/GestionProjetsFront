@@ -8,12 +8,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/document_bloc.dart';
+import 'package:gestion_projets/dialogs/create_folder_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/document_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/drop_zone.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/folder_item.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -85,15 +86,7 @@ class DocumentsHeader extends StatelessWidget {
           text: "Ajouter un dossier",
           isMultiple: false,
           onTap: () {
-            bloc.addFolder(
-                new Folder(new Random().nextInt(99999), "Dossier", []));
-
-            if (scrollController.hasClients)
-              scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                curve: Curves.fastOutSlowIn,
-                duration: const Duration(milliseconds: 300),
-              );
+            createFolderDialogBox(context, scrollController);
           },
         ),
       ],
@@ -256,7 +249,7 @@ class _DocumentsListState extends State<DocumentsList> {
                               message:
                                   "Il n'y a aucun document à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en ajouter un nouveau.",
                               title: "Aucun document trouvé",
-                              buttonText: "Ajouter")
+                              buttonText: "", onTap: () {},)
                           : DragAndDropLists(
                               contentsWhenEmpty: Container(),
                               key: ValueKey(Random.secure()),

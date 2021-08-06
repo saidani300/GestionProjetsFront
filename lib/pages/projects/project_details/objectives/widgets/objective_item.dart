@@ -11,8 +11,8 @@ import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/overview/data/phase.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
@@ -154,10 +154,40 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                          getText(
-                                              widget.objective.creationDate),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                        getText(widget.objective.endDate),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: (widget.objective.endDate.isBefore(DateTime.now()) && widget.objective.status == ObjectiveStatus.inProgress)
+                                                ? lightRed
+                                                : text,
+                                            fontSize: 12,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600),
+                                      )),
+                                  Visibility(
+                                      visible: (widget.objective.endDate.isBefore(DateTime.now()) && widget.objective.status == ObjectiveStatus.inProgress),
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Tooltip(
+                                                preferBelow: false,
+                                                verticalOffset: 15,
+                                                message: "En retard",
+                                                decoration: BoxDecoration(
+                                                    color: lightRed,
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            2))),
+                                                child: Icon(
+                                                  Icons.warning_rounded,
+                                                  color: lightRed,
+                                                  size: 15,
+                                                ))
+                                          ]))
                                 ],
                               ),
                             ),
@@ -341,8 +371,6 @@ Color StatusColor(ObjectiveStatus status) {
   switch (status) {
     case ObjectiveStatus.inProgress:
       return lightOrange;
-    case ObjectiveStatus.awaitingApproval:
-      return lightBlue;
     case ObjectiveStatus.achieved:
       return lightPurple;
     case ObjectiveStatus.notAchieved:
@@ -361,12 +389,7 @@ class StatusTag extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (status) {
       case ObjectiveStatus.inProgress:
-        return CustomTag(text: 'En cours', color: lightOrange, date: date);
-      case ObjectiveStatus.awaitingApproval:
-        return CustomTag(
-          text: "Non approuvé",
-          color: lightBlue,
-        );
+        return CustomTag(text: 'En cours', color: lightOrange,);
       case ObjectiveStatus.achieved:
         return CustomTag(text: 'Atteint', color: lightPurple, date: date);
       case ObjectiveStatus.notAchieved:
