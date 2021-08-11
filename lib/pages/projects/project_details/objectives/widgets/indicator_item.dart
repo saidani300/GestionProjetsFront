@@ -1,10 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -72,7 +73,6 @@ class _IndicatorItemState extends State<IndicatorItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-
                       locator<NavigationService>().objectiveNavigateTo(
                           indicatorPageRoute, widget.indicator);
                     },
@@ -98,9 +98,26 @@ class _IndicatorItemState extends State<IndicatorItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.indicator.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.indicator.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.indicator.name,
+                                                child: Text(
+                                                    widget.indicator.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -187,7 +204,8 @@ class _IndicatorItemState extends State<IndicatorItem>
                               children: [
                                 Flexible(
                                     child: Text(
-                                        natureAsText(widget.indicator.nature) +" : ",
+                                        natureAsText(widget.indicator.nature) +
+                                            " : ",
                                         overflow: TextOverflow.ellipsis,
                                         style: textStyle_Text_12_600)),
                                 Flexible(
@@ -246,4 +264,3 @@ class _IndicatorItemState extends State<IndicatorItem>
                 ]))));
   }
 }
-

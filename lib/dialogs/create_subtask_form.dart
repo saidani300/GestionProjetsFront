@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
@@ -20,7 +21,7 @@ createSubTaskDialogBox(BuildContext context, TaskModel? task ,ScrollController? 
       return AlertDialog(
         contentPadding: EdgeInsets.all(0),
         actionsPadding: EdgeInsets.all(10),
-        content: CreateSubTaskForm(task: subTask,
+        content: CreateSubTaskForm(task: subTask, isSubTask: isSubTask,
         ),
         actions: [
           DialogOutlinedButton(

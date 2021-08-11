@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
 
-
 class ViewItem {
   final String name;
   final String icon;
+
   ViewItem(this.name, this.icon);
 }
 
@@ -18,8 +18,7 @@ class ShowByViewMenu extends StatefulWidget {
   const ShowByViewMenu({Key? key}) : super(key: key);
 
   @override
-  _ShowByViewMenuState createState() =>
-      _ShowByViewMenuState();
+  _ShowByViewMenuState createState() => _ShowByViewMenuState();
 }
 
 class _ShowByViewMenuState extends State<ShowByViewMenu> {
@@ -44,14 +43,14 @@ class _ShowByViewMenuState extends State<ShowByViewMenu> {
         mainAxisSize: MainAxisSize.min,
         children: views
             .map((e) => Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: ShowByViewItem(
-              item: e,
-              isActive: e == selectedItem,
-              onTap: () {
-                _onSelectItem(e);
-              },
-            )))
+                padding: EdgeInsets.only(left: 20),
+                child: ShowByViewItem(
+                  item: e,
+                  isActive: e == selectedItem,
+                  onTap: () {
+                    _onSelectItem(e);
+                  },
+                )))
             .toList(),
       ),
     );
@@ -79,22 +78,22 @@ class _ShowByViewItemState extends State<ShowByViewItem> {
 
   @override
   Widget build(BuildContext context) {
-   // final bloc = BlocProvider.of<ProjectBloc>(context);
+    // final bloc = BlocProvider.of<ProjectBloc>(context);
 
     return InkWell(
         onTap: () {
           widget.onTap();
-         /* projectsFilterData.status = widget.item.status;
+          /* projectsFilterData.status = widget.item.status;
           bloc.fetch();*/
         },
         onHover: (value) {
           value
               ? setState(() {
-            isHover = true;
-          })
+                  isHover = true;
+                })
               : setState(() {
-            isHover = false;
-          });
+                  isHover = false;
+                });
         },
         child: Container(
             height: 50,
@@ -104,27 +103,30 @@ class _ShowByViewItemState extends State<ShowByViewItem> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(child: Container()),
-                  Row(mainAxisSize: MainAxisSize.min,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
                         widget.item.icon,
                         color: widget.isActive
                             ? active
                             : isHover
-                            ? text
-                            : text.withOpacity(0.7),
+                                ? text
+                                : text.withOpacity(0.7),
                         width: 12,
                         height: 12,
                       ),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Text(
                         widget.item.name,
                         style: TextStyle(
                             color: widget.isActive
                                 ? active
                                 : isHover
-                                ? text
-                                : text.withOpacity(0.7),
+                                    ? text
+                                    : text.withOpacity(0.7),
                             fontSize: 12,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w500),

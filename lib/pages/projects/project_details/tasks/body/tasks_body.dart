@@ -3,16 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_subtask_form.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart'
-    as Model;
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_subtask_form.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
+import 'package:gestion_projets/pages/projects/project_details/tasks/filter/task_filter.dart';
+import 'package:gestion_projets/pages/projects/project_details/tasks/filter/widgets/task_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/project_task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
@@ -20,7 +17,6 @@ import 'package:gestion_projets/pages/projects/project_details/widgets/multi_opt
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
-import 'package:gestion_projets/widgets/toast.dart';
 
 import '../../../../../locator.dart';
 
@@ -32,8 +28,6 @@ class ProjectTasksHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TaskBloc>(context);
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -85,8 +79,7 @@ class ProjectTasksHeader extends StatelessWidget {
           text: "Créer une tâche",
           isMultiple: false,
           onTap: () {
-            createSubTaskDialogBox(context,null,scrollController,false);
-
+            createSubTaskDialogBox(context, null, scrollController, false);
           },
         ),
       ],
@@ -152,7 +145,6 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                         SizedBox(
                           width: 20,
                         ),
-
                         Expanded(child: Container()),
                         SearchWidget(
                           hintText: 'Rechercher des tâches...',
@@ -170,11 +162,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                         SizedBox(
                           width: 15,
                         ),
-                        CustomIconButton(
-                          icon: Icons.filter_alt_outlined,
-                          message: 'Filter',
-                          onTap: () {},
-                        ),
+                        TaskFilterMenu(),
                         SizedBox(
                           width: 15,
                         ),
@@ -288,7 +276,10 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                             width: 40,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: [],
+                              children: [
+                                Expanded(child: Container()),
+                                TaskOrderBy(widgetHeight: 30)
+                              ],
                             ),
                           ),
 
@@ -352,7 +343,12 @@ class _TasksListState extends State<TasksList> {
                               message:
                                   "Il n'y a aucune tâche à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
                               title: "Aucune tâche trouvée",
-                              buttonText: "Créer", onTap: () {createSubTaskDialogBox(context,null,widget.scrollController,false);  },)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createSubTaskDialogBox(context, null,
+                                    widget.scrollController, false);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

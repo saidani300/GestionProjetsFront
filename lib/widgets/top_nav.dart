@@ -8,6 +8,7 @@ import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
 import 'package:gestion_projets/widgets/notification_menu.dart';
 import 'package:gestion_projets/widgets/top_nav_menu_item.dart';
+
 import '../locator.dart';
 
 Color notificationsColor = text;
@@ -20,7 +21,7 @@ AppBar topNavigationBar(context) => AppBar(
           Padding(
             padding: const EdgeInsets.only(left: 16),
             child: Image.asset(
-              "icons/logo_50.png",
+              "icons/logo_qalitas.png",
               width: 28,
               height: 28,
             ),
@@ -119,7 +120,7 @@ class _NavigationBarBodyState extends State<NavigationBarBody> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: TopVarMenuItemRoutes.map(
+                  children: topVarMenuItemRoutes.map(
                     (e) => Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: TopNavMenuItem(
@@ -131,7 +132,6 @@ class _NavigationBarBodyState extends State<NavigationBarBody> {
                                 locator<NavigationService>()
                                     .navigateTo(e.route);
                                 //     Navigator.pushNamed(context, e.route);
-                                print(e.route);
                               }
                             })),
                   ).toList(),

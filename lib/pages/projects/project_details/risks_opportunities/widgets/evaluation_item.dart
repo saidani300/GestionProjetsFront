@@ -1,10 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -72,7 +73,6 @@ class _EvaluationItemState extends State<EvaluationItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-
                       locator<NavigationService>().eventNavigateTo(
                           evaluationCalculationsPageRoute, widget.evaluation);
                     },
@@ -98,9 +98,26 @@ class _EvaluationItemState extends State<EvaluationItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.evaluation.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.evaluation.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.evaluation.name,
+                                                child: Text(
+                                                    widget.evaluation.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

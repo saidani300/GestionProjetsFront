@@ -1,15 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/project_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
+import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/widgets/status_tag.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
-import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
@@ -181,7 +182,13 @@ class _ProjectItemState extends State<ProjectItem>
                                 children: [
                                   Container(
                                     child: GlobalStatusTag(
-                                        status: widget.project.status , deadLine: widget.project.endDate, date: (widget.project.status == Status.completed) ? getText(widget.project.endDate) : "",),
+                                      status: widget.project.status,
+                                      deadLine: widget.project.endDate,
+                                      date: (widget.project.status ==
+                                              Status.completed)
+                                          ? getText(widget.project.endDate)
+                                          : "",
+                                    ),
                                   )
                                 ]),
                             flex: 1,
@@ -190,8 +197,11 @@ class _ProjectItemState extends State<ProjectItem>
                             width: 18,
                           ),
                           // ActionsMenu(),
-                          Container( width: 50,
-                            child: Row( mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.end,
+                          Container(
+                            width: 50,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 CustomIconButton(
                                   icon: Icons.edit_outlined,
@@ -209,8 +219,9 @@ class _ProjectItemState extends State<ProjectItem>
                                     onTap: () {
                                       deleteDialogBox(context, () {
                                         _controller.reverse().whenComplete(
-                                                () => bloc.remove(widget.project));
-                                      }, DeleteType.project, widget.project.name);
+                                            () => bloc.remove(widget.project));
+                                      }, DeleteType.project,
+                                          widget.project.name);
                                     }),
                               ],
                             ),
@@ -247,9 +258,22 @@ class ProjectName extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
-                child: Text(project.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle_Text_12_600),
+                child: AutoSizeText(
+                  project.name,
+                  maxLines: 1,
+                  style: textStyle_Text_12_600,
+                  overflowReplacement: Row(
+                    children: [
+                      Flexible(
+                        child: Tooltip(
+                            message: project.name,
+                            child: Text(project.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyle_Text_12_600)),
+                      )
+                    ],
+                  ),
+                ),
               ),
               SizedBox(
                 width: 5,
@@ -260,7 +284,9 @@ class ProjectName extends StatelessWidget {
                     icon: Icons.attach_file_rounded,
                     message:
                         "${project.documents.length.toString()} Attachement",
-                    onTap: () {},
+                    onTap: () {
+                      attachmentsDialogBox(context, project.documents);
+                    },
                     size: 15,
                   )),
             ],

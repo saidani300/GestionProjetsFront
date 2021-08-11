@@ -1,15 +1,13 @@
 import 'dart:math';
 
 import 'package:dotted_line/dotted_line.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_action_dialog.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
@@ -33,6 +31,7 @@ class _PhaseItemState extends State<PhaseItem>
   bool isExpanded = false;
   bool actionsVisible = false;
   late AnimationController rotationController;
+
 //Animation
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -91,16 +90,15 @@ class _PhaseItemState extends State<PhaseItem>
                                       });
                               },
                               color: active,
-                              isExpanded: isExpanded, rotationController: rotationController,
+                              isExpanded: isExpanded,
+                              rotationController: rotationController,
                             ),
                             SizedBox(
                               width: 5,
                             ),
                             Expanded(
                                 child: InkWell(
-                                    onTap: () {
-
-                                    },
+                                    onTap: () {},
                                     onHover: (value) {
                                       value
                                           ? setState(() {
@@ -148,21 +146,24 @@ class _PhaseItemState extends State<PhaseItem>
                                                           active /*Color(0xFF08ADFF)*/,
                                                     ),
                                                     child: Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 6,
-                                                                horizontal: 15),
-                                                        child: Text(
-                                                          widget.phase.name,
-                                                          style: TextStyle(
-                                                              color: white,
-                                                              fontSize: 11,
-                                                              letterSpacing: 0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                          //  textAlign: TextAlign.center,
-                                                        ))),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 6,
+                                                              horizontal: 15),
+                                                      child: Text(
+                                                        widget.phase.name,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            color: white,
+                                                            fontSize: 11,
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                        //  textAlign: TextAlign.center,
+                                                      ),
+                                                    )),
 
                                                 //Actions Buttons
                                                 Visibility(
@@ -186,7 +187,6 @@ class _PhaseItemState extends State<PhaseItem>
                                                             icon: Icons.edit,
                                                             message: 'Modifier',
                                                             onTap: () {
-                                                              print("Deleted");
                                                             },
                                                           ),
                                                           SizedBox(
@@ -226,13 +226,17 @@ class _PhaseItemState extends State<PhaseItem>
                                             message: "Ajouter une action",
                                             enableToolTip: true,
                                             onTap: () async {
-                                              await createActionDialogBox(context , widget.phase ,() async {if(isExpanded == false) {
-                                                setState(() {
-                                                  isExpanded = true;
-                                                });
-                                                await  rotationController.forward();
-                                              } } );
-
+                                              await createActionDialogBox(
+                                                  context, widget.phase,
+                                                  () async {
+                                                if (isExpanded == false) {
+                                                  setState(() {
+                                                    isExpanded = true;
+                                                  });
+                                                  await rotationController
+                                                      .forward();
+                                                }
+                                              });
                                             },
                                             size: 23,
                                           ),

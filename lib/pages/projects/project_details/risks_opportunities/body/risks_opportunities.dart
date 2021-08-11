@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_event_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_event_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/view_types.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -28,7 +28,6 @@ class ProjectRisksOpportunitiesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<EventBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -368,7 +367,12 @@ class _RisksOpportunitiesListState extends State<RisksOpportunitiesList> {
                               message:
                                   "Il n'y a aucun risque ou opportunité à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer un nouveau.",
                               title: "Aucun risque ou opportunité trouvé",
-                              buttonText: "Créer", onTap: () {createEventDialogBox(context, widget.scrollController);  },)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createEventDialogBox(
+                                    context, widget.scrollController);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

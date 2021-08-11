@@ -6,7 +6,13 @@ class FormTextField extends StatefulWidget {
   final String initText;
   final String hintText;
   final String? suffixText;
-  const FormTextField({Key? key, required this.seText, this.initText = '' , this.hintText ='' ,this.suffixText })
+
+  const FormTextField(
+      {Key? key,
+      required this.seText,
+      this.initText = '',
+      this.hintText = '',
+      this.suffixText})
       : super(key: key);
 
   @override
@@ -28,7 +34,7 @@ class _FormTextFieldState extends State<FormTextField>
         initialValue: widget.initText,
         cursorWidth: 1.5,
         decoration: InputDecoration(
-          suffixText: widget.suffixText,
+            suffixText: widget.suffixText,
             suffixStyle: textStyle_active_12_600,
             hintStyle: styleHint,
             hintText: widget.hintText,

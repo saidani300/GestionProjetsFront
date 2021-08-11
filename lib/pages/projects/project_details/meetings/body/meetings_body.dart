@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_meeting_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/meeting_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_meeting_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/meeting_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/view_types.dart';
@@ -30,7 +30,6 @@ class ProjectMeetingsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<MeetingBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,7 +231,12 @@ class _MeetingsListState extends State<MeetingsList> {
                               message:
                                   "Il n'y a aucune réunion planifiée à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle et inviter des membres de l'équipe.",
                               title: "Aucune réunion planifiée",
-                              buttonText: "Créer", onTap: () {createMeetingDialogBox(context, widget.scrollController);  },)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createMeetingDialogBox(
+                                    context, widget.scrollController);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,

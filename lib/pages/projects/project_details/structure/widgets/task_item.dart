@@ -1,17 +1,17 @@
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/status_tag.dart';
-import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
@@ -66,9 +66,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                 child: Container(
                   height: 60,
                   child: InkWell(
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                       onHover: (value) {
                         value
                             ? setState(() {
@@ -118,7 +116,7 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10)),
-                                                color: StatusColor(
+                                                color: statusColor(
                                                     widget.task.status),
                                               ))),
                                       Container(
@@ -135,16 +133,33 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                                   : widget.task.status =
                                                       Status.approved
                                               : null;
-                                          UpdateAction(widget.action);
+                                          updateAction(widget.action);
                                           bloc.fetch();
                                         },
                                         status: widget.task.status,
                                       ),
                                       SizedBox(width: 10),
                                       Flexible(
-                                          child: Text(widget.task.name,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: textStyle_Text_12_600)),
+                                        child: AutoSizeText(
+                                          widget.task.name,
+                                          maxLines: 1,
+                                          style: textStyle_Text_12_600,
+                                          overflowReplacement: Row(
+                                            children: [
+                                              Flexible(
+                                                child: Tooltip(
+                                                    message: widget.task.name,
+                                                    child: Text(
+                                                        widget.task.name,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style:
+                                                            textStyle_Text_12_600)),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                       SizedBox(width: 2),
                                       Visibility(
                                           visible: (widget
@@ -153,7 +168,10 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                             icon: Icons.attach_file_rounded,
                                             message:
                                                 "${widget.task.documents.length} Attachement",
-                                            onTap: () {},
+                                            onTap: () {
+                                              attachmentsDialogBox(context,
+                                                  widget.task.documents);
+                                            },
                                             size: 15,
                                           )),
                                     ],
@@ -171,7 +189,10 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                       getText(widget.task.endDate),
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          color: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress)
+                                          color: (widget.task.endDate.isBefore(
+                                                      DateTime.now()) &&
+                                                  widget.task.status ==
+                                                      Status.inProgress)
                                               ? lightRed
                                               : text,
                                           fontSize: 12,
@@ -179,7 +200,10 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                           fontWeight: FontWeight.w600),
                                     )),
                                     Visibility(
-                                        visible: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress),
+                                        visible: (widget.task.endDate
+                                                .isBefore(DateTime.now()) &&
+                                            widget.task.status ==
+                                                Status.inProgress),
                                         child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -245,8 +269,10 @@ class _TaskItemState extends State<TaskItem> with TickerProviderStateMixin {
                                   child: Container(
                                       child: Row(children: [
                                     GlobalStatusTag(
-                                        status: widget.task.status,
-                                        date: getText(widget.task.endDate), deadLine: widget.task.endDate,),
+                                      status: widget.task.status,
+                                      date: getText(widget.task.endDate),
+                                      deadLine: widget.task.endDate,
+                                    ),
                                     // Expanded(child: Container()),
                                   ])),
                                   flex: 1,
@@ -319,7 +345,6 @@ class _ActionButtonState extends State<ActionButton> {
         preferBelow: false,
         child: InkWell(
             onTap: () {
-              print("ActionButton tapped");
             },
             onHover: (value) {
               value
@@ -452,17 +477,15 @@ class ActionsMenu extends StatelessWidget {
   }
 }
 
-
-void UpdateAction(Model.Action action) {
+void updateAction(Model.Action action) {
   action.tasks.every((element) => element.status == Status.approved)
       ? action.status = Status.approved
       : action.tasks.any((element) => element.status == Status.completed)
           ? action.status = Status.completed
           : null;
-  print(action.status);
 }
 
-Color StatusColor(Status status) {
+Color statusColor(Status status) {
   switch (status) {
     case Status.inProgress:
       return lightOrange;

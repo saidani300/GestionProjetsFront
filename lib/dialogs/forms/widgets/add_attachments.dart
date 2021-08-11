@@ -6,10 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -92,7 +92,8 @@ class FileItem extends StatefulWidget {
   _FileItemState createState() => _FileItemState();
 }
 
-class _FileItemState extends State<FileItem>with AutomaticKeepAliveClientMixin<FileItem>  , TickerProviderStateMixin {
+class _FileItemState extends State<FileItem>
+    with AutomaticKeepAliveClientMixin<FileItem>, TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -332,7 +333,8 @@ class _FileDropZoneState extends State<FileDropZone>
                                       fontWeight: FontWeight.w600),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      FocusManager.instance.primaryFocus!.unfocus();
+                                      FocusManager.instance.primaryFocus!
+                                          .unfocus();
                                       final events = await controller.pickFiles(
                                           multiple: true);
                                       if (events.isEmpty) return;

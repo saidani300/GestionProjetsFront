@@ -1,17 +1,17 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_measure_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/chartData.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
-import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/indicator_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/measure_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/measures_chart.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
@@ -38,7 +38,6 @@ class IndicatorHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<ObjectiveBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,7 +89,7 @@ class IndicatorHeader extends StatelessWidget {
           text: "Ajouter une mesure",
           isMultiple: false,
           onTap: () {
-            createMeasureDialogBox(context , controller , indicator);
+            createMeasureDialogBox(context, controller, indicator);
           },
         ),
       ],
@@ -174,7 +173,6 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                               width: 15,
                             ),
                             Expanded(child: Container()),
-
                             SizedBox(
                               width: 15,
                             ),
@@ -297,13 +295,13 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                               Expanded(
                                 child: Container(
                                     child: Row(children: [
-                                      Flexible(
-                                          child: Text(
-                                            "Commentaire",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: style,
-                                          )),
-                                    ])),
+                                  Flexible(
+                                      child: Text(
+                                    "Commentaire",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: style,
+                                  )),
+                                ])),
                                 flex: 2,
                               ),
                               // ActionsMenu(),
@@ -388,7 +386,6 @@ class _MeasuresListState extends State<MeasuresList> {
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-              final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
@@ -398,7 +395,12 @@ class _MeasuresListState extends State<MeasuresList> {
                               message:
                                   "Il n'y a aucune mesure créée, vous pouvez en créer une nouvelle pour suivre les performances selon cet indicateur.",
                               title: "Aucune mesure trouvée",
-                              buttonText: "Créer", onTap: () {createMeasureDialogBox(context , widget.scrollController , widget.indicator);  },)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createMeasureDialogBox(context,
+                                    widget.scrollController, widget.indicator);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
@@ -692,7 +694,6 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
       InkWell(
         hoverColor: active.withOpacity(0.015),
         onTap: () {
-
           widget.onTap();
         },
         highlightColor: Colors.transparent,
@@ -717,9 +718,23 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                   child: Row(
                     children: [
                       Flexible(
-                          child: Text(widget.indicator.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: textStyle_Text_12_600)),
+                        child: AutoSizeText(
+                          widget.indicator.name,
+                          maxLines: 1,
+                          style: textStyle_Text_12_600,
+                          overflowReplacement: Row(
+                            children: [
+                              Flexible(
+                                child: Tooltip(
+                                    message: widget.indicator.name,
+                                    child: Text(widget.indicator.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textStyle_Text_12_600)),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -805,7 +820,7 @@ class _IndicatorDetailsItemState extends State<IndicatorDetailsItem> {
                   children: [
                     Flexible(
                         child: Text(
-                            natureAsText(widget.indicator.nature) +" : ",
+                            natureAsText(widget.indicator.nature) + " : ",
                             overflow: TextOverflow.ellipsis,
                             style: textStyle_Text_12_600)),
                     Flexible(

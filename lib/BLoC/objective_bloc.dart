@@ -13,42 +13,42 @@ class ObjectiveBloc implements Bloc {
 
   Future init() async {
     await Future.delayed(
-        Duration(milliseconds: 300), () => _controller.sink.add(Objectives));
+        Duration(milliseconds: 300), () => _controller.sink.add(objectives));
   }
 
   fetch() {
-    _controller.sink.add(Objectives);
+    _controller.sink.add(objectives);
   }
 
   remove(Objective objective) async {
-    Objectives.remove(objective);
+    objectives.remove(objective);
 
-    _controller.sink.add(Objectives);
+    _controller.sink.add(objectives);
   }
 
   removeIndicator(Objective objective, Indicator indicator) async {
     objective.indicators.remove(indicator);
-    _controller.sink.add(Objectives);
+    _controller.sink.add(objectives);
   }
 
   removeMeasure(Indicator indicator, Measure measure) async {
     indicator.measures.remove(measure);
-    _controller.sink.add(Objectives);
+    _controller.sink.add(objectives);
   }
 
   addMeasure(Indicator indicator, Measure measure) async {
-    indicator.measures.insert(0,measure);
-    _controller.sink.add(Objectives);
+    indicator.measures.insert(0, measure);
+    _controller.sink.add(objectives);
   }
 
   add(Objective objective) async {
-    Objectives.insert(0, objective);
-    _controller.sink.add(Objectives);
+    objectives.insert(0, objective);
+    _controller.sink.add(objectives);
   }
 
   addIndicator(Objective objective, Indicator indicator) async {
-    objective.indicators.insert(0,indicator);
-    _controller.sink.add(Objectives);
+    objective.indicators.insert(0, indicator);
+    _controller.sink.add(objectives);
   }
 
   @override

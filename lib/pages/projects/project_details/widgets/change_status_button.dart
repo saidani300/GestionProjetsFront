@@ -50,8 +50,8 @@ class _ChangeStatusButtonState extends State<ChangeStatusButton> {
                     : "Marquer comme approuvé",
                 decoration: BoxDecoration(
                   color: widget.status == Status.approved
-                      ? StatusColor(Status.completed)
-                      : StatusColor(Status.approved),
+                      ? statusColor(Status.completed)
+                      : statusColor(Status.approved),
                   borderRadius: BorderRadius.all(Radius.circular(2)),
                 ),
                 child: Container(
@@ -61,20 +61,20 @@ class _ChangeStatusButtonState extends State<ChangeStatusButton> {
                       border: Border.all(
                         color: onHover
                             ? widget.status == Status.approved
-                                ? StatusColor(Status.completed)
-                                : StatusColor(Status.approved)
+                                ? statusColor(Status.completed)
+                                : statusColor(Status.approved)
                             : widget.status == Status.approved
-                                ? StatusColor(Status.approved)
-                                : StatusColor(Status.completed),
+                                ? statusColor(Status.approved)
+                                : statusColor(Status.completed),
                         width: 1.5,
                       ),
                       color: onHover
                           ? widget.status == Status.approved
-                              ? StatusColor(Status.completed)
-                              : StatusColor(Status.approved)
+                              ? statusColor(Status.completed)
+                              : statusColor(Status.approved)
                           : widget.status == Status.approved
-                              ? StatusColor(Status.approved)
-                              : StatusColor(Status.completed),
+                              ? statusColor(Status.approved)
+                              : statusColor(Status.completed),
                       shape: BoxShape.circle),
                   child: Icon(Icons.check_rounded, size: 10, color: white),
                 )))
@@ -84,12 +84,12 @@ class _ChangeStatusButtonState extends State<ChangeStatusButton> {
             decoration: BoxDecoration(
                 border: Border.all(
                   color: widget.status != Status.inProgress
-                      ? StatusColor(widget.status)
+                      ? statusColor(widget.status)
                       : text.withOpacity(0.5),
                   width: 1.5,
                 ),
                 color: widget.status != Status.inProgress
-                    ? StatusColor(widget.status)
+                    ? statusColor(widget.status)
                     : Colors.transparent,
                 shape: BoxShape.circle),
             child: Icon(

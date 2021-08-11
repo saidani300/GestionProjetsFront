@@ -22,42 +22,37 @@ String indicatorFrequencyAsText(Frequency frequency) {
   }
 }
 
-
-enum IndicatorType
-{
+enum IndicatorType {
   type1,
   type2,
   type3,
 }
 
-String indicatorTypeAsText(IndicatorType type)
-{
-  switch(type)
-  {
-    case IndicatorType.type1 :
+String indicatorTypeAsText(IndicatorType type) {
+  switch (type) {
+    case IndicatorType.type1:
       return 'Type 1';
-    case IndicatorType.type2 :
+    case IndicatorType.type2:
       return 'Type 2';
-    case IndicatorType.type3 :
+    case IndicatorType.type3:
       return 'Type 3';
   }
 }
-enum Nature
-{
+
+enum Nature {
   manual,
   automatic,
 }
 
-String natureAsText(Nature nature)
-{
-  switch(nature)
-  {
+String natureAsText(Nature nature) {
+  switch (nature) {
     case Nature.manual:
       return 'Manuelle';
     case Nature.automatic:
       return 'Automatique';
   }
 }
+
 class Indicator {
   int id;
   String name;

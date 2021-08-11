@@ -22,8 +22,6 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final styleActive =
-        TextStyle(color: text, fontSize: 13, fontWeight: FontWeight.w500);
     return Container(
       width: widget.width,
       height: widget.height,

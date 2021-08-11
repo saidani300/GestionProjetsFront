@@ -1,4 +1,3 @@
-
 import 'evaluation.dart';
 
 class Calculation {

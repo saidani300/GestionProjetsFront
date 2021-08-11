@@ -6,22 +6,24 @@ class DatePickerWidget extends StatefulWidget {
   final Function(DateTime date) setDate;
   final DateTime initDate;
   final double height;
-
+  final double textSize;
   DatePickerWidget({
     Key? key,
     required this.height,
     required this.setDate,
     required this.initDate,
+    this.textSize = 12.5,
   }) : super(key: key);
 
   @override
   _DatePickerWidgetState createState() => _DatePickerWidgetState();
 }
 
-bool isHover = false;
+
 
 class _DatePickerWidgetState extends State<DatePickerWidget>
     with AutomaticKeepAliveClientMixin<DatePickerWidget> {
+  bool isHover = false;
   late DateTime date;
 
   String getDateAsText(DateTime date) =>
@@ -41,10 +43,11 @@ class _DatePickerWidgetState extends State<DatePickerWidget>
     super.build(context);
 
     return InkWell(
-        enableFeedback: false,
         canRequestFocus: false,
-        excludeFromSemantics: true,
-        onTap: (){pickDate(context); FocusManager.instance.primaryFocus!.unfocus();},
+        onTap: () {
+          pickDate(context);
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
@@ -78,7 +81,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget>
                           getDateAsText(date),
                           style: TextStyle(
                               color: text,
-                              fontSize: 12.5,
+                              fontSize: widget.textSize,
                               letterSpacing: 0,
                               fontWeight: FontWeight.w500),
                         ))),

@@ -1,15 +1,14 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_task_dialog.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/create_task_dialog.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/action.dart'
     as Model;
@@ -79,9 +78,7 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                     Container(
                       height: 60,
                       child: InkWell(
-                          onTap: () {
-
-                          },
+                          onTap: () {},
                           onHover: (value) {
                             value
                                 ? setState(() {
@@ -115,7 +112,9 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                                   });
                                           },
                                           color: active,
-                                          isExpanded: isExpanded, rotationController: rotationController,
+                                          isExpanded: isExpanded,
+                                          rotationController:
+                                              rotationController,
                                         ),
                                       ]))),
                               Expanded(
@@ -160,11 +159,28 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                           ),
                                           SizedBox(width: 10),
                                           Flexible(
-                                              child: Text(widget.action.name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style:
-                                                      textStyle_Text_12_600)),
+                                            child: AutoSizeText(
+                                              widget.action.name,
+                                              maxLines: 1,
+                                              style: textStyle_Text_12_600,
+                                              overflowReplacement: Row(
+                                                children: [
+                                                  Flexible(
+                                                    child: Tooltip(
+                                                        message:
+                                                            widget.action.name,
+                                                        child: Text(
+                                                            widget.action.name,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                textStyle_Text_12_600)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                           SizedBox(width: 5),
                                           Visibility(
                                               visible: (widget
@@ -173,7 +189,10 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                                 icon: Icons.attach_file_rounded,
                                                 message:
                                                     "${widget.action.documents.length} Attachement",
-                                                onTap: () {},
+                                                onTap: () {
+                                                  attachmentsDialogBox(context,
+                                                      widget.action.documents);
+                                                },
                                                 size: 15,
                                               )),
                                         ],
@@ -188,39 +207,48 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                           child: Row(children: [
                                         Flexible(
                                             child: Text(
-                                                getText(widget.action.endDate),
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: (widget.action.endDate.isBefore(DateTime.now()) && widget.action.status == Status.inProgress)
-                                                        ? lightRed
-                                                        : text,
-                                                    fontSize: 12,
-                                                    letterSpacing: 0,
-                                                    fontWeight: FontWeight.w600),)),
-                                            Visibility(
-                                                visible: (widget.action.endDate.isBefore(DateTime.now()) && widget.action.status == Status.inProgress),
-                                                child: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 3,
-                                                      ),
-                                                      Tooltip(
-                                                          preferBelow: false,
-                                                          verticalOffset: 15,
-                                                          message: "En retard",
-                                                          decoration: BoxDecoration(
-                                                              color: lightRed,
-                                                              borderRadius:
+                                          getText(widget.action.endDate),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: (widget.action.endDate
+                                                          .isBefore(
+                                                              DateTime.now()) &&
+                                                      widget.action.status ==
+                                                          Status.inProgress)
+                                                  ? lightRed
+                                                  : text,
+                                              fontSize: 12,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w600),
+                                        )),
+                                        Visibility(
+                                            visible: (widget.action.endDate
+                                                    .isBefore(DateTime.now()) &&
+                                                widget.action.status ==
+                                                    Status.inProgress),
+                                            child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Tooltip(
+                                                      preferBelow: false,
+                                                      verticalOffset: 15,
+                                                      message: "En retard",
+                                                      decoration: BoxDecoration(
+                                                          color: lightRed,
+                                                          borderRadius:
                                                               BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      2))),
-                                                          child: Icon(
-                                                            Icons.warning_rounded,
-                                                            color: lightRed,
-                                                            size: 15,
-                                                          ))
-                                                    ]))
+                                                                  Radius
+                                                                      .circular(
+                                                                          2))),
+                                                      child: Icon(
+                                                        Icons.warning_rounded,
+                                                        color: lightRed,
+                                                        size: 15,
+                                                      ))
+                                                ]))
                                       ])),
                                       flex: 2,
                                     ),
@@ -296,13 +324,17 @@ class _ActionItemState extends State<ActionItem> with TickerProviderStateMixin {
                                                 widget.action.name);
                                           },
                                           onTapAdd: () async {
-                                            await createTaskDialogBox(context , widget.action ,() async {if(isExpanded == false) {
-                                              setState(() {
-                                                isExpanded = true;
-                                              });
-                                              await  rotationController.forward();
-                                            } } );
-
+                                            await createTaskDialogBox(
+                                                context, widget.action,
+                                                () async {
+                                              if (isExpanded == false) {
+                                                setState(() {
+                                                  isExpanded = true;
+                                                });
+                                                await rotationController
+                                                    .forward();
+                                              }
+                                            });
                                           },
                                         ),
                                       ])),
@@ -408,7 +440,6 @@ class _ActionButtonState extends State<ActionButton> {
         preferBelow: false,
         child: InkWell(
             onTap: () {
-              print("ActionButton tapped");
             },
             onHover: (value) {
               value

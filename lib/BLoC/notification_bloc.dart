@@ -23,6 +23,7 @@ class NotificationBloc implements Bloc {
 
     _controller.sink.add(notifications);
   }
+
   removeAll() async {
     notifications = [];
     _controller.sink.add(notifications);
@@ -33,10 +34,8 @@ class NotificationBloc implements Bloc {
     _controller.sink.add(notifications);
   }
 
-
   @override
   void dispose() {
     _controller.close();
   }
 }
-

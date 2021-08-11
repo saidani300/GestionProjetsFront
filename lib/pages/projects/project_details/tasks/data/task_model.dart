@@ -52,20 +52,26 @@ TaskModel myTask = new TaskModel(
     DateTime.now(),
     DateTime.now().add(Duration(days: 17)),
     Model.Status.inProgress,
-    User(30, "Saidani Wael", "5"),
+    users.elementAt(1),
     [],
     Priority.Important,
     []);
 
-List<TaskModel> Tasks = [
+List<TaskModel> tasks = [
   TaskModel(
       212,
       "Développement d'une nouvelle interface utilisateur",
       DateTime.now(),
       DateTime.now().add(Duration(days: 30)),
       Model.Status.completed,
-      User(1, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
-      [],
+      users.first,
+      [
+        Document(
+            15454, "File.txt", "", "text", users.last, DateTime.now(), 55487),
+        Document(12, "File.txt", "", "text", users.last, DateTime.now(), 55487),
+        Document(21, "File.txt", "", "text", users.last, DateTime.now(), 55487),
+        Document(22, "File.txt", "", "text", users.last, DateTime.now(), 55487),
+      ],
       Priority.Normal,
       [
         TaskModel(
@@ -74,7 +80,7 @@ List<TaskModel> Tasks = [
             DateTime.now(),
             DateTime.now().add(Duration(days: 30)),
             Model.Status.completed,
-            User(1, "Saidani Wael", "3"),
+            users.elementAt(5),
             [],
             Priority.Normal,
             []),
@@ -84,7 +90,7 @@ List<TaskModel> Tasks = [
             DateTime.now(),
             DateTime.now().add(Duration(days: 20)),
             Model.Status.inProgress,
-            User(1, "Saidani Wael", "6"),
+            users.elementAt(4),
             [],
             Priority.Normal,
             []),
@@ -95,7 +101,7 @@ List<TaskModel> Tasks = [
       DateTime.now(),
       DateTime.now().add(Duration(days: 68)),
       Model.Status.completed,
-      User(1, "Saidani Wael", "6"),
+      users.elementAt(1),
       [],
       Priority.Normal,
       [
@@ -105,7 +111,7 @@ List<TaskModel> Tasks = [
             DateTime.now(),
             DateTime.now().add(Duration(days: 17)),
             Model.Status.completed,
-            User(1, "Saidani Wael", "https://i.imgur.com/kieKRFZ.jpeg"),
+            users.elementAt(6),
             [],
             Priority.Normal,
             []),
@@ -116,7 +122,7 @@ List<TaskModel> Tasks = [
       DateTime.now(),
       DateTime.now().add(Duration(days: 1)),
       Model.Status.completed,
-      User(1, "Saidani Wael", "3"),
+      users.elementAt(0),
       [],
       Priority.Normal,
       [
@@ -126,7 +132,7 @@ List<TaskModel> Tasks = [
             DateTime.now(),
             DateTime.now().add(Duration(days: 120)),
             Model.Status.completed,
-            User(1, "Saidani Wael", "https://i.imgur.com/01lxY0W.jpeg"),
+            users.elementAt(4),
             [],
             Priority.Normal,
             []),

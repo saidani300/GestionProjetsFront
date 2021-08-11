@@ -15,6 +15,7 @@ import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_multi
 class CreateMeasureForm extends StatefulWidget {
   final Measure measure;
   final Indicator indicator;
+
   const CreateMeasureForm({
     Key? key,
     required this.measure,
@@ -37,162 +38,164 @@ class _CreateMeasureFormState extends State<CreateMeasureForm>
     super.build(context);
 
     return GestureDetector(
-        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
-    child: Container(
-      width: 500,
-      constraints: BoxConstraints(maxHeight: 522),
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            FormHeader(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
-              child: Divider(
-                height: 1,
-                color: dividerColor,
-              ),
-            ),
-            Scrollbar(
-              isAlwaysShown: true,
-              controller: scrollController,
-              child: ListView(
-                  shrinkWrap: true,
+        onTap: () {
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
+        child: Container(
+          width: 500,
+          constraints: BoxConstraints(maxHeight: 522),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                FormHeader(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 1),
+                  child: Divider(
+                    height: 1,
+                    color: dividerColor,
+                  ),
+                ),
+                Scrollbar(
+                  isAlwaysShown: true,
                   controller: scrollController,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                                  child: Text(
-                                    "Mesure",
-                                    style: TextStyle(
-                                        color: text,
-                                        fontSize: 11.5,
-                                        fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                )),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: FormTextField(
-                                    seText: (String value) {
-                                      widget.measure.value =
-                                      double.tryParse(value)!;
-                                    },
-                                    hintText: 'Une valeur entre ${widget.indicator.minValue} et ${widget.indicator.maxValue}',
-                                    suffixText: widget.indicator.unit,
-                                  ),
-                                ),
-                          SizedBox(
-                            height: 20,
+                  child: ListView(
+                      shrinkWrap: true,
+                      controller: scrollController,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Container(
+                              child: Text(
+                                "Mesure",
+                                style: TextStyle(
+                                    color: text,
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w600),
+                                textAlign: TextAlign.start,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: FormTextField(
+                            seText: (String value) {
+                              widget.measure.value = double.tryParse(value)!;
+                            },
+                            hintText:
+                                'Une valeur entre ${widget.indicator.minValue} et ${widget.indicator.maxValue}',
+                            suffixText: widget.indicator.unit,
                           ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(mainAxisSize: MainAxisSize.max, children: [
-                        Expanded(
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Date de début",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                DatePickerWidget(
-                                  height: 40,
-                                  setDate: (DateTime date) {
-                                    widget.measure.startDate = date;
-                                  },
-                                  initDate: widget.measure.startDate,
-                                ),
-                              ]),
                         ),
                         SizedBox(
-                          width: 20,
+                          height: 20,
                         ),
-                        Expanded(
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Date de fin",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                new DatePickerWidget(
-                                    height: 40,
-                                    setDate: (DateTime date) {
-                                      widget.measure.endDate = date;
-                                    },
-                                    initDate: widget.measure.endDate),
-                              ]),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(mainAxisSize: MainAxisSize.max, children: [
+                            Expanded(
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Date de début",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    DatePickerWidget(
+                                      height: 40,
+                                      setDate: (DateTime date) {
+                                        widget.measure.startDate = date;
+                                      },
+                                      initDate: widget.measure.startDate,
+                                    ),
+                                  ]),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Date de fin",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    new DatePickerWidget(
+                                        height: 40,
+                                        setDate: (DateTime date) {
+                                          widget.measure.endDate = date;
+                                        },
+                                        initDate: widget.measure.endDate),
+                                  ]),
+                            ),
+                          ]),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            child: Text(
+                              "Commentaire",
+                              style: TextStyle(
+                                  color: text,
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                              child: MultiLinesTextFieldWidget(
+                            onChange: (value) {
+                              widget.measure.comment = value;
+                            },
+                            hintText:
+                                "Ajouter un commentaire à cette mesure...",
+                          )),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                       ]),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20),
-                      child: Container(
-                        child: Text(
-                          "Commentaire",
-                          style: TextStyle(
-                              color: text,
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20),
-                      child: Container(
-                          child: MultiLinesTextFieldWidget(
-                            onChange: (value) { widget.measure.comment = value; },
-                            hintText:
-                            "Ajouter un commentaire à cette mesure...",
-                          )),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
-              child: Divider(
-                height: 1,
-                color: dividerColor,
-              ),
-            )
-          ]),
-    ));
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 1),
+                  child: Divider(
+                    height: 1,
+                    color: dividerColor,
+                  ),
+                )
+              ]),
+        ));
   }
 }
 

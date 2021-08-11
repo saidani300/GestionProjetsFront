@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

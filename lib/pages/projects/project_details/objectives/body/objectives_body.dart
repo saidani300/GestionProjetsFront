@@ -3,12 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_objective_dialog.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_objective_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/view_types.dart';
@@ -29,7 +27,6 @@ class ProjectObjectivesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<ObjectiveBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -361,12 +358,19 @@ class _ObjectivesListState extends State<ObjectivesList> {
                               message:
                                   "Il n'y a aucun objectif à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer un nouveau.",
                               title: "Aucun objectif trouvé",
-                              buttonText: "Créer", onTap: () {createObjectiveDialogBox(context, widget.scrollController);  },)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createObjectiveDialogBox(
+                                    context, widget.scrollController);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
-                              children:
-                                  results.map((e) => _buildItem(e , identical(results.last, e))).toList(),
+                              children: results
+                                  .map((e) =>
+                                      _buildItem(e, identical(results.last, e)))
+                                  .toList(),
                             )
                       : Center(
                           child: SpinKitFadingCube(
@@ -378,12 +382,12 @@ class _ObjectivesListState extends State<ObjectivesList> {
             }));
   }
 
-  Widget _buildItem(Objective objective , bool isLast) {
+  Widget _buildItem(Objective objective, bool isLast) {
     return TestProxy(
         key: ValueKey(objective),
         child: new ObjectiveItem(
           objective: objective,
-          isLast : isLast,
+          isLast: isLast,
           onTap: () {},
         ));
   }

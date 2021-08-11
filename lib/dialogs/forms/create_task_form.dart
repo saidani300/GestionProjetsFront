@@ -41,262 +41,269 @@ class _CreateTaskFormState extends State<CreateTaskForm>
     super.build(context);
 
     return GestureDetector(
-        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
-    child: BlocProvider<UserBloc>(
-        bloc: UserBloc(),
-    child: BlocProvider<UploadBloc>(
-        bloc: UploadBloc(),
-        child: Container(
-          width: 500,
-          constraints: BoxConstraints(maxHeight: 522),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FormHeader(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  child: Divider(
-                    height: 1,
-                    color: dividerColor,
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Scrollbar(
-                      isAlwaysShown: true,
-                      controller: scrollController,
-                      child: ListView(
-                          shrinkWrap: true,
-                          controller: scrollController,
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Nom du tâche",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: FormTextField(
-                                seText: (String value) {
-                                  widget.task.name = value;
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Row(
-                                  mainAxisSize: MainAxisSize.max,
+        onTap: () {
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
+        child: BlocProvider<UserBloc>(
+            bloc: UserBloc(),
+            child: BlocProvider<UploadBloc>(
+                bloc: UploadBloc(),
+                child: Container(
+                  width: 500,
+                  constraints: BoxConstraints(maxHeight: 522),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        FormHeader(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 1),
+                          child: Divider(
+                            height: 1,
+                            color: dividerColor,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Scrollbar(
+                              isAlwaysShown: true,
+                              controller: scrollController,
+                              child: ListView(
+                                  shrinkWrap: true,
+                                  controller: scrollController,
                                   children: [
-                                    Expanded(
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Container(
+                                        child: Text(
+                                          "Nom du tâche",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: FormTextField(
+                                        seText: (String value) {
+                                          widget.task.name = value;
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Text(
-                                              "Date de début",
-                                              style: TextStyle(
-                                                  color: text,
-                                                  fontSize: 11.5,
-                                                  fontWeight:
-                                                  FontWeight.w600),
-                                              textAlign: TextAlign.start,
+                                            Expanded(
+                                              child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Date de début",
+                                                      style: TextStyle(
+                                                          color: text,
+                                                          fontSize: 11.5,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    DatePickerWidget(
+                                                      height: 40,
+                                                      setDate: (DateTime date) {
+                                                        widget.task.startDate =
+                                                            date;
+                                                      },
+                                                      initDate: DateTime.now(),
+                                                    ),
+                                                  ]),
                                             ),
                                             SizedBox(
-                                              height: 10,
+                                              width: 20,
                                             ),
-                                            DatePickerWidget(
-                                              height: 40,
-                                              setDate: (DateTime date) {
-                                                widget.task.startDate =
-                                                    date;
-                                              },
-                                              initDate: DateTime.now(),
+                                            Expanded(
+                                              child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Date de fin",
+                                                      style: TextStyle(
+                                                          color: text,
+                                                          fontSize: 11.5,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    new DatePickerWidget(
+                                                      height: 40,
+                                                      setDate: (DateTime date) {
+                                                        widget.task.endDate =
+                                                            date;
+                                                      },
+                                                      initDate: DateTime.now()
+                                                          .add(Duration(
+                                                              days: 30)),
+                                                    ),
+                                                  ]),
                                             ),
                                           ]),
                                     ),
                                     SizedBox(
-                                      width: 20,
+                                      height: 20,
                                     ),
-                                    Expanded(
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Date de fin",
-                                              style: TextStyle(
-                                                  color: text,
-                                                  fontSize: 11.5,
-                                                  fontWeight:
-                                                  FontWeight.w600),
-                                              textAlign: TextAlign.start,
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            new DatePickerWidget(
-                                              height: 40,
-                                              setDate: (DateTime date) {
-                                                widget.task.endDate =
-                                                    date;
-                                              },
-                                              initDate: DateTime.now()
-                                                  .add(Duration(days: 30)),
-                                            ),
-                                          ]),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Container(
+                                        child: Text(
+                                          "Affecter à",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: UserPicker(
+                                        onChange: (User value) {
+                                          widget.task.user = value;
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Container(
+                                        child: Text(
+                                          "Priorité",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    PriorityBox(
+                                      setPriority: (Priority priority) {
+                                        widget.task.priority = priority;
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Container(
+                                        child: Text(
+                                          "Pièces jointes",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Attachments(
+                                        documents: widget.task.documents,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Container(
+                                        child: Text(
+                                          "Description",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Container(
+                                          child: MultiLinesTextFieldWidget(
+                                        onChange: (value) {},
+                                        hintText:
+                                            "Ajoutez plus d'informations sur cette tâche...",
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
                                     ),
                                   ]),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Affecter à",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: UserPicker(
-                                onChange: (User value) {
-                                  widget.task.user = value;
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Priorité",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            PriorityBox(
-                              setPriority: (Priority priority) {
-                                widget.task.priority = priority;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Pièces jointes",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Attachments(
-                                documents: widget.task.documents,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Description",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                  child: MultiLinesTextFieldWidget(
-                                    onChange: (value) { },
-                                    hintText:
-                                    "Ajoutez plus d'informations sur cette tâche...",
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ]),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  child: Divider(
-                    height: 1,
-                    color: dividerColor,
-                  ),
-                )
-              ]),
-        ))));
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 1),
+                          child: Divider(
+                            height: 1,
+                            color: dividerColor,
+                          ),
+                        )
+                      ]),
+                ))));
   }
 }
 

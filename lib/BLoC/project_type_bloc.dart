@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
-import 'package:gestion_projets/pages/projects/service/API.dart';
 
 import 'bloc.dart';
 
 class ProjectTypeBloc implements Bloc {
   final _controller = StreamController<List<ProjectType>>();
-  final _client = APIClient();
 
   Stream<List<ProjectType>> get projectTypeStream => _controller.stream;
 

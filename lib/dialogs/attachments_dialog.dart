@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 
-
 import 'forms/attachments_form.dart';
 
 attachmentsDialogBox(BuildContext context,List<Document> documents) {

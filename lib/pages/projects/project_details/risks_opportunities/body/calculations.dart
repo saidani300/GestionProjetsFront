@@ -1,17 +1,18 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_calculation_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/create_calculation_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/calculation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/calculation_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -33,7 +34,6 @@ class CalculationsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<EventBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,7 +224,8 @@ class _CalculationsBodyState extends State<CalculationsBody> {
                               Expanded(
                                 child: Container(
                                     child: Row(
-                                  children: widget.evaluation.formula.criteria
+                                  children: widget
+                                      .evaluation.formula.criteria.reversed
                                       .map(
                                         (e) => Expanded(
                                           child: Row(
@@ -380,7 +381,12 @@ class _CalculationsListState extends State<CalculationsList> {
                               message:
                                   "Il n'y a aucun calcul à afficher pour vous, vous pouvez en créer un nouveau pour évaluer un risque ou une opportunité en fonction de paramètres en une période précise.",
                               title: "Aucun calcul trouvé",
-                              buttonText: "Créer", onTap: () { createCalculationDialogBox(context, widget.scrollController, widget.evaluation);},)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createCalculationDialogBox(context,
+                                    widget.scrollController, widget.evaluation);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
@@ -458,9 +464,7 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                             ? Column(children: [
                                 InkWell(
                                   hoverColor: active.withOpacity(0.015),
-                                  onTap: () {
-
-                                  },
+                                  onTap: () {},
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
                                   child: Container(
@@ -485,12 +489,32 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                             child: Row(
                                               children: [
                                                 Flexible(
-                                                    child: Text(
-                                                        widget.evaluation.name,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style:
-                                                            textStyle_Text_12_600)),
+                                                  child: AutoSizeText(
+                                                    widget.evaluation.name,
+                                                    maxLines: 1,
+                                                    style:
+                                                        textStyle_Text_12_600,
+                                                    overflowReplacement: Row(
+                                                      children: [
+                                                        Flexible(
+                                                          child: Tooltip(
+                                                              message: widget
+                                                                  .evaluation
+                                                                  .name,
+                                                              child: Text(
+                                                                  widget
+                                                                      .evaluation
+                                                                      .name,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      textStyle_Text_12_600)),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -567,7 +591,9 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                               children: [
                                                 Flexible(
                                                     child: Text(
-                                                        getText(widget.evaluation.creationDate),
+                                                        getText(widget
+                                                            .evaluation
+                                                            .creationDate),
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style:
@@ -587,15 +613,18 @@ class _EvaluationDetailsState extends State<EvaluationDetails> {
                                                   height: 30,
                                                   width: 30,
                                                   child: Avatar(
-                                                    picture: widget.evaluation.user.avatar,
-                                                    name: widget.evaluation.user.name,
+                                                    picture: widget
+                                                        .evaluation.user.avatar,
+                                                    name: widget
+                                                        .evaluation.user.name,
                                                   )),
                                               SizedBox(
                                                 width: 15,
                                               ),
                                               Flexible(
                                                   child: Text(
-                                                      widget.evaluation.user.name,
+                                                      widget
+                                                          .evaluation.user.name,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style:

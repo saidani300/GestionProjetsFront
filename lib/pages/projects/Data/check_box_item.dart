@@ -28,7 +28,7 @@ class CheckBoxItemLeader {
 
 final checkAllLeader = CheckBoxItemLeader(name: 'Tous');
 
-final LeaderList = [
+final leaderList = [
   CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "3"),
   CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "3"),
   CheckBoxItemLeader(name: 'Saidani Wael', profileImage: "2"),

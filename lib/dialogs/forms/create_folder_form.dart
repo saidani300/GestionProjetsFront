@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/text_field.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
@@ -34,8 +32,10 @@ class _CreateFolderFormState extends State<CreateFolderForm>
     super.build(context);
 
     return GestureDetector(
-        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
-    child: Container(
+        onTap: () {
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
+        child: Container(
           width: 500,
           constraints: BoxConstraints(maxHeight: 522),
           child: Column(
@@ -51,47 +51,45 @@ class _CreateFolderFormState extends State<CreateFolderForm>
                   ),
                 ),
                 Scrollbar(
-                      isAlwaysShown: true,
+                  isAlwaysShown: true,
+                  controller: scrollController,
+                  child: ListView(
+                      shrinkWrap: true,
                       controller: scrollController,
-                      child: ListView(
-                          shrinkWrap: true,
-                          controller: scrollController,
-                          children: [
-                            SizedBox(
-                              height: 20,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            child: Text(
+                              "Nom du dossier",
+                              style: TextStyle(
+                                  color: text,
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.start,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Nom du dossier",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
-                              child: FormTextField(
-                                initText: widget.folder.name,
-                                seText: (String value) {
-                                  widget.folder.name = value;
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ]),
-                    ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: FormTextField(
+                            initText: widget.folder.name,
+                            seText: (String value) {
+                              widget.folder.name = value;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ]),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 1),
                   child: Divider(
@@ -145,7 +143,6 @@ class FormHeader extends StatelessWidget {
   }
 }
 
-
 class ObjectiveTypeBox extends StatefulWidget {
   final Objective objective;
 
@@ -185,21 +182,21 @@ class _ObjectiveTypeBoxState extends State<ObjectiveTypeBox>
         itemBuilder: (context) {
           return ObjectiveType.values
               .map((e) => CustomListPopupMenuItem(
-            value: e,
-            height: 50,
-            child: SizedBox(
-                width: 460,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    objectiveTypeAsText(e),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                    ),
-                  ),
-                )),
-          ))
+                    value: e,
+                    height: 50,
+                    child: SizedBox(
+                        width: 460,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            objectiveTypeAsText(e),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )),
+                  ))
               .toList();
         });
   }

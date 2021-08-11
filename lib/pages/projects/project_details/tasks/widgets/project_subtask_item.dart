@@ -1,10 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
@@ -70,9 +72,7 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                 child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
-                    onTap: () {
-
-                    },
+                    onTap: () {},
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     child: Container(
@@ -84,7 +84,7 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                           SizedBox(
                             width: 2,
                             child: Container(
-                              color: StatusColor(widget.subtask.status),
+                              color: statusColor(widget.subtask.status),
                             ),
                           ),
                           SizedBox(
@@ -122,9 +122,25 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                     width: 20,
                                   ),
                                   Flexible(
-                                      child: Text(widget.subtask.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.subtask.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.subtask.name,
+                                                child: Text(widget.subtask.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -133,7 +149,10 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                         icon: Icons.attach_file_rounded,
                                         message:
                                             "${widget.subtask.documents.length.toString()} Attachement",
-                                        onTap: () {},
+                                        onTap: () {
+                                          attachmentsDialogBox(context,
+                                              widget.subtask.documents);
+                                        },
                                         size: 15,
                                       )),
                                 ],
@@ -163,18 +182,24 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                        getText(widget.subtask.endDate),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: (widget.subtask.endDate.isBefore(DateTime.now()) && widget.subtask.status == Status.inProgress)
-                                                ? lightRed
-                                                : text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
+                                    getText(widget.subtask.endDate),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: (widget.subtask.endDate
+                                                    .isBefore(DateTime.now()) &&
+                                                widget.subtask.status ==
+                                                    Status.inProgress)
+                                            ? lightRed
+                                            : text,
+                                        fontSize: 12,
+                                        letterSpacing: 0,
+                                        fontWeight: FontWeight.w600),
+                                  )),
                                   Visibility(
-                                      visible: (widget.subtask.endDate.isBefore(DateTime.now()) && widget.subtask.status == Status.inProgress),
+                                      visible: (widget.subtask.endDate
+                                              .isBefore(DateTime.now()) &&
+                                          widget.subtask.status ==
+                                              Status.inProgress),
                                       child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -188,9 +213,9 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                                 decoration: BoxDecoration(
                                                     color: lightRed,
                                                     borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(
-                                                            2))),
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                2))),
                                                 child: Icon(
                                                   Icons.warning_rounded,
                                                   color: lightRed,
@@ -245,9 +270,10 @@ class _ProjectSubTaskItemState extends State<ProjectSubTaskItem>
                                 children: [
                                   Container(
                                       child: GlobalStatusTag(
-                                          status: widget.subtask.status,
-                                          date:
-                                              getText(widget.subtask.endDate), deadLine: widget.subtask.endDate,))
+                                    status: widget.subtask.status,
+                                    date: getText(widget.subtask.endDate),
+                                    deadLine: widget.subtask.endDate,
+                                  ))
                                 ]),
                             flex: 2,
                           ),

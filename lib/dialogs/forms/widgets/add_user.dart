@@ -3,11 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/pick_users_bloc.dart';
 import 'package:gestion_projets/BLoC/user_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/dialogs/forms/widgets/user_picker.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -16,6 +15,7 @@ import 'package:gestion_projets/widgets/profile_avatar.dart';
 
 class Users extends StatefulWidget {
   final List<User> users;
+
   const Users({Key? key, required this.users}) : super(key: key);
 
   @override
@@ -61,13 +61,13 @@ class _UsersState extends State<Users>
                             .toList(),
                       )
                     : Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SpinKitThreeBounce(
-                  color: active,
-                  size: 15,
-                  duration: Duration(milliseconds: 1200),
-                ),
-                    ),
+                        padding: const EdgeInsets.all(10),
+                        child: SpinKitThreeBounce(
+                          color: active,
+                          size: 15,
+                          duration: Duration(milliseconds: 1200),
+                        ),
+                      ),
               );
             }),
       ],
@@ -203,6 +203,7 @@ class _UserItemState extends State<UserItem>
 
 class AddUser extends StatefulWidget {
   final List<User> users;
+
   const AddUser({Key? key, required this.users}) : super(key: key);
 
   @override
@@ -279,12 +280,15 @@ class _AddUserState extends State<AddUser>
               itemBuilder: (context) {
                 if (snapshot.hasData) {
                   var results = snapshot.data;
-                  return results!.where((element) => !widget.users.contains(element)).map((choice) {
+                  return results!
+                      .where((element) => !widget.users.contains(element))
+                      .map((choice) {
                     return CustomListPopupMenuItem(
-                      value: choice,
-                      height: 50,
-                      child: PopupMenuItem(user: choice,)
-                    );
+                        value: choice,
+                        height: 50,
+                        child: PopupMenuItem(
+                          user: choice,
+                        ));
                   }).toList();
                 } else
                   return [];
@@ -295,6 +299,7 @@ class _AddUserState extends State<AddUser>
 
 class PopupMenuItem extends StatefulWidget {
   final User user;
+
   const PopupMenuItem({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -303,6 +308,7 @@ class PopupMenuItem extends StatefulWidget {
 
 class _PopupMenuItemState extends State<PopupMenuItem> {
   bool isHover = false;
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -315,8 +321,7 @@ class _PopupMenuItemState extends State<PopupMenuItem> {
             Padding(
                 padding: EdgeInsets.all(10),
                 child: Avatar(
-                    name: widget.user.name,
-                    picture: widget.user.avatar)),
+                    name: widget.user.name, picture: widget.user.avatar)),
             Text(
               widget.user.name,
               style: TextStyle(
@@ -325,8 +330,16 @@ class _PopupMenuItemState extends State<PopupMenuItem> {
               ),
             ),
             Expanded(child: Container()),
-            Visibility(visible: isHover, child: Icon(Icons.add , color: active, size: 17,)),
-            SizedBox(width: 20,)
+            Visibility(
+                visible: isHover,
+                child: Icon(
+                  Icons.add,
+                  color: active,
+                  size: 17,
+                )),
+            SizedBox(
+              width: 20,
+            )
           ],
         ),
       ),

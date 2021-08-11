@@ -48,7 +48,7 @@ class MenuItem {
   MenuItem(this.name, this.route);
 }
 
-List<MenuItem> TopVarMenuItemRoutes = [
+List<MenuItem> topVarMenuItemRoutes = [
   MenuItem(dashboardPageDisplayName, dashboardPageRoute),
   MenuItem(projectsPageDisplayName, projectsPageRoute),
   MenuItem(tasksPageDisplayName, tasksPageRoute),

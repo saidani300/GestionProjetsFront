@@ -9,22 +9,31 @@ enum ObjectiveStatus {
   achieved,
   notAchieved,
 }
-enum ObjectiveType
-{
+
+String objectiveStatusAsText(ObjectiveStatus status) {
+  switch (status) {
+    case ObjectiveStatus.inProgress:
+      return 'En cours';
+    case ObjectiveStatus.notAchieved:
+      return 'Non atteint';
+    case ObjectiveStatus.achieved:
+      return 'Atteint';
+  }
+}
+
+enum ObjectiveType {
   type1,
   type2,
   type3,
 }
 
-String objectiveTypeAsText(ObjectiveType type)
-{
-  switch(type)
-  {
-    case ObjectiveType.type1 :
+String objectiveTypeAsText(ObjectiveType type) {
+  switch (type) {
+    case ObjectiveType.type1:
       return 'Type 1';
-    case ObjectiveType.type2 :
+    case ObjectiveType.type2:
       return 'Type 2';
-    case ObjectiveType.type3 :
+    case ObjectiveType.type3:
       return 'Type 3';
   }
 }
@@ -44,7 +53,7 @@ class Objective {
   Objective(
     this.id,
     this.name,
-      this.type,
+    this.type,
     this.creationDate,
     this.status,
     this.user,
@@ -55,8 +64,7 @@ class Objective {
   );
 }
 
-
-List<Objective> Objectives = [
+List<Objective> objectives = [
   Objective(
       32,
       "Objectif de développement",
@@ -109,9 +117,14 @@ List<Objective> Objectives = [
             User(6, "Saidani Wael", "7"),
             [
               Measure(5487, 55, DateTime.now(), DateTime.now(),
-                  DateTime.now().add(Duration(days: 90)),""),
-              Measure(5548, 24, DateTime.now().subtract(Duration(days: 30)),
-                  DateTime.now().subtract(Duration(days: 30)), DateTime.now(),"")
+                  DateTime.now().add(Duration(days: 90)), ""),
+              Measure(
+                  5548,
+                  24,
+                  DateTime.now().subtract(Duration(days: 30)),
+                  DateTime.now().subtract(Duration(days: 30)),
+                  DateTime.now(),
+                  "")
             ],
             IndicatorType.type1,
             "ATerminé/ATotal*100",

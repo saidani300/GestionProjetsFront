@@ -36,68 +36,71 @@ class _UserPickerState extends State<UserPicker>
     super.build(context);
     return StreamBuilder<List<User>>(
         stream: bloc.userStream,
-        builder: (context, snapshot)
-    {
-      List<User>? results = snapshot.data;
-      return CustomListPopupMenuButton<User>(
-          containerHeight: 50,
-          offset: Offset(0, 52),
-          child: (snapshot.hasData)
-              ? Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                snapshot.data!.isNotEmpty ? Avatar(
-                    name: user.name, picture: user.avatar) : Container(),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  snapshot.data!.isNotEmpty ? user.name : "",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                  ),
-                )
-              ]) : SpinKitThreeBounce(
-            color: active,
-            size: 15,
-            duration: Duration(milliseconds: 1200),
-          ),
-          enabled: true,
-          onSelected: (value) {
-            setState(() {
-              user = value;
-              widget.onChange(value);
-              // widget.projectUser = value;
-            });
-          },
-          itemBuilder: (context) {
-            return (snapshot.hasData)
-                ? results!.map((User choice) {
-              return CustomListPopupMenuItem(
-                value: choice,
-                height: 50,
-                child: SizedBox(
-                    width: 460,
-                    child: Row(
+        builder: (context, snapshot) {
+          List<User>? results = snapshot.data;
+          return CustomListPopupMenuButton<User>(
+              containerHeight: 50,
+              offset: Offset(0, 52),
+              child: (snapshot.hasData)
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Avatar(
-                                name: choice.name, picture: choice.avatar)),
-                        Text(
-                          choice.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                          snapshot.data!.isNotEmpty
+                              ? Avatar(name: user.name, picture: user.avatar)
+                              : Container(),
+                          SizedBox(
+                            width: 10,
                           ),
-                        )
-                      ],
-                    )),
-              );
-            }).toList() : [];
-          });
-    });
+                          Text(
+                            snapshot.data!.isNotEmpty ? user.name : "",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
+                          )
+                        ])
+                  : SpinKitThreeBounce(
+                      color: active,
+                      size: 15,
+                      duration: Duration(milliseconds: 1200),
+                    ),
+              enabled: true,
+              onSelected: (value) {
+                setState(() {
+                  user = value;
+                  widget.onChange(value);
+                  // widget.projectUser = value;
+                });
+              },
+              itemBuilder: (context) {
+                return (snapshot.hasData)
+                    ? results!.map((User choice) {
+                        return CustomListPopupMenuItem(
+                          value: choice,
+                          height: 50,
+                          child: SizedBox(
+                              width: 460,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Avatar(
+                                          name: choice.name,
+                                          picture: choice.avatar)),
+                                  Text(
+                                    choice.name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                    ),
+                                  )
+                                ],
+                              )),
+                        );
+                      }).toList()
+                    : [];
+              });
+        });
   }
 }

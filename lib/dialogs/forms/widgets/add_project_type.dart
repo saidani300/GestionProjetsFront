@@ -20,7 +20,6 @@ class _AddProjectTypeState extends State<AddProjectType>
     with AutomaticKeepAliveClientMixin<AddProjectType> {
   bool _isAddTypeClosed = true;
 
-
   @override
   bool get wantKeepAlive => true;
 
@@ -48,12 +47,12 @@ class _AddProjectTypeState extends State<AddProjectType>
                 icon: Icons.add_circle_rounded,
                 size: 17,
                 message: "Ajouter",
-                onTap: () {  setState(() {
-                  if(_isAddTypeClosed = true)
-                    {
+                onTap: () {
+                  setState(() {
+                    if (_isAddTypeClosed = true) {
                       _isAddTypeClosed = false;
                     }
-                });
+                  });
                 })
           ],
         ),
@@ -99,7 +98,11 @@ class _AddProjectTypeState extends State<AddProjectType>
                       CustomIconButton(
                         icon: Icons.highlight_remove_rounded,
                         message: "Annuler",
-                        onTap: () { setState(() {_isAddTypeClosed = true;});},
+                        onTap: () {
+                          setState(() {
+                            _isAddTypeClosed = true;
+                          });
+                        },
                         size: 20,
                       ),
                       SizedBox(
@@ -108,8 +111,15 @@ class _AddProjectTypeState extends State<AddProjectType>
                       CustomIconButton(
                           icon: Icons.add_circle_outline_rounded,
                           message: "Ajouter",
-                          onTap: () { if(controller.value.text.isNotEmpty)
-                            {bloc.add(new ProjectType(Random().nextInt(999999), controller.value.text)); setState(() {_isAddTypeClosed = true;});}},
+                          onTap: () {
+                            if (controller.value.text.isNotEmpty) {
+                              bloc.add(new ProjectType(Random().nextInt(999999),
+                                  controller.value.text));
+                              setState(() {
+                                _isAddTypeClosed = true;
+                              });
+                            }
+                          },
                           size: 20),
                       SizedBox(
                         width: 5,

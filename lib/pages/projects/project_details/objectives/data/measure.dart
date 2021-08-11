@@ -1,4 +1,4 @@
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
+
 
 class Measure {
   int id;
@@ -7,6 +7,7 @@ class Measure {
   DateTime startDate;
   DateTime endDate;
   String comment;
+
   Measure(
     this.id,
     this.value,
@@ -18,4 +19,4 @@ class Measure {
 }
 
 Measure measure = new Measure(5487, 50.5, DateTime.now(), DateTime.now(),
-    DateTime.now().add(Duration(days: 90)),"" );
+    DateTime.now().add(Duration(days: 90)), "");

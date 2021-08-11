@@ -5,8 +5,8 @@ import 'package:gestion_projets/pages/projects/Data/project.dart';
 class PriorityIcon extends StatelessWidget {
   final double size;
   final Priority priority;
-
-  const PriorityIcon({Key? key, this.size = 18, required this.priority})
+  final bool toolTipEnabled;
+  const PriorityIcon({Key? key, this.size = 18, required this.priority , this.toolTipEnabled = true})
       : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class PriorityIcon extends StatelessWidget {
     //return
     switch (priority) {
       case Priority.Important:
-        return Tooltip(
+        return toolTipEnabled ? Tooltip(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(2)),
                 color: lightRed),
@@ -23,10 +23,14 @@ class PriorityIcon extends StatelessWidget {
               Icons.flag_rounded,
               size: size,
               color: lightRed,
-            ));
+            )) : Icon(
+          Icons.flag_rounded,
+          size: size,
+          color: lightRed,
+        );
 
       case Priority.Normal:
-        return Tooltip(
+        return toolTipEnabled ? Tooltip(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(2)),
                 color: active),
@@ -35,10 +39,14 @@ class PriorityIcon extends StatelessWidget {
               Icons.flag_rounded,
               size: size,
               color: active,
-            ));
+            )): Icon(
+          Icons.flag_rounded,
+          size: size,
+          color: active,
+        );
 
       case Priority.Low:
-        return Tooltip(
+        return toolTipEnabled ?  Tooltip(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(2)),
                 color: dividerColor),
@@ -52,7 +60,11 @@ class PriorityIcon extends StatelessWidget {
               Icons.outlined_flag_rounded,
               size: size,
               color: active,
-            ));
+            )):Icon(
+          Icons.outlined_flag_rounded,
+          size: size,
+          color: active,
+        );
     }
   }
 }

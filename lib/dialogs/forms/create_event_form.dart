@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/forms/widgets/text_field.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/file_upload_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/forms/widgets/text_field.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -41,321 +41,323 @@ class _CreateEventFormState extends State<CreateEventForm>
     super.build(context);
 
     return GestureDetector(
-        onTap: (){FocusManager.instance.primaryFocus!.unfocus();},
-    child: BlocProvider<UploadBloc>(
-        bloc: UploadBloc(),
-        child: Container(
-          width: 500,
-          constraints: BoxConstraints(maxHeight: 522),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FormHeader(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  child: Divider(
-                    height: 1,
-                    color: dividerColor,
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Scrollbar(
-                      isAlwaysShown: true,
-                      controller: scrollController,
-                      child: ListView(
-                          shrinkWrap: true,
-                          controller: scrollController,
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: EventTypeBox(
-                                event: widget.event,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Nom",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: FormTextField(
-                                  seText: (String value) {
-                                    widget.event.name = value;
-                                  },
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Catégorie",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: EventCategoryBox(
-                                  event: widget.event,
-                                )),
-                            //EventTypeBox(event: widget.event,)),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Niveau",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: EventLevelBox(
-                                  event: widget.event,
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Pièces jointes",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Attachments(
-                                documents: widget.event.documents,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  "Description",
-                                  style: TextStyle(
-                                      color: text,
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                  child: MultiLinesTextFieldWidget(
-                                onChange: (value) {
-                                  widget.event.description = value;
-                                },
-                                hintText: "Ajoutez plus d'informations...",
-                              )),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Source",
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 11.5,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    CustomIconButton(
-                                        icon: Icons.info_outline,
-                                        message: "Source",
-                                        onTap: () {})
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                  child: MultiLinesTextFieldWidget(
-                                      onChange: (value) {
-                                        widget.event.source = value;
-                                      },
-                                      hintText: "")),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Cause",
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 11.5,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    CustomIconButton(
-                                        icon: Icons.info_outline,
-                                        message: "Cause",
-                                        onTap: () {})
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                  child: MultiLinesTextFieldWidget(
-                                      onChange: (value) {
-                                        widget.event.cause = value;
-                                      },
-                                      hintText: "")),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Impact",
-                                      style: TextStyle(
-                                          color: text,
-                                          fontSize: 11.5,
-                                          fontWeight: FontWeight.w600),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    CustomIconButton(
-                                        icon: Icons.info_outline,
-                                        message: "Impact",
-                                        onTap: () {})
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                  child: MultiLinesTextFieldWidget(
-                                      onChange: (value) {
-                                        widget.event.impact = value;
-                                      },
-                                      hintText: "")),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ]),
+        onTap: () {
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
+        child: BlocProvider<UploadBloc>(
+            bloc: UploadBloc(),
+            child: Container(
+              width: 500,
+              constraints: BoxConstraints(maxHeight: 522),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FormHeader(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
+                      child: Divider(
+                        height: 1,
+                        color: dividerColor,
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  child: Divider(
-                    height: 1,
-                    color: dividerColor,
-                  ),
-                )
-              ]),
-        )));
+                    Expanded(
+                      child: Center(
+                        child: Scrollbar(
+                          isAlwaysShown: true,
+                          controller: scrollController,
+                          child: ListView(
+                              shrinkWrap: true,
+                              controller: scrollController,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: EventTypeBox(
+                                    event: widget.event,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Text(
+                                      "Nom",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: FormTextField(
+                                      seText: (String value) {
+                                        widget.event.name = value;
+                                      },
+                                    )),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Text(
+                                      "Catégorie",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: EventCategoryBox(
+                                      event: widget.event,
+                                    )),
+                                //EventTypeBox(event: widget.event,)),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Text(
+                                      "Niveau",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: EventLevelBox(
+                                      event: widget.event,
+                                    )),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Text(
+                                      "Pièces jointes",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Attachments(
+                                    documents: widget.event.documents,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Text(
+                                      "Description",
+                                      style: TextStyle(
+                                          color: text,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w600),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                      child: MultiLinesTextFieldWidget(
+                                    onChange: (value) {
+                                      widget.event.description = value;
+                                    },
+                                    hintText: "Ajoutez plus d'informations...",
+                                  )),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Source",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        CustomIconButton(
+                                            icon: Icons.info_outline,
+                                            message: "Source",
+                                            onTap: () {})
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                      child: MultiLinesTextFieldWidget(
+                                          onChange: (value) {
+                                            widget.event.source = value;
+                                          },
+                                          hintText: "")),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Cause",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        CustomIconButton(
+                                            icon: Icons.info_outline,
+                                            message: "Cause",
+                                            onTap: () {})
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                      child: MultiLinesTextFieldWidget(
+                                          onChange: (value) {
+                                            widget.event.cause = value;
+                                          },
+                                          hintText: "")),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Impact",
+                                          style: TextStyle(
+                                              color: text,
+                                              fontSize: 11.5,
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        CustomIconButton(
+                                            icon: Icons.info_outline,
+                                            message: "Impact",
+                                            onTap: () {})
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                      child: MultiLinesTextFieldWidget(
+                                          onChange: (value) {
+                                            widget.event.impact = value;
+                                          },
+                                          hintText: "")),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ]),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
+                      child: Divider(
+                        height: 1,
+                        color: dividerColor,
+                      ),
+                    )
+                  ]),
+            )));
   }
 }
 

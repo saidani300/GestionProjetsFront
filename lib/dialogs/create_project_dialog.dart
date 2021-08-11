@@ -7,12 +7,13 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/Data/project_type.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
+import 'package:gestion_projets/widgets/toast.dart';
 
 import 'forms/create_project_form.dart';
 import 'forms/widgets/buttons.dart';
 
 
-createProjectDialogBox(BuildContext context) {
+createProjectDialogBox(BuildContext context, ScrollController controller) {
   Project project = new Project(
       new Random().nextInt(999999999),
       "",
@@ -47,6 +48,15 @@ createProjectDialogBox(BuildContext context) {
               onTap: () {
                 Navigator.of(context).pop();
                 bloc.add(project);
+                if (controller.hasClients)
+                {controller.animateTo(
+                  0.0,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );}
+                showToast(ToastType.success,
+                    project.name,
+                    event: ToastEvent.create);
               }),
         ],
       );

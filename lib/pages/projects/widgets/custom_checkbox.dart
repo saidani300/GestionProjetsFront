@@ -168,7 +168,7 @@ class CustomCheckAllBoxLeaderState extends State<CustomCheckAllBoxLeader> {
               if (value == null) return;
               setState(() {
                 widget.allItems.value = value;
-                LeaderList.forEach((type) {
+                leaderList.forEach((type) {
                   type.value = value;
                 });
               });

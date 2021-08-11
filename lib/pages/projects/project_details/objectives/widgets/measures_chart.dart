@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/chartData.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
@@ -38,7 +38,6 @@ class _MeasuresChartState extends State<MeasuresChart> {
         child: StreamBuilder<List<Objective>>(
             stream: bloc.objectiveStream,
             builder: (context, snapshot) {
-              final results = snapshot.data;
               return (snapshot.hasData)
                   ? SfCartesianChart(
                       zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
@@ -66,17 +65,22 @@ class _MeasuresChartState extends State<MeasuresChart> {
                           interval: widget.indicator.maxValue / 10,
                           axisLine: const AxisLine(width: 0),
                           majorTickLines: const MajorTickLines(size: 0)),
-                      series: _getDefaultColumn(widget.indicator.measures.reversed
-                          .map((e) => new ChartData(
-                                x: DateFormat('dd/M/yy').format(e.startDate) + " - " + DateFormat('dd/M/yy').format(e.endDate),
-                                y: e.value,
-                                pointColor:
-                                    e.value < widget.indicator.criticalThreshold
+                      series:
+                          _getDefaultColumn(widget.indicator.measures.reversed
+                              .map((e) => new ChartData(
+                                    x: DateFormat('dd/M/yy')
+                                            .format(e.startDate) +
+                                        " - " +
+                                        DateFormat('dd/M/yy').format(e.endDate),
+                                    y: e.value,
+                                    pointColor: e.value <
+                                            widget.indicator.criticalThreshold
                                         ? lightRed
                                         : text,
-                                secondSeriesYValue: widget.indicator.criticalThreshold,
-                              ))
-                          .toList()),
+                                    secondSeriesYValue:
+                                        widget.indicator.criticalThreshold,
+                                  ))
+                              .toList()),
                       legend: Legend(
                         isVisible: true,
                         textStyle: TextStyle(

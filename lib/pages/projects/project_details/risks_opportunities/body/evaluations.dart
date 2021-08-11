@@ -1,18 +1,20 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_evaluation_dialog.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/create_evaluation_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/evaluation_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/messages.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -34,7 +36,6 @@ class EvaluationsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<EventBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -372,7 +373,6 @@ class _EvaluationsListState extends State<EvaluationsList> {
         child: StreamBuilder<List<Event>>(
             stream: bloc.eventStream,
             builder: (context, snapshot) {
-              final results = snapshot.data;
               return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: (snapshot.hasData)
@@ -382,7 +382,12 @@ class _EvaluationsListState extends State<EvaluationsList> {
                               message:
                                   "Il n'y a aucune évaluation à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en créer une nouvelle.",
                               title: "Aucune évaluation trouvée",
-                              buttonText: "Créer", onTap: () {createEvaluationDialogBox(context, widget.scrollController, widget.event);  },)
+                              buttonText: "Créer",
+                              onTap: () {
+                                createEvaluationDialogBox(context,
+                                    widget.scrollController, widget.event);
+                              },
+                            )
                           : ListView(
                               key: ValueKey(Random.secure()),
                               controller: widget.scrollController,
@@ -459,9 +464,7 @@ class _EventDetailsState extends State<EventDetails> {
                         ? Column(children: [
                             InkWell(
                               hoverColor: active.withOpacity(0.015),
-                              onTap: () {
-
-                              },
+                              onTap: () {},
                               highlightColor: Colors.transparent,
                               splashColor: Colors.transparent,
                               child: Container(
@@ -474,7 +477,7 @@ class _EventDetailsState extends State<EventDetails> {
                                       width: 2,
                                       child: Container(
                                         color:
-                                            TypeColor(widget.event.eventType),
+                                            typeColor(widget.event.eventType),
                                       ),
                                     ),
                                     SizedBox(
@@ -500,11 +503,39 @@ class _EventDetailsState extends State<EventDetails> {
                                               width: 10,
                                             ),
                                             Flexible(
-                                                child: Text(widget.event.name,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                child: AutoSizeText(
+                                              widget.event.name,
+                                              maxLines: 1,
+                                              style: textStyle_Text_12_600,
+                                              overflowReplacement:
+                                                  Row(children: [
+                                                Flexible(
+                                                  child: AutoSizeText(
+                                                    widget.event.name,
+                                                    maxLines: 1,
                                                     style:
-                                                        textStyle_Text_12_600)),
+                                                        textStyle_Text_12_600,
+                                                    overflowReplacement: Row(
+                                                      children: [
+                                                        Flexible(
+                                                          child: Tooltip(
+                                                              message: widget
+                                                                  .event.name,
+                                                              child: Text(
+                                                                  widget.event
+                                                                      .name,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      textStyle_Text_12_600)),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
+                                            )),
                                             SizedBox(width: 5),
                                             Visibility(
                                                 visible: widget
@@ -514,7 +545,11 @@ class _EventDetailsState extends State<EventDetails> {
                                                       Icons.attach_file_rounded,
                                                   message:
                                                       "${widget.event.documents.length.toString()} Attachement",
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    attachmentsDialogBox(
+                                                        context,
+                                                        widget.event.documents);
+                                                  },
                                                   size: 15,
                                                 )),
                                           ],
@@ -530,14 +565,36 @@ class _EventDetailsState extends State<EventDetails> {
                                         child: Row(
                                           children: [
                                             Flexible(
-                                                child: Text(
-                                                    widget.event.impact.isEmpty
-                                                        ? "_"
-                                                        : widget.event.impact,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style:
-                                                        textStyle_Text_12_600)),
+                                              child: AutoSizeText(
+                                                widget.event.impact.isEmpty
+                                                    ? "_"
+                                                    : widget.event.impact,
+                                                maxLines: 1,
+                                                style: textStyle_Text_12_600,
+                                                overflowReplacement: Row(
+                                                  children: [
+                                                    Flexible(
+                                                        child: Text(
+                                                            widget.event.impact
+                                                                    .isEmpty
+                                                                ? "_"
+                                                                : widget.event
+                                                                    .impact,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                textStyle_Text_12_600)),
+                                                    CustomIconButton(
+                                                      icon: Icons.open_in_new,
+                                                      message: "Afficher plus",
+                                                      onTap: () {},
+                                                      size: 15,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -552,14 +609,36 @@ class _EventDetailsState extends State<EventDetails> {
                                         child: Row(
                                           children: [
                                             Flexible(
-                                                child: Text(
-                                                    widget.event.source.isEmpty
-                                                        ? "_"
-                                                        : widget.event.source,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style:
-                                                        textStyle_Text_12_600)),
+                                              child: AutoSizeText(
+                                                widget.event.source.isEmpty
+                                                    ? "_"
+                                                    : widget.event.source,
+                                                maxLines: 1,
+                                                style: textStyle_Text_12_600,
+                                                overflowReplacement: Row(
+                                                  children: [
+                                                    Flexible(
+                                                        child: Text(
+                                                            widget.event.source
+                                                                    .isEmpty
+                                                                ? "_"
+                                                                : widget.event
+                                                                    .source,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                textStyle_Text_12_600)),
+                                                    CustomIconButton(
+                                                      icon: Icons.open_in_new,
+                                                      message: "Afficher plus",
+                                                      onTap: () {},
+                                                      size: 15,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

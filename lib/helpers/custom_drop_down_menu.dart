@@ -119,8 +119,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
     Key? key,
     required this.onLayout,
     required Widget? child,
-  })  : assert(onLayout != null),
-        super(key: key, child: child);
+  })  : super(key: key, child: child);
 
   final ValueChanged<Size> onLayout;
 
@@ -138,8 +137,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
 
 class _RenderMenuItem extends RenderShiftedBox {
   _RenderMenuItem(this.onLayout, [RenderBox? child])
-      : assert(onLayout != null),
-        super(child);
+      : super(child);
 
   ValueChanged<Size> onLayout;
 
@@ -219,9 +217,7 @@ class CustomPopupMenuItem<T> extends CustomPopupMenuEntry<T> {
     this.textStyle,
     this.mouseCursor,
     required this.child,
-  })  : assert(enabled != null),
-        assert(height != null),
-        super(key: key);
+  })  : super(key: key);
 
   /// The value that will be returned by [showMenu] if this entry is selected.
   final T? value;
@@ -448,8 +444,7 @@ class CheckedCustomPopupMenuItem<T> extends CustomPopupMenuItem<T> {
     EdgeInsets? padding,
     double height = kMinInteractiveDimension,
     Widget? child,
-  })  : assert(checked != null),
-        super(
+  })  : super(
           key: key,
           value: value,
           enabled: enabled,
@@ -672,7 +667,7 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     final double buttonHeight = size.height - position.top - position.bottom;
     // Find the ideal vertical position.
     double y = position.top;
-    if (selectedItemIndex != null && itemSizes != null) {
+    if (selectedItemIndex != null) {
       double selectedItemOffset = _kMenuVerticalPadding;
       for (int index = 0; index < selectedItemIndex!; index += 1)
         selectedItemOffset += itemSizes[index]!.height;
@@ -690,7 +685,6 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
       x = position.left;
     } else {
       // Menu button is equidistant from both edges, so grow in reading direction.
-      assert(textDirection != null);
       switch (textDirection) {
         case TextDirection.rtl:
           x = size.width - position.right - childSize.width;
@@ -881,10 +875,7 @@ Future<T?> showMenu<T>({
   Color? color,
   bool useRootNavigator = false,
 }) {
-  assert(context != null);
-  assert(position != null);
-  assert(useRootNavigator != null);
-  assert(items != null && items.isNotEmpty);
+  assert(items.isNotEmpty);
   assert(debugCheckHasMaterialLocalizations(context));
 
   switch (Theme.of(context).platform) {
@@ -1006,10 +997,7 @@ class CustomPopupMenuButton<T> extends StatefulWidget {
     this.shape,
     this.color,
     this.enableFeedback,
-  })  : assert(itemBuilder != null),
-        assert(offset != null),
-        assert(enabled != null),
-        assert(
+  })  : assert(
           !(child != null && icon != null),
           'You can only pass [child] or [icon], not both.',
         ),

@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-
 
 class ViewItem {
   final String name;
+
   ViewItem(this.name);
 }
 
 List<ViewItem> views = [
-  ViewItem("Tous",),
-  ViewItem("Terminé",),
-  ViewItem("En cours",),
-  ViewItem("Programmée",),
+  ViewItem(
+    "Tous",
+  ),
+  ViewItem(
+    "Terminé",
+  ),
+  ViewItem(
+    "En cours",
+  ),
+  ViewItem(
+    "Programmée",
+  ),
 ];
 
 class MeetingShowByViewMenu extends StatefulWidget {
   const MeetingShowByViewMenu({Key? key}) : super(key: key);
 
   @override
-  _MeetingShowByViewMenuState createState() =>
-      _MeetingShowByViewMenuState();
+  _MeetingShowByViewMenuState createState() => _MeetingShowByViewMenuState();
 }
 
 class _MeetingShowByViewMenuState extends State<MeetingShowByViewMenu> {
@@ -45,14 +51,14 @@ class _MeetingShowByViewMenuState extends State<MeetingShowByViewMenu> {
         mainAxisSize: MainAxisSize.min,
         children: views
             .map((e) => Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: ShowByViewItem(
-              item: e,
-              isActive: e == selectedItem,
-              onTap: () {
-                _onSelectItem(e);
-              },
-            )))
+                padding: EdgeInsets.only(left: 20),
+                child: ShowByViewItem(
+                  item: e,
+                  isActive: e == selectedItem,
+                  onTap: () {
+                    _onSelectItem(e);
+                  },
+                )))
             .toList(),
       ),
     );
@@ -80,22 +86,22 @@ class _ShowByViewItemState extends State<ShowByViewItem> {
 
   @override
   Widget build(BuildContext context) {
-   // final bloc = BlocProvider.of<ProjectBloc>(context);
+    // final bloc = BlocProvider.of<ProjectBloc>(context);
 
     return InkWell(
         onTap: () {
           widget.onTap();
-         /* projectsFilterData.status = widget.item.status;
+          /* projectsFilterData.status = widget.item.status;
           bloc.fetch();*/
         },
         onHover: (value) {
           value
               ? setState(() {
-            isHover = true;
-          })
+                  isHover = true;
+                })
               : setState(() {
-            isHover = false;
-          });
+                  isHover = false;
+                });
         },
         child: Container(
             height: 50,
@@ -106,18 +112,18 @@ class _ShowByViewItemState extends State<ShowByViewItem> {
                 children: [
                   Expanded(child: Container()),
                   Text(
-                        widget.item.name,
-                        style: TextStyle(
-                            color: widget.isActive
-                                ? active
-                                : isHover
+                    widget.item.name,
+                    style: TextStyle(
+                        color: widget.isActive
+                            ? active
+                            : isHover
                                 ? text
                                 : text.withOpacity(0.7),
-                            fontSize: 12,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
-                      ),
+                        fontSize: 12,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
                   Expanded(child: Container()),
                   Visibility(
                     visible: widget.isActive,

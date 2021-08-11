@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:gestion_projets/pages/notifications/data/notification.dart' as Model;
+import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 class NotificationItem extends StatelessWidget {
   final Model.Notification notification;

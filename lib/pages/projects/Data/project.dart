@@ -76,7 +76,8 @@ List<Project> projects = [
       Status.inProgress,
       DateTime.now(),
       DateTime.now().add(Duration(days: 38)),
-      Priority.Normal, [documents.first.documents.first , documents.first.documents.last]),
+      Priority.Normal,
+      [documents.first.documents.first, documents.first.documents.last]),
   Project(
       5,
       "Développement d'une nouvelle interface utilisateur",
@@ -85,7 +86,9 @@ List<Project> projects = [
       Status.inProgress,
       DateTime.now().subtract(Duration(days: 50)),
       DateTime.now().subtract(Duration(days: 38)),
-      Priority.Important, [documents.first.documents.first ,]),
+      Priority.Important, [
+    documents.first.documents.first,
+  ]),
   Project(
       447,
       "Développement d'une nouvelle interface utilisateur",
@@ -103,7 +106,9 @@ List<Project> projects = [
       Status.completed,
       DateTime.now(),
       DateTime.now().add(Duration(days: 150)),
-      Priority.Normal, [documents.first.documents.first ,]),
+      Priority.Normal, [
+    documents.first.documents.first,
+  ]),
   Project(
       55558888,
       "Projet Qalitas",

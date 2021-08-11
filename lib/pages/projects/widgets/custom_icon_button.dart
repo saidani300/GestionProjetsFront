@@ -5,7 +5,7 @@ class CustomIconButton extends StatefulWidget {
   final IconData icon;
   final String message;
   final Color color;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool enableToolTip;
   final double size;
 
@@ -25,6 +25,7 @@ class CustomIconButton extends StatefulWidget {
 
 class _CustomIconButtonState extends State<CustomIconButton> {
   bool isHover = false;
+
   @override
   Widget build(BuildContext context) {
     return (widget.enableToolTip)
@@ -38,13 +39,13 @@ class _CustomIconButtonState extends State<CustomIconButton> {
                 splashColor: Colors.transparent,
                 onHover: (value) {
                   value
-                      ? setState(()=> isHover = true)
-                      : setState(()=> isHover = false);
+                      ? setState(() => isHover = true)
+                      : setState(() => isHover = false);
                 },
                 child: Icon(
-                    widget.icon,
-                    color: isHover ? widget.color : text.withOpacity(0.7),
-                    size: widget.size,
+                  widget.icon,
+                  color: isHover ? widget.color : text.withOpacity(0.7),
+                  size: widget.size,
                 ),
               ),
             ),
@@ -57,13 +58,13 @@ class _CustomIconButtonState extends State<CustomIconButton> {
               splashColor: Colors.transparent,
               onHover: (value) {
                 value
-                    ? setState(()=> isHover = true)
-                    : setState(()=> isHover = false);
+                    ? setState(() => isHover = true)
+                    : setState(() => isHover = false);
               },
-              child:Icon(
-                  widget.icon,
-                  color: isHover ? widget.color : text.withOpacity(0.7),
-                  size: widget.size,
+              child: Icon(
+                widget.icon,
+                color: isHover ? widget.color : text.withOpacity(0.7),
+                size: widget.size,
               ),
             ),
           );

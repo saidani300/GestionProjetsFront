@@ -8,7 +8,6 @@ import 'package:gestion_projets/pages/projects/project_details/objectives/body/i
 import 'package:gestion_projets/pages/projects/project_details/objectives/body/objectives_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/objectives.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/project_overview.dart';
 import 'package:gestion_projets/pages/projects/project_details/project_details.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/body/calculations.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/body/evaluations.dart';
@@ -16,6 +15,7 @@ import 'package:gestion_projets/pages/projects/project_details/risks_opportuniti
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/risks_opportunities.dart';
+import 'package:gestion_projets/pages/projects/project_details/structure/project_overview.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/tasks.dart';
 import 'package:gestion_projets/pages/projects/projects.dart';
 import 'package:gestion_projets/pages/tasks/tasks.dart';

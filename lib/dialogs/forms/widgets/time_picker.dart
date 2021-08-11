@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
-import 'package:intl/intl.dart';
 
 class TimePickerWidget extends StatefulWidget {
   final Function(TimeOfDay time) setTime;
@@ -43,18 +42,19 @@ class _TimePickerWidgetState extends State<TimePickerWidget>
         excludeFromSemantics: true,
         onTap: () {
           FocusManager.instance.primaryFocus!.unfocus();
-          pickTime(context);},
+          pickTime(context);
+        },
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onHover: (value) {
           value
               ? setState(() {
-            isHover = true;
-          })
+                  isHover = true;
+                })
               : setState(() {
-            isHover = false;
-          });
+                  isHover = false;
+                });
         },
         child: Container(
             height: widget.height,

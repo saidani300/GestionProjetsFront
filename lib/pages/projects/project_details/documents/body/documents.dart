@@ -5,9 +5,9 @@ import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/document_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_folder_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
@@ -33,7 +33,6 @@ class DocumentsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<DocumentBloc>(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,7 +158,6 @@ class _DocumentsBodyState extends State<DocumentsBody> {
                       width: 15,
                     ),
                     Expanded(child: Container()),
-
                     SizedBox(
                       width: 15,
                     ),
@@ -190,7 +188,7 @@ class _DocumentsBodyState extends State<DocumentsBody> {
               ]),
             )),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 20), child: FileDropZone()),
+            padding: EdgeInsets.symmetric(vertical: 10), child: FileDropZone()),
         Divider(
           height: 1,
           color: dividerColor,
@@ -249,7 +247,9 @@ class _DocumentsListState extends State<DocumentsList> {
                               message:
                                   "Il n'y a aucun document à afficher pour vous, actuellement vous n'en avez pas mais vous pouvez en ajouter un nouveau.",
                               title: "Aucun document trouvé",
-                              buttonText: "", onTap: () {},)
+                              buttonText: "",
+                              onTap: () {},
+                            )
                           : DragAndDropLists(
                               contentsWhenEmpty: Container(),
                               key: ValueKey(Random.secure()),

@@ -1,22 +1,18 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/task_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/attachments_dialog.dart';
 import 'package:gestion_projets/dialogs/create_subtask_form.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
-import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/BLoC/task_bloc.dart';
-import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart'
-    as Model;
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/widgets/task_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
@@ -79,7 +75,6 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-
                       showDialog(context);
                     },
                     highlightColor: Colors.transparent,
@@ -93,7 +88,7 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                           SizedBox(
                             width: 2,
                             child: Container(
-                              color: StatusColor(widget.task.status),
+                              color: statusColor(widget.task.status),
                             ),
                           ),
                           SizedBox(
@@ -122,9 +117,25 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                     width: 20,
                                   ),
                                   Flexible(
-                                      child: Text(widget.task.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.task.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.task.name,
+                                                child: Text(widget.task.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible: widget.task.documents.isNotEmpty,
@@ -132,7 +143,10 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                         icon: Icons.attach_file_rounded,
                                         message:
                                             "${widget.task.documents.length.toString()} Attachement",
-                                        onTap: () {attachmentsDialogBox(context  , widget.task.documents);},
+                                        onTap: () {
+                                          attachmentsDialogBox(
+                                              context, widget.task.documents);
+                                        },
                                         size: 15,
                                       )),
                                 ],
@@ -162,18 +176,24 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                        getText(widget.task.endDate),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress)
-                                                ? lightRed
-                                                : text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
+                                    getText(widget.task.endDate),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: (widget.task.endDate
+                                                    .isBefore(DateTime.now()) &&
+                                                widget.task.status ==
+                                                    Status.inProgress)
+                                            ? lightRed
+                                            : text,
+                                        fontSize: 12,
+                                        letterSpacing: 0,
+                                        fontWeight: FontWeight.w600),
+                                  )),
                                   Visibility(
-                                      visible: (widget.task.endDate.isBefore(DateTime.now()) && widget.task.status == Status.inProgress),
+                                      visible: (widget.task.endDate
+                                              .isBefore(DateTime.now()) &&
+                                          widget.task.status ==
+                                              Status.inProgress),
                                       child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -187,9 +207,9 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                                 decoration: BoxDecoration(
                                                     color: lightRed,
                                                     borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(
-                                                            2))),
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                2))),
                                                 child: Icon(
                                                   Icons.warning_rounded,
                                                   color: lightRed,
@@ -244,8 +264,10 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                 children: [
                                   Container(
                                       child: GlobalStatusTag(
-                                          status: widget.task.status,
-                                          date: getText(widget.task.endDate), deadLine: widget.task.endDate,))
+                                    status: widget.task.status,
+                                    date: getText(widget.task.endDate),
+                                    deadLine: widget.task.endDate,
+                                  ))
                                 ]),
                             flex: 2,
                           ),
@@ -282,8 +304,8 @@ class _ProjectTaskItemState extends State<ProjectTaskItem>
                                       message: 'Ajouter une sous-tâche',
                                       color: active,
                                       onTap: () {
-                                        createSubTaskDialogBox(context,widget.task,null,true);
-
+                                        createSubTaskDialogBox(
+                                            context, widget.task, null, true);
                                       }),
                                 ]),
                               ],

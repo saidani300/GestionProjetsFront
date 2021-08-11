@@ -22,7 +22,7 @@ const double _kMenuMinWidth = 2.0 * _kMenuWidthStep;
 const double _kMenuVerticalPadding = 0.0;
 const double _kMenuWidthStep = 28.0;
 const double _kMenuScreenPadding = 8.0;
-const double _kMenuMaxHeight = 150; // 50 for each Item
+const double _kMenuMaxHeight = 200; // 50 for each Item
 
 /// A base class for entries in a material design popup menu.
 ///
@@ -120,8 +120,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
     Key? key,
     required this.onLayout,
     required Widget? child,
-  })  : assert(onLayout != null),
-        super(key: key, child: child);
+  })  : super(key: key, child: child);
 
   final ValueChanged<Size> onLayout;
 
@@ -139,8 +138,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
 
 class _RenderMenuItem extends RenderShiftedBox {
   _RenderMenuItem(this.onLayout, [RenderBox? child])
-      : assert(onLayout != null),
-        super(child);
+      : super(child);
 
   ValueChanged<Size> onLayout;
 
@@ -220,9 +218,7 @@ class CustomListPopupMenuItem<T> extends CustomListPopupMenuEntry<T> {
     this.textStyle,
     this.mouseCursor,
     required this.child,
-  })  : assert(enabled != null),
-        assert(height != null),
-        super(key: key);
+  })  : super(key: key);
 
   /// The value that will be returned by [showMenu] if this entry is selected.
   final T? value;
@@ -449,8 +445,7 @@ class CheckedCustomListPopupMenuItem<T> extends CustomListPopupMenuItem<T> {
     EdgeInsets? padding,
     double height = kMinInteractiveDimension,
     Widget? child,
-  })  : assert(checked != null),
-        super(
+  })  : super(
           key: key,
           value: value,
           enabled: enabled,
@@ -591,7 +586,7 @@ class _PopupMenu<T> extends StatelessWidget {
           label: semanticLabel,
           child: Scrollbar(
             controller: controller,
-            isAlwaysShown : true,
+            isAlwaysShown: true,
             child: SingleChildScrollView(
               controller: controller,
               padding: const EdgeInsets.symmetric(
@@ -677,7 +672,7 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     final double buttonHeight = size.height - position.top - position.bottom;
     // Find the ideal vertical position.
     double y = position.top;
-    if (selectedItemIndex != null && itemSizes != null) {
+    if (selectedItemIndex != null) {
       double selectedItemOffset = _kMenuVerticalPadding;
       for (int index = 0; index < selectedItemIndex!; index += 1)
         selectedItemOffset += itemSizes[index]!.height;
@@ -695,7 +690,6 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
       x = position.left;
     } else {
       // Menu button is equidistant from both edges, so grow in reading direction.
-      assert(textDirection != null);
       switch (textDirection) {
         case TextDirection.rtl:
           x = size.width - position.right - childSize.width;
@@ -886,10 +880,7 @@ Future<T?> showMenu<T>({
   Color? color,
   bool useRootNavigator = false,
 }) {
-  assert(context != null);
-  assert(position != null);
-  assert(useRootNavigator != null);
-  assert(items != null && items.isNotEmpty);
+  assert(items.isNotEmpty);
   assert(debugCheckHasMaterialLocalizations(context));
 
   switch (Theme.of(context).platform) {
@@ -1013,10 +1004,7 @@ class CustomListPopupMenuButton<T> extends StatefulWidget {
     this.shape,
     this.color,
     this.enableFeedback,
-  })  : assert(itemBuilder != null),
-        assert(offset != null),
-        assert(enabled != null),
-        assert(
+  })  : assert(
           !(child != null && icon != null),
           'You can only pass [child] or [icon], not both.',
         ),
@@ -1195,8 +1183,9 @@ class CustomListPopupMenuButtonState<T>
 
     if (widget.child != null)
       return InkWell(
-        onTap: (){if(widget.enabled) showButtonMenu();
-        FocusManager.instance.primaryFocus!.unfocus();
+        onTap: () {
+          if (widget.enabled) showButtonMenu();
+          FocusManager.instance.primaryFocus!.unfocus();
         },
         canRequestFocus: _canRequestFocus,
         hoverColor: Colors.transparent,
@@ -1226,7 +1215,6 @@ class CustomListPopupMenuButtonState<T>
                 children: [
                   Expanded(child: widget.child ?? Container()),
                   Container(
-                      width: 34,
                       child: Icon(
                         Icons.keyboard_arrow_down_rounded,
                         color: isHover ? active : text.withOpacity(0.35),

@@ -34,6 +34,7 @@ class _PriorityBoxState extends State<PriorityBox>
               children: [
                 PriorityIcon(
                   priority: priority,
+                  toolTipEnabled: false,
                 ),
                 SizedBox(
                   width: 10,

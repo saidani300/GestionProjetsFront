@@ -1,11 +1,14 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/meeting_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/dialogs/show_more_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
@@ -59,9 +62,7 @@ class _MeetingItemState extends State<MeetingItem>
                 child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
-                    onTap: () {
-
-                    },
+                    onTap: () {},
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     child: Container(
@@ -84,9 +85,25 @@ class _MeetingItemState extends State<MeetingItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(widget.meeting.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.meeting.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.meeting.name,
+                                                child: Text(widget.meeting.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -95,7 +112,10 @@ class _MeetingItemState extends State<MeetingItem>
                                         icon: Icons.attach_file_rounded,
                                         message:
                                             "${widget.meeting.documents.length.toString()} Attachement",
-                                        onTap: () {},
+                                        onTap: () {
+                                          attachmentsDialogBox(context,
+                                              widget.meeting.documents);
+                                        },
                                         size: 15,
                                       )),
                                 ],
@@ -166,14 +186,44 @@ class _MeetingItemState extends State<MeetingItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                          widget.meeting.comment.isEmpty
-                                              ? "Pas de commentaire"
-                                              : widget.meeting.comment,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: widget.meeting.comment.isEmpty
-                                              ? textStyle_Text_11_500
-                                              : textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.meeting.comment.isEmpty
+                                          ? "Pas de commentaire"
+                                          : widget.meeting.comment,
+                                      maxLines: 1,
+                                      style: widget.meeting.comment.isEmpty
+                                          ? textStyle_Text_11_500
+                                          : textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                              child: Text(
+                                                  widget.meeting.comment.isEmpty
+                                                      ? "Pas de commentaire"
+                                                      : widget.meeting.comment,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: widget.meeting.comment
+                                                          .isEmpty
+                                                      ? textStyle_Text_11_500
+                                                      : textStyle_Text_12_600)),
+                                          widget.meeting.comment.isNotEmpty
+                                              ? CustomIconButton(
+                                                  icon: Icons.open_in_new,
+                                                  message: "Afficher plus",
+                                                  onTap: () {
+                                                    showMoreDialogBox(
+                                                        context,
+                                                        'Commentaire',
+                                                        widget.meeting.comment);
+                                                  },
+                                                  size: 15,
+                                                )
+                                              : Container()
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

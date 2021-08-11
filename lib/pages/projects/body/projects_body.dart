@@ -3,36 +3,29 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/project_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_project_dialog.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/dialogs/messages.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
-import 'package:gestion_projets/pages/projects/filter/filter_container.dart';
-import 'package:gestion_projets/BLoC/bloc_provider.dart';
-import 'package:gestion_projets/BLoC/project_bloc.dart';
+import 'package:gestion_projets/pages/projects/filter/widgets/project_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
 import 'package:gestion_projets/pages/projects/project_details/widgets/multi_options_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
+import 'package:gestion_projets/pages/projects/filter/project_filter.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/pages/projects/widgets/search_text_field.dart';
 import 'package:gestion_projets/pages/projects/widgets/show_by_status_menu.dart';
-import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 //TODO : Add number of projects
 //TODO: Change add project button, more height and make it global style
 //TODO: Change project status tag , it's ugly
 //TODO: Select multiple projects
 bool _isFilterClosed = true;
-DateTime startDate = DateTime.now();
-DateTime endDate = DateTime.now();
-var orderBy = "Project".obs;
-var isAscending = true.obs;
-String query = '';
-final ScrollController scrollController = ScrollController();
 
 class ProjectsPageBody extends StatefulWidget {
   @override
@@ -46,11 +39,13 @@ class ProjectsPageBody extends StatefulWidget {
 /*_______________________________________________________________________*/
 
 class ProjectsPageHeader extends StatelessWidget {
+  final ScrollController controller;
   final VoidCallback onTap;
 
   const ProjectsPageHeader({
     Key? key,
     required this.onTap,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -83,7 +78,7 @@ class ProjectsPageHeader extends StatelessWidget {
             text: "Créer un projet",
             isMultiple: false,
             onTap: () {
-              createProjectDialogBox(context);
+              createProjectDialogBox(context, controller);
             }),
       ],
     );
@@ -97,10 +92,12 @@ class ProjectsPageHeader extends StatelessWidget {
 /*_______________________________________________________________________*/
 //GlobalKey<ProjectsList> _myKey = GlobalKey();
 class _ProjectsPageBodyState extends State<ProjectsPageBody> {
+  final ScrollController controller = ScrollController();
+
   @override
   initState() {
     super.initState();
-    projectsFilterData = ProjectFilter(null, null, null, null, null);
+    projectsFilterData = ProjectGlobalFilter(null, null, null, null, null);
   }
 
   @override
@@ -114,6 +111,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
           children: [
             ProjectsPageHeader(
               onTap: () {},
+              controller: controller,
             ),
             Expanded(
               child: Container(
@@ -162,15 +160,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                               SizedBox(
                                 width: 15,
                               ),
-                              CustomIconButton(
-                                icon: Icons.filter_alt_outlined,
-                                message: 'Filter',
-                                onTap: () {
-                                  setState(() {
-                                    _isFilterClosed = !_isFilterClosed;
-                                  });
-                                },
-                              ),
+                              ProjectFilterMenu(),
                               SizedBox(
                                 width: 15,
                               ),
@@ -184,11 +174,11 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                               height: 1,
                               color: dividerColor,
                             ),
-                            Filter(apply: () {
+                            /* Filter(apply: () {
                               setState(() {
                                 _isFilterClosed = !_isFilterClosed;
                               });
-                            }),
+                            }),*/
                           ]),
                           crossFadeState: _isFilterClosed
                               ? CrossFadeState.showFirst
@@ -199,9 +189,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                           height: 1,
                           color: dividerColor,
                         ),
-                        ProjectsListHeader(
-                          tapOrderBy: () {},
-                        ),
+                        ProjectsListHeader(),
                         Divider(
                           height: 1,
                           color: dividerColor,
@@ -209,6 +197,7 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
                         Expanded(
                             child: ProjectsList(
                           parentContext: context,
+                          scrollController: controller,
                         )),
                       ],
                     )),
@@ -225,15 +214,14 @@ class _ProjectsPageBodyState extends State<ProjectsPageBody> {
 /*_______________________________________________________________________*/
 
 class ProjectsListHeader extends StatelessWidget {
-  final Function() tapOrderBy;
-
-  const ProjectsListHeader({Key? key, required this.tapOrderBy})
-      : super(key: key);
+  const ProjectsListHeader({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,30 +231,15 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  InkWell(
-                      onTap: () {
-                        orderBy.value = "Project";
-                        isAscending.value = !isAscending.value;
-                        tapOrderBy();
-                      },
-                      child: Obx(() => Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Text("Projet", style: textStyle_Text_12_600),
-                                Visibility(
-                                    visible:
-                                        (orderBy.value.contains("Project")),
-                                    child: Icon(
-                                        (isAscending.value)
-                                            ? Icons.keyboard_arrow_up_rounded
-                                            : Icons.keyboard_arrow_down_rounded,
-                                        size: 12)),
-                              ]))),
-                ])),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Projet",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
+            ),
             flex: 3,
           ),
           SizedBox(
@@ -274,32 +247,14 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        orderBy.value = "StartDate";
-                        isAscending.value = !isAscending.value;
-                        tapOrderBy();
-                      },
-                      child: Obx(() => Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Text("Date de début",
-                                style: textStyle_Text_12_600),
-                            Visibility(
-                                visible:
-                                (orderBy.value.contains("StartDate")),
-                                child: Icon(
-                                    (isAscending.value)
-                                        ? Icons.keyboard_arrow_up_rounded
-                                        : Icons.keyboard_arrow_down_rounded,
-                                    size: 12)),
-                          ])),
-                    )
-                  ]),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Date de début",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
             ),
             flex: 2,
           ),
@@ -308,32 +263,14 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        orderBy.value = "DeadLine";
-                        isAscending.value = !isAscending.value;
-                        tapOrderBy();
-                      },
-                      child: Obx(() => Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Text("Date limite",
-                                    style: textStyle_Text_12_600),
-                                Visibility(
-                                    visible:
-                                        (orderBy.value.contains("DeadLine")),
-                                    child: Icon(
-                                        (isAscending.value)
-                                            ? Icons.keyboard_arrow_up_rounded
-                                            : Icons.keyboard_arrow_down_rounded,
-                                        size: 12)),
-                              ])),
-                    )
-                  ]),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Date limite",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
             ),
             flex: 2,
           ),
@@ -342,32 +279,14 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          orderBy.value = "Leader";
-                          isAscending.value = !isAscending.value;
-                          tapOrderBy();
-                        },
-                        child: Obx(() => Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  Text("Chef d'équipe",
-                                      style: textStyle_Text_12_600),
-                                  Visibility(
-                                      visible:
-                                          (orderBy.value.contains("Leader")),
-                                      child: Icon(
-                                          (isAscending.value)
-                                              ? Icons.keyboard_arrow_up_rounded
-                                              : Icons
-                                                  .keyboard_arrow_down_rounded,
-                                          size: 12)),
-                                ]))),
-                  ]),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Chef d'équipe",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
             ),
             flex: 2,
           ),
@@ -376,31 +295,14 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          orderBy.value = "Priority";
-                          isAscending.value = !isAscending.value;
-                          tapOrderBy();
-                        },
-                        child: Obx(() => Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Text("Priorité", style: textStyle_Text_12_600),
-                              Visibility(
-                                  visible:
-                                  (orderBy.value.contains("Priority")),
-                                  child: Icon(
-                                      (isAscending.value)
-                                          ? Icons.keyboard_arrow_up_rounded
-                                          : Icons
-                                          .keyboard_arrow_down_rounded,
-                                      size: 12)),
-                            ]))),
-                  ]),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Priorité",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
             ),
             flex: 1,
           ),
@@ -409,44 +311,31 @@ class ProjectsListHeader extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          orderBy.value = "Status";
-                          isAscending.value = !isAscending.value;
-                          tapOrderBy();
-                        },
-                        child: Obx(() => Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  Text("Statut", style: textStyle_Text_12_600),
-                                  Visibility(
-                                      visible:
-                                          (orderBy.value.contains("Status")),
-                                      child: Icon(
-                                          (isAscending.value)
-                                              ? Icons.keyboard_arrow_up_rounded
-                                              : Icons
-                                                  .keyboard_arrow_down_rounded,
-                                          size: 12)),
-                                ]))),
-                  ]),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Text("Statut",
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyle_Text_12_600)),
+                ],
+              ),
             ),
             flex: 1,
           ),
           SizedBox(
             width: 18,
           ),
-          Container( width: 50,
-            child: Row( mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.end,
+          Container(
+            width: 50,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Expanded(child: Container()),
+                ProjectOrderBy(widgetHeight: 30),
               ],
             ),
           ),
-
           SizedBox(
             width: 20,
           ),
@@ -458,8 +347,11 @@ class ProjectsListHeader extends StatelessWidget {
 
 class ProjectsList extends StatefulWidget {
   final BuildContext parentContext;
+  final ScrollController scrollController;
 
-  const ProjectsList({Key? key, required this.parentContext}) : super(key: key);
+  const ProjectsList(
+      {Key? key, required this.parentContext, required this.scrollController})
+      : super(key: key);
 
   @override
   _ProjectsListState createState() => _ProjectsListState();
@@ -490,11 +382,21 @@ class _ProjectsListState extends State<ProjectsList> {
                           ? (projectsSearchQuery.isNotEmpty)
                               ? NoResultFound()
                               : projectsFilterData.status == Status.completed
-                                  ? NoCompletedProjects(onTap: () {createProjectDialogBox(context);  },)
-                                  : NoProjects(onTap: () { createProjectDialogBox(context); },)
+                                  ? NoCompletedProjects(
+                                      onTap: () {
+                                        createProjectDialogBox(
+                                            context, widget.scrollController);
+                                      },
+                                    )
+                                  : NoProjects(
+                                      onTap: () {
+                                        createProjectDialogBox(
+                                            context, widget.scrollController);
+                                      },
+                                    )
                           : ListView(
                               key: ValueKey(Random.secure()),
-                              controller: scrollController,
+                              controller: widget.scrollController,
                               children:
                                   results.map((e) => _buildItem(e)).toList(),
                             )

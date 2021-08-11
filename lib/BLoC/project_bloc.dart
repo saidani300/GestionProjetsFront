@@ -1,26 +1,23 @@
 import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/Data/project.dart';
+import 'package:gestion_projets/pages/projects/Data/project_filter_data.dart';
 import 'package:gestion_projets/pages/projects/filter/Data/project_filter.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
-import 'package:gestion_projets/pages/projects/service/API.dart';
 
 import 'bloc.dart';
 
-ProjectFilter projectsFilterData = ProjectFilter(null, null, null, null, null);
+ProjectGlobalFilter projectsFilterData = ProjectGlobalFilter(null, null, null, null, null);
 
 String projectsSearchQuery = '';
 
 class ProjectBloc implements Bloc {
-  List<Project> filteredList = projects;
   final _controller = StreamController<List<Project>>.broadcast();
 
-  final _client = APIClient();
 
   Stream<List<Project>> get projectStream => _controller.stream;
 
   Future init() async {
-    //  List<Project> projects = await _client.fetchProjects();
     Future.delayed(Duration(milliseconds: 300),
         () => _controller.sink.add(filter(projects)));
   }
@@ -36,7 +33,6 @@ class ProjectBloc implements Bloc {
   }
 
   add(Project project) async {
-    print('project added');
     projects.insert(0, project);
     _controller.sink.add(filter(projects));
   }
@@ -45,6 +41,8 @@ class ProjectBloc implements Bloc {
     List<Project> result = initList;
     switch (projectsFilterData.status) {
       case null:
+        break;
+      case Status.approved:
         break;
       case Status.inProgress:
         result = result
@@ -57,32 +55,67 @@ class ProjectBloc implements Bloc {
             .toList();
         break;
     }
-    if (projectsFilterData.startDate != null)
-      result = result
-          .where((project) =>
-              project.endDate.isBefore(projectsFilterData.endDate!) &&
-              project.endDate.isAfter(projectsFilterData.startDate!))
-          .toList();
-
-    if (projectsFilterData.types != null)
-      result.removeWhere(
-          (project) => projectsFilterData.types!.contains(project.type));
-    if (projectsFilterData.users != null)
-      result.removeWhere(
-          (project) => projectsFilterData.users!.contains(project.teamLeader));
-
     result = result
         .where((project) => project.name
             .toLowerCase()
             .contains(projectsSearchQuery.toLowerCase()))
         .toList();
 
+    result = propertiesFilter(result);
+
+    orderBy(result);
+
     return result;
   }
 
-  searchQuery(List<Project> list) {
-    _controller.sink.add(filteredList);
+  List<Project> propertiesFilter(List<Project> list)
+  {
+    if(projectFilter.allTypes == false)
+      list = list.where((element) => projectFilter.types.contains(element.type)).toList();
+    if(projectFilter.allUsers== false)
+      list = list.where((element) => projectFilter.users.contains(element.teamLeader)).toList();
+    if(projectFilter.allPriorities== false)
+      list = list.where((element) => projectFilter.priorities.contains(element.priority)).toList();
+    if(projectFilter.date)
+      list = list.where((element) => element.startDate.isAfter(projectFilter.startDate) && element.endDate.isBefore(projectFilter.endDate)).toList();
+    return list;
   }
+
+  orderBy(List<Project> list)
+  {
+    switch(projectListOrder.orderBy)
+    {
+      case ProjectOrderByProperties.name:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.name.compareTo(b.name)) :
+        list.sort((a, b) => b.name.compareTo(a.name));
+        break;
+      case ProjectOrderByProperties.type:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.type.name.compareTo(b.type.name)) :
+        list.sort((a, b) => b.type.name.compareTo(a.type.name));
+        break;
+      case ProjectOrderByProperties.startDate:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.startDate.compareTo(b.startDate)) :
+        list.sort((a, b) => b.startDate.compareTo(a.startDate));
+        break;
+      case ProjectOrderByProperties.endDate:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.endDate.compareTo(b.endDate)) :
+        list.sort((a, b) => b.endDate.compareTo(a.endDate));
+        break;
+      case ProjectOrderByProperties.teamLeader:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.teamLeader.name.compareTo(b.teamLeader.name)) :
+        list.sort((a, b) => b.teamLeader.name.compareTo(a.teamLeader.name));
+        break;
+      case ProjectOrderByProperties.status:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.status.index.compareTo(b.status.index)) :
+        list.sort((a, b) => b.status.index.compareTo(a.status.index));
+        break;
+      case ProjectOrderByProperties.priority:
+        (projectListOrder.isAscending) ? list.sort((a, b) => a.priority.index.compareTo(b.priority.index)) :
+        list.sort((a, b) => b.priority.index.compareTo(a.priority.index));
+        break;
+    }
+  }
+
 
   @override
   void dispose() {

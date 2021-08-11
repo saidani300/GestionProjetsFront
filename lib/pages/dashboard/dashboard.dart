@@ -6,7 +6,8 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container( color: backgroundColor,
+    return Container(
+      color: backgroundColor,
       child: Center(
         child: Text(
           'Tableau de bord',

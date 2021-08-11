@@ -6,6 +6,7 @@ class OpenCloseArrowButton extends StatefulWidget {
   final Color color;
   bool isExpanded;
   late final AnimationController rotationController;
+
   OpenCloseArrowButton(
       {Key? key,
       required this.onTap,
@@ -24,7 +25,6 @@ class _OpenCloseArrowButtonState extends State<OpenCloseArrowButton>
 
   @override
   void initState() {
-
     super.initState();
     widget.isExpanded
         ? widget.rotationController.value = 1
@@ -40,7 +40,6 @@ class _OpenCloseArrowButtonState extends State<OpenCloseArrowButton>
               : widget.rotationController.forward();
 
           widget.onTap();
-
         },
         onHover: (value) {
           setState(() {
@@ -58,7 +57,8 @@ class _OpenCloseArrowButtonState extends State<OpenCloseArrowButton>
                 color: onHover ? widget.color : Colors.transparent,
                 shape: BoxShape.circle),
             child: RotationTransition(
-              turns: Tween(begin: 0.0, end: 0.25).animate(widget.rotationController),
+              turns: Tween(begin: 0.0, end: 0.25)
+                  .animate(widget.rotationController),
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 8,

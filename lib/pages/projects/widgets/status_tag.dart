@@ -8,26 +8,27 @@ class GlobalStatusTag extends StatelessWidget {
   final DateTime deadLine;
   final String date;
 
-  const GlobalStatusTag({Key? key, required this.status, this.date = "" ,required this.deadLine})
+  const GlobalStatusTag(
+      {Key? key, required this.status, this.date = "", required this.deadLine})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     switch (status) {
       case Status.completed:
-        return CustomTag(text: 'Terminé', color: lightBlue, date: date
-        );
+        return CustomTag(text: 'Terminé', color: lightBlue, date: date);
       case Status.inProgress:
-        return (deadLine.isBefore(DateTime.now())) ? CustomTag(
-          text: 'En retard',
-          color: lightRed,
-        ):CustomTag(
-          text: 'En cours',
-          color: lightOrange,
-        );
+        return (deadLine.isBefore(DateTime.now()))
+            ? CustomTag(
+                text: 'En retard',
+                color: lightRed,
+              )
+            : CustomTag(
+                text: 'En cours',
+                color: lightOrange,
+              );
       case Status.approved:
-        return CustomTag(text: 'Approuvé', color: lightPurple, date: date
-        );
+        return CustomTag(text: 'Approuvé', color: lightPurple, date: date);
     }
   }
 }

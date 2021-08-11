@@ -1,25 +1,25 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/create_indicator_dialog.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/objective_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/create_indicator_dialog.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/data/phase.dart';
-import 'package:gestion_projets/pages/projects/project_details/widgets/change_status_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/widgets/custom_tag.dart';
 import 'package:gestion_projets/widgets/priority_icon.dart';
 import 'package:gestion_projets/widgets/profile_avatar.dart';
 import 'package:intl/intl.dart';
 
+import 'change_objective_status_button.dart';
 import 'indicator_item.dart';
 
 class ObjectiveItem extends StatefulWidget {
@@ -27,7 +27,11 @@ class ObjectiveItem extends StatefulWidget {
   final bool isLast;
   final Objective objective;
 
-  const ObjectiveItem({Key? key, required this.objective, required this.onTap , this.isLast = false})
+  const ObjectiveItem(
+      {Key? key,
+      required this.objective,
+      required this.onTap,
+      this.isLast = false})
       : super(key: key);
 
   @override
@@ -73,9 +77,7 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                 child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
-                    onTap: () {
-
-                    },
+                    onTap: () {},
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     child: Container(
@@ -87,7 +89,7 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                           SizedBox(
                             width: 2,
                             child: Container(
-                              color: StatusColor(widget.objective.status),
+                              color: statusColor(widget.objective.status),
                             ),
                           ),
                           SizedBox(
@@ -97,23 +99,33 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                             child: Container(
                               child: Row(
                                 children: [
-                                  ChangeStatusButton(
-                                    onTap: () {
-                                      /*  widget.task.status != Status.inProgress ?  widget.task.status == Status.approved
-                                        ? widget.task.status = Status.completed
-                                        : widget.task.status = Status.approved : null;
-                                    // phaseBloc.fetch();
-                                    bloc.fetch();*/
-                                    },
-                                    status: Status.completed,
+                                  MultiOptionsStatusChange(
+                                    objective: widget.objective,
                                   ),
                                   SizedBox(
                                     width: 20,
                                   ),
                                   Flexible(
-                                      child: Text(widget.objective.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.objective.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.objective.name,
+                                                child: Text(
+                                                    widget.objective.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -122,7 +134,10 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                         icon: Icons.attach_file_rounded,
                                         message:
                                             "${widget.objective.documents.length.toString()} Attachement",
-                                        onTap: () {},
+                                        onTap: () {
+                                          attachmentsDialogBox(context,
+                                              widget.objective.documents);
+                                        },
                                         size: 15,
                                       )),
                                 ],
@@ -154,18 +169,24 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                 children: [
                                   Flexible(
                                       child: Text(
-                                        getText(widget.objective.endDate),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: (widget.objective.endDate.isBefore(DateTime.now()) && widget.objective.status == ObjectiveStatus.inProgress)
-                                                ? lightRed
-                                                : text,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                      )),
+                                    getText(widget.objective.endDate),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: (widget.objective.endDate
+                                                    .isBefore(DateTime.now()) &&
+                                                widget.objective.status ==
+                                                    ObjectiveStatus.inProgress)
+                                            ? lightRed
+                                            : text,
+                                        fontSize: 12,
+                                        letterSpacing: 0,
+                                        fontWeight: FontWeight.w600),
+                                  )),
                                   Visibility(
-                                      visible: (widget.objective.endDate.isBefore(DateTime.now()) && widget.objective.status == ObjectiveStatus.inProgress),
+                                      visible: (widget.objective.endDate
+                                              .isBefore(DateTime.now()) &&
+                                          widget.objective.status ==
+                                              ObjectiveStatus.inProgress),
                                       child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -179,9 +200,9 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                                 decoration: BoxDecoration(
                                                     color: lightRed,
                                                     borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(
-                                                            2))),
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                2))),
                                                 child: Icon(
                                                   Icons.warning_rounded,
                                                   color: lightRed,
@@ -275,7 +296,8 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                                       message: 'Ajouter un indicateur',
                                       color: active,
                                       onTap: () {
-                                        createIndicatorDialogBox(context , widget.objective);
+                                        createIndicatorDialogBox(
+                                            context, widget.objective);
                                       }),
                                 ]),
                               ],
@@ -310,20 +332,21 @@ class _ObjectiveItemState extends State<ObjectiveItem>
                     parentContext: context,
                     objective: widget.objective,
                   ),
-
-                   Visibility(
-                     visible: !widget.isLast,
-                     child: Column(mainAxisSize: MainAxisSize.min,
-                       children: [
-                         Container(height: 40,),
-                         Divider(
-                           height: 1,
-                           color: dividerColor,
-                         ),
-                       ],
-                     ),
-                   ),
-
+                  Visibility(
+                    visible: !widget.isLast,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 40,
+                        ),
+                        Divider(
+                          height: 1,
+                          color: dividerColor,
+                        ),
+                      ],
+                    ),
+                  ),
                 ]))));
   }
 }
@@ -367,7 +390,7 @@ class _IndicatorsListState extends State<IndicatorsList> {
   }
 }
 
-Color StatusColor(ObjectiveStatus status) {
+Color statusColor(ObjectiveStatus status) {
   switch (status) {
     case ObjectiveStatus.inProgress:
       return lightOrange;
@@ -389,7 +412,10 @@ class StatusTag extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (status) {
       case ObjectiveStatus.inProgress:
-        return CustomTag(text: 'En cours', color: lightOrange,);
+        return CustomTag(
+          text: 'En cours',
+          color: lightOrange,
+        );
       case ObjectiveStatus.achieved:
         return CustomTag(text: 'Atteint', color: lightPurple, date: date);
       case ObjectiveStatus.notAchieved:

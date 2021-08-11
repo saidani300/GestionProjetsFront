@@ -1,12 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/document_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:gestion_projets/BLoC/document_bloc.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
@@ -67,9 +68,7 @@ class _DocumentItemState extends State<DocumentItem>
                 child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
-                    onTap: () async {
-
-                    },
+                    onTap: () async {},
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     child: Container(
@@ -101,13 +100,33 @@ class _DocumentItemState extends State<DocumentItem>
                                     width: 10,
                                   ),
                                   Flexible(
-                                      child: Text(widget.document.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.document.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.document.name,
+                                                child: Text(
+                                                    widget.document.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  CustomIconButton(icon: Icons.download_rounded, message: "Télécharger", onTap: (){}),
+                                  CustomIconButton(
+                                      icon: Icons.download_rounded,
+                                      message: "Télécharger",
+                                      onTap: () {}),
                                 ],
                               ),
                             ),

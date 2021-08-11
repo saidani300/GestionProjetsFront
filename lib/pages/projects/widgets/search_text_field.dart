@@ -7,6 +7,7 @@ class SearchWidget extends StatefulWidget {
   final Function(String value) onChanged;
   final String hintText;
   final double width;
+
   const SearchWidget({
     Key? key,
     required this.onChanged,
@@ -21,10 +22,11 @@ class SearchWidget extends StatefulWidget {
 class _SearchWidgetState extends State<SearchWidget> {
   final controller = TextEditingController();
   String fieldText = "";
+
   @override
   Widget build(BuildContext context) {
     final styleActive =
-    TextStyle(color: text, fontSize: 13, fontWeight: FontWeight.w500);
+        TextStyle(color: text, fontSize: 13, fontWeight: FontWeight.w500);
     final styleHint = TextStyle(
         color: text.withOpacity(0.7),
         fontSize: 13,
@@ -51,19 +53,19 @@ class _SearchWidgetState extends State<SearchWidget> {
                 ),
                 suffixIcon: fieldText.isNotEmpty
                     ? CustomIconButton(
-                  icon: Icons.close_rounded,
-                  onTap: () {
-                    controller.clear();
-                    setState(() {
-                      fieldText = "";
-                    });
-                    widget.onChanged("");
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                  message: '',
-                  size: 15,
-                  enableToolTip: false,
-                )
+                        icon: Icons.close_rounded,
+                        onTap: () {
+                          controller.clear();
+                          setState(() {
+                            fieldText = "";
+                          });
+                          widget.onChanged("");
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        message: '',
+                        size: 15,
+                        enableToolTip: false,
+                      )
                     : null,
                 hintText: widget.hintText,
                 hintStyle: styleHint,
@@ -75,8 +77,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   fieldText = value;
                 });
                 widget.onChanged(value);
-              }
-          ),
+              }),
         )
       ],
     );

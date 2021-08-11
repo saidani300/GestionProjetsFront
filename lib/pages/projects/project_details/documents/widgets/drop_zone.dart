@@ -6,10 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/document_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:lottie/lottie.dart';
 
@@ -61,7 +61,6 @@ class _FileDropZoneState extends State<FileDropZone>
                       File file = value as File;
                       var bytes;
                       bytes = await compute(controller.getFileData, value);
-                      // print(bytes);
                       Document document = new Document(
                           new Random().nextInt(9999),
                           file.name,

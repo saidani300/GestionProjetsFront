@@ -5,9 +5,9 @@ import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/notification_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/dialogs.dart';
-import 'package:get/get.dart';
 import 'package:gestion_projets/pages/notifications/data/notification.dart'
     as Model;
+import 'package:get/get.dart';
 
 import 'notification_item.dart';
 

@@ -59,7 +59,7 @@ class _CreateCalculationFormState extends State<CreateCalculationForm>
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: widget.calculation.criteria
+                      children: widget.calculation.criteria.reversed
                           .map((e) => Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,

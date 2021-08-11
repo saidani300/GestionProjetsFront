@@ -1,11 +1,14 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/event_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/attachments_dialog.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
+import 'package:gestion_projets/dialogs/show_more_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/routing/routes.dart';
@@ -65,7 +68,6 @@ class _EventItemState extends State<EventItem>
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
                     onTap: () {
-
                       locator<NavigationService>().eventNavigateTo(
                           eventEvaluationsPageRoute, widget.event);
                     },
@@ -80,7 +82,7 @@ class _EventItemState extends State<EventItem>
                           SizedBox(
                             width: 2,
                             child: Container(
-                              color: TypeColor(widget.event.eventType),
+                              color: typeColor(widget.event.eventType),
                             ),
                           ),
                           SizedBox(
@@ -106,9 +108,25 @@ class _EventItemState extends State<EventItem>
                                     width: 10,
                                   ),
                                   Flexible(
-                                      child: Text(widget.event.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.event.name,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Tooltip(
+                                                message: widget.event.name,
+                                                child: Text(widget.event.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        textStyle_Text_12_600)),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(width: 5),
                                   Visibility(
                                       visible:
@@ -117,7 +135,10 @@ class _EventItemState extends State<EventItem>
                                         icon: Icons.attach_file_rounded,
                                         message:
                                             "${widget.event.documents.length.toString()} Attachement",
-                                        onTap: () {},
+                                        onTap: () {
+                                          attachmentsDialogBox(
+                                              context, widget.event.documents);
+                                        },
                                         size: 15,
                                       )),
                                 ],
@@ -133,12 +154,38 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                          widget.event.impact.isEmpty
-                                              ? "_"
-                                              : widget.event.impact,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.event.impact.isEmpty
+                                          ? "_"
+                                          : widget.event.impact,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                              child: Text(
+                                                  widget.event.impact.isEmpty
+                                                      ? "_"
+                                                      : widget.event.impact,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      textStyle_Text_12_600)),
+                                          CustomIconButton(
+                                            icon: Icons.open_in_new,
+                                            message: "Afficher plus",
+                                            onTap: () {
+                                              showMoreDialogBox(
+                                                  context,
+                                                  'Impact',
+                                                  widget.event.impact);
+                                            },
+                                            size: 15,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -153,12 +200,38 @@ class _EventItemState extends State<EventItem>
                               child: Row(
                                 children: [
                                   Flexible(
-                                      child: Text(
-                                          widget.event.source.isEmpty
-                                              ? "_"
-                                              : widget.event.source,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textStyle_Text_12_600)),
+                                    child: AutoSizeText(
+                                      widget.event.source.isEmpty
+                                          ? "_"
+                                          : widget.event.source,
+                                      maxLines: 1,
+                                      style: textStyle_Text_12_600,
+                                      overflowReplacement: Row(
+                                        children: [
+                                          Flexible(
+                                              child: Text(
+                                                  widget.event.source.isEmpty
+                                                      ? "_"
+                                                      : widget.event.source,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      textStyle_Text_12_600)),
+                                          CustomIconButton(
+                                            icon: Icons.open_in_new,
+                                            message: "Afficher plus",
+                                            onTap: () {
+                                              showMoreDialogBox(
+                                                  context,
+                                                  'Source',
+                                                  widget.event.source);
+                                            },
+                                            size: 15,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -284,7 +357,7 @@ class _EventItemState extends State<EventItem>
   }
 }
 
-Color TypeColor(EventType type) {
+Color typeColor(EventType type) {
   switch (type) {
     case EventType.Risk:
       return lightRed;

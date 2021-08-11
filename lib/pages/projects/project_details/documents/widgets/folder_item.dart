@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gestion_projets/constants/style.dart';
-import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/document_bloc.dart';
+import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/dialogs.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
-import 'package:intl/intl.dart';
 
 class FolderItem extends StatefulWidget {
   final Function() onTap;
@@ -26,6 +25,7 @@ class _FolderItemState extends State<FolderItem>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool isHover = false;
+
   initState() {
     super.initState();
     _controller = AnimationController(
@@ -57,13 +57,13 @@ class _FolderItemState extends State<FolderItem>
                 child: Column(children: [
                   InkWell(
                     hoverColor: active.withOpacity(0.015),
-                    onTap: () {
-                    },
+                    onTap: () {},
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
-                    onHover:  (value)
-                    {
-                      value ? setState(() => isHover = true) : setState(() => isHover = false);
+                    onHover: (value) {
+                      value
+                          ? setState(() => isHover = true)
+                          : setState(() => isHover = false);
                     },
                     child: Container(
                       height: 60,
@@ -108,7 +108,14 @@ class _FolderItemState extends State<FolderItem>
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Visibility(visible: isHover, child: CustomIconButton(onTap: () {  }, message: 'Modifier', icon: Icons.edit_rounded, size: 13,))
+                                  Visibility(
+                                      visible: isHover,
+                                      child: CustomIconButton(
+                                        onTap: () {},
+                                        message: 'Modifier',
+                                        icon: Icons.edit_rounded,
+                                        size: 13,
+                                      ))
                                 ],
                               ),
                             ),

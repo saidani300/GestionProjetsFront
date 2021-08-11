@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
-import 'package:gestion_projets/pages/projects/service/API.dart';
 
 import 'bloc.dart';
 
 class MeetingBloc implements Bloc {
   final _controller = StreamController<List<Meeting>>.broadcast();
-  final _client = APIClient();
 
   Stream<List<Meeting>> get meetingStream => _controller.stream;
 

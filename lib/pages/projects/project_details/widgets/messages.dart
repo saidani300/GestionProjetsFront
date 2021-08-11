@@ -11,6 +11,7 @@ class NoItems extends StatelessWidget {
   final String message;
   final String buttonText;
   final Function() onTap;
+
   const NoItems(
       {Key? key,
       required this.icon,
@@ -73,7 +74,9 @@ class NoItems extends StatelessWidget {
               visible: buttonText.isNotEmpty,
               child: MultiOptionsButton(
                 text: buttonText,
-                onTap: () {onTap();},
+                onTap: () {
+                  onTap();
+                },
                 isMultiple: false,
                 withIcon: false,
               )),

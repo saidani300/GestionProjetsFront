@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
+
 import 'bloc.dart';
 
 class CriterionBloc implements Bloc {
@@ -11,7 +13,6 @@ class CriterionBloc implements Bloc {
     await Future.delayed(
         Duration(milliseconds: 300), () => _controller.sink.add(criteria));
   }
-
 
   fetch(List<Criterion> criteria) {
     _controller.sink.add(criteria);

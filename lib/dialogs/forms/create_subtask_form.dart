@@ -12,7 +12,6 @@ import 'package:gestion_projets/dialogs/forms/widgets/text_field.dart';
 import 'package:gestion_projets/dialogs/forms/widgets/user_picker.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/Data/project.dart';
-import 'package:gestion_projets/pages/projects/project_details/structure/data/task.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/widgets/custom_icon_button.dart';
 import 'package:gestion_projets/pages/projects/widgets/form_widgets/custom_multilines_text_field.dart';
@@ -22,9 +21,10 @@ import 'widgets/add_attachments.dart';
 //TODO: "Create Another one" Checkbox
 
 class CreateSubTaskForm extends StatefulWidget {
+  final bool isSubTask;
   final TaskModel task;
 
-  const CreateSubTaskForm({Key? key, required this.task}) : super(key: key);
+  const CreateSubTaskForm({Key? key, required this.task , required this.isSubTask}) : super(key: key);
 
   @override
   _CreateSubTaskFormState createState() => _CreateSubTaskFormState();
@@ -54,7 +54,7 @@ class _CreateSubTaskFormState extends State<CreateSubTaskForm>
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FormHeader(),
+                    FormHeader(isSubTask: widget.isSubTask,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 1),
                       child: Divider(
@@ -302,7 +302,8 @@ class _CreateSubTaskFormState extends State<CreateSubTaskForm>
 }
 
 class FormHeader extends StatelessWidget {
-  const FormHeader({Key? key}) : super(key: key);
+  final bool isSubTask;
+  const FormHeader({Key? key , required this.isSubTask}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +327,7 @@ class FormHeader extends StatelessWidget {
             width: 10,
           ),
           Text(
-            "Créer une tâche",
+            isSubTask? "Créer une sous-tâche" :"Créer une tâche",
             style: TextStyle(
                 color: text, fontSize: 13, fontWeight: FontWeight.w500),
             textAlign: TextAlign.start,
@@ -336,7 +337,7 @@ class FormHeader extends StatelessWidget {
           ),
           CustomIconButton(
               icon: Icons.info_outline,
-              message: 'Créer une tâche',
+              message: isSubTask? "Créer une sous-tâche" : 'Créer une tâche',
               onTap: () {})
         ]));
   }
