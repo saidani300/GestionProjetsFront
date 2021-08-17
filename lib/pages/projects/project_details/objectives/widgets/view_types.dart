@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective_filter_data.dart';
 
 class ViewItem {
   final String name;
-
-  ViewItem(this.name);
+  final ObjectiveStatus? status;
+  ViewItem(this.name , this.status);
 }
 
 List<ViewItem> views = [
   ViewItem(
     "Tous",
+    null,
   ),
   ViewItem(
     "Atteint",
+    ObjectiveStatus.achieved
   ),
   ViewItem(
     "Non atteint",
+      ObjectiveStatus.notAchieved
   ),
   ViewItem(
     "En cours",
+      ObjectiveStatus.inProgress
   ),
 ];
 
@@ -87,13 +95,13 @@ class _ShowByViewItemState extends State<ShowByViewItem> {
 
   @override
   Widget build(BuildContext context) {
-    // final bloc = BlocProvider.of<ProjectBloc>(context);
+    final bloc = BlocProvider.of<ObjectiveBloc>(context);
 
     return InkWell(
         onTap: () {
           widget.onTap();
-          /* projectsFilterData.status = widget.item.status;
-          bloc.fetch();*/
+           objectiveFilter.status = widget.item.status;
+          bloc.fetch();
         },
         onHover: (value) {
           value

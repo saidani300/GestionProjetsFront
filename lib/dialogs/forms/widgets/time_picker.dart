@@ -5,12 +5,13 @@ class TimePickerWidget extends StatefulWidget {
   final Function(TimeOfDay time) setTime;
   final TimeOfDay initTime;
   final double height;
-
+  final double textSize;
   TimePickerWidget({
     Key? key,
     required this.height,
     required this.setTime,
     required this.initTime,
+    this.textSize = 12.5,
   }) : super(key: key);
 
   @override
@@ -77,7 +78,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget>
                           time.format(context),
                           style: TextStyle(
                               color: text,
-                              fontSize: 12.5,
+                              fontSize: widget.textSize,
                               letterSpacing: 0,
                               fontWeight: FontWeight.w500),
                         ))),

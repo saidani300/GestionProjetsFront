@@ -12,6 +12,7 @@ import 'package:gestion_projets/dialogs/attachments_dialog.dart';
 import 'package:gestion_projets/dialogs/create_evaluation_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/evaluation.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/filter/widgets/evaluation_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/evaluation_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
@@ -182,14 +183,6 @@ class _EvaluationsBodyState extends State<EvaluationsBody> {
                             SizedBox(
                               width: 15,
                             ),
-                            CustomIconButton(
-                              icon: Icons.filter_alt_outlined,
-                              message: 'Filter',
-                              onTap: () {},
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
                           ]),
                         ),
                         Divider(
@@ -314,7 +307,10 @@ class _EvaluationsBodyState extends State<EvaluationsBody> {
                                 width: 40,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
-                                  children: [],
+                                  children: [
+                                    Expanded(child: Container()),
+                                    EvaluationOrderBy(widgetHeight: 30,)
+                                  ],
                                 ),
                               ),
 

@@ -12,6 +12,7 @@ import 'package:gestion_projets/pages/projects/project_details/objectives/data/c
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/indicator.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/measure.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/filter/widgets/indicator_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/measure_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/measures_chart.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
@@ -185,14 +186,6 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                             SizedBox(
                               width: 15,
                             ),
-                            CustomIconButton(
-                              icon: Icons.filter_alt_outlined,
-                              message: 'Filter',
-                              onTap: () {},
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
                           ]),
                         ),
                         Divider(
@@ -327,7 +320,10 @@ class _IndicatorBodyState extends State<IndicatorBody> {
                                 width: 40,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
-                                  children: [],
+                                  children: [
+                                    Expanded(child: Container()),
+                                    IndicatorOrderBy(widgetHeight: 30,)
+                                  ],
                                 ),
                               ),
 

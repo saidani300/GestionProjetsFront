@@ -85,7 +85,7 @@ List<Event> events = [
       EventType.Risk,
       EventLevel.medium,
       EventCategory.category1,
-      User(12, "Saidani Wael", "3"), [
+      users.elementAt(1), [
     Evaluation(
         6565,
         DateTime.now(),
@@ -93,7 +93,7 @@ List<Event> events = [
         "",
         0,
         20,
-        User(2, "Saidani Wael", "3"),
+        users.elementAt(0),
         [
           Calculation(54, 12, DateTime.now(), DateTime.now(),
               DateTime.now().add(Duration(days: 35)), [
@@ -120,7 +120,7 @@ List<Event> events = [
         "",
         0,
         16,
-        User(2, "Saidani Wael", "3"),
+        users.elementAt(3),
         [],
         Formula(587, "Indice de risque", 'F*I*G', [
           Criterion(1, "Gravité", 0, "G"),
@@ -140,7 +140,7 @@ List<Event> events = [
       EventType.Risk,
       EventLevel.high,
       EventCategory.category1,
-      User(12, "Saidani Wael", "4"), [], []),
+      users.elementAt(4), [], []),
   Event(
       84,
       "Retard potentiel pour une tâche",
@@ -153,7 +153,7 @@ List<Event> events = [
       EventType.Opportunity,
       EventLevel.low,
       EventCategory.category1,
-      User(12, "Saidani Wael", "4"), [], []),
+      users.first, [], []),
 ];
 
 EventTypeObject eventTypeAsObject(EventType eventType) {

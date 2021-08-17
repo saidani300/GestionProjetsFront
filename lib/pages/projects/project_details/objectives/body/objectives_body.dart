@@ -8,6 +8,9 @@ import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_objective_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/data/objective_filter_data.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/filter/objective_filter.dart';
+import 'package:gestion_projets/pages/projects/project_details/objectives/filter/widgets/objective_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/objective_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/objectives/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
@@ -105,6 +108,8 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<ObjectiveBloc>(context);
+
     TextStyle style = TextStyle(
         color: text,
         fontSize: 12,
@@ -152,7 +157,10 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                         Expanded(child: Container()),
                         SearchWidget(
                           hintText: 'Rechercher des objectifs...',
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            objectiveFilter.searchQuery = value;
+                            bloc.fetch();
+                          },
                         ),
                         SizedBox(
                           width: 15,
@@ -166,11 +174,7 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                         SizedBox(
                           width: 15,
                         ),
-                        CustomIconButton(
-                          icon: Icons.filter_alt_outlined,
-                          message: 'Filter',
-                          onTap: () {},
-                        ),
+                        ObjectiveFilterMenu(),
                         SizedBox(
                           width: 15,
                         ),
@@ -296,7 +300,10 @@ class _ProjectObjectivesBodyState extends State<ProjectObjectivesBody> {
                             width: 40,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: [],
+                              children: [
+                                Expanded(child: Container()),
+                                ObjectiveOrderBy(widgetHeight: 30,)
+                              ],
                             ),
                           ),
 

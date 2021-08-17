@@ -8,6 +8,9 @@ import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_event_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event_filter_data.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/filter/event_filter.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/filter/widgets/event_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/event_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
@@ -107,6 +110,8 @@ class _ProjectRisksOpportunitiesBodyState
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<EventBloc>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -151,7 +156,10 @@ class _ProjectRisksOpportunitiesBodyState
                         Expanded(child: Container()),
                         SearchWidget(
                           hintText: 'Rechercher des opportunités...',
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            eventFilter.searchQuery = value;
+                            bloc.fetch();
+                          },
                           width: 200,
                         ),
                         SizedBox(
@@ -166,11 +174,7 @@ class _ProjectRisksOpportunitiesBodyState
                         SizedBox(
                           width: 15,
                         ),
-                        CustomIconButton(
-                          icon: Icons.filter_alt_outlined,
-                          message: 'Filter',
-                          onTap: () {},
-                        ),
+                        EventFilterMenu(),
                         SizedBox(
                           width: 15,
                         ),
@@ -303,7 +307,11 @@ class _ProjectRisksOpportunitiesBodyState
                             width: 40,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: [],
+                              children: [
+
+                                Expanded(child: Container()),
+                                EventOrderBy(widgetHeight: 30,)
+                              ],
                             ),
                           ),
 

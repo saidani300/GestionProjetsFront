@@ -74,7 +74,7 @@ class _MeetingItemState extends State<MeetingItem>
                           SizedBox(
                             width: 2,
                             child: Container(
-                              color: statusToColor(widget.meeting.status),
+                              color: meetingStatusToColor(widget.meeting.status),
                             ),
                           ),
                           SizedBox(
@@ -238,9 +238,9 @@ class _MeetingItemState extends State<MeetingItem>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTag(
-                                      text: statusToText(widget.meeting.status),
+                                      text: meetingStatusToText(widget.meeting.status),
                                       color:
-                                          statusToColor(widget.meeting.status))
+                                          meetingStatusToColor(widget.meeting.status))
                                 ]),
                             flex: 2,
                           ),
@@ -289,27 +289,7 @@ class _MeetingItemState extends State<MeetingItem>
   }
 }
 
-Color statusToColor(MeetingStatus status) {
-  switch (status) {
-    case MeetingStatus.programmed:
-      return text;
-    case MeetingStatus.inProgress:
-      return lightOrange;
-    case MeetingStatus.completed:
-      return lightBlue;
-  }
-}
 
-String statusToText(MeetingStatus status) {
-  switch (status) {
-    case MeetingStatus.programmed:
-      return "Programmée";
-    case MeetingStatus.inProgress:
-      return "En cours";
-    case MeetingStatus.completed:
-      return "Terminé";
-  }
-}
 
 Widget relatedItemToWidget(RelatedItem item) {
   String string;

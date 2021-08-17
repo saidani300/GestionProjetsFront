@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -7,6 +9,27 @@ enum MeetingStatus {
   programmed,
   inProgress,
   completed,
+}
+Color meetingStatusToColor(MeetingStatus status) {
+  switch (status) {
+    case MeetingStatus.programmed:
+      return text;
+    case MeetingStatus.inProgress:
+      return lightOrange;
+    case MeetingStatus.completed:
+      return lightBlue;
+  }
+}
+
+String meetingStatusToText(MeetingStatus status) {
+  switch (status) {
+    case MeetingStatus.programmed:
+      return "Programmée";
+    case MeetingStatus.inProgress:
+      return "En cours";
+    case MeetingStatus.completed:
+      return "Terminé";
+  }
 }
 
 class Meeting {

@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_projets/BLoC/bloc_provider.dart';
+import 'package:gestion_projets/BLoC/event_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event.dart';
+import 'package:gestion_projets/pages/projects/project_details/risks_opportunities/data/event_filter_data.dart';
 
 class ViewItem {
   final String name;
-
-  ViewItem(this.name);
+  final EventType? type;
+  ViewItem(this.name , this.type);
 }
 
 List<ViewItem> views = [
   ViewItem(
     "Tous",
+    null,
   ),
   ViewItem(
     "Opportunités",
+      EventType.Opportunity,
   ),
   ViewItem(
     "Risques",
+      EventType.Risk,
   ),
 ];
 
@@ -83,13 +90,13 @@ class _ShowByViewItemState extends State<ShowByViewItem> {
 
   @override
   Widget build(BuildContext context) {
-    // final bloc = BlocProvider.of<ProjectBloc>(context);
+     final bloc = BlocProvider.of<EventBloc>(context);
 
     return InkWell(
         onTap: () {
           widget.onTap();
-          /* projectsFilterData.status = widget.item.status;
-          bloc.fetch();*/
+           eventFilter.type = widget.item.type;
+          bloc.fetch();
         },
         onHover: (value) {
           value

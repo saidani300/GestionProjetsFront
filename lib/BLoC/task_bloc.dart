@@ -62,6 +62,7 @@ class TaskBloc implements Bloc {
     result = result
         .where((project) => project.name
         .toLowerCase()
+        .contains(taskFilter.searchQuery.toLowerCase()) || project.user.name.toLowerCase()
         .contains(taskFilter.searchQuery.toLowerCase()))
         .toList();
 

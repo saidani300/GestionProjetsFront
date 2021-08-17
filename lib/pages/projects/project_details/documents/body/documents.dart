@@ -10,7 +10,10 @@ import 'package:gestion_projets/BLoC/document_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_folder_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/document.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/data/document_filter_data.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/data/folder.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/filter/document_filter.dart';
+import 'package:gestion_projets/pages/projects/project_details/documents/filter/widgets/document_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/document_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/drop_zone.dart';
 import 'package:gestion_projets/pages/projects/project_details/documents/widgets/folder_item.dart';
@@ -111,6 +114,7 @@ class _DocumentsBodyState extends State<DocumentsBody> {
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
+    final bloc = BlocProvider.of<DocumentBloc>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +155,11 @@ class _DocumentsBodyState extends State<DocumentsBody> {
                     ),
                     SearchWidget(
                       hintText: 'Recherche des documents...',
-                      onChanged: (value) {},
+                      onChanged: (value) {
+
+                        documentFilter.searchQuery = value;
+                        bloc.fetch();
+                      },
                       width: 190,
                     ),
                     SizedBox(
@@ -170,11 +178,7 @@ class _DocumentsBodyState extends State<DocumentsBody> {
                     SizedBox(
                       width: 15,
                     ),
-                    CustomIconButton(
-                      icon: Icons.filter_alt_outlined,
-                      message: 'Filter',
-                      onTap: () {},
-                    ),
+                    DocumentFilterMenu(),
                     SizedBox(
                       width: 15,
                     ),
@@ -450,7 +454,10 @@ class DocumentsListHeader extends StatelessWidget {
             width: 40,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [],
+              children: [
+                Expanded(child: Container()),
+                DocumentOrderBy(widgetHeight: 30,)
+              ],
             ),
           ),
           SizedBox(

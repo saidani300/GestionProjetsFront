@@ -179,14 +179,6 @@ class _CalculationsBodyState extends State<CalculationsBody> {
                             SizedBox(
                               width: 15,
                             ),
-                            CustomIconButton(
-                              icon: Icons.filter_alt_outlined,
-                              message: 'Filter',
-                              onTap: () {},
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
                           ]),
                         ),
                         Divider(

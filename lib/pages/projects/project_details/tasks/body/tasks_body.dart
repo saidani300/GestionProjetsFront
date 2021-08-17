@@ -7,6 +7,7 @@ import 'package:gestion_projets/BLoC/bloc_provider.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_subtask_form.dart';
+import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_filter_data.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/data/task_model.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/filter/task_filter.dart';
 import 'package:gestion_projets/pages/projects/project_details/tasks/filter/widgets/task_order_by.dart';
@@ -104,6 +105,7 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TaskBloc>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -148,7 +150,10 @@ class _ProjectTasksBodyState extends State<ProjectTasksBody> {
                         Expanded(child: Container()),
                         SearchWidget(
                           hintText: 'Rechercher des tâches...',
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            taskFilter.searchQuery = value;
+                            bloc.fetch();
+                          },
                         ),
                         SizedBox(
                           width: 15,

@@ -9,6 +9,9 @@ import 'package:gestion_projets/BLoC/meeting_bloc.dart';
 import 'package:gestion_projets/constants/style.dart';
 import 'package:gestion_projets/dialogs/create_meeting_dialog.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting.dart';
+import 'package:gestion_projets/pages/projects/project_details/meetings/data/meeting_filter_data.dart';
+import 'package:gestion_projets/pages/projects/project_details/meetings/filter/meeting_filter.dart';
+import 'package:gestion_projets/pages/projects/project_details/meetings/filter/widgets/meeting_order_by.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/meeting_item.dart';
 import 'package:gestion_projets/pages/projects/project_details/meetings/widgets/view_types.dart';
 import 'package:gestion_projets/pages/projects/project_details/structure/body/project_overview_body.dart';
@@ -107,6 +110,8 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<MeetingBloc>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -151,7 +156,11 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
                         Expanded(child: Container()),
                         SearchWidget(
                           hintText: 'Rechercher des réunions...',
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            meetingFilter.searchQuery = value;
+                            bloc.fetch();
+
+                          },
                         ),
                         SizedBox(
                           width: 15,
@@ -165,11 +174,7 @@ class _ProjectMeetingsBodyState extends State<ProjectMeetingsBody> {
                         SizedBox(
                           width: 15,
                         ),
-                        CustomIconButton(
-                          icon: Icons.filter_alt_outlined,
-                          message: 'Filter',
-                          onTap: () {},
-                        ),
+                        MeetingFilterMenu(),
                         SizedBox(
                           width: 15,
                         ),
@@ -383,7 +388,10 @@ class MeetingsListHeader extends StatelessWidget {
             width: 40,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [],
+              children: [
+                Expanded(child: Container()),
+                MeetingOrderBy(widgetHeight: 30)
+              ],
             ),
           ),
           SizedBox(
