@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_projets/constants/style.dart';
 
+import 'body/dashboard_body.dart';
+
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
@@ -8,16 +10,7 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: backgroundColor,
-      child: Center(
-        child: Text(
-          'Tableau de bord',
-          style: TextStyle(
-              color: dark,
-              fontSize: 15,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w500),
-        ),
-      ),
+      child: DashboardPageBody(),
     );
   }
 }

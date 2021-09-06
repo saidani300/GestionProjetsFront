@@ -5,7 +5,7 @@ import 'package:gestion_projets/pages/people/Data/user.dart';
 import 'bloc.dart';
 
 class UserBloc implements Bloc {
-  final _controller = StreamController<List<User>>();
+  final _controller = StreamController<List<User>>.broadcast();
 
   Stream<List<User>> get userStream => _controller.stream;
 

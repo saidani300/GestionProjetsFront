@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gestion_projets/constants/controllers.dart';
 import 'package:gestion_projets/constants/style.dart';
+import 'package:gestion_projets/dialogs/account_dialog.dart';
+import 'package:gestion_projets/dialogs/profile_dialog.dart';
+import 'package:gestion_projets/dialogs/support_dialog.dart';
 import 'package:gestion_projets/pages/projects/widgets/project_item.dart';
 import 'package:gestion_projets/routing/routes.dart';
 import 'package:gestion_projets/services/navigation_service.dart';
@@ -40,28 +43,36 @@ _showPopupMenu(BuildContext context) {
     position: RelativeRect.fromLTRB(25.0, 58.0, 20.0, 0.0),
     items: [
       PopupMenuItem<int>(
-          height: 40,
-          child: Row(children: [
-            Text(
-              'Profil',
-              style: textStyle_Text_12_500,
+          child: InkWell(
+            onTap: (){ profileDialogBox(context);},
+            child: Container(
+              height: 40,
+              child: Row(children: [
+                  Text(
+                    'Profil',
+                    style: textStyle_Text_12_500,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  )
+                ]),
             ),
-            SizedBox(
-              width: 20,
-            )
-          ]),
+            ),
           value: 1),
       PopupMenuItem<int>(
           height: 40,
-          child: Row(children: [
-            Text(
-              'Paramètres de compte',
-              style: textStyle_Text_12_500,
-            ),
-            SizedBox(
-              width: 20,
-            )
-          ]),
+          child: InkWell(
+            onTap: (){accountDialogBox(context);},
+            child: Row(children: [
+              Text(
+                'Paramètres de compte',
+                style: textStyle_Text_12_500,
+              ),
+              SizedBox(
+                width: 20,
+              )
+            ]),
+          ),
           value: 2),
       PopupMenuDivider(
         height: 1,
@@ -81,6 +92,7 @@ _showPopupMenu(BuildContext context) {
     ],
     elevation: 8.0,
   );
+
 }
 
 showDialogBox(BuildContext context) {
@@ -157,7 +169,7 @@ class _NavigationBarBodyState extends State<NavigationBarBody> {
                   Icons.support_outlined,
                   color: supportColor,
                 ),
-                onPressed: () {}),
+                onPressed: () { supportDialogBox(context);}),
           ),
           NotificationMenu(),
           SizedBox(

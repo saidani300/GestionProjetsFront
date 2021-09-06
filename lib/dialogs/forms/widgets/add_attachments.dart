@@ -285,7 +285,7 @@ class _FileDropZoneState extends State<FileDropZone>
                           file.name,
                           "0",
                           file.name,
-                          User(45, "Saidani Wael", "3"),
+                          users.last,
                           DateTime.now(),
                           file.size,
                           false);
@@ -366,7 +366,7 @@ class _FileDropZoneState extends State<FileDropZone>
         file.name,
         "0",
         file.name,
-        User(45, "Saidani Wael", "3"),
+        users.last,
         DateTime.now(),
         file.size,
         false);

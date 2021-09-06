@@ -71,12 +71,12 @@ List<Objective> objectives = [
       ObjectiveType.type1,
       DateTime.now(),
       ObjectiveStatus.inProgress,
-      User(1, "Saidani Wael", "3"),
+      users.last,
       [
         Indicator(
             302,
             "Nombre d'actions terminées",
-            User(6, "Saidani Wael", "7"),
+            users.last,
             [],
             IndicatorType.type1,
             "ATerminé/ATotal*100",
@@ -89,7 +89,7 @@ List<Objective> objectives = [
         Indicator(
             652,
             "Nombre d'actions terminées",
-            User(1, "Saidani Wael", "7"),
+            users.last,
             [],
             IndicatorType.type1,
             "ATerminé/ATotal*100",
@@ -109,12 +109,12 @@ List<Objective> objectives = [
       ObjectiveType.type1,
       DateTime.now(),
       ObjectiveStatus.achieved,
-      User(1, "Saidani Wael", "3"),
+      users.last,
       [
         Indicator(
             302,
             "Nombre d'actions terminées",
-            User(6, "Saidani Wael", "7"),
+            users.last,
             [
               Measure(5487, 55, DateTime.now(), DateTime.now(),
                   DateTime.now().add(Duration(days: 90)), ""),

@@ -8,10 +8,13 @@ import 'package:gestion_projets/BLoC/objective_bloc.dart';
 import 'package:gestion_projets/BLoC/phase_bloc.dart';
 import 'package:gestion_projets/BLoC/project_bloc.dart';
 import 'package:gestion_projets/BLoC/task_bloc.dart';
+import 'package:gestion_projets/pages/authentication/authentication.dart';
+import 'package:gestion_projets/pages/authentication/pages/register.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'BLoC/notification_bloc.dart';
+import 'BLoC/user_bloc.dart';
 import 'constants/style.dart';
 import 'controllers/top_nav_menu_controller.dart';
 import 'layout.dart';
@@ -26,7 +29,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NotificationBloc>(
+    return
+      BlocProvider<UserBloc>(
+          bloc: UserBloc(),
+    child: BlocProvider<NotificationBloc>(
         bloc: NotificationBloc(),
     child: BlocProvider<DocumentBloc>(
         bloc: DocumentBloc(),
@@ -106,8 +112,11 @@ class MyApp extends StatelessWidget {
                                         colorScheme:
                                             ColorScheme.light(primary: active),
                                       ),
-                                      home: SiteLayout(),
-                                    )))))))));
+                                      home:
+                                       SiteLayout()
+                                    //AuthenticationPage()
+                                //RegisterPage(),
+                                    ))))))))));
     // home: SiteLayout()
   }
 }
